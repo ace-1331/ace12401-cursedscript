@@ -10,7 +10,7 @@ Last approved on the following versions: V13U and betas
 Bug fixes and improvements will come, thank you for reporting them. You do not need to download this script, you only need to copy paste the latest version. It is not recommended to downgrade.
 
 ## Useful information
--IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game, copy paste the whole script into the console -ideally while in a chatroom-
+- *IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game, copy paste the whole script into the console -ideally while in a chatroom-
 
 - ALL COMMANDS ARE PREFIXED WITH THE COMMAND CHARACTER AND THE SLAVE IDENTIFIER, BY DEFAULT IT IS # AND YOUR NAME (IE. #ace help or #ace showowners)
 - ALL PARAMETERS MUST BE SPLIT BY A SPACE (IE. #ace cursedbelt on)
@@ -23,7 +23,7 @@ Bug fixes and improvements will come, thank you for reporting them. You do not n
 - Some more intense features are intentionally commented and left out of the basic version, if you wish to use them, do so at your own risk.
 - The script can be saved as a "snippet" on chrome to make it easier to reuse.
 
-- IMPORTANT NOTE ON PERSISTANCE: even though there are ways to circumvent how data is stored on your character, the public version contains no code that would allow that to spare the servers and respect the know "cheat" policy. To have your configurations persist between sessions, you need to be on the same device/browser and ideally -not- in incognito mode. However, there is an import and an export function available to use. Run "cursedExport()" in the console and save the whole string it gives you wherever you want. On the next browser you can use the command "cursedImport("yourgivenstringhere")" to import your configs. This will allow you to carry over your configurations between versions of the club, devices or browsers.
+- *IMPORTANT NOTE ON PERSISTANCE: even though there are ways to circumvent how data is stored on your character, the public version contains no code that would allow that to spare the servers and respect the know "cheat" policy. To have your configurations persist between sessions, you need to be on the same device/browser and ideally -not- in incognito mode. However, there is an import and an export function available to use. Run "cursedExport()" in the console and save the whole string it gives you wherever you want. On the next browser you can use the command "cursedImport("yourgivenstringhere")" to import your configs. This will allow you to carry over your configurations between versions of the club, devices or browsers.
 
 ## WEARER ONLY FUNCTIONS
 - help
