@@ -346,12 +346,8 @@ function AnalyzeMessage(msg) {
                         }
                         break;
                     case "changeidentifier":
-                        if (parameters[0] && parameters.length == 1) { 
-                            cursedConfig.slaveIdentifier = parameters[0];
-                            popChatSilent("Your slave identifier was changed to: " + parameters[0]);
-                        }
-                        else
-                            popChatSilent("Invalid slave identifier: " + parameters[0].join(" "));
+                            cursedConfig.slaveIdentifier = parameters[0].join(" ");
+                            popChatSilent("Your wearer identifier was changed to: " + cursedConfig.slaveIdentifier);
                         break;
                     case "changecommandchar":
                         if (["!", "@", "#", "$"].includes(parameters[0])) { 
@@ -359,7 +355,7 @@ function AnalyzeMessage(msg) {
                             popChatSilent("Your command character was changed to: " + parameters[0]);
                         }
                         else
-                            popChatSilent("Invalid command character: " + parameters[0].join(" "));
+                            popChatSilent("Invalid command character: " + parameters.join(" "));
                         break;
                     default:
                         cursedConfig.log.push("unknown wearer command:" + command);
@@ -1353,9 +1349,9 @@ ${ChatRoomCharacter.map(el => el.Name).filter(n => n == cursedConfig.slaveIdenti
 -entrymessage [sentence]
 -owner [on/off] [a member number]
 -asylum [nb of hours] 
-DEACTIVATED BY DEFAULT: -forcedsay [sentence]taken
-DEACTIVATED BY DEFAULT: -say [sentence]
-DEACTIVATED BY DEFAULT: -fullblockchat [on/off]
+DEACTIVATED BY DEF: -forcedsay [sentence]
+DEACTIVATED BY DEF: -say [sentence]
+DEACTIVATED BY DEF: -fullblockchat [on/off]
 
 ---------
 Made by ace (12401) - Ace__#5558
