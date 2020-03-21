@@ -1,0 +1,46 @@
+{
+    "manifest_version": 2,
+    "name": "Bondage Club - Cursed",
+    "description": "Injects the scripts relative to wearing the curse",
+    "version": "1.0",
+    "background": {
+        "scripts": [
+            "Extension/Ext_Backgound.js"
+        ]
+    },
+    "browser_action": {
+        "default_title": "BCCurse",
+        "default_popup": "Extension/Ext_Popup.html"
+    },
+    "content_scripts": [
+        {
+            "run_at": "document_end",
+            "matches": [
+                "https://www.bondageprojects.com/college/*",
+                "https://www.bondageprojects.elementfx.com/*"
+            ],
+            "all_frames": true,
+            "js": [ 
+                "CursedPublic/CP_Activators.js",
+                "CursedPublic/CP_Helpers.js",
+                "CursedPublic/CP_LongStrings.js",
+                "CursedPublic/CP_Loop.js",
+                "CursedPublic/CP_MessageCheck.js",
+                "Utils.js",
+                "Extension/Ext_Content.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        "*"
+    ],
+    "permissions": [
+        "declarativeContent",
+        "activeTab",
+        "tabs",
+        "<all_urls>",
+        "file://*/*",
+        "http://*/*",
+        "https://*/*"
+    ]
+}

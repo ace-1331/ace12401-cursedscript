@@ -10,9 +10,16 @@ Please use the commands in whispers, they are only supported out of whispers in 
 
 Bug fixes and improvements will come, thank you for reporting them. You do not need to download this script, you only need to copy paste the latest version. It is not recommended to downgrade.
 
-## Useful information
-- IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game, copy paste the whole script into the console -ideally while in a chatroom-
+## Running the script as an extension
+1. Navigate to chrome://extensions/
+2. Enable Developer mode
+3. Click 'Load unpacked' button and browse to this folder
+4. Login and click on "start curse"
 
+- You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
+- IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game
+
+## Useful information
 - ALL COMMANDS ARE PREFIXED WITH THE COMMAND CHARACTER AND THE SLAVE IDENTIFIER, BY DEFAULT IT IS # AND YOUR NAME (IE. #ace help or #ace showowners)
 - ALL PARAMETERS MUST BE SPLIT BY A SPACE (IE. #ace cursedbelt on)
 - The parameters defaults to "on" if none are given (IE: #ace cursedmittens and #ace cursedmittens on will do the same)
