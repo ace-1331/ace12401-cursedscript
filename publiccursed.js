@@ -1355,5 +1355,5 @@ DEACTIVATED BY DEF: -fullblockchat [on/off]
 
 ---------
 Made by ace (12401) - Ace__#5558
-Official release: V${currentVersion}, 
+Official release: V${currentVersion} 
 </pre>`;
