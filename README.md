@@ -34,64 +34,8 @@ Bug fixes and improvements will come, thank you for reporting them. You do not n
 
 - IMPORTANT NOTE ON PERSISTANCE: even though there are ways to circumvent how data is stored on your character, the public version contains no code that would allow that to spare the servers and respect the "no cheat" policy. To have your configurations persist between sessions, you need to be on the same device/browser and ideally -not- in incognito mode. However, there is an import and an export function available to use. Run "cursedExport()" in the console and save the whole string it gives you wherever you want. On the next browser you can use the command "cursedImport("yourgivenstringhere")" to import your configs. This will allow you to carry over your configurations between versions of the club, devices or browsers.
 
-## WEARER ONLY FUNCTIONS
-- help
-- issilent [on/off] //Note: all curse messages will be silent and only shown to the wearer
-- showstrikes
-- showmistresses
-- showowners
-- showenforced
-- showblacklist
-- blacklist [on/off] [a member number]
-- mistress [on/off] [a member number]
-- owner [on/off] [a member number]
-- changecommandchar [! / & / $ / #]
-- changeidentifier [new identifier]
-
-## PUBLIC/MISTRESS/OWNER FUNCTIONS
-- enforce [on/off]
-- punish
-- edge
-- asylumtimeleft
-- help
-
-## OWNER/MISTRESS FUNCTIONS
-- kneel
-- mute [on/off]
-- banword [on/off] [the word itself]
-- banbegging [on/off]
-- banfirstperson [on/off]
-- clearbannedwords
-- mistress [on/off] [a member number]
-- enforce [on/off] [a member number]
-- cursedclothes [on/off]
-- cursedorgasms [on/off]
-- cursedspeech [on/off] //Note: enables the word bans in place
-- cursedlatex [on/off]
-- cursedcollar [on/off]
-- public [on/off] //Note: disables the public from using public functions
-- deactivateonpresence [on/off] //Note: lifts all restrictions to allow for normal play while your mistress is there
-- cursedmittens [on/off]
-- cursedgag [on/off]
-- cursedblindfold [on/off]
-- cursedhood [on/off]
-- cursedearplugs [on/off]
-- curseddildogag [on/off]
-- cursedpanties [on/off] 
-- cursedscrews [on/off] 
-
-## OWNER FUNCTIONS
-- cursedbelt [on/off]
-- onlyonpresence [on/off] //Note: disables the curse when your owner is not present
-- enforceentrymessage [on/off]
-- entrymessage [sentence] //Note: all text after the word entrymessage will be taken
-- owner [on/off] [a member number]
-- asylum [nb of hours] //Note: can be decimal or negative
-- DEACTIVATED BY DEFAULT: forcedsay [sentence] //Note: all text after the word forcedsay will be taken
-- DEACTIVATED BY DEFAULT: say [sentence] //Note: all text after the word say will be taken
-- DEACTIVATED BY DEFAULT: fullblockchat [on/off]
-
-
+### The list of functions is located in the wiki
+https://github.com/ace-1331/ace12401-cursedscript/wiki
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
