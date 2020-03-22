@@ -1,4 +1,6 @@
-function OwnerCommands(command) { 
+function OwnerCommands(
+    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
+) { 
     switch (command) {
         case "fullblockchat":
                 if (parameters[0] == "on") {

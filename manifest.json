@@ -30,7 +30,6 @@
                 "CursedPublic/CP_FuncMistress.js",
                 "CursedPublic/CP_FuncPublic.js",
                 "CursedPublic/CP_FuncWearer.js",
-                "CursedPublic/CP_Verifier.js",
                 "Utils.js",
                 "Extension/Ext_Content.js"
             ]

@@ -1,4 +1,6 @@
-function MistressCommands(command) { 
+function MistressCommands(
+    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
+) { 
     switch (command) { 
         case "cursedearplugs":
                 if (parameters[0] == "on") {

@@ -1,4 +1,6 @@
-function WearerCommands(command) {
+function WearerCommands(
+    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
+) {
     switch (command) {
         case "issilent":
             if (parameters[0] == "on") {

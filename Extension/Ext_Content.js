@@ -17,5 +17,4 @@ window.addEventListener("load", e => {
     AddScript("CursedPublic/CP_FuncMistress.js");
     AddScript("CursedPublic/CP_FuncPublic.js");
     AddScript("CursedPublic/CP_FuncWearer.js");
-    AddScript("CursedPublic/CP_Verifier.js");
 });
