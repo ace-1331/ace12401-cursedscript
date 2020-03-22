@@ -109,6 +109,7 @@ function CursedStarter() {
 function CursedStopper() { 
     try {
         cursedConfig.isRunning = false;
+        popChatSilent("Curse stopped");
     } catch { }
 }
 
@@ -116,6 +117,7 @@ function CursedStopper() {
 function CursedIntenseOn() {
     try {
         cursedConfig.hasIntenseVersion = true;
+        popChatSilent("Intense mode activated (risky).");
     } catch { }
 }
 
@@ -124,6 +126,7 @@ function CursedIntenseOff() {
         cursedConfig.hasIntenseVersion = false;
         cursedConfig.say = "";
         cursedConfig.hasFullMuteChat = false;
+        popChatSilent("Intense mode deactivated (safe).");
     } catch { }
     
 }

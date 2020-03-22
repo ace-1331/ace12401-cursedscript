@@ -45,12 +45,12 @@ function AnalyzeMessage(msg) {
     // Sends activated messages to an owner who enters or if the wearer entered
     if (types.contains("ChatMessageEnterLeave")) {
         if (cursedConfig.owners.includes(sender) && chatroomMembers.includes(sender)) {
-            sendWhisper(sender, "(The curse is active on me... and you are amongst my owners... use it wisely.)");
+            sendWhisper(sender, "(The curse is active on me... and you are amongst my owners... use it wisely. command call id:" + commandCall +")");
         }
         if (sender == Player.MemberNumber) {
             chatroomMembers.forEach(el => {
                 if (cursedConfig.owners.includes(el)) {
-                    sendWhisper(el, "(The curse is active on me... and you are amongst my owners... use it wisely.)");
+                    sendWhisper(el, "(The curse is active on me... and you are amongst my owners... use it wisely. command call id:" + commandCall + ")");
                 }
             })
         }
@@ -128,7 +128,7 @@ function AnalyzeMessage(msg) {
         }
     
         if (cursedConfig.hasCursedMittens &&  itemIsAllowed("LeatherMittens", "ItemHands")) {
-            SendChat("The cursed mittens on " + Player.Name + " reappears.");
+            SendChat("The cursed mittens on " + Player.Name + " reappear.");
             procGenericItem("LeatherMittens", "ItemHands");
             cursedConfig.strikes += 5;
         }
@@ -146,7 +146,7 @@ function AnalyzeMessage(msg) {
         }
     
         if (cursedConfig.hasCursedEarplugs && itemIsAllowed("HeavyDutyEarPlugs", "ItemEars")) {
-            SendChat("The cursed earplugs on " + Player.Name + " reappears.");
+            SendChat("The cursed earplugs on " + Player.Name + " reappear.");
             procGenericItem("HeavyDutyEarPlugs", "ItemEars");
             cursedConfig.strikes += 5;
         }
@@ -154,12 +154,6 @@ function AnalyzeMessage(msg) {
         if (cursedConfig.hasCursedDildogag && itemIsAllowed("DildoPlugGag", "ItemMouth")) {
             SendChat("The cursed dildo finds its way back into " + Player.Name + "'s mouth.");
             procGenericItem("DildoPlugGag", "ItemMouth");
-            cursedConfig.strikes += 5;
-        }
-    
-        if (cursedConfig.hasCursedPanties && itemIsAllowed("PantyStuffing", "ItemMouth")) {
-            SendChat("The cursed panties find their way back into " + Player.Name + "'s mouth .");
-            procGenericItem("PantyStuffing", "ItemMouth");
             cursedConfig.strikes += 5;
         }
     
