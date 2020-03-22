@@ -53,8 +53,6 @@ function CursedStarter() {
     window.oldStorage = null;
     window.oldVersion = null;
     
-    //Injects all functions
-    
     try { 
         oldStorage = JSON.parse(localStorage.getItem(`bc-cursedConfig-${Player.MemberNumber}`));
         oldVersion = JSON.parse(localStorage.getItem(`bc-cursedConfig-version-${Player.MemberNumber}`));

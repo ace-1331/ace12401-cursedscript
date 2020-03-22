@@ -11,6 +11,11 @@ window.addEventListener("load", e => {
     AddScript("CursedPublic/CP_Activators.js");
     AddScript("CursedPublic/CP_Helpers.js");
     AddScript("CursedPublic/CP_LongStrings.js");
-    AddScript("CursedPublic/CP_Loop.js");
+    AddScript("CursedPublic/CP_MainCurse.js");
     AddScript("CursedPublic/CP_MessageCheck.js");
+    AddScript("CursedPublic/CP_FuncOwner.js");
+    AddScript("CursedPublic/CP_FuncMistress.js");
+    AddScript("CursedPublic/CP_FuncPublic.js");
+    AddScript("CursedPublic/CP_FuncWearer.js");
+    AddScript("CursedPublic/CP_Verifier.js");
 });

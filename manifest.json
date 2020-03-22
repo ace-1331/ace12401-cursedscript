@@ -24,8 +24,13 @@
                 "CursedPublic/CP_Activators.js",
                 "CursedPublic/CP_Helpers.js",
                 "CursedPublic/CP_LongStrings.js",
-                "CursedPublic/CP_Loop.js",
+                "CursedPublic/CP_MainCurse.js",
                 "CursedPublic/CP_MessageCheck.js",
+                "CursedPublic/CP_FuncOwner.js",
+                "CursedPublic/CP_FuncMistress.js",
+                "CursedPublic/CP_FuncPublic.js",
+                "CursedPublic/CP_FuncWearer.js",
+                "CursedPublic/CP_Verifier.js",
                 "Utils.js",
                 "Extension/Ext_Content.js"
             ]
