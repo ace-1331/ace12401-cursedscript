@@ -1,18 +1,11 @@
 function OwnerCommands({ command, parameters }) { 
     switch (command) {
         case "fullblockchat":
-                if (parameters[0] == "on") {
-                    if (!cursedConfig.hasFullMuteChat) {
-                        cursedConfig.hasFullMuteChat = true;
-                        SendChat("The curse fully stops " + Player.Name + " from talking.");
-                        procGenericItem("PolishedChastityBelt", "ItemPelvis");
-                    }
-                } else if (parameters[0] == "off") {
-                    if (cursedConfig.hasFullMuteChat) {
-                        cursedConfig.hasFullMuteChat = false;
-                        SendChat("The curse lets " + Player.Name + " talk again.");
-                    }
-                }
+                if (!cursedConfig.hasFullMuteChat)
+                    SendChat("The curse fully stops " + Player.Name + " from talking.");
+                else 
+                    SendChat("The curse lets " + Player.Name + " talk again.");
+                cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
         case "asylum":
             if (!isNaN(parameters[0])) { 
                 //Calculate time
@@ -66,44 +59,26 @@ function OwnerCommands({ command, parameters }) {
             }
             break;
         case "cursedbelt":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedBelt) {
-                    cursedConfig.hasCursedBelt = true;
-                    SendChat("The curse arises on " + Player.Name + "'s belt.");
-                    procGenericItem("PolishedChastityBelt", "ItemPelvis");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedBelt) {
-                    cursedConfig.hasCursedBelt = false;
-                    SendChat("The curse on " + Player.Name + "'s belt vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedBelt) {
+                SendChat("The curse arises on " + Player.Name + "'s belt.");
+                procGenericItem("PolishedChastityBelt", "ItemPelvis");
+            } else
+                SendChat("The curse on " + Player.Name + "'s belt vanished.");
+            cursedConfig.hasCursedBelt = !cursedConfig.hasCursedBelt;
             break;
         case "onlyonpresence":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.enabledOnMistress) {
-                    cursedConfig.enabledOnMistress = true;
-                    SendChat("The curse on" + Player.Name + " only listens while her owner is here.");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.enabledOnMistress) {
-                    cursedConfig.enabledOnMistress = false;
-                    SendChat("The curse on " + Player.Name + " goes back to always listening.");
-                }
-            }
+            if (!cursedConfig.enabledOnMistress)
+                SendChat("The curse on " + Player.Name + " only listens while her owner is here.");
+            else
+                SendChat("The curse on " + Player.Name + " goes back to always listening.");
+            cursedConfig.enabledOnMistress = !cursedConfig.enabledOnMistress;
             break;
         case "enforceentrymessage":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasEntryMsg) {
-                    cursedConfig.hasEntryMsg = true;
-                    SendChat("The curse forces " + Player.Name + " to announce herself properly.");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasEntryMsg) {
-                    cursedConfig.hasEntryMsg = false;
-                    SendChat("The curse no longer forces " + Player.Name + " to announce herself.");
-                }
-            }
+            if (!cursedConfig.hasEntryMsg)
+                SendChat("The curse forces " + Player.Name + " to announce herself properly.");
+            else
+                SendChat("The curse no longer forces " + Player.Name + " to announce herself.");
+            cursedConfig.hasEntryMsg = !cursedConfig.hasEntryMsg;
             break;
         case "owner":
             if (parameters[0] == "on") {

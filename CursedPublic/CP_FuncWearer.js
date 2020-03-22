@@ -1,17 +1,11 @@
 function WearerCommands({ command, parameters }) {
     switch (command) {
         case "issilent":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.isSilent) {
-                    cursedConfig.isSilent = true;
+                if (!cursedConfig.isSilent)
                     popChatSilent("Your curse will no longer display public messages");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.isSilent) {
-                    cursedConfig.isSilent = false;
+                else
                     popChatSilent("Your curse will resume displaying messages publicly");
-                }
-            }
+                cursedConfig.isSilent = !cursedConfig.isSilent;
             break;
         case "showstrikes":
             popChatSilent("You have " + cursedConfig.strikes + " strikes.");

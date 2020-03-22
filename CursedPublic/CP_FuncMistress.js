@@ -1,206 +1,123 @@
 function MistressCommands({ command, sender, parameters }) { 
     switch (command) { 
         case "cursedearplugs":
-                if (parameters[0] == "on") {
-                    if (!cursedConfig.hasCursedEarplugs) {
-                        cursedConfig.hasCursedEarplugs = true;
-                        SendChat("The curse arises on " + Player.Name + "'s earplugs.");
-                        procGenericItem("HeavyDutyEarPlugs", "ItemEars");
-                        cursedConfig.hasCursedBlindfold = false;
-                    }
-                } else if (parameters[0] == "off") {
-                    if (cursedConfig.hasCursedEarplugs) {
-                        cursedConfig.hasCursedEarplugs = false;
-                        SendChat("The curse on " + Player.Name + "'s earplugs vanished.");
-                    }
-                }
+                if (!cursedConfig.hasCursedEarplugs) {
+                    SendChat("The curse arises on " + Player.Name + "'s earplugs.");
+                    procGenericItem("HeavyDutyEarPlugs", "ItemEars");
+                } else  
+                    SendChat("The curse on " + Player.Name + "'s earplugs vanished.");
+                cursedConfig.hasCursedEarplugs = !cursedConfig.hasCursedEarplugs;
                 break;
         case "cursedhood":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedHood) {
-                    cursedConfig.hasCursedHood = true;
-                    SendChat("The curse arises on " + Player.Name + "'s VR Hood.");
-                    procGenericItem("LeatherHoodSensDep", "ItemHead");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedHood) {
-                    cursedConfig.hasCursedHood = false;
-                    SendChat("The curse on " + Player.Name + "'s VR Hood vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedHood) {
+                cursedConfig.hasCursedBlindfold = false;
+                SendChat("The curse arises on " + Player.Name + "'s VR Hood.");
+                procGenericItem("LeatherHoodSensDep", "ItemHead");
+            } else 
+                SendChat("The curse on " + Player.Name + "'s VR Hood vanished.");
+            cursedConfig.hasCursedHood = !cursedConfig.hasCursedHood;
             break;
         case "cursedblindfold":
-                if (parameters[0] == "on") {
-                    if (!cursedConfig.hasCursedBlindfold) {
-                        cursedConfig.hasCursedBlindfold = true;
-                        SendChat("The curse arises on " + Player.Name + "'s blindfold.");
-                        procGenericItem("FullBlindfold", "ItemHead");
-                        cursedConfig.hasCursedHood = false;
-                    }
-                } else if (parameters[0] == "off") {
-                    if (cursedConfig.hasCursedBlindfold) {
-                        cursedConfig.hasCursedBlindfold = false;
-                        SendChat("The curse on " + Player.Name + "'s blindfold vanished.");
-                    }
-                }
-                break;
+            if (!cursedConfig.hasCursedBlindfold) {
+                SendChat("The curse arises on " + Player.Name + "'s blindfold.");
+                procGenericItem("FullBlindfold", "ItemHead");
+                cursedConfig.hasCursedHood = false;
+            } else 
+                SendChat("The curse on " + Player.Name + "'s blindfold vanished.");
+            cursedConfig.hasCursedBlindfold = !cursedConfig.hasCursedBlindfold;
+            break;
         case "cursedmittens":
-                if (parameters[0] == "on") {
-                    if (!cursedConfig.hasCursedMittens) {
-                        cursedConfig.hasCursedMittens = true;
-                        SendChat("The curse arises on " + Player.Name + "'s mittens.");
-                        procGenericItem("LeatherMittens", "ItemHands");
-                    }
-                } else if (parameters[0] == "off") {
-                    if (cursedConfig.hasCursedMittens) {
-                        cursedConfig.hasCursedMittens = false;
-                        SendChat("The curse on " + Player.Name + "'s mittens disappears.");
-                    }
-                }
-                break;
+            if (!cursedConfig.hasCursedMittens) {
+                SendChat("The curse arises on " + Player.Name + "'s mittens.");
+                procGenericItem("LeatherMittens", "ItemHands");
+            } else
+                SendChat("The curse on " + Player.Name + "'s mittens disappears.");
+            cursedConfig.hasCursedMittens = !cursedConfig.hasCursedMittens;
+            break;
         case "cursedpanties":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedPanties) {
-                    cursedConfig.hasCursedPanties = true;
-                    SendChat("The curse arises on " + Player.Name + "'s panties.");
-                    procGenericItem("PantyStuffing", "ItemMouth");
-                    cursedConfig.hasCursedDildogag = false;
-                    cursedConfig.hasCursedGag = false;
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedPanties) {
-                    cursedConfig.hasCursedPanties = false;
-                    SendChat("The curse on " + Player.Name + "'s panties vanished.");
-                }
+            if (!cursedConfig.hasCursedPanties) {
+                SendChat("The curse arises on " + Player.Name + "'s panties.");
+                procGenericItem("PantyStuffing", "ItemMouth");
+                cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedGag = false;
+            } else {
+                SendChat("The curse on " + Player.Name + "'s panties vanished.");
             }
+            cursedConfig.hasCursedPanties = !cursedConfig.hasCursedPanties;
             break;
         case "curseddildogag":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedDildogag) {
-                    cursedConfig.hasCursedDildogag = true;
-                    SendChat("The curse arises on " + Player.Name + "'s dildo.");
-                    procGenericItem("DildoPlugGag", "ItemMouth");
-                    cursedConfig.hasCursedGag = false;
-                    cursedConfig.hasCursedPanties = false;
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedDildogag) {
-                    cursedConfig.hasCursedDildogag = false;
-                    SendChat("The curse on " + Player.Name + "'s dildo vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedDildogag) {
+                SendChat("The curse arises on " + Player.Name + "'s dildo.");
+                procGenericItem("DildoPlugGag", "ItemMouth");
+                cursedConfig.hasCursedGag = false;
+                cursedConfig.hasCursedPanties = false;
+            } else
+                SendChat("The curse on " + Player.Name + "'s dildo vanished.");
+            cursedConfig.hasCursedDildogag = !cursedConfig.hasCursedDildogag;
             break;
         case "cursedgag":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedGag) {
-                    cursedConfig.hasCursedGag = true;
-                    SendChat("The curse arises on " + Player.Name + "'s gag.");
-                    procGenericItem("BallGag", "ItemMouth");
-                    cursedConfig.hasCursedDildogag = false;
-                    cursedConfig.hasCursedPanties = false;
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedGag) {
-                    cursedConfig.hasCursedGag = false;
-                    SendChat("The curse on " + Player.Name + "'s gag vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedGag) {
+                SendChat("The curse arises on " + Player.Name + "'s gag.");
+                procGenericItem("BallGag", "ItemMouth");
+                cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedPanties = false;
+            } else
+                SendChat("The curse on " + Player.Name + "'s gag vanished.");
+            cursedConfig.hasCursedGag = !cursedConfig.hasCursedGag;
             break;
         case "public":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasPublicAccess) {
-                    cursedConfig.hasPublicAccess = true;
-                    SendChat("The curse on " + Player.Name + " now listens to the public.");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasPublicAccess) {
-                    cursedConfig.hasPublicAccess = false;
-                    SendChat("The curse on " + Player.Name + " no longer listens to the public.");
-                }
-            }
+            if (!cursedConfig.hasPublicAccess)
+                SendChat("The curse on " + Player.Name + " now listens to the public.");
+            else 
+                SendChat("The curse on " + Player.Name + " no longer listens to the public.");
+            cursedConfig.hasPublicAccess = !cursedConfig.hasPublicAccess;
             break;
         case "cursedcollar":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedKneel) {
-                    cursedConfig.hasCursedKneel = true;
-                    SendChat("The curse arises on " + Player.Name + "'s collar.");
-                    KneelAttempt();
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedKneel) {
-                    cursedConfig.hasCursedKneel = false;
-                    SendChat("The curse on " + Player.Name + "'s collar vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedKneel) {
+                SendChat("The curse arises on " + Player.Name + "'s collar.");
+                KneelAttempt();
+            } else 
+                SendChat("The curse on " + Player.Name + "'s collar vanished.");
+            cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;
             break;
         case "cursedlatex":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedLatex) {
-                    cursedConfig.hasCursedLatex = true;
-                    SendChat("The cursed latex embraces " + Player.Name + ".");
-                    procCursedLatex();
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedLatex) {
-                    cursedConfig.hasCursedLatex = false;
-                    SendChat("The cursed latex lets go of " + Player.Name + ".");
-                }
-            }
+            if (!cursedConfig.hasCursedLatex) {
+                SendChat("The cursed latex embraces " + Player.Name + ".");
+                procCursedLatex();
+            } else
+                SendChat("The cursed latex lets go of " + Player.Name + ".");
+            cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;
             break;
         case "cursedscrews":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedScrews) {
-                    cursedConfig.hasCursedScrews = true;
-                    SendChat("The cursed screw clamps tighten around " + Player.Name + "'s nipples.");
-                    procCursedLatex();
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedScrews) {
-                    cursedConfig.hasCursedScrews = false;
-                    SendChat("The cursed  clamps on " + Player.Name + " vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedScrews) {
+                SendChat("The cursed screw clamps tighten around " + Player.Name + "'s nipples.");
+                procCursedLatex();
+            } else
+                SendChat("The cursed  clamps on " + Player.Name + " vanished.");
+            cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;
             break;
         case "cursedspeech":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedSpeech) {
-                    cursedConfig.hasCursedSpeech = true;
-                    SendChat("The curse arises on " + Player.Name + "'s mouth.");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedSpeech) {
-                    cursedConfig.hasCursedSpeech = false;
-                    SendChat("The curse on " + Player.Name + "'s mouth vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedSpeech)
+                SendChat("The curse arises on " + Player.Name + "'s mouth.");
+            else
+                SendChat("The curse on " + Player.Name + "'s mouth vanished.");
+            cursedConfig.hasCursedSpeech = !cursedConfig.hasCursedSpeech;
             break;
         case "cursedorgasms":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedOrgasm) {
-                    cursedConfig.hasCursedOrgasm = true;
-                    SendChat("The curse arises on " + Player.Name + "'s toys.");
-                    procCursedOrgasm();
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedOrgasm) {
-                    cursedConfig.hasCursedOrgasm = false;
-                    SendChat("The curse on " + Player.Name + "'s toys vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedOrgasm) {
+                SendChat("The curse arises on " + Player.Name + "'s toys.");
+                procCursedOrgasm();
+            } else
+                SendChat("The curse on " + Player.Name + "'s toys vanished.");
+            cursedConfig.hasCursedOrgasm = !cursedConfig.hasCursedOrgasm;
             break;
         case "cursedclothes":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.hasCursedNakedness) {
-                    cursedConfig.hasCursedNakedness = true;
-                    SendChat("The curse arises on " + Player.Name + "'s clothes.");
-                    procCursedNaked();
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.hasCursedNakedness) {
-                    cursedConfig.hasCursedNakedness = false;
-                    SendChat("The curse on " + Player.Name + "'s clothes vanished.");
-                }
-            }
+            if (!cursedConfig.hasCursedNakedness) {
+                SendChat("The curse arises on " + Player.Name + "'s clothes.");
+                procCursedNaked();
+            } else
+                SendChat("The curse on " + Player.Name + "'s clothes vanished.");
+            cursedConfig.hasCursedNakedness = !cursedConfig.hasCursedNakedness;
             break;
         case "enforce":
             if (parameters[0] == "on") {
@@ -238,24 +155,19 @@ function MistressCommands({ command, sender, parameters }) {
             break;
         case "banfirstperson":
             if (parameters[0] == "on") {
-                cursedConfig.bannedWords.push(
-                    'i', '"i', 'am', "i-i", "a-am", "myself", "m-myself", "me", "my"
-                );
+                cursedConfig.bannedWords.push( 'i', '"i', 'am',  "myself", "me", "my" );
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
-                    !['i', '"i', 'am', "i-i", "a-am", "myself", "m-myself", "me", "my"].includes(word)
+                    ![ 'i', '"i', 'am',  "myself", "me", "my"].includes(word)
                 );
             }
             break;
         case "banbegging":
             if (parameters[0] == "on") {
-                cursedConfig.bannedWords.push(
-                    'please', 'p-please', "beg", 'b-beg', 'begging', 'b-begging'
-                );
+                cursedConfig.bannedWords.push('please', "beg",  'begging');
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
-                    !['please', 'p-please', "beg", 'b-beg', 'begging', 'b-begging']
-                        .includes(word)
+                    !['please', "beg",  'begging'].includes(word)
                 );
             }
             break;
@@ -276,36 +188,18 @@ function MistressCommands({ command, sender, parameters }) {
             }
             break;
         case "mute":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.isMute) {
-                    SendChat("The curse on " + Player.Name + " forbids her to speak.");
-                    cursedConfig.isMute = true;
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.isMute) {
-                    SendChat(
-                        "The curse on " + Player.Name
-                        + " allows her to use her words again."
-                    );
-                    cursedConfig.isMute = false;
-                }
-            }
+            if (!cursedConfig.isMute)
+                SendChat("The curse on " + Player.Name + " forbids her to speak.");
+            else
+                SendChat("The curse on " + Player.Name + " allows her to use her words again.");
+            cursedConfig.isMute = !cursedConfig.isMute;
             break;
         case "deactivateonpresence":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.disaledOnMistress) {
-                    SendChat("The curse on " + Player.Name + " lets her mistress do the work.");
-                    cursedConfig.disaledOnMistress = true;
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.disaledOnMistress) {
-                    SendChat(
-                        "The curse on " + Player.Name
-                        + " regains control."
-                    );
-                    cursedConfig.disaledOnMistress = false;
-                }
-            }
+            if (!cursedConfig.disaledOnMistress)
+                SendChat("The curse on " + Player.Name + " lets her mistress do the work.");
+            else 
+                SendChat("The curse on " + Player.Name + " regains control.");
+            cursedConfig.disaledOnMistress = !cursedConfig.disaledOnMistress;
             break;
         case "kneel":
             KneelAttempt();

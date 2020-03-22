@@ -52,7 +52,7 @@ function CursedStarter() {
             log: [],
         };
     
-        window.currentVersion = 11;
+        window.currentVersion = 12;
         window.oldStorage = null;
         window.oldVersion = null;
     
