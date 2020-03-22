@@ -11,10 +11,11 @@ Please use the commands in whispers, they are only supported out of whispers in 
 Bug fixes and improvements will come, thank you for reporting them. You do not need to download this script, you only need to copy paste the latest version. It is not recommended to downgrade.
 
 ## Running the script as an extension
-1. Navigate to chrome://extensions/
-2. Enable Developer mode
-3. Click 'Load unpacked' button and browse to this folder
-4. Login and click on "start curse"
+1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+2. Navigate to chrome://extensions/
+3. Enable Developer mode
+4. Click 'Load unpacked' button and browse to this folder (see the notes below)
+5. Login and click on "start curse"
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
 - IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game
