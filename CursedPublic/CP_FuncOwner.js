@@ -40,25 +40,31 @@ function OwnerCommands({ command, parameters }) {
         case "clearbannedwords":
             cursedConfig.bannedWords = [];
             break;
-        // case "forcedsay":
-        //     //Forces as a global msg, bypass expected "say" and bypass blockchat
-        //     var oldTarget = ChatRoomTargetMemberNumber;
-        //     var oldMuteConfig = cursedConfig.hasFullMuteChat;
-        //     cursedConfig.hasFullMuteChat = false;
-        //     ChatRoomTargetMemberNumber = null;
-            
-        //     popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
-            
-        //     ChatRoomTargetMemberNumber = oldTarget;
-        //     cursedConfig.hasFullMuteChat = oldMuteConfig;
-        //     break;
-        // case "say":
-        //     if (!cursedConfig.hasFullMuteChat && !cursedConfig.isMute) { 
-        //         cursedConfig.say = parameters.join(" ")
-        //             .replace(/^\**/g, "").replace(/^\/*/g, "");//stops emotes & stops commands
-        //         document.getElementById("InputChat").value = cursedConfig.say;
-        //     }
-        //     break;
+        case "forcedsay":
+            if (cursedConfig.hasIntenseVersion) {
+                //Forces as a global msg, bypass expected "say" and bypass blockchat
+                var oldTarget = ChatRoomTargetMemberNumber;
+                var oldMuteConfig = cursedConfig.hasFullMuteChat;
+                cursedConfig.hasFullMuteChat = false;
+                ChatRoomTargetMemberNumber = null;
+                
+                popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
+                
+                ChatRoomTargetMemberNumber = oldTarget;
+                cursedConfig.hasFullMuteChat = oldMuteConfig;
+            }
+            break;
+        case "say":
+            if (
+                !cursedConfig.hasFullMuteChat
+                && !cursedConfig.isMute
+                && cursedConfig.hasIntenseVersion
+            ) { 
+                cursedConfig.say = parameters.join(" ")
+                    .replace(/^\**/g, "").replace(/^\/*/g, "");//stops emotes & stops commands
+                document.getElementById("InputChat").value = cursedConfig.say;
+            }
+            break;
         case "cursedbelt":
             if (parameters[0] == "on") {
                 if (!cursedConfig.hasCursedBelt) {

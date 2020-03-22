@@ -30,6 +30,7 @@ Bug fixes and improvements will come, thank you for reporting them. You do not n
 - Some things that will be coming are listed in the repository's wiki. Feel free to send your own suggestions or report bugs in the issue tracker of the repo
 - Some more intense features are intentionally commented and left out of the basic version, if you wish to use them, do so at your own risk.
 - The script can be saved as a "snippet" on chrome to make it easier to reuse.
+- Use the intense version at your own risk!
 
 - IMPORTANT NOTE ON PERSISTANCE: even though there are ways to circumvent how data is stored on your character, the public version contains no code that would allow that to spare the servers and respect the "no cheat" policy. To have your configurations persist between sessions, you need to be on the same device/browser and ideally -not- in incognito mode. However, there is an import and an export function available to use. Run "cursedExport()" in the console and save the whole string it gives you wherever you want. On the next browser you can use the command "cursedImport("yourgivenstringhere")" to import your configs. This will allow you to carry over your configurations between versions of the club, devices or browsers.
 

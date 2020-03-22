@@ -10,7 +10,6 @@ function CursedStarter() {
         hasCursedSpeech: false,
         hasCursedOrgasm: false,
         hasCursedNakedness: false,
-        hasReinforcedProtocols: false,
         isMute: false,
         disaledOnMistress: false,
         enabledOnMistress: false,
@@ -47,6 +46,7 @@ function CursedStarter() {
     
         isRunning: false,
         isSilent: false,
+        hasIntenseVersion: false,
         chatlog: [],
         log: [],
     };
@@ -95,15 +95,33 @@ function CursedStarter() {
     InitHelpMsg();
     
     // Sends a message to the server.. this is modified to allow tricks into it
-    /*function ServerSend(Message, Data) {
+    function ServerSend(Message, Data) {
         var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) ||  !cursedConfig.enabledOnMistress )
         if (Message == "ChatRoomChat" && Data.Type == "Chat" && cursedConfig.hasFullMuteChat && isActivated) return;
         ServerSocket.emit(Message, Data);
-    }*/
+    }
 }
 
 //Stops the script
 function CursedStopper() { 
-    cursedConfig.isRunning = false;
+    try {
+        cursedConfig.isRunning = false;
+    } catch { }
+}
+
+//Intense Mode
+function CursedIntenseOn() {
+    try {
+        cursedConfig.hasIntenseVersion = true;
+    } catch { }
+}
+
+function CursedIntenseOff() { 
+    try {
+        cursedConfig.hasIntenseVersion = false;
+        cursedConfig.say = "";
+        cursedConfig.hasFullMuteChat = false;
+    } catch { }
+    
 }

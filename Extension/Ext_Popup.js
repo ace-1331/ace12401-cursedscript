@@ -26,3 +26,16 @@ document.getElementById("btnStop").addEventListener("click", e => {
         InjectCode(tabs[0].id, CursedStopper);
     });
 });
+
+//Intense on/off
+document.getElementById("btnIntOn").addEventListener("click", e => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs)  {
+        InjectCode(tabs[0].id, CursedIntenseOn);
+    });
+});
+
+document.getElementById("btnIntOff").addEventListener("click", e => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs)  {
+        InjectCode(tabs[0].id, CursedIntenseOff);
+    });
+});
