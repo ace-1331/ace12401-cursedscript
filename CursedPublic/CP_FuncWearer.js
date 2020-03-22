@@ -97,6 +97,14 @@ function WearerCommands({ command, parameters }) {
             else
                 popChatSilent("Invalid command character: " + parameters.join(" "));
             break;
+        case "draw":
+            if (parameters.filter(param => isNaN(param)).length == 0) {
+                drawCards(parameters.shift(), parameters);
+            }
+            break;
+        case "shuffle":
+            shuffleDeck();
+            break;
         default:
             cursedConfig.log.push("unknown wearer command:" + command);
             break;

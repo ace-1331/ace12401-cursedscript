@@ -108,3 +108,60 @@ function itemIsAllowed(name, group) {
     }
     return false;
 }
+
+// Card Deck
+var cardDeck = [];
+
+/*
+ * Shuffles array in place.
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+function shuffleDeck() { 
+    cardDeck = [];
+    const cardType = ["❤", "♦", "♠", "♣"];
+    const cardNb = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+    cardType.forEach(t => {
+        cardNb.forEach(nb => {
+            cardDeck.push(t + nb);
+        })
+    });
+    shuffle(cardDeck);
+    shuffle(cardDeck);
+    shuffle(cardDeck);
+    popChatGlobal("The deck was shuffled because it was empty or requested by the dealer");
+}
+
+function drawCard() { 
+    if (cardDeck.length == 0) shuffleDeck();
+    return cardDeck.pop();
+}
+
+function drawCards(nbCards, players) { 
+    //If no player was given, just draw X card to the current target
+    players = players || [ChatRoomTargetMemberNumber.toString()];
+    if (players[0] == null) {
+        var drawnCards = [];
+        for (let i = 0; i < nbCards; i++) {
+            drawnCards.push(drawCard());
+        }
+        popChatGlobal("You drew the following cards: " + drawnCards.join(" "));
+    } else { 
+        for (let i = 0; i < nbCards; i++) {
+            players.forEach(p => {
+                sendWhisper(p, "(The following card was drawn: " + drawCard() + ")");
+                drawCard();
+            });
+        }
+    }
+}

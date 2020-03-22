@@ -23,6 +23,8 @@ function InitHelpMsg() {
     -punish
     -edge
     -asylumtimeleft
+    -draw [nb of cards] [players]
+    -shuffle
 
     //MISTRESS FUNCTIONS//
     -kneel
