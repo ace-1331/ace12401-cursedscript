@@ -102,8 +102,5 @@ function OwnerCommands({ command, parameters }) {
                 }
             }
             break;
-        default:
-                cursedConfig.log.push("unknown owner command:" + command);
-            break;
     }
 }

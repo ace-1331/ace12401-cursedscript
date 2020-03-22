@@ -6,17 +6,8 @@ function procGenericItem(item, group) {
 }
 
 function procCursedNaked() { 
-    InventoryRemove(Player, "Cloth");
-    InventoryRemove(Player, "ClothLower");
-    InventoryRemove(Player, "ClothAccessory");
-    InventoryRemove(Player, "Suit");
-    InventoryRemove(Player, "SuitLower");
-    InventoryRemove(Player, "Bra");
-    InventoryRemove(Player, "Panties");
-    InventoryRemove(Player, "Socks");
-    InventoryRemove(Player, "Shoes");
-    InventoryRemove(Player, "Hat");
-    InventoryRemove(Player, "Gloves");
+    ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
+        .forEach(item => InventoryRemove(Player, item));
 }
 
 function procCursedOrgasm() {

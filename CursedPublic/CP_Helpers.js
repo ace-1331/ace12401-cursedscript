@@ -129,7 +129,7 @@ function shuffle(a) {
 
 function shuffleDeck() { 
     cardDeck = [];
-    const cardType = ["❤", "♦", "♠", "♣"];
+    const cardType = ["♥", "♦", "♠", "♣"];
     const cardNb = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
     cardType.forEach(t => {
         cardNb.forEach(nb => {

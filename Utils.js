@@ -49,7 +49,6 @@ function CursedStarter() {
             isSilent: false,
             hasIntenseVersion: false,
             chatlog: [],
-            log: [],
         };
     
         window.currentVersion = 12;

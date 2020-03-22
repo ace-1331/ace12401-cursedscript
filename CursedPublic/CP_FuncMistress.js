@@ -204,8 +204,5 @@ function MistressCommands({ command, sender, parameters }) {
         case "kneel":
             KneelAttempt();
             break;
-        default:
-            cursedConfig.log.push("unknown mistress command:" + command);
-            break;
     }
 }

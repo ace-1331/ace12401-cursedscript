@@ -99,8 +99,5 @@ function WearerCommands({ command, parameters }) {
         case "shuffle":
             shuffleDeck();
             break;
-        default:
-            cursedConfig.log.push("unknown wearer command:" + command);
-            break;
     }
 }

@@ -28,8 +28,5 @@ function PublicCommands({
             if (parameters.length == 1)
                 enforce(parameters, sender, false);
             break;
-        default:
-                cursedConfig.log.push("unknown public command:" + command);
-            break;
     }
 }

@@ -67,9 +67,6 @@ function CursedCheckUp() {
     
     // Loops infinitely and Refreshes the character if needed
     if (messagesToVerify.length > 0) {
-        //Save configs to log
-        cursedConfig.log = [];
-        
         try { 
             localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(cursedConfig));
         } catch { }
@@ -82,7 +79,7 @@ function CursedCheckUp() {
     }
     
     if (cursedConfig.isRunning)
-        setTimeout(CursedCheckUp, 2000);
+        setTimeout(CursedCheckUp, 2500);
 }
 
 // Chat sender queue loop
@@ -93,5 +90,5 @@ function ChatlogProcess() {
         cursedConfig.chatlog = cursedConfig.chatlog.filter(el => el != actionTxt);
         popChatGlobal(actionTxt);
     }
-    setTimeout(ChatlogProcess, 1000);
+    setTimeout(ChatlogProcess, 500);
 }
