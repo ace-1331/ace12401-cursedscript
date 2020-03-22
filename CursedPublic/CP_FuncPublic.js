@@ -1,6 +1,6 @@
-function PublicCommands(
-    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-) { 
+function PublicCommands({
+    command, sender, commandCall,  parameters
+}) { 
     switch (command) {
         case "help":
             sendWhisper(sender, `(To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. Commands are called with ${commandCall}, like "${commandCall} enforce on")`);

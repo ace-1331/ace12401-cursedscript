@@ -55,6 +55,7 @@ Bug fixes and improvements will come, thank you for reporting them. You do not n
 - help
 
 ## OWNER/MISTRESS FUNCTIONS
+- kneel
 - mute [on/off]
 - banword [on/off] [the word itself]
 - banbegging [on/off]
@@ -76,6 +77,7 @@ Bug fixes and improvements will come, thank you for reporting them. You do not n
 - cursedearplugs [on/off]
 - curseddildogag [on/off]
 - cursedpanties [on/off] 
+- cursedscrews [on/off] 
 
 ## OWNER FUNCTIONS
 - cursedbelt [on/off]

@@ -1,6 +1,4 @@
-function MistressCommands(
-    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-) { 
+function MistressCommands({ command, sender, parameters }) { 
     switch (command) { 
         case "cursedearplugs":
                 if (parameters[0] == "on") {
@@ -149,6 +147,20 @@ function MistressCommands(
                 }
             }
             break;
+        case "cursedscrews":
+            if (parameters[0] == "on") {
+                if (!cursedConfig.hasCursedScrews) {
+                    cursedConfig.hasCursedScrews = true;
+                    SendChat("The cursed screw clamps tighten around " + Player.Name + "'s nipples.");
+                    procCursedLatex();
+                }
+            } else if (parameters[0] == "off") {
+                if (cursedConfig.hasCursedScrews) {
+                    cursedConfig.hasCursedScrews = false;
+                    SendChat("The cursed  clamps on " + Player.Name + " vanished.");
+                }
+            }
+            break;
         case "cursedspeech":
             if (parameters[0] == "on") {
                 if (!cursedConfig.hasCursedSpeech) {
@@ -294,6 +306,9 @@ function MistressCommands(
                     cursedConfig.disaledOnMistress = false;
                 }
             }
+            break;
+        case "kneel":
+            KneelAttempt();
             break;
         default:
             cursedConfig.log.push("unknown mistress command:" + command);

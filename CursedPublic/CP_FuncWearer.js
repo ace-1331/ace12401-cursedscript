@@ -1,6 +1,4 @@
-function WearerCommands(
-    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-) {
+function WearerCommands({ command, parameters }) {
     switch (command) {
         case "issilent":
             if (parameters[0] == "on") {
@@ -35,7 +33,7 @@ function WearerCommands(
             break;
         case "owner":
             if (parameters[0] == "on") {
-                if (parameters[1] && !cursedConfig.owners.includes(parameters[1])) {
+                if (!isNaN(parameters[1])  && !cursedConfig.owners.includes(parameters[1])) {
                     cursedConfig.owners.push(parameters[1]);
                     SendChat(
                         Player.Name + " now has a new owner (#" + parameters[1] + ")."
@@ -57,7 +55,7 @@ function WearerCommands(
             break;
         case "mistress":
             if (parameters[0] == "on") {
-                if (parameters[1] && !cursedConfig.mistresses.includes(parameters[1])) {
+                if (!isNaN(parameters[1])  && !cursedConfig.mistresses.includes(parameters[1])) {
                     cursedConfig.mistresses.push(parameters[1]);
                     SendChat(
                         Player.Name + " now has a new mistress (#" + parameters[1] + ")."

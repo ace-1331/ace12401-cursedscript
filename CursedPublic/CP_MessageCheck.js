@@ -77,9 +77,7 @@ function AnalyzeMessage(msg) {
             
             //Wearer only command
             if (sender == Player.MemberNumber) {
-                WearerCommands(
-                    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-                );
+                WearerCommands({ command, parameters });
                 //Quit loop to prevent wearer from doing the rest (can't add self as owner)
                 return;
             }
@@ -87,23 +85,17 @@ function AnalyzeMessage(msg) {
             // Verifies owner for private commands
             // Checks if public has access or mistress can do all
             if (isOwner) {
-                OwnerCommands(
-                    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-                );
+                OwnerCommands({ command, parameters });
             }
             
             //Verify mistress for private commands
             if (isMistress || isOwner) {
-                MistressCommands(
-                    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-                );
+                MistressCommands({ command, sender, parameters });
             }
             
             // Checks if public has access or mistress can do all
             if (cursedConfig.hasPublicAccess || isMistress || isOwner) {
-                PublicCommands(
-                    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-                );
+                PublicCommands({ command, sender, commandCall, parameters });
             }
         
         } catch (err) { console.log(err) }
@@ -123,101 +115,74 @@ function AnalyzeMessage(msg) {
         }
     
         //Cursed Items
-        if (
-            cursedConfig.hasCursedBelt
-            && !(InventoryGet(Player, "ItemPelvis")
-                && InventoryGet(Player, "ItemPelvis").Asset
-                && InventoryGet(Player, "ItemPelvis").Asset.Name == "PolishedChastityBelt")
-            && itemIsAllowed("PolishedChastityBelt", "ItemPelvis")
-        ) {
+        if (cursedConfig.hasCursedBelt && itemIsAllowed("PolishedChastityBelt", "ItemPelvis")) {
             SendChat("The cursed chastity belt on " + Player.Name + " reappears.");
             procGenericItem("PolishedChastityBelt", "ItemPelvis");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedGag
-            && !(InventoryGet(Player, "ItemMouth")
-                && InventoryGet(Player, "ItemMouth").Asset
-                && InventoryGet(Player, "ItemMouth").Asset.Name == "BallGag")
-            && itemIsAllowed("BallGag", "ItemMouth")
-        ) {
+        if (cursedConfig.hasCursedGag && itemIsAllowed("BallGag", "ItemMouth")) {
             SendChat("The cursed gag on " + Player.Name + " reappears.");
             procGenericItem("BallGag", "ItemMouth");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedMittens
-            && !(InventoryGet(Player, "ItemHands")
-                && InventoryGet(Player, "ItemHands").Asset
-                && InventoryGet(Player, "ItemHands").Asset.Name == "LeatherMittens")
-            && itemIsAllowed("LeatherMittens", "ItemHands")
-        ) {
+        if (cursedConfig.hasCursedMittens &&  itemIsAllowed("LeatherMittens", "ItemHands")) {
             SendChat("The cursed mittens on " + Player.Name + " reappears.");
             procGenericItem("LeatherMittens", "ItemHands");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedBlindfold
-            && !(InventoryGet(Player, "ItemHead")
-                && InventoryGet(Player, "ItemHead").Asset
-                && InventoryGet(Player, "ItemHead").Asset.Name == "FullBlindfold")
-            && itemIsAllowed("FullBlindfold", "ItemHead")
-        ) {
+        if (cursedConfig.hasCursedBlindfold && itemIsAllowed("FullBlindfold", "ItemHead")) {
             SendChat("The cursed blindfold on " + Player.Name + " reappears.");
             procGenericItem("FullBlindfold", "ItemHead");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedHood
-            && !(InventoryGet(Player, "ItemHead")
-                && InventoryGet(Player, "ItemHead").Asset
-                && InventoryGet(Player, "ItemHead").Asset.Name == "LeatherHoodSensDep")
-            && itemIsAllowed("LeatherHoodSensDep", "ItemHead")
-        ) {
+        if (cursedConfig.hasCursedHood &&  itemIsAllowed("LeatherHoodSensDep", "ItemHead")) {
             SendChat("The cursed VR Hood on " + Player.Name + " reappears.");
             procGenericItem("LeatherHoodSensDep", "ItemHead");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedEarplugs
-            && !(InventoryGet(Player, "ItemEars")
-                && InventoryGet(Player, "ItemEars").Asset
-                && InventoryGet(Player, "ItemEars").Asset.Name == "HeavyDutyEarPlugs")
-            && itemIsAllowed("HeavyDutyEarPlugs", "ItemEars")
-        ) {
+        if (cursedConfig.hasCursedEarplugs && itemIsAllowed("HeavyDutyEarPlugs", "ItemEars")) {
             SendChat("The cursed earplugs on " + Player.Name + " reappears.");
             procGenericItem("HeavyDutyEarPlugs", "ItemEars");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedDildogag
-            && !(InventoryGet(Player, "ItemMouth")
-                && InventoryGet(Player, "ItemMouth").Asset
-                && InventoryGet(Player, "ItemMouth").Asset.Name == "DildoPlugGag")
-            && itemIsAllowed("DildoPlugGag", "ItemMouth")
-        ) {
+        if (cursedConfig.hasCursedDildogag && itemIsAllowed("DildoPlugGag", "ItemMouth")) {
             SendChat("The cursed dildo finds its way back into " + Player.Name + "'s mouth.");
             procGenericItem("DildoPlugGag", "ItemMouth");
             cursedConfig.strikes += 5;
         }
     
-        if (
-            cursedConfig.hasCursedPanties
-            && !(InventoryGet(Player, "ItemMouth")
-                && InventoryGet(Player, "ItemMouth").Asset
-                && InventoryGet(Player, "ItemMouth").Asset.Name == "PantyStuffing")
-            && itemIsAllowed("PantyStuffing", "ItemMouth")
-        ) {
+        if (cursedConfig.hasCursedPanties && itemIsAllowed("PantyStuffing", "ItemMouth")) {
             SendChat("The cursed panties find their way back into " + Player.Name + "'s mouth .");
             procGenericItem("PantyStuffing", "ItemMouth");
             cursedConfig.strikes += 5;
         }
+    
+        if (cursedConfig.hasCursedPanties && itemIsAllowed("PantyStuffing", "ItemMouth")) {
+            SendChat("The cursed panties find their way back into " + Player.Name + "'s mouth .");
+            procGenericItem("PantyStuffing", "ItemMouth");
+            cursedConfig.strikes += 5;
+        }
+    
+        if (cursedConfig.hasCursedScrews && itemIsAllowed("ScrewClamps", "ItemNipples")) {
+            SendChat("The cursed screw clamps on " + Player.Name + " reappear.");
+            procGenericItem("ScrewClamps", "ItemNipples");
+            cursedConfig.strikes += 5;
+        }
+
+        //Generic Cursed Item
+        cursedConfig.cursedItems.forEach(({name, group}) => { 
+            if (itemIsAllowed(name, group)) {
+                SendChat(`The cursed item on ${Player.Name} reappears. (${name})`);
+                procGenericItem(name, group);
+                cursedConfig.strikes += 3;
+            }
+        });
     
         //Cursed nakedness
         if (

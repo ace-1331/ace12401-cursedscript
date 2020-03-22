@@ -52,7 +52,7 @@ function SendChat(actionTxt) {
 //Tries to kneel
 function KneelAttempt() { 
     if (Player.CanKneel() && !Player.Pose.includes("Kneel")) { 
-        CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel":null);
+        CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
     }
 }
 
@@ -95,4 +95,16 @@ function enforce(parameters, sender, isMistress) {
             SendChat(Player.Name + " no longer has enforced protocols on #" + sender + (isMistress ? " has requested by her owner": "."));
         }
     }
+}
+
+//Checks if an item can be worn and if it can be but is not, returns true
+function itemIsAllowed(name, group) { 
+    if (
+        !(InventoryGet(Player, group)
+        && InventoryGet(Player, group).Asset
+        && InventoryGet(Player, group).Asset.Name == name)
+    ) { 
+        return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
+    }
+    return false;
 }

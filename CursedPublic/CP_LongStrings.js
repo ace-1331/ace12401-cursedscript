@@ -25,6 +25,7 @@ function InitHelpMsg() {
     -asylumtimeleft
 
     //MISTRESS FUNCTIONS//
+    -kneel
     -mute [on/off]
     -banword [on/off] [the word itself]
     -banbegging [on/off]
@@ -46,7 +47,7 @@ function InitHelpMsg() {
     -cursedearplugs [on/off]
     -curseddildogag [on/off]
     -cursedpanties [on/off]
-
+    -cursedscrews [on/off]
     //OWNER FUNCTIONS//
     -cursedbelt [on/off]
     -onlyonpresence [on/off]

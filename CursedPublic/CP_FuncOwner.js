@@ -1,6 +1,4 @@
-function OwnerCommands(
-    command, sender, commandCall, originalContent, textmsg, types, sender, chatroomMembers, commandCall, isMistress, isOwner, isOnEntry, isActivated, parameters
-) { 
+function OwnerCommands({ command, parameters }) { 
     switch (command) {
         case "fullblockchat":
                 if (parameters[0] == "on") {
@@ -103,7 +101,7 @@ function OwnerCommands(
             break;
         case "owner":
             if (parameters[0] == "on") {
-                if (parameters[1] && !cursedConfig.owners.includes(parameters[1])) {
+                if (!isNaN(parameters[1]) && !cursedConfig.owners.includes(parameters[1])) {
                     cursedConfig.owners.push(parameters[1]);
                     SendChat(
                         Player.Name + " now has a new owner (#" + parameters[1] + ")."

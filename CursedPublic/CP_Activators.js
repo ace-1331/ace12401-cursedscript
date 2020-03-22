@@ -1,8 +1,4 @@
 //************************************  Curse Activations ************************************//
-function itemIsAllowed(name, group) { 
-    return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
-}
-
 function procGenericItem(item, group) { 
     //Makes sure the player has the items
     InventoryAdd(Player, item, group);

@@ -24,12 +24,14 @@ function CursedStarter() {
         hasCursedBunny: false,
         hasEntryMsg: false,
         hasFullMuteChat: false,
+        hasCursedScrews: false,
         
         owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         enforced: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         blacklist: [...Player.BlackList],
         bannedWords: [],
+        cursedItems: [],
         entryMsg: "",
         say: "",
         mistressIsHere: false,
@@ -49,7 +51,7 @@ function CursedStarter() {
         log: [],
     };
     
-    window.currentVersion = 10;
+    window.currentVersion = 11;
     window.oldStorage = null;
     window.oldVersion = null;
     
