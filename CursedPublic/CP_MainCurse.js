@@ -66,7 +66,7 @@ function CursedCheckUp() {
     }
     
     // Loops infinitely and Refreshes the character if needed
-    if (messagesToVerify.length > 0) {
+    if (messagesToVerify.length > 0 && CurrentScreen != "Appearance") {
         try { 
             localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(cursedConfig));
         } catch { }

@@ -107,25 +107,31 @@ function CursedStarter() {
 //Stops the script
 function CursedStopper() { 
     try {
-        cursedConfig.isRunning = false;
-        popChatSilent("Curse stopped");
+        if (cursedConfig.isRunning) { 
+            cursedConfig.isRunning = false;
+            popChatSilent("Curse stopped");
+        }
     } catch { }
 }
 
 //Intense Mode
 function CursedIntenseOn() {
     try {
-        cursedConfig.hasIntenseVersion = true;
-        popChatSilent("Intense mode activated (risky).");
+        if (!cursedConfig.hasIntenseVersion) {
+            cursedConfig.hasIntenseVersion = true;
+            popChatSilent("Intense mode activated (risky).");
+        }
     } catch { }
 }
 
 function CursedIntenseOff() { 
     try {
-        cursedConfig.hasIntenseVersion = false;
-        cursedConfig.say = "";
-        cursedConfig.hasFullMuteChat = false;
-        popChatSilent("Intense mode deactivated (safe).");
+        if (cursedConfig.hasIntenseVersion) {
+            cursedConfig.hasIntenseVersion = false;
+            cursedConfig.say = "";
+            cursedConfig.hasFullMuteChat = false;
+            popChatSilent("Intense mode deactivated (safe).");
+        }
     } catch { }
     
 }
