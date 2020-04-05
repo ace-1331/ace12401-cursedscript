@@ -1,8 +1,8 @@
 //************************************  Curse Activations ************************************//
-function procGenericItem(item, group) { 
+function procGenericItem(item, group, color) { 
     //Makes sure the player has the items
     InventoryAdd(Player, item, group);
-    InventoryWear(Player, item, group);
+    InventoryWear(Player, item, group, color);
 }
 
 function procCursedNaked() { 

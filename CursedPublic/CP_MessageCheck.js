@@ -170,14 +170,23 @@ function AnalyzeMessage(msg) {
         }
 
         //Generic Cursed Item
-        cursedConfig.cursedItems.forEach(({name, group}) => { 
+        cursedConfig.cursedItems.forEach(({name, group, color}) => { 
             if (itemIsAllowed(name, group)) {
                 SendChat(`The cursed item on ${Player.Name} reappears. (${name})`);
-                procGenericItem(name, group);
+                procGenericItem(name, group, color);
                 cursedConfig.strikes += 3;
             }
         });
-    
+        
+        //Locked appearance
+        cursedConfig.cursedAppearance.forEach(({ name, group, color }) => { 
+            var item = Player.Appearance.filter(el => el.Asset.Name == name && el.Asset.Group.Name != group && el.Color == color);
+            if (item.length == 0) { 
+                InventoryRemove(Player, group)
+                procGenericItem(name, group, color);
+            }
+        });
+        
         //Cursed nakedness
         if (
             cursedConfig.hasCursedNakedness

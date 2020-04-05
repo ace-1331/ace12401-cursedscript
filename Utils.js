@@ -32,6 +32,7 @@ function CursedStarter() {
             blacklist: [...Player.BlackList],
             bannedWords: [],
             cursedItems: [],
+            cursedAppearance: [],
             entryMsg: "",
             say: "",
             mistressIsHere: false,
@@ -51,7 +52,7 @@ function CursedStarter() {
             chatlog: [],
         };
     
-        window.currentVersion = 12;
+        window.currentVersion = 13;
         window.oldStorage = null;
         window.oldVersion = null;
     

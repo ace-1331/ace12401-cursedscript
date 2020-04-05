@@ -1,13 +1,26 @@
-function OwnerCommands({ command, parameters }) { 
+function OwnerCommands({ command, parameters }) {
     switch (command) {
+        case "lockappearance":
+            if (cursedConfig.cursedAppearance.length == 0) {
+                SendChat("The curse locks " + Player.Name + "'s current appearance");
+                Player.Appearance.forEach(item => {
+                    if (parameters.includes("all") || item.Asset.Group.Name.indexOf("Item") != -1)
+                        cursedConfig.cursedAppearance.push({ name: item.Asset.Name, group: item.Asset.Group.Name, color: item.Color });
+                });
+            } else {
+                cursedConfig.cursedAppearance = [];
+                SendChat("The curse lets " + Player.Name + " dress as she sees fit.");
+            }
+            cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
+            break;
         case "fullblockchat":
-                if (!cursedConfig.hasFullMuteChat)
-                    SendChat("The curse fully stops " + Player.Name + " from talking.");
-                else 
-                    SendChat("The curse lets " + Player.Name + " talk again.");
-                cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
+            if (!cursedConfig.hasFullMuteChat)
+                SendChat("The curse fully stops " + Player.Name + " from talking.");
+            else
+                SendChat("The curse lets " + Player.Name + " talk again.");
+            cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
         case "asylum":
-            if (!isNaN(parameters[0])) { 
+            if (!isNaN(parameters[0])) {
                 //Calculate time
                 var timeToAdd = 6000000 * parameters[0];
                 SendChat(Player.Name + " has more time to spend in the asylum.");
@@ -22,7 +35,7 @@ function OwnerCommands({ command, parameters }) {
                     ElementRemove("TextAreaChatLog");
                     ServerSend("ChatRoomLeave", "");
                     CommonSetScreen("Room", "AsylumEntrance");
-                } else { 
+                } else {
                     LogAdd("Committed", "Asylum", oldLog[0].Value + timeToAdd);
                 }
             }
@@ -40,9 +53,9 @@ function OwnerCommands({ command, parameters }) {
                 var oldMuteConfig = cursedConfig.hasFullMuteChat;
                 cursedConfig.hasFullMuteChat = false;
                 ChatRoomTargetMemberNumber = null;
-                
+
                 popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
-                
+
                 ChatRoomTargetMemberNumber = oldTarget;
                 cursedConfig.hasFullMuteChat = oldMuteConfig;
             }
@@ -52,7 +65,7 @@ function OwnerCommands({ command, parameters }) {
                 !cursedConfig.hasFullMuteChat
                 && !cursedConfig.isMute
                 && cursedConfig.hasIntenseVersion
-            ) { 
+            ) {
                 cursedConfig.say = parameters.join(" ")
                     .replace(/^\**/g, "").replace(/^\/*/g, "");//stops emotes & stops commands
                 document.getElementById("InputChat").value = cursedConfig.say;

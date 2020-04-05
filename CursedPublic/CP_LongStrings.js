@@ -52,6 +52,7 @@ function InitHelpMsg() {
     -cursedscrews
     
     //OWNER FUNCTIONS//
+    -lockappearance [all]
     -cursedbelt
     -onlyonpresence 
     -enforceentrymessage 
