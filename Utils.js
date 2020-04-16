@@ -52,7 +52,7 @@ function CursedStarter() {
             chatlog: [],
         };
     
-        window.currentVersion = 13;
+        window.currentVersion = 14;
         window.oldStorage = null;
         window.oldVersion = null;
     
@@ -72,11 +72,13 @@ function CursedStarter() {
             //Load previous data, takes care of upgrades or downgrades
             if (oldVersion != currentVersion) {
                 cursedConfig = { ...cursedConfig, ...oldStorage };
+                console.log(oldStorage, cursedConfig);
                 SendChat("The curse following " + Player.Name + " has changed.");
                 popChatSilent("You have loaded an updated version of the curse, please report any new bugs. This update may have introduced new features or bug fixes, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
                 localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
             } else if (oldVersion == currentVersion) {
                 cursedConfig = oldStorage;
+                console.log(oldStorage, cursedConfig);
                 SendChat("The curse follows " + Player.Name + ".");
                 popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.");
             }

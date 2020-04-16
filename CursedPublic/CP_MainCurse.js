@@ -8,7 +8,7 @@ function CursedCheckUp() {
     //Resets Strikes when it has been a week 
     if (cursedConfig.strikeStartTime + 604800000 < Date.now()) { 
         SendChat("The curse on " + Player.Name + " awakes, a new week has begun.");
-        cursedConfig.strikeStartTime = Data.now();
+        cursedConfig.strikeStartTime = Date.now();
         cursedConfig.strikes = 0;
     }
     
