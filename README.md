@@ -6,7 +6,8 @@ Please use the commands in whispers, they are only supported out of whispers in 
 
 **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-**Last approved on the following versions: V13U and betas**
+**Last approved on the following versions: V13V**
+**IN BETAS AND AFTER V13V, DO NOT USE THE CURSE IN LARP ROOMS**
 
 Bug fixes and improvements will come, thank you for reporting them. You do not need to download this script, you only need to copy paste the latest version. It is not recommended to downgrade.
 
