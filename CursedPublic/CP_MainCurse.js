@@ -43,8 +43,8 @@ function CursedCheckUp() {
     if (cursedConfig.strikes > cursedConfig.lastPunishmentAmount + 10) { 
         //Restraints
         CharacterFullRandomRestrain(Player, "FEW");
-        //SendChat("The curse on " + Player.Name + " reminds her of her place.");
-        
+        SendChat("The curse on " + Player.Name + " reminds her of her place.");
+       /* 
         //Wardrobe for 6h at every 50
         if (
             Math.floor(cursedConfig.strikes / 50) > cursedConfig.lastWardrobeLock
@@ -54,15 +54,15 @@ function CursedCheckUp() {
             if (Log.filter(el => el.Name == "BlockChange").length > 0) {
                 var currentVal = Log.filter(el => el.Name == "BlockChange")[0].Value;
                 if (currentVal < Date.now()) { 
-                    LogAdd("BlockChange", "Rule", CurrentTime + 21600000);
+                    LogAdd("BlockChange", "OwnerRule", CurrentTime + 21600000);
                 } else { 
                     Log.filter(el => el.Name == "BlockChange")[0].Value = currentVal + 21600000;
                 }
             } else { 
-                LogAdd("BlockChange", "Rule", CurrentTime + 21600000);
+                LogAdd("BlockChange", "OwnerRule", CurrentTime + 21600000);
             }
             //SendChat("The curse on " + Player.Name + " steals her wardrobe.");
-        }
+        }*/
         cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
     }
     
