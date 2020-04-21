@@ -88,10 +88,18 @@ function MistressCommands({ command, sender, parameters }) {
                 SendChat("The cursed latex lets go of " + Player.Name + ".");
             cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;
             break;
+        case "cursedpony":
+            if (!cursedConfig.hasCursedpony) {
+                SendChat("" + Player.Name + " becomes a Pony.");
+                procCursedPony();
+            } else
+                SendChat("The ponycurse lets go of " + Player.Name + ".");
+            cursedConfig.hasCursedpony = !cursedConfig.hasCursedpony;
+            break;
         case "cursedscrews":
             if (!cursedConfig.hasCursedScrews) {
                 SendChat("The cursed screw clamps tighten around " + Player.Name + "'s nipples.");
-                procCursedLatex();
+                procGenericItem("ScrewClamps", "ItemNipples");
             } else
                 SendChat("The cursed  clamps on " + Player.Name + " vanished.");
             cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;

@@ -62,14 +62,58 @@ function procCursedOrgasm() {
 
 function procCursedLatex() {
     //Makes sure the player has the items
-    InventoryAdd(Player, "Catsuit", "Suit");
-    InventoryAdd(Player, "Catsuit", "SuitLower");
-    InventoryAdd(Player, "Catsuit", "Gloves");
+    InventoryAdd(Player, "SeamlessCatsuit", "Suit", "#111111");
+    InventoryAdd(Player, "SeamlessCatsuit", "SuitLower", "#111111");
+    InventoryAdd(Player, "Catsuit", "Gloves", "#111111");
+    InventoryAdd(Player, "LatexPants1", "ClothLower", "#111111");
+    InventoryAdd(Player, "ThighHighLatexHeels", "ItemBoots", "#111111", 10);
+    InventoryAdd(Player, "LatexBallMuzzleGag", "ItemMouth", "#222222", 10);
+    InventoryAdd(Player, "BoxTieArmbinder", "ItemArms", "#222222", 15);
+    InventoryAdd(Player, "LatexCorset1", "ItemTorso", "#111111", 10);
+    InventoryAdd(Player, "CollarShockUnit", "ItemNeckAccessories", "#222222", 10);
+     //undresses the player
+    ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
+   .forEach(item => InventoryRemove(Player, item));
+
+    //wears the items
+    InventoryWear(Player, "SeamlessCatsuit", "Suit", "#111111");
+    InventoryWear(Player, "SeamlessCatsuit", "SuitLower", "#111111");
+    InventoryWear(Player, "Catsuit", "Gloves", "#111111");
+    InventoryWear(Player, "LatexPants1", "ClothLower", "#111111");
+    InventoryWear(Player, "ThighHighLatexHeels", "ItemBoots", "#111111", 10);
+    InventoryWear(Player, "LatexBallMuzzleGag", "ItemMouth", "#222222", 10);
+    InventoryWear(Player, "BoxTieArmbinder", "ItemArms", "#222222", 15);
+    InventoryWear(Player, "LatexCorset1", "ItemTorso", "#111111", 10);
+    InventoryWear(Player, "CollarShockUnit", "ItemNeckAccessories", "#222222", 10);
+}
+
+
+function procCursedPony() {
+    //Makes sure the player has the items
+    InventoryAdd(Player, "SeamlessCatsuit", "Suit");
+    InventoryAdd(Player, "SeamlessCatsuit", "SuitLower");
+    InventoryAdd(Player, "Catsuit", "Gloves", "#111111");
+    InventoryAdd(Player, "PonyBoots", "ItemBoots");
+    InventoryAdd(Player, "HarnessPonyBits", "ItemMouth");
+    InventoryAdd(Player, "ArmbinderJacket", "ItemArms");
+    InventoryAdd(Player, "LeatherLegCuffs", "ItemLegs");
+    InventoryAdd(Player, "LatexCorset1", "ItemTorso");
+    InventoryAdd(Player, "CollarShockUnit", "ItemNeckAccessories");
     
-    //Wears the suit
-    InventoryWear(Player, "Catsuit", "Suit", "#1C1A1A");
-    InventoryWear(Player, "Catsuit", "SuitLower", "#1C1A1A");
-    InventoryWear(Player, "Catsuit", "Gloves", "#1C1A1A");
+    //undresses the player
+   ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
+   .forEach(item => InventoryRemove(Player, item));
+
+    //wears the items
+    InventoryWear(Player, "SeamlessCatsuit", "Suit", "#440000");
+    InventoryWear(Player, "SeamlessCatsuit", "SuitLower", "#440000");
+    InventoryWear(Player, "Catsuit", "Gloves", "#440000");
+    InventoryWear(Player, "PonyBoots", "ItemBoots", "#550000", 10);
+    InventoryWear(Player, "HarnessPonyBits", "ItemMouth", "#660000", 10);
+    InventoryWear(Player, "ArmbinderJacket", "ItemArms", "#550000", 15);
+    InventoryWear(Player, "LeatherLegCuffs", "ItemLegs", "#550000", 10);
+    InventoryWear(Player, "LatexCorset1", "ItemTorso", "#550000", 10);
+    InventoryWear(Player, "CollarShockUnit", "ItemNeckAccessories", "#222222", 10);
 }
 
 async function checkKneeling(sender) { 

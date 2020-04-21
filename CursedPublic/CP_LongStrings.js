@@ -39,6 +39,7 @@ function InitHelpMsg() {
     -cursedorgasms
     -cursedspeech
     -cursedlatex 
+    *NEW*-cursedpony
     -cursedcollar
     -public 
     -deactivateonpresence
@@ -49,10 +50,10 @@ function InitHelpMsg() {
     -cursedearplugs
     -curseddildogag
     -cursedpanties
-    -cursedscrews
+    *NEW*-cursedscrews
     
     //OWNER FUNCTIONS//
-    -lockappearance [all]
+    *NEW*-lockappearance [all]
     -cursedbelt
     -onlyonpresence 
     -enforceentrymessage 

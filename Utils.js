@@ -25,6 +25,7 @@ function CursedStarter() {
             hasEntryMsg: false,
             hasFullMuteChat: false,
             hasCursedScrews: false,
+            hasCursedPony: false,
         
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -49,10 +50,11 @@ function CursedStarter() {
             isRunning: false,
             isSilent: false,
             hasIntenseVersion: false,
+            wasLARPWarned: false,
             chatlog: [],
         };
     
-        window.currentVersion = 14;
+        window.currentVersion = 16;
         window.oldStorage = null;
         window.oldVersion = null;
     

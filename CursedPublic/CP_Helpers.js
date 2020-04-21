@@ -3,11 +3,7 @@
 function popChatGlobal(actionTxt, isNormalTalk) { 
     //Save the old input to drastically reduce message cuts
     if (CurrentScreen == "ChatRoom") { 
-        var previousInput = document.getElementById("InputChat").value;
-        document.getElementById("InputChat")
-            .value = isNormalTalk ? actionTxt : "**(" + actionTxt + ")";
-        ChatRoomSendChat();
-        document.getElementById("InputChat").value = previousInput;
+        ServerSend("ChatRoomChat", { Content: isNormalTalk ? actionTxt : "*" + actionTxt, Type: isNormalTalk ? "Chat" : "Emote" });
     } 
 }
 
@@ -32,10 +28,7 @@ function popChatSilent(actionTxt) {
 
 //Send a whisper
 function sendWhisper(target, msg) { 
-    var oldTarget = ChatRoomTargetMemberNumber;
-    ChatRoomTargetMemberNumber = parseInt(target);
-    popChatGlobal(msg, true);
-    ChatRoomTargetMemberNumber = oldTarget;
+    ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: target });
 }
 
 //Sends a chat message

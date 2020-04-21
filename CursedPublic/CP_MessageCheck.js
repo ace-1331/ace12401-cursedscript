@@ -13,6 +13,23 @@ function AnalyzeMessage(msg) {
     var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress)
     
+    //Ignores special types for compatibility or LARP
+    if (types.contains("ChatMessageGlobal") || types.contains("ChatMessageLocalMessage")) { 
+        return;
+    }
+    
+    if (ChatRoomSpace == "LARP") { 
+        if (!cursedConfig.wasLARPWarned) { 
+            popChatSilent("LARP Room detected: the curse is inactive in this room");
+            cursedConfig.wasLARPWarned = true;
+        }
+        return;
+    }
+    
+    if (ChatRoomSpace != "LARP") { 
+        cursedConfig.wasLARPWarned = false;
+    }
+    
     // Clears whisper text
     if (sender == Player.MemberNumber && (types.contains("ChatMessageWhisper") || types.contains("ChatMessageChat"))) {
         textmsg = textmsg.split(":")
@@ -268,12 +285,53 @@ function AnalyzeMessage(msg) {
             && (!InventoryGet(Player, "Gloves")
                 || !InventoryGet(Player, "Suit")
                 || !InventoryGet(Player, "SuitLower")
+                || !InventoryGet(Player, "ClothLower")
+                || !InventoryGet(Player, "ItemBoots")
+                || !InventoryGet(Player, "ItemMouth")
+                || !InventoryGet(Player, "ItemArms")
+                || !InventoryGet(Player, "ItemNeckAccessories")
+                || !InventoryGet(Player, "ItemTorso")
+
                 || InventoryGet(Player, "Gloves").Asset.Name != "Catsuit"
-                || InventoryGet(Player, "Suit").Asset.Name != "Catsuit"
-                || InventoryGet(Player, "SuitLower").Asset.Name != "Catsuit"
+                || InventoryGet(Player, "Suit").Asset.Name != "SeamlessCatsuit"
+                || InventoryGet(Player, "SuitLower").Asset.Name != "SeamlessCatsuit"
+                || InventoryGet(Player, "ClothLower").Asset.Name != "LatexPants1"
+                || InventoryGet(Player, "ItemBoots").Asset.Name != "ThighHighLatexHeels"
+                || InventoryGet(Player, "ItemMouth").Asset.Name != "LatexBallMuzzleGag"
+                || InventoryGet(Player, "ItemArms").Asset.Name != "BoxTieArmbinder"
+                || InventoryGet(Player, "ItemNeckAccessories").Asset.Name != "CollarShockUnit"
+                || InventoryGet(Player, "ItemTorso").Asset.Name != "LatexCorset1"
+
             )) {
             SendChat("The cursed latex embraces " + Player.Name + ".");
             procCursedLatex();
+            cursedConfig.strikes += 2;
+        }
+
+        if (
+            cursedConfig.hasCursedPony
+            && (!InventoryGet(Player, "Gloves")
+                || !InventoryGet(Player, "Suit")
+                || !InventoryGet(Player, "SuitLower")
+                || !InventoryGet(Player, "ItemBoots")
+                || !InventoryGet(Player, "ItemMouth")
+                || !InventoryGet(Player, "ItemArms")
+                || !InventoryGet(Player, "ItemLegs")
+                || !InventoryGet(Player, "ItemTorso")
+
+
+                || InventoryGet(Player, "Gloves").Asset.Name != "Catsuit"
+                || InventoryGet(Player, "Suit").Asset.Name != "SeamlessCatsuit"
+                || InventoryGet(Player, "SuitLower").Asset.Name != "SeamlessCatsuit"
+                || InventoryGet(Player, "ItemBoots").Asset.Name != "PonyBoots"
+                || InventoryGet(Player, "ItemMouth").Asset.Name != "HarnessPonyBits"
+                || InventoryGet(Player, "ItemArms").Asset.Name != "ArmbinderJacket"
+                || InventoryGet(Player, "ItemLegs").Asset.Name != "LeatherLegCuffs"
+                || InventoryGet(Player, "ItemTorso").Asset.Name != "LatexCorset1"
+
+            )) {
+            SendChat("The curse keeps " + Player.Name + " as a pony.");
+            procCursedPony();
             cursedConfig.strikes += 2;
         }
     
