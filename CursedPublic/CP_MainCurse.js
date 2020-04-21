@@ -40,11 +40,59 @@ function CursedCheckUp() {
     });
     
     //Applies punishments for strikes
-    if (cursedConfig.strikes > cursedConfig.lastPunishmentAmount + 10) { 
+    let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
+    let wasPunished = false;
+    if (difference > 50 && !wasPunished) { 
         //Restraints
-        CharacterFullRandomRestrain(Player, "FEW");
-        SendChat("The curse on " + Player.Name + " reminds her of her place.");
-       /* 
+        if (InventoryGet(Player, "ItemMouth") == null) {
+            InventoryAdd(Player, "PantyStuffing", "ItemMouth");
+            InventoryAdd(Player, "HarnessBallGag", "ItemMouth2");
+            InventoryAdd(Player, "SteelMuzzleGag", "ItemMouth3");
+            InventoryWear(Player, "PantyStuffing", "ItemMouth", "#222222", 15);
+            InventoryWear(Player, "HarnessBallGag", "ItemMouth2", "#222222", 15);
+            InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", "#222222", 15);
+            SendChat("The curse on " + Player.Name + " gags her.");
+        }
+        wasPunished = true;
+        cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
+    }
+    if (difference > 40 && !wasPunished) { 
+        //Restraints
+        if (InventoryGet(Player, "ItemHead") == null) {
+            InventoryAdd(Player, "FullBlindfold", "ItemHead");
+            InventoryWear(Player, "FullBlindfold", "ItemHead", "#222222", 15);
+            SendChat("The curse on " + Player.Name + " takes away her sight.");
+        }
+        wasPunished = true;
+    }
+    if (difference > 30 && !wasPunished) { 
+        //Restraints
+        if (InventoryGet(Player, "ItemArms") == null) {
+            InventoryAdd(Player, "Chains", "ItemArms");
+            InventoryWear(Player, "Chains", "ItemArms", "#222222", 15);
+            SendChat("The curse on " + Player.Name + " restraints her arms.");
+        }
+        wasPunished = true;
+    }
+    if (difference > 20 && !wasPunished) { 
+        //Restraints
+        if (InventoryGet(Player, "ItemFeet") == null) {
+            InventoryAdd(Player, "Chains", "ItemFeet");
+            InventoryWear(Player, "Chains", "ItemFeet", "#222222", 15);
+            SendChat("The curse on " + Player.Name + " restrains her feet.");
+        }
+        wasPunished = true;
+    }
+    if (difference > 10 && !wasPunished) { 
+        //Restraints
+        if (InventoryGet(Player, "ItemLegs") == null) {
+            InventoryAdd(Player, "Chains", "ItemLegs");
+            InventoryWear(Player, "Chains", "ItemLegs", "#222222", 15);
+            SendChat("The curse on " + Player.Name + " restrains her legs.");
+        }
+        wasPunished = true;
+    }
+/*
         //Wardrobe for 6h at every 50
         if (
             Math.floor(cursedConfig.strikes / 50) > cursedConfig.lastWardrobeLock
@@ -61,11 +109,11 @@ function CursedCheckUp() {
             } else { 
                 LogAdd("BlockChange", "OwnerRule", CurrentTime + 21600000);
             }
-            //SendChat("The curse on " + Player.Name + " steals her wardrobe.");
-        }*/
+            SendChat("The curse on " + Player.Name + " steals her wardrobe.");
+        }
         cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
     }
-    
+    */
     // Loops infinitely and Refreshes the character if needed
     if (messagesToVerify.length > 0 && CurrentScreen != "Appearance") {
         try { 
