@@ -1,16 +1,17 @@
 function OwnerCommands({ command, parameters }) {
     switch (command) {
         case "lockappearance":
-            if (cursedConfig.cursedAppearance.length == 0) {
+            /*if (cursedConfig.cursedAppearance.length == 0) {
                 SendChat("The curse locks " + Player.Name + "'s current appearance");
                 Player.Appearance.forEach(item => {
-                    if (parameters.includes("all") || item.Asset.Group.Name.indexOf("Item") != -1)
+                    if ((parameters.includes("all") || item.Asset.Group.Name.indexOf("Item") != -1) && !["Fluids", "Emoticon", "Blush", "Eyebrows", "Eyes", "Mouth"].includes(item.Asset.Group.Name))
                         cursedConfig.cursedAppearance.push({ name: item.Asset.Name, group: item.Asset.Group.Name, color: item.Color });
                 });
             } else {
                 cursedConfig.cursedAppearance = [];
                 SendChat("The curse lets " + Player.Name + " dress as she sees fit.");
-            }
+            }*/
+            popChatSilent("(Appearance Lock is currently disabled.)")
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
             break;
         case "fullblockchat":
@@ -19,6 +20,12 @@ function OwnerCommands({ command, parameters }) {
             else
                 SendChat("The curse lets " + Player.Name + " talk again.");
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
+        case "lockowner":
+            if (!cursedConfig.isLockedOwner)
+                SendChat("The curse keeps " + Player.Name + " from leaving their owner.");
+            else
+                SendChat("The curse allows " + Player.Name + " to break their collar.");
+            cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
         case "asylum":
             if (!isNaN(parameters[0])) {
                 //Calculate time

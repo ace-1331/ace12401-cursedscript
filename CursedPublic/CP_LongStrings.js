@@ -16,6 +16,7 @@ function InitHelpMsg() {
     -owner [on/off] [a member number]
     -changecommandchar [! / & / $ / #]
     -changeidentifier [new identifier]
+    -punishmentcolor ["#colorcode"]
 
     //PUBLIC FUNCTIONS//
     -help
@@ -53,7 +54,6 @@ function InitHelpMsg() {
     *NEW*-cursedscrews
     
     //OWNER FUNCTIONS//
-    *NEW*-lockappearance [all]
     -cursedbelt
     -onlyonpresence 
     -enforceentrymessage 
@@ -63,6 +63,7 @@ function InitHelpMsg() {
     DEACTIVATED BY DEF: -forcedsay [sentence]
     DEACTIVATED BY DEF: -say [sentence]
     DEACTIVATED BY DEF: -fullblockchat
+    DEACTIVATED BY DEF: -lockowner
 
     ---------
     Made by ace (12401) - Ace__#5558

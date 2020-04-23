@@ -28,7 +28,9 @@ function popChatSilent(actionTxt) {
 
 //Send a whisper
 function sendWhisper(target, msg) { 
-    ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: target });
+    if (!isNaN(target)) {
+        ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
+    }
 }
 
 //Sends a chat message

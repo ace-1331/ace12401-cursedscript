@@ -91,6 +91,10 @@ function WearerCommands({ command, parameters }) {
             else
                 popChatSilent("Invalid command character: " + parameters.join(" "));
             break;
+        case "punishmentcolor":
+            cursedConfig.punishmentColor = parameters[0];
+            popChatSilent("Your punishment color is now: " + parameters[0]);
+            break;
         case "draw":
             if (parameters.filter(param => isNaN(param)).length == 0) {
                 drawCards(parameters.shift(), parameters);

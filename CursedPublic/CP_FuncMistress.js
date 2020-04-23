@@ -89,12 +89,12 @@ function MistressCommands({ command, sender, parameters }) {
             cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;
             break;
         case "cursedpony":
-            if (!cursedConfig.hasCursedpony) {
+            if (!cursedConfig.hasCursedPony) {
                 SendChat("" + Player.Name + " becomes a Pony.");
                 procCursedPony();
             } else
                 SendChat("The ponycurse lets go of " + Player.Name + ".");
-            cursedConfig.hasCursedpony = !cursedConfig.hasCursedpony;
+            cursedConfig.hasCursedPony = !cursedConfig.hasCursedPony;
             break;
         case "cursedscrews":
             if (!cursedConfig.hasCursedScrews) {

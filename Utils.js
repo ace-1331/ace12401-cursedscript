@@ -41,6 +41,7 @@ function CursedStarter() {
     
             slaveIdentifier: Player.Name,
             commandChar: "#",
+            punishmentColor: "#222",
     
             strikes: 0,
             lastPunishmentAmount: 0,
@@ -49,12 +50,13 @@ function CursedStarter() {
     
             isRunning: false,
             isSilent: false,
+            isLockedOwner: false,
             hasIntenseVersion: false,
             wasLARPWarned: false,
             chatlog: [],
         };
     
-        window.currentVersion = 16;
+        window.currentVersion = 17;
         window.oldStorage = null;
         window.oldVersion = null;
     
@@ -85,7 +87,11 @@ function CursedStarter() {
                 popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.");
             }
         }
-    
+        
+        if (cursedConfig.hasIntenseVersion) {
+            popChatSilent("Intense mode is on (risky).");
+        }
+        
         //Cleans the existing chatlog
         document.querySelectorAll('.ChatMessage:not([verified=true]').forEach(msg => {
             var verifiedAtt = document.createAttribute("verified");
@@ -103,9 +109,15 @@ function CursedStarter() {
         ServerSend = function (Message, Data) {
             var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
                 && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress)
-            if (Message == "ChatRoomChat" && Data.Type == "Chat" && cursedConfig.hasFullMuteChat && isActivated) return;
+            if (Message == "ChatRoomChat" && Data.Type == "Chat" && cursedConfig.hasIntenseVersion && cursedConfig.hasFullMuteChat && isActivated) return;
             ServerSocket.emit(Message, Data);
         }
+        
+        
+        ManagementCanBreakTrialOnline = function () { return ((!cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner == "") && (Player.Ownership != null) && (Player.Ownership.Stage != null) && (Player.Ownership.Stage == 0)) }
+        ManagementCanBeReleasedOnline = function () { return ((!cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 <= CurrentTime)) }
+        ManagementCannotBeReleasedOnline = function () { return ((!cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 > CurrentTime)) }
+        
     } catch { }
 }
 

@@ -10,6 +10,7 @@ function CursedCheckUp() {
         SendChat("The curse on " + Player.Name + " awakes, a new week has begun.");
         cursedConfig.strikeStartTime = Date.now();
         cursedConfig.strikes = 0;
+        cursedConfig.lastPunishmentAmount = 0;
     }
     
     //Verifies if a mistress is here
@@ -41,56 +42,50 @@ function CursedCheckUp() {
     
     //Applies punishments for strikes
     let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
-    let wasPunished = false;
-    if (difference > 50 && !wasPunished) { 
-        //Restraints
-        if (InventoryGet(Player, "ItemMouth") == null) {
-            InventoryAdd(Player, "PantyStuffing", "ItemMouth");
-            InventoryAdd(Player, "HarnessBallGag", "ItemMouth2");
-            InventoryAdd(Player, "SteelMuzzleGag", "ItemMouth3");
-            InventoryWear(Player, "PantyStuffing", "ItemMouth", "#222222", 15);
-            InventoryWear(Player, "HarnessBallGag", "ItemMouth2", "#222222", 15);
-            InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", "#222222", 15);
-            SendChat("The curse on " + Player.Name + " gags her.");
+    if (difference > 10) {
+        //More restraints per stages, resets every week
+        let stage = cursedConfig.strikes / 10;
+        if (stage >= 5) {
+            //Restraints
+            if (InventoryGet(Player, "ItemMouth") == null) {
+                InventoryAdd(Player, "PantyStuffing", "ItemMouth");
+                InventoryAdd(Player, "HarnessBallGag", "ItemMouth2");
+                InventoryAdd(Player, "SteelMuzzleGag", "ItemMouth3");
+                InventoryWear(Player, "PantyStuffing", "ItemMouth", cursedConfig.punishmentColor, 15);
+                InventoryWear(Player, "HarnessBallGag", "ItemMouth2", cursedConfig.punishmentColor, 15);
+                InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", cursedConfig.punishmentColor, 15);
+            }
         }
-        wasPunished = true;
+        if (stage >= 4) {
+            //Restraints
+            if (InventoryGet(Player, "ItemHead") == null) {
+                InventoryAdd(Player, "FullBlindfold", "ItemHead");
+                InventoryWear(Player, "FullBlindfold", "ItemHead", cursedConfig.punishmentColor, 15);
+            }
+        }
+        if (stage >= 3) {
+            //Restraints
+            if (InventoryGet(Player, "ItemArms") == null) {
+                InventoryAdd(Player, "Chains", "ItemArms");
+                InventoryWear(Player, "Chains", "ItemArms", cursedConfig.punishmentColor, 15);
+            }
+        }
+        if (stage >= 2) {
+            //Restraints
+            if (InventoryGet(Player, "ItemFeet") == null) {
+                InventoryAdd(Player, "Chains", "ItemFeet");
+                InventoryWear(Player, "Chains", "ItemFeet", cursedConfig.punishmentColor, 15);
+            }
+        }
+        if (stage >= 1) {
+            //Restraints
+            if (InventoryGet(Player, "ItemLegs") == null) {
+                InventoryAdd(Player, "Chains", "ItemLegs");
+                InventoryWear(Player, "Chains", "ItemLegs", cursedConfig.punishmentColor, 15);
+            }
+        }
+        SendChat("The curse on " + Player.Name + " punishes her.");
         cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
-    }
-    if (difference > 40 && !wasPunished) { 
-        //Restraints
-        if (InventoryGet(Player, "ItemHead") == null) {
-            InventoryAdd(Player, "FullBlindfold", "ItemHead");
-            InventoryWear(Player, "FullBlindfold", "ItemHead", "#222222", 15);
-            SendChat("The curse on " + Player.Name + " takes away her sight.");
-        }
-        wasPunished = true;
-    }
-    if (difference > 30 && !wasPunished) { 
-        //Restraints
-        if (InventoryGet(Player, "ItemArms") == null) {
-            InventoryAdd(Player, "Chains", "ItemArms");
-            InventoryWear(Player, "Chains", "ItemArms", "#222222", 15);
-            SendChat("The curse on " + Player.Name + " restraints her arms.");
-        }
-        wasPunished = true;
-    }
-    if (difference > 20 && !wasPunished) { 
-        //Restraints
-        if (InventoryGet(Player, "ItemFeet") == null) {
-            InventoryAdd(Player, "Chains", "ItemFeet");
-            InventoryWear(Player, "Chains", "ItemFeet", "#222222", 15);
-            SendChat("The curse on " + Player.Name + " restrains her feet.");
-        }
-        wasPunished = true;
-    }
-    if (difference > 10 && !wasPunished) { 
-        //Restraints
-        if (InventoryGet(Player, "ItemLegs") == null) {
-            InventoryAdd(Player, "Chains", "ItemLegs");
-            InventoryWear(Player, "Chains", "ItemLegs", "#222222", 15);
-            SendChat("The curse on " + Player.Name + " restrains her legs.");
-        }
-        wasPunished = true;
     }
 /*
         //Wardrobe for 6h at every 50
