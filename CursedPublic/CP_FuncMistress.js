@@ -102,7 +102,7 @@ function MistressCommands({ command, sender, parameters }) {
                 procGenericItem("ScrewClamps", "ItemNipples");
             } else
                 SendChat("The cursed  clamps on " + Player.Name + " vanished.");
-            cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;
+            cursedConfig.hasCursedScrews = !cursedConfig.hasCursedScrews;
             break;
         case "cursedspeech":
             if (!cursedConfig.hasCursedSpeech)
@@ -163,20 +163,24 @@ function MistressCommands({ command, sender, parameters }) {
             break;
         case "banfirstperson":
             if (parameters[0] == "on") {
-                cursedConfig.bannedWords.push( 'i', '"i', 'am',  "myself", "me", "my" );
+                cursedConfig.bannedWords.push('i', '"i', 'am', "myself", "me", "my");
+                popChatSilent("You can no longer speak in first person.");
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
                     ![ 'i', '"i', 'am',  "myself", "me", "my"].includes(word)
                 );
+                popChatSilent("You can now speak in first person.");
             }
             break;
         case "banbegging":
             if (parameters[0] == "on") {
                 cursedConfig.bannedWords.push('please', "beg",  'begging');
+                popChatSilent("You can no longer beg.");
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
                     !['please', "beg",  'begging'].includes(word)
                 );
+                popChatSilent("You can now beg.");
             }
             break;
         case "banword":
@@ -185,6 +189,7 @@ function MistressCommands({ command, sender, parameters }) {
                     cursedConfig.bannedWords.push(
                         parameters[1], parameters[1].substring(0, 1) + "-" + parameters[1]
                     );
+                    popChatSilent("New banned word: " + parameters[1]);
                 }
             } else if (parameters[0] == "off") {
                 if (parameters[1] && cursedConfig.bannedWords.includes(parameters[1])) {
@@ -192,6 +197,7 @@ function MistressCommands({ command, sender, parameters }) {
                         word != parameters[1]
                         || word != parameters[1].substring(0, 1) + "-" + parameters[1]
                     );
+                    popChatSilent("Word allowed: " + parameters[1]);
                 }
             }
             break;

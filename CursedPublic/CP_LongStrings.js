@@ -16,7 +16,7 @@ function InitHelpMsg() {
     -owner [on/off] [a member number]
     -changecommandchar [! / & / $ / #]
     -changeidentifier [new identifier]
-    -punishmentcolor ["#colorcode"]
+    *NEW*-punishmentcolor ["#colorcode"]
 
     //PUBLIC FUNCTIONS//
     -help
@@ -51,7 +51,7 @@ function InitHelpMsg() {
     -cursedearplugs
     -curseddildogag
     -cursedpanties
-    *NEW*-cursedscrews
+    -cursedscrews
     
     //OWNER FUNCTIONS//
     -cursedbelt
@@ -60,10 +60,10 @@ function InitHelpMsg() {
     -entrymessage [sentence]
     -owner [on/off] [a member number]
     -asylum [nb of hours] 
-    DEACTIVATED BY DEF: -forcedsay [sentence]
-    DEACTIVATED BY DEF: -say [sentence]
-    DEACTIVATED BY DEF: -fullblockchat
-    DEACTIVATED BY DEF: -lockowner
+    INTENSE VERSION: -forcedsay [sentence]
+    INTENSE VERSION: -say [sentence]
+    INTENSE VERSION: -fullblockchat
+    *NEW*INTENSE VERSION: -lockowner
 
     ---------
     Made by ace (12401) - Ace__#5558

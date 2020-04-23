@@ -47,16 +47,18 @@ function AnalyzeMessage(msg) {
     ) {
         if (
             [...cursedConfig.enforced, ...cursedConfig.mistresses, ...cursedConfig.owners]
-                .includes(sender)
+                .includes(sender + "")
         ) {
             checkKneeling(sender);
         }
     }
     
     // Sends intro if the wearer has one
-    if (isOnEntry && cursedConfig.hasEntryMsg && !cursedConfig.hasFullMuteChat && !cursedConfig.isMute && isActivated) {
-        cursedConfig.say = cursedConfig.entryMsg;
-        document.getElementById("InputChat").value = cursedConfig.entryMsg;
+    if (isOnEntry && cursedConfig.hasEntryMsg && !cursedConfig.isMute && isActivated) {
+        var oldMuteConfig = cursedConfig.hasFullMuteChat;
+        cursedConfig.hasFullMuteChat = false;
+        popChatGlobal(cursedConfig.entryMsg, true);
+        cursedConfig.hasFullMuteChat = oldMuteConfig;
     }
     
     // Sends activated messages to an owner who enters or if the wearer entered
@@ -232,7 +234,8 @@ function AnalyzeMessage(msg) {
             && cursedConfig.bannedWords
                 .filter(word =>
                     textmsg.toLowerCase().split(" ").includes(word.toLowerCase())
-                ).length != 0
+            ).length != 0
+            && (!types.contains("ChatMessageChat") || Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0)
         ) {
             SendChat(Player.Name + " angers the curse on her.");
             popChatSilent("Bad girl. You used a banned word.");
@@ -262,21 +265,14 @@ function AnalyzeMessage(msg) {
                     InventoryGet(Player, "ItemVulvaPiercings").Asset.Name == "VibeHeartClitPiercing"
                     && InventoryGet(Player, "ItemVulvaPiercings").Property.Intensity != 4
                 ) || (
-                    InventoryGet(Player, "ItemNipplesPiercings").Asset.Name == "VibeHeartPiercing"
+                    InventoryGet(Player, "ItemNipplesPiercings").Asset.Name == "VibeHeartPiercings"
                     && InventoryGet(Player, "ItemNipplesPiercings").Property.Intensity != 4
                 )
             )) {
-            if (
-                itemIsAllowed("VibeHeartPiercing", "ItemNipplesPiercings") &&
-                itemIsAllowed("VibeHeartClitPiercing", "ItemVulvaPiercings") &&
-                itemIsAllowed("TapedVibeEggs", "ItemNipples") &&
-                itemIsAllowed("InflatableVibeDildo", "ItemVulva") &&
-                itemIsAllowed("InflVibeButtPlug", "ItemButt")
-            ) {
-                SendChat("The curse on " + Player.Name + " brings the vibrators back to their maximum intensity.");
-                procCursedOrgasm();
-                cursedConfig.strikes++;
-            }
+            
+            SendChat("The curse on " + Player.Name + " brings the vibrators back to their maximum intensity.");
+            procCursedOrgasm();
+            cursedConfig.strikes++;
         }
     
         //Cursed latex

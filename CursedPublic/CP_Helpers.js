@@ -27,9 +27,12 @@ function popChatSilent(actionTxt) {
 }
 
 //Send a whisper
-function sendWhisper(target, msg) { 
+function sendWhisper(target, msg, sendSelf) { 
     if (!isNaN(target)) {
         ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
+        if (sendSelf) { 
+            popChatSilent("The curse sent this to #" + target + ": " + msg);
+        }
     }
 }
 
@@ -154,8 +157,7 @@ function drawCards(nbCards, players) {
     } else { 
         for (let i = 0; i < nbCards; i++) {
             players.forEach(p => {
-                sendWhisper(p, "(The following card was drawn: " + drawCard() + ")");
-                drawCard();
+                sendWhisper(p, "(The following card was drawn: " + drawCard() + ")", true);
             });
         }
     }

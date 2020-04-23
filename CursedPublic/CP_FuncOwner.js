@@ -20,12 +20,14 @@ function OwnerCommands({ command, parameters }) {
             else
                 SendChat("The curse lets " + Player.Name + " talk again.");
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
+            break;
         case "lockowner":
             if (!cursedConfig.isLockedOwner)
                 SendChat("The curse keeps " + Player.Name + " from leaving their owner.");
             else
                 SendChat("The curse allows " + Player.Name + " to break their collar.");
             cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
+            break;
         case "asylum":
             if (!isNaN(parameters[0])) {
                 //Calculate time
@@ -49,22 +51,24 @@ function OwnerCommands({ command, parameters }) {
             break;
         case "entrymessage":
             cursedConfig.entryMsg = parameters.join(" ");
+            sendWhisper(sender, "New entry message: " + cursedConfig.entryMsg, true);
             break;
         case "clearbannedwords":
             cursedConfig.bannedWords = [];
+            sendWhisper(sender, "Banned words cleared.", true);
             break;
         case "forcedsay":
             if (cursedConfig.hasIntenseVersion) {
                 //Forces as a global msg, bypass expected "say" and bypass blockchat
-                var oldTarget = ChatRoomTargetMemberNumber;
-                var oldMuteConfig = cursedConfig.hasFullMuteChat;
+                var oldBlockConfig = cursedConfig.hasFullMuteChat;
+                var oldMuteConfig = cursedConfig.isMute;
                 cursedConfig.hasFullMuteChat = false;
-                ChatRoomTargetMemberNumber = null;
+                cursedConfig.isMute = false;
 
                 popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
 
-                ChatRoomTargetMemberNumber = oldTarget;
-                cursedConfig.hasFullMuteChat = oldMuteConfig;
+                cursedConfig.isMute = oldMuteConfig;
+                cursedConfig.hasFullMuteChat = oldBlockConfig;
             }
             break;
         case "say":
