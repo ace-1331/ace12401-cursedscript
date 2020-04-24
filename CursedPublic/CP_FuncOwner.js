@@ -21,6 +21,20 @@ function OwnerCommands({ command, parameters, sender }) {
                 SendChat("The curse lets " + Player.Name + " talk again.");
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
             break;
+        case "restrainplay":
+            if (!cursedConfig.hasRestrainedPlay)
+                sendWhisper(sender, "(Wearer is now unable to add/remove mistresses and owners.)", true);
+            else
+                sendWhisper(sender, "(Wearer is now able to add/remove mistresses and owners.)", true);
+            cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
+            break;
+        case "maid":
+            if (!cursedConfig.hasNoMaid)
+                sendWhisper(sender, "(Wearer is now unable to be freed by the rescue maid.)", true);
+            else
+                sendWhisper(sender, "(Wearer is now able to be freed by the rescue maid.)", true);
+            cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
+            break;
         case "disablepunishments":
             if (!cursedConfig.punishmentsDisabled)
                 sendWhisper(sender, "(Auto punishments disabled.)", true);

@@ -27,11 +27,13 @@ function popChatSilent(actionTxt) {
 }
 
 //Send a whisper
-function sendWhisper(target, msg, sendSelf) { 
+function sendWhisper(target, msg, sendSelf, forceHide) { 
     if (!isNaN(target)) {
         ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
-        if (sendSelf) { 
-            popChatSilent("The curse sent this to #" + target + ": " + msg);
+        if (sendSelf) {
+            popChatSilent(msg);
+        } else if (cursedConfig.hasForward && !forceHide) { 
+            popChatSilent("Whisper sent to #" + target + ": " + msg);
         }
     }
 }

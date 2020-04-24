@@ -21,13 +21,14 @@ function CursedStarter() {
             hasCursedPanties: false,
             hasCursedGag: false,
             hasCursedMittens: false,
-            hasCursedBunny: false,
             hasEntryMsg: false,
             hasFullMuteChat: false,
             hasCursedScrews: false,
             hasCursedPony: false,
             hasSound: false,
-        
+            hasRestrainedPlay: false,
+            hasNoMaid: false,
+            
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             enforced: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -43,13 +44,13 @@ function CursedStarter() {
     
             slaveIdentifier: Player.Name,
             commandChar: "#",
-            punishmentColor: "#222",
-            punishmentsDisabled: false,
             
             strikes: 0,
             lastPunishmentAmount: 0,
             lastWardrobeLock: 0,
             strikeStartTime: Date.now(),
+            punishmentColor: "#222",
+            punishmentsDisabled: false,
     
             isRunning: false,
             isSilent: false,
@@ -58,9 +59,10 @@ function CursedStarter() {
             wasLARPWarned: false,
             chatlog: [],
             chatStreak: 0,
+            hasForward: false,
         };
     
-        window.currentVersion = 18;
+        window.currentVersion = 19;
         window.oldStorage = null;
         window.oldVersion = null;
     
@@ -109,7 +111,9 @@ function CursedStarter() {
         ChatlogProcess(); //Chatlog handling
         InitHelpMsg();
     
-        // Sends a message to the server.. this is modified to allow tricks into it
+        //ALTERED FUNCTIONS
+        
+        // Sends a message to the server.
         ServerSend = function (Message, Data) {
             var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
                 && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress)
@@ -117,11 +121,21 @@ function CursedStarter() {
             ServerSocket.emit(Message, Data);
         }
         
-        
+        //Management break functions
         ManagementCanBreakTrialOnline = function () { return ((!cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner == "") && (Player.Ownership != null) && (Player.Ownership.Stage != null) && (Player.Ownership.Stage == 0)) }
         ManagementCanBeReleasedOnline = function () { return ((!cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 <= CurrentTime)) }
         ManagementCannotBeReleasedOnline = function () { return ((!cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 > CurrentTime)) }
         
+        //Maid
+        MainHallMaidReleasePlayer = function () {
+            if (MainHallMaid.CanInteract() && (!cursedConfig.hasIntenseVersion || !cursedConfig.hasNoMaid)) {
+                for(var D = 0; D < MainHallMaid.Dialog.length; D++)
+                    if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option == null))
+                        MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "AlreadyReleased");
+                CharacterRelease(Player);
+                MainHallMaid.Stage = "10";
+            } else MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
+        }
     } catch { }
 }
 
@@ -155,4 +169,22 @@ function CursedIntenseOff() {
         }
     } catch { }
     
+}
+
+//Import/Export extension buttons
+async function CursedExtImport() {
+    try {
+        let configs = await navigator.clipboard.readText();
+        cursedImport(configs);
+        localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(cursedConfig));
+    } catch { console.log("Import failed"); }
+}
+function CursedExtExport() { 
+    try {
+        navigator.permissions.query({name: "clipboard-write"}).then(result => {
+            if (result.state == "granted" || result.state == "prompt") {
+                navigator.clipboard.writeText(cursedExport());
+            }
+        });
+    } catch { console.log("Export failed"); }
 }

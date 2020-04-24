@@ -17,6 +17,7 @@ function InitHelpMsg() {
     -changecommandchar [! / & / $ / #]
     -changeidentifier [new identifier]
     *NEW*-punishmentcolor ["#colorcode"]
+    *NEW*-forwardall
 
     //PUBLIC FUNCTIONS//
     -help
@@ -61,12 +62,14 @@ function InitHelpMsg() {
     -owner [on/off] [a member number]
     -asylum [nb of hours] 
     *NEW*-disablepunishments
+    *NEW*-restrainplay
     INTENSE VERSION: -forcedsay [sentence]
     INTENSE VERSION: -say [sentence]
     INTENSE VERSION: -fullblockchat
     *NEW*INTENSE VERSION: -enablesound
     *NEW*INTENSE VERSION: -sound ["oink", "meow", etc.]
     *NEW*INTENSE VERSION: -lockowner
+    *NEW*INTENSE VERSION: -maid
 
     ---------
     Made by ace (12401) - Ace__#5558

@@ -1,11 +1,18 @@
 function WearerCommands({ command, parameters }) {
     switch (command) {
+        case "forwardall":
+            if (!cursedConfig.hasForward)
+                popChatSilent("Your curse will forward all whispers to you.");
+            else
+                popChatSilent("Your curse will no longer forward unnecessary whispers.");
+            cursedConfig.hasForward = !cursedConfig.hasForward;
+            break;
         case "issilent":
-                if (!cursedConfig.isSilent)
-                    popChatSilent("Your curse will no longer display public messages");
-                else
-                    popChatSilent("Your curse will resume displaying messages publicly");
-                cursedConfig.isSilent = !cursedConfig.isSilent;
+            if (!cursedConfig.isSilent)
+                popChatSilent("Your curse will no longer display public messages");
+            else
+                popChatSilent("Your curse will resume displaying messages publicly");
+            cursedConfig.isSilent = !cursedConfig.isSilent;
             break;
         case "showstrikes":
             popChatSilent("You have " + cursedConfig.strikes + " strikes.");
@@ -26,6 +33,10 @@ function WearerCommands({ command, parameters }) {
             popChatSilent("Your owners: #" + cursedConfig.owners.join(" #"));
             break;
         case "owner":
+            if (cursedConfig.hasRestrainedPlay) {
+                popChatSilent("Your owner disabled this command.");
+                return;
+            }
             if (parameters[0] == "on") {
                 if (!isNaN(parameters[1])  && !cursedConfig.owners.includes(parameters[1])) {
                     cursedConfig.owners.push(parameters[1]);
@@ -48,6 +59,10 @@ function WearerCommands({ command, parameters }) {
             }
             break;
         case "mistress":
+            if (cursedConfig.hasRestrainedPlay) {
+                popChatSilent("Your owner disabled this command.");
+                return;
+            }
             if (parameters[0] == "on") {
                 if (!isNaN(parameters[1])  && !cursedConfig.mistresses.includes(parameters[1])) {
                     cursedConfig.mistresses.push(parameters[1]);
