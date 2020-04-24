@@ -19,6 +19,9 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 6. Login and click on "start curse"
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
+
+- This extension will work on other Chromium-based browsers that support dev extensions. So it will work on mobile browsers like Yandex or Kiwi. (Use Total Commander file app to fix the manifest bug)
+
 - IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game or use it carefully
 
 ## Useful information
