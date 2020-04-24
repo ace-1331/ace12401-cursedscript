@@ -90,12 +90,6 @@ function AnalyzeMessage(msg) {
             parameters = commandString.split(" ");
             parameters.shift();//THROWS HERE IF COMMAND IS BAD
             
-            //Global warning to prevent spam
-            if (types.contains("ChatMessageChat")) { 
-                sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam." , true);
-                return;
-            }
-            
             //Defaults to on
             if (parameters.length == 0)
                 parameters.push("on");
@@ -104,6 +98,12 @@ function AnalyzeMessage(msg) {
             if (sender == Player.MemberNumber) {
                 WearerCommands({ command, parameters });
                 //Quit loop to prevent wearer from doing the rest (can't add self as owner)
+                return;
+            }
+            
+            //Global warning to prevent spam if not the owner
+            if (types.contains("ChatMessageChat")) { 
+                sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam." , true);
                 return;
             }
             
