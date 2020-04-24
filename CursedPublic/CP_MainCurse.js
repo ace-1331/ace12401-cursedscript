@@ -129,10 +129,19 @@ function CursedCheckUp() {
 // Chat sender queue loop
 function ChatlogProcess() { 
     //Optimizes send times, removes fast dupes, keeps the order
-    if (cursedConfig.chatlog.length != 0) { 
+    if (cursedConfig.chatlog.length != 0) {
         var actionTxt = cursedConfig.chatlog.shift();
         cursedConfig.chatlog = cursedConfig.chatlog.filter(el => el != actionTxt);
         popChatGlobal(actionTxt);
+        cursedConfig.chatStreak++;
+    } else { 
+        cursedConfig.chatStreak = 0;
+    }
+    
+    //Spam block 
+    if (cursedConfig.chatStreak > 5) { 
+        cursedConfig.isRunning = false;
+        popChatSilent("WARNING: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord");
     }
     setTimeout(ChatlogProcess, 500);
 }
