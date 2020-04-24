@@ -1,5 +1,6 @@
 function PunishmentCheck() { 
     let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
+    let r = false;
     if (difference > 10 && !cursedConfig.punishmentsDisabled) {
         //More restraints per stages, resets every week
         let stage = cursedConfig.strikes / 10;
@@ -12,6 +13,7 @@ function PunishmentCheck() {
                 InventoryWear(Player, "PantyStuffing", "ItemMouth", cursedConfig.punishmentColor, 15);
                 InventoryWear(Player, "HarnessBallGag", "ItemMouth2", cursedConfig.punishmentColor, 15);
                 InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", cursedConfig.punishmentColor, 15);
+                r = true;
             }
         }
         if (stage >= 4) {
@@ -19,6 +21,7 @@ function PunishmentCheck() {
             if (InventoryGet(Player, "ItemHead") == null) {
                 InventoryAdd(Player, "FullBlindfold", "ItemHead");
                 InventoryWear(Player, "FullBlindfold", "ItemHead", cursedConfig.punishmentColor, 15);
+                r = true;
             }
         }
         if (stage >= 3) {
@@ -26,6 +29,7 @@ function PunishmentCheck() {
             if (InventoryGet(Player, "ItemArms") == null) {
                 InventoryAdd(Player, "Chains", "ItemArms");
                 InventoryWear(Player, "Chains", "ItemArms", cursedConfig.punishmentColor, 15);
+                r = true;
             }
         }
         if (stage >= 2) {
@@ -33,6 +37,7 @@ function PunishmentCheck() {
             if (InventoryGet(Player, "ItemFeet") == null) {
                 InventoryAdd(Player, "Chains", "ItemFeet");
                 InventoryWear(Player, "Chains", "ItemFeet", cursedConfig.punishmentColor, 15);
+                r = true;
             }
         }
         if (stage >= 1) {
@@ -40,9 +45,11 @@ function PunishmentCheck() {
             if (InventoryGet(Player, "ItemLegs") == null) {
                 InventoryAdd(Player, "Chains", "ItemLegs");
                 InventoryWear(Player, "Chains", "ItemLegs", cursedConfig.punishmentColor, 15);
+                r = true;
             }
         }
         SendChat("The curse on " + Player.Name + " punishes her.");
         cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
     }
+    return r;
 }

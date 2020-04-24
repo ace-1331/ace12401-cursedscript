@@ -138,6 +138,5 @@ async function checkKneeling(sender) {
         popChatSilent("Kneeling when #" + sender + " enters is required.");
         cursedConfig.strikes += 5;
         KneelAttempt();
-        cursedConfig.mustRefresh = true;
     }
 }

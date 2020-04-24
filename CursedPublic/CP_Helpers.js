@@ -53,6 +53,7 @@ function SendChat(actionTxt) {
 function KneelAttempt() { 
     if (Player.CanKneel() && !Player.Pose.includes("Kneel")) { 
         CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
+        cursedConfig.mustRefresh = true;
     }
 }
 

@@ -41,17 +41,15 @@ function CursedCheckUp() {
         msg.setAttributeNode(verifiedAtt);
     });
     
-    //Appearance checks (returns true if something changed, so refresh)
-    if (AppearanceCheck() || cursedConfig.mustRefresh) {
+    //Appearance checks & punishment application 
+    // Functions return true if something changed, so refresh or procs will notify with var
+    if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
         //Reloads Char
         ChatRoomCharacterUpdate(Player);
         CharacterLoadEffect(Player);
         ServerPlayerAppearanceSync();
         cursedConfig.mustRefresh = false;
     }
-    
-    //Applies punishments for strikes
-    PunishmentCheck();
     
     // Saves if needed, strip not required data
     if (messagesToVerify.length > 0) {
