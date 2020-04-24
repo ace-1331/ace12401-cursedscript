@@ -3,11 +3,13 @@ function procGenericItem(item, group, color) {
     //Makes sure the player has the items
     InventoryAdd(Player, item, group);
     InventoryWear(Player, item, group, color);
+    cursedConfig.mustRefresh = true;
 }
 
 function procCursedNaked() { 
     ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
         .forEach(item => InventoryRemove(Player, item));
+    cursedConfig.mustRefresh = true;
 }
 
 function procCursedOrgasm() {
@@ -58,6 +60,7 @@ function procCursedOrgasm() {
         InventoryGet(Player, "ItemNipplesPiercings").Property.Intensity = 4;
         InventoryGet(Player, "ItemNipplesPiercings").Property.Effect = ["Egged", "Vibrating"];
     }
+    cursedConfig.mustRefresh = true;
 }
 
 function procCursedLatex() {
@@ -85,6 +88,8 @@ function procCursedLatex() {
     InventoryWear(Player, "BoxTieArmbinder", "ItemArms", "#222222", 15);
     InventoryWear(Player, "LatexCorset1", "ItemTorso", "#111111", 10);
     InventoryWear(Player, "CollarShockUnit", "ItemNeckAccessories", "#222222", 10);
+    
+    cursedConfig.mustRefresh = true;
 }
 
 
@@ -114,6 +119,8 @@ function procCursedPony() {
     InventoryWear(Player, "LeatherLegCuffs", "ItemLegs", "#550000", 10);
     InventoryWear(Player, "LatexCorset1", "ItemTorso", "#550000", 10);
     InventoryWear(Player, "CollarShockUnit", "ItemNeckAccessories", "#222222", 10);
+    
+    cursedConfig.mustRefresh = true;
 }
 
 async function checkKneeling(sender) { 
@@ -131,5 +138,6 @@ async function checkKneeling(sender) {
         popChatSilent("Kneeling when #" + sender + " enters is required.");
         cursedConfig.strikes += 5;
         KneelAttempt();
+        cursedConfig.mustRefresh = true;
     }
 }

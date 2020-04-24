@@ -27,6 +27,8 @@
                 "CursedPublic/CP_LongStrings.js",
                 "CursedPublic/CP_MainCurse.js",
                 "CursedPublic/CP_MessageCheck.js",
+                "CursedPublic/CP_PunishmentCheck.js",
+                "CursedPublic/CP_AppearanceCheck.js",
                 "CursedPublic/CP_FuncOwner.js",
                 "CursedPublic/CP_FuncMistress.js",
                 "CursedPublic/CP_FuncPublic.js",

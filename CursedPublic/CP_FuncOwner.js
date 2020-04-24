@@ -77,6 +77,7 @@ function OwnerCommands({ command, parameters, sender }) {
                 } else {
                     LogAdd("Committed", "Asylum", oldLog[0].Value + timeToAdd);
                 }
+                ServerPlayerLogSync();
             }
             break;
         case "entrymessage":

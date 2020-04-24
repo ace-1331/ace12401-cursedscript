@@ -21,6 +21,7 @@ function CursedCheckUp() {
                 ? cursedConfig.mistressIsHere = true : ''
         );
     }
+    
     //Verifies if an owner is here
     if (cursedConfig.enabledOnMistress) { 
         cursedConfig.ownerIsHere = false;
@@ -40,88 +41,34 @@ function CursedCheckUp() {
         msg.setAttributeNode(verifiedAtt);
     });
     
-    //Applies punishments for strikes
-    let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
-    if (difference > 10 && !cursedConfig.punishmentsDisabled) {
-        //More restraints per stages, resets every week
-        let stage = cursedConfig.strikes / 10;
-        if (stage >= 5) {
-            //Restraints
-            if (InventoryGet(Player, "ItemMouth") == null) {
-                InventoryAdd(Player, "PantyStuffing", "ItemMouth");
-                InventoryAdd(Player, "HarnessBallGag", "ItemMouth2");
-                InventoryAdd(Player, "SteelMuzzleGag", "ItemMouth3");
-                InventoryWear(Player, "PantyStuffing", "ItemMouth", cursedConfig.punishmentColor, 15);
-                InventoryWear(Player, "HarnessBallGag", "ItemMouth2", cursedConfig.punishmentColor, 15);
-                InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", cursedConfig.punishmentColor, 15);
-            }
-        }
-        if (stage >= 4) {
-            //Restraints
-            if (InventoryGet(Player, "ItemHead") == null) {
-                InventoryAdd(Player, "FullBlindfold", "ItemHead");
-                InventoryWear(Player, "FullBlindfold", "ItemHead", cursedConfig.punishmentColor, 15);
-            }
-        }
-        if (stage >= 3) {
-            //Restraints
-            if (InventoryGet(Player, "ItemArms") == null) {
-                InventoryAdd(Player, "Chains", "ItemArms");
-                InventoryWear(Player, "Chains", "ItemArms", cursedConfig.punishmentColor, 15);
-            }
-        }
-        if (stage >= 2) {
-            //Restraints
-            if (InventoryGet(Player, "ItemFeet") == null) {
-                InventoryAdd(Player, "Chains", "ItemFeet");
-                InventoryWear(Player, "Chains", "ItemFeet", cursedConfig.punishmentColor, 15);
-            }
-        }
-        if (stage >= 1) {
-            //Restraints
-            if (InventoryGet(Player, "ItemLegs") == null) {
-                InventoryAdd(Player, "Chains", "ItemLegs");
-                InventoryWear(Player, "Chains", "ItemLegs", cursedConfig.punishmentColor, 15);
-            }
-        }
-        SendChat("The curse on " + Player.Name + " punishes her.");
-        cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
-    }
-/*
-        //Wardrobe for 6h at every 50
-        if (
-            Math.floor(cursedConfig.strikes / 50) > cursedConfig.lastWardrobeLock
-        ) { 
-            cursedConfig.lastWardrobeLock = Math.floor(cursedConfig.strikes / 30);
-            //Add to existing time
-            if (Log.filter(el => el.Name == "BlockChange").length > 0) {
-                var currentVal = Log.filter(el => el.Name == "BlockChange")[0].Value;
-                if (currentVal < Date.now()) { 
-                    LogAdd("BlockChange", "OwnerRule", CurrentTime + 21600000);
-                } else { 
-                    Log.filter(el => el.Name == "BlockChange")[0].Value = currentVal + 21600000;
-                }
-            } else { 
-                LogAdd("BlockChange", "OwnerRule", CurrentTime + 21600000);
-            }
-            SendChat("The curse on " + Player.Name + " steals her wardrobe.");
-        }
-        cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
-    }
-    */
-    // Loops infinitely and Refreshes the character if needed
-    if (messagesToVerify.length > 0 && CurrentScreen != "Appearance") {
-        try { 
-            localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(cursedConfig));
-        } catch { }
-        
+    //Appearance checks (returns true if something changed, so refresh)
+    if (AppearanceCheck() || cursedConfig.mustRefresh) {
         //Reloads Char
         ChatRoomCharacterUpdate(Player);
         CharacterLoadEffect(Player);
         ServerPlayerAppearanceSync();
-        ServerPlayerLogSync();
+        cursedConfig.mustRefresh = false;
     }
     
+    //Applies punishments for strikes
+    PunishmentCheck();
+    
+    // Saves if needed, strip not required data
+    if (messagesToVerify.length > 0) {
+        try { 
+            const dbConfigs = { ...cursedConfig };
+            delete dbConfigs.chatStreak;
+            delete dbConfigs.chatlog;
+            delete dbConfigs.mustRefresh;
+            delete dbConfigs.isRunning;
+            delete dbConfigs.wasLARPWarned;
+            delete dbConfigs.ownerIsHere;
+            delete dbConfigs.mistressIsHere;
+            localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
+        } catch { }
+    }
+    
+    // Loops if activated
     if (cursedConfig.isRunning)
         setTimeout(CursedCheckUp, 2500);
 }

@@ -186,9 +186,7 @@ function MistressCommands({ command, sender, parameters }) {
         case "banword":
             if (parameters[0] == "on") {
                 if (parameters[1] && !cursedConfig.bannedWords.includes(parameters[1])) {
-                    cursedConfig.bannedWords.push(
-                        parameters[1], parameters[1].substring(0, 1) + "-" + parameters[1]
-                    );
+                    cursedConfig.bannedWords.push(parameters[1]);
                     popChatSilent("New banned word: " + parameters[1]);
                 }
             } else if (parameters[0] == "off") {
