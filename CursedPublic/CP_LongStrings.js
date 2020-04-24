@@ -60,9 +60,12 @@ function InitHelpMsg() {
     -entrymessage [sentence]
     -owner [on/off] [a member number]
     -asylum [nb of hours] 
+    *NEW*-disablepunishments
     INTENSE VERSION: -forcedsay [sentence]
     INTENSE VERSION: -say [sentence]
     INTENSE VERSION: -fullblockchat
+    *NEW*INTENSE VERSION: -enablesound
+    *NEW*INTENSE VERSION: -sound ["oink", "meow", etc.]
     *NEW*INTENSE VERSION: -lockowner
 
     ---------

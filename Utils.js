@@ -26,6 +26,7 @@ function CursedStarter() {
             hasFullMuteChat: false,
             hasCursedScrews: false,
             hasCursedPony: false,
+            hasSound: false,
         
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -36,13 +37,15 @@ function CursedStarter() {
             cursedAppearance: [],
             entryMsg: "",
             say: "",
+            sound: "",
             mistressIsHere: false,
             ownerIsHere: false,
     
             slaveIdentifier: Player.Name,
             commandChar: "#",
             punishmentColor: "#222",
-    
+            punishmentsDisabled: false,
+            
             strikes: 0,
             lastPunishmentAmount: 0,
             lastWardrobeLock: 0,
@@ -56,7 +59,7 @@ function CursedStarter() {
             chatlog: [],
         };
     
-        window.currentVersion = 17;
+        window.currentVersion = 18;
         window.oldStorage = null;
         window.oldVersion = null;
     

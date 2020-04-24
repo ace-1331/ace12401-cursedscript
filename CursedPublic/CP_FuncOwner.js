@@ -1,4 +1,4 @@
-function OwnerCommands({ command, parameters }) {
+function OwnerCommands({ command, parameters, sender }) {
     switch (command) {
         case "lockappearance":
             /*if (cursedConfig.cursedAppearance.length == 0) {
@@ -20,6 +20,22 @@ function OwnerCommands({ command, parameters }) {
             else
                 SendChat("The curse lets " + Player.Name + " talk again.");
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
+            break;
+        case "disablepunishments":
+            if (!cursedConfig.punishmentsDisabled)
+                sendWhisper(sender, "(Auto punishments disabled.)", true);
+            else {
+                sendWhisper(sender, "(Auto punishments enabled.)", true);
+                cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
+            }
+            cursedConfig.punishmentsDisabled = !cursedConfig.punishmentsDisabled;
+            break;
+        case "enablesound":
+            if (!cursedConfig.hasSound)
+                SendChat("The curse alters " + Player.Name + "'s speech.");
+            else
+                SendChat("The curse lets " + Player.Name + " speak normally.");
+            cursedConfig.hasSound = !cursedConfig.hasSound;
             break;
         case "lockowner":
             if (!cursedConfig.isLockedOwner)
@@ -52,6 +68,10 @@ function OwnerCommands({ command, parameters }) {
         case "entrymessage":
             cursedConfig.entryMsg = parameters.join(" ");
             sendWhisper(sender, "New entry message: " + cursedConfig.entryMsg, true);
+            break;
+        case "sound":
+            cursedConfig.sound = parameters[0];
+            sendWhisper(sender, "New sound: " + cursedConfig.sound, true);
             break;
         case "clearbannedwords":
             cursedConfig.bannedWords = [];

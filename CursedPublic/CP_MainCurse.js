@@ -42,7 +42,7 @@ function CursedCheckUp() {
     
     //Applies punishments for strikes
     let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
-    if (difference > 10) {
+    if (difference > 10 && !cursedConfig.punishmentsDisabled) {
         //More restraints per stages, resets every week
         let stage = cursedConfig.strikes / 10;
         if (stage >= 5) {

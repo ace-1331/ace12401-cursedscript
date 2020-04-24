@@ -104,7 +104,7 @@ function AnalyzeMessage(msg) {
             // Verifies owner for private commands
             // Checks if public has access or mistress can do all
             if (isOwner) {
-                OwnerCommands({ command, parameters });
+                OwnerCommands({ command, parameters, sender });
             }
             
             //Verify mistress for private commands
@@ -232,14 +232,32 @@ function AnalyzeMessage(msg) {
             && sender == Player.MemberNumber
             && textmsg.indexOf("silent: *") == -1
             && cursedConfig.bannedWords
-                .filter(word =>
-                    textmsg.toLowerCase().split(" ").includes(word.toLowerCase())
-            ).length != 0
+                .filter(word => (
+                    textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
+                )).length != 0
             && (!types.contains("ChatMessageChat") || Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0)
         ) {
             SendChat(Player.Name + " angers the curse on her.");
             popChatSilent("Bad girl. You used a banned word.");
             cursedConfig.strikes += 5;
+        }
+        
+        //Cursed Sound
+        if (
+            cursedConfig.hasSound
+            && cursedConfig.hasIntenseVersion
+            && sender == Player.MemberNumber
+            && textmsg.indexOf("silent: *") == -1
+            && textmsg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(!)|(\?)/g, " ").split(" ")
+                .filter(w => {
+                    return !(new RegExp("^" + cursedConfig.sound.split("").map(el => el + "*").join("") + "$", "g")).test(w);
+                }).length > 0
+            && types.contains("ChatMessageChat")
+            && Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0
+        ) {
+            SendChat(Player.Name + " angers the curse on her.");
+            popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
+            cursedConfig.strikes ++;
         }
     
         //Cursed Orgasms
