@@ -68,7 +68,7 @@ function CursedCheckUp() {
     
     // Loops if activated
     if (cursedConfig.isRunning)
-        setTimeout(CursedCheckUp, 2500);
+        setTimeout(CursedCheckUp, 1800);
 }
 
 // Chat sender queue loop
