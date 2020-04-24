@@ -90,6 +90,12 @@ function AnalyzeMessage(msg) {
             parameters = commandString.split(" ");
             parameters.shift();//THROWS HERE IF COMMAND IS BAD
             
+            //Global warning to prevent spam
+            if (types.contains("ChatMessageChat")) { 
+                sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam." , true);
+                return;
+            }
+            
             //Defaults to on
             if (parameters.length == 0)
                 parameters.push("on");
