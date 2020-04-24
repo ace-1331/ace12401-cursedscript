@@ -39,5 +39,7 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
+
 **Official release: #18**
+
 **THIS PAGE WAS LAST EDITED ON 24-04-2020**
