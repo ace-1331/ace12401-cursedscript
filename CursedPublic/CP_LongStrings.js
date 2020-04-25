@@ -3,6 +3,7 @@ function InitHelpMsg() {
     window.helpTxt = `<pre>Your calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
     ${ChatRoomCharacter.map(el => el.Name).filter(n => n == cursedConfig.slaveIdentifier).length > 1 ? "WARNING: Potential clash with another character!" : ""}
 
+    
     //WEARER FUNCTIONS//
     -help
     -issilent
@@ -20,6 +21,7 @@ function InitHelpMsg() {
     *NEW*-forwardall
     *NEW*-speechreport
 
+    
     //PUBLIC FUNCTIONS//
     -help
     -enforce [on/off]
@@ -29,6 +31,7 @@ function InitHelpMsg() {
     -draw [nb of cards] [players]
     -shuffle
 
+    
     //MISTRESS FUNCTIONS//
     >>> Basic Commands<<<
     -kneel
@@ -38,6 +41,7 @@ function InitHelpMsg() {
     -mistress [on/off] [a member number]
     -public
     -deactivateonpresence
+    
     >>>Speech Commands<<<
     -mute
     -cursedspeech
@@ -45,6 +49,7 @@ function InitHelpMsg() {
     -banbegging [on/off]
     -banfirstperson [on/off]
     -clearbannedwords
+    
     >>>Curses<<<
     -cursedclothes
     -cursedorgasms
@@ -60,6 +65,7 @@ function InitHelpMsg() {
     -cursedpanties
     -cursedscrews
     
+    
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     *NEW*-disablepunishments
@@ -69,14 +75,16 @@ function InitHelpMsg() {
     -owner [on/off] [a member number]
     *NEW*INTENSE VERSION: -lockowner
     *NEW*INTENSE VERSION: -maid
+    
     >>>Speech Commands<<<
     -enforceentrymessage 
     -entrymessage [sentence]
-    INTENSE VERSION: -forcedsay [sentence]
-    INTENSE VERSION: -say [sentence]
-    INTENSE VERSION: -fullblockchat
-    *NEW*INTENSE VERSION: -enablesound
-    *NEW*INTENSE VERSION: -sound ["oink", "meow", etc.]
+    INTENSE V: -forcedsay [sentence]
+    INTENSE V: -say [sentence]
+    INTENSE V: -fullblockchat
+    *NEW*INTENSE V: -enablesound
+    *NEW*INTENSE V: -sound ["oink", "meow", ...]
+    
     >>>Curses<<<
     -cursedbelt
     ---------
