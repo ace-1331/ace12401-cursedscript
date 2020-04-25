@@ -40,6 +40,8 @@ function MistressCommands({ command, sender, parameters }) {
                 procGenericItem("PantyStuffing", "ItemMouth");
                 cursedConfig.hasCursedDildogag = false;
                 cursedConfig.hasCursedGag = false;
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
             } else {
                 SendChat("The curse on " + Player.Name + "'s panties vanished.");
             }
@@ -48,9 +50,11 @@ function MistressCommands({ command, sender, parameters }) {
         case "curseddildogag":
             if (!cursedConfig.hasCursedDildogag) {
                 SendChat("The curse arises on " + Player.Name + "'s dildo.");
-                procGenericItem("DildoPlugGag", "ItemMouth");
                 cursedConfig.hasCursedGag = false;
                 cursedConfig.hasCursedPanties = false;
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
+                procGenericItem("DildoPlugGag", "ItemMouth");
             } else
                 SendChat("The curse on " + Player.Name + "'s dildo vanished.");
             cursedConfig.hasCursedDildogag = !cursedConfig.hasCursedDildogag;
@@ -58,9 +62,11 @@ function MistressCommands({ command, sender, parameters }) {
         case "cursedgag":
             if (!cursedConfig.hasCursedGag) {
                 SendChat("The curse arises on " + Player.Name + "'s gag.");
-                procGenericItem("BallGag", "ItemMouth");
                 cursedConfig.hasCursedDildogag = false;
                 cursedConfig.hasCursedPanties = false;
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
+                procGenericItem("BallGag", "ItemMouth");
             } else
                 SendChat("The curse on " + Player.Name + "'s gag vanished.");
             cursedConfig.hasCursedGag = !cursedConfig.hasCursedGag;
@@ -83,6 +89,11 @@ function MistressCommands({ command, sender, parameters }) {
         case "cursedlatex":
             if (!cursedConfig.hasCursedLatex) {
                 SendChat("The cursed latex embraces " + Player.Name + ".");
+                cursedConfig.hasCursedPony = false;
+                cursedConfig.hasCursedNakedness = false;
+                cursedConfig.hasCursedGag = false;
+                cursedConfig.hasCursedPanties = false;
+                cursedConfig.hasCursedDildogag = false;
                 procCursedLatex();
             } else
                 SendChat("The cursed latex lets go of " + Player.Name + ".");
@@ -91,6 +102,11 @@ function MistressCommands({ command, sender, parameters }) {
         case "cursedpony":
             if (!cursedConfig.hasCursedPony) {
                 SendChat("" + Player.Name + " becomes a Pony.");
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedNakedness = false;
+                cursedConfig.hasCursedGag = false;
+                cursedConfig.hasCursedPanties = false;
+                cursedConfig.hasCursedDildogag = false;
                 procCursedPony();
             } else
                 SendChat("The ponycurse lets go of " + Player.Name + ".");
@@ -122,6 +138,8 @@ function MistressCommands({ command, sender, parameters }) {
         case "cursedclothes":
             if (!cursedConfig.hasCursedNakedness) {
                 SendChat("The curse arises on " + Player.Name + "'s clothes.");
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
                 procCursedNaked();
             } else
                 SendChat("The curse on " + Player.Name + "'s clothes vanished.");
@@ -200,7 +218,7 @@ function MistressCommands({ command, sender, parameters }) {
             }
             break;
         case "mute":
-            if (!cursedConfig.isMute)
+            if (!cursedConfig.isMute) 
                 SendChat("The curse on " + Player.Name + " forbids her to speak.");
             else
                 SendChat("The curse on " + Player.Name + " allows her to use her words again.");

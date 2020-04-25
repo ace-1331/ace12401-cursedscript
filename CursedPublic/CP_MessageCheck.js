@@ -54,11 +54,12 @@ function AnalyzeMessage(msg) {
     }
 
     // Sends intro if the wearer has one
-    if (isOnEntry && cursedConfig.hasEntryMsg && !cursedConfig.isMute && isActivated) {
-        var oldMuteConfig = cursedConfig.hasFullMuteChat;
-        cursedConfig.hasFullMuteChat = false;
-        popChatGlobal(cursedConfig.entryMsg, true);
-        cursedConfig.hasFullMuteChat = oldMuteConfig;
+    if (
+        isOnEntry && cursedConfig.hasEntryMsg && !cursedConfig.hasFullMuteChat
+        && isActivated && !cursedConfig.isMute && !cursedConfig.hasSound
+    ) {
+        cursedConfig.say = cursedConfig.entryMsg;
+        document.getElementById("InputChat").value = cursedConfig.entryMsg;
     }
 
     // Sends activated messages to an owner who enters or if the wearer entered

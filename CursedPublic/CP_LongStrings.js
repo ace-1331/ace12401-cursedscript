@@ -18,6 +18,7 @@ function InitHelpMsg() {
     -changeidentifier [new identifier]
     *NEW*-punishmentcolor ["#colorcode"]
     *NEW*-forwardall
+    *NEW*-speechreport
 
     //PUBLIC FUNCTIONS//
     -help

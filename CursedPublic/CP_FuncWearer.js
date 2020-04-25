@@ -32,6 +32,9 @@ function WearerCommands({ command, parameters }) {
         case "showowners":
             popChatSilent("Your owners: #" + cursedConfig.owners.join(" #"));
             break;
+        case "speechreport":
+            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${ cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
+            break;
         case "owner":
             if (cursedConfig.hasRestrainedPlay) {
                 popChatSilent("Your owner disabled this command.");

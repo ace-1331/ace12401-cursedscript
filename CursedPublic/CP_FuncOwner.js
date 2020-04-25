@@ -15,6 +15,10 @@ function OwnerCommands({ command, parameters, sender }) {
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
             break;
         case "fullblockchat":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
             if (!cursedConfig.hasFullMuteChat)
                 SendChat("The curse fully stops " + Player.Name + " from talking.");
             else
@@ -29,6 +33,10 @@ function OwnerCommands({ command, parameters, sender }) {
             cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
             break;
         case "maid":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
             if (!cursedConfig.hasNoMaid)
                 sendWhisper(sender, "(Wearer is now unable to be freed by the rescue maid.)", true);
             else
@@ -45,6 +53,10 @@ function OwnerCommands({ command, parameters, sender }) {
             cursedConfig.punishmentsDisabled = !cursedConfig.punishmentsDisabled;
             break;
         case "enablesound":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
             if (!cursedConfig.hasSound)
                 SendChat("The curse alters " + Player.Name + "'s speech.");
             else
@@ -52,6 +64,10 @@ function OwnerCommands({ command, parameters, sender }) {
             cursedConfig.hasSound = !cursedConfig.hasSound;
             break;
         case "lockowner":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
             if (!cursedConfig.isLockedOwner)
                 SendChat("The curse keeps " + Player.Name + " from leaving their owner.");
             else
@@ -85,6 +101,10 @@ function OwnerCommands({ command, parameters, sender }) {
             sendWhisper(sender, "New entry message: " + cursedConfig.entryMsg, true);
             break;
         case "sound":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
             cursedConfig.sound = parameters[0];
             sendWhisper(sender, "New sound: " + cursedConfig.sound, true);
             break;
@@ -97,19 +117,26 @@ function OwnerCommands({ command, parameters, sender }) {
                 //Forces as a global msg, bypass expected "say" and bypass blockchat
                 var oldBlockConfig = cursedConfig.hasFullMuteChat;
                 var oldMuteConfig = cursedConfig.isMute;
+                var oldSoundConfig = cursedConfig.hasSound;
+                var oldSpeechConfig = cursedConfig.hasCursedSpeech;
                 cursedConfig.hasFullMuteChat = false;
                 cursedConfig.isMute = false;
+                cursedConfig.hasSound = false;
+                cursedConfig.hasCursedSpeech = false;
 
                 popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
 
                 cursedConfig.isMute = oldMuteConfig;
                 cursedConfig.hasFullMuteChat = oldBlockConfig;
+                cursedConfig.hasSound = oldSoundConfig;
+                cursedConfig.hasCursedSpeech = oldSpeechConfig;
             }
             break;
         case "say":
             if (
                 !cursedConfig.hasFullMuteChat
                 && !cursedConfig.isMute
+                && !cursedConfig.hasSound
                 && cursedConfig.hasIntenseVersion
             ) {
                 cursedConfig.say = parameters.join(" ")

@@ -149,26 +149,16 @@ function AppearanceCheck() {
         //Cursed latex
         if (
             cursedConfig.hasCursedLatex
-            && (!InventoryGet(Player, "Gloves")
-                || !InventoryGet(Player, "Suit")
-                || !InventoryGet(Player, "SuitLower")
-                || !InventoryGet(Player, "ClothLower")
-                || !InventoryGet(Player, "ItemBoots")
-                || !InventoryGet(Player, "ItemMouth")
-                || !InventoryGet(Player, "ItemArms")
-                || !InventoryGet(Player, "ItemNeckAccessories")
-                || !InventoryGet(Player, "ItemTorso")
-
-                || InventoryGet(Player, "Gloves").Asset.Name != "Catsuit"
-                || InventoryGet(Player, "Suit").Asset.Name != "SeamlessCatsuit"
-                || InventoryGet(Player, "SuitLower").Asset.Name != "SeamlessCatsuit"
-                || InventoryGet(Player, "ClothLower").Asset.Name != "LatexPants1"
-                || InventoryGet(Player, "ItemBoots").Asset.Name != "ThighHighLatexHeels"
-                || InventoryGet(Player, "ItemMouth").Asset.Name != "LatexBallMuzzleGag"
-                || InventoryGet(Player, "ItemArms").Asset.Name != "BoxTieArmbinder"
-                || InventoryGet(Player, "ItemNeckAccessories").Asset.Name != "CollarShockUnit"
-                || InventoryGet(Player, "ItemTorso").Asset.Name != "LatexCorset1"
-
+            && (
+                itemIsAllowed("SeamlessCatsuit", "Suit")
+                || itemIsAllowed("SeamlessCatsuit", "SuitLower")
+                || itemIsAllowed("Catsuit", "Gloves")
+                || itemIsAllowed("LatexPants1", "ClothLower")
+                || itemIsAllowed("ThighHighLatexHeels", "ItemBoots")
+                || itemIsAllowed("LatexBallMuzzleGag", "ItemMouth")
+                || itemIsAllowed("BoxTieArmbinder", "ItemArms")
+                || itemIsAllowed("LatexCorset1", "ItemTorso")
+                || itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")
             )) {
             SendChat("The cursed latex embraces " + Player.Name + ".");
             procCursedLatex();
@@ -177,25 +167,15 @@ function AppearanceCheck() {
 
         if (
             cursedConfig.hasCursedPony
-            && (!InventoryGet(Player, "Gloves")
-                || !InventoryGet(Player, "Suit")
-                || !InventoryGet(Player, "SuitLower")
-                || !InventoryGet(Player, "ItemBoots")
-                || !InventoryGet(Player, "ItemMouth")
-                || !InventoryGet(Player, "ItemArms")
-                || !InventoryGet(Player, "ItemLegs")
-                || !InventoryGet(Player, "ItemTorso")
-
-
-                || InventoryGet(Player, "Gloves").Asset.Name != "Catsuit"
-                || InventoryGet(Player, "Suit").Asset.Name != "SeamlessCatsuit"
-                || InventoryGet(Player, "SuitLower").Asset.Name != "SeamlessCatsuit"
-                || InventoryGet(Player, "ItemBoots").Asset.Name != "PonyBoots"
-                || InventoryGet(Player, "ItemMouth").Asset.Name != "HarnessPonyBits"
-                || InventoryGet(Player, "ItemArms").Asset.Name != "ArmbinderJacket"
-                || InventoryGet(Player, "ItemLegs").Asset.Name != "LeatherLegCuffs"
-                || InventoryGet(Player, "ItemTorso").Asset.Name != "LatexCorset1"
-
+            && (itemIsAllowed("SeamlessCatsuit", "Suit")
+                || itemIsAllowed("SeamlessCatsuit", "SuitLower")
+                || itemIsAllowed("Catsuit", "Gloves")
+                || itemIsAllowed("PonyBoots", "ItemBoots")
+                || itemIsAllowed("HarnessPonyBits", "ItemMouth")
+                || itemIsAllowed("ArmbinderJacket", "ItemArms")
+                || itemIsAllowed("LeatherLegCuffs", "ItemLegs")
+                || itemIsAllowed("LatexCorset1", "ItemTorso")
+                || itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")
             )) {
             SendChat("The curse keeps " + Player.Name + " as a pony.");
             procCursedPony();

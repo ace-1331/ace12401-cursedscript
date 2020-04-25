@@ -74,10 +74,7 @@ function procCursedLatex() {
     InventoryAdd(Player, "BoxTieArmbinder", "ItemArms", "#222222", 15);
     InventoryAdd(Player, "LatexCorset1", "ItemTorso", "#111111", 10);
     InventoryAdd(Player, "CollarShockUnit", "ItemNeckAccessories", "#222222", 10);
-     //undresses the player
-    ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
-   .forEach(item => InventoryRemove(Player, item));
-
+    
     //wears the items
     InventoryWear(Player, "SeamlessCatsuit", "Suit", "#111111");
     InventoryWear(Player, "SeamlessCatsuit", "SuitLower", "#111111");
@@ -105,10 +102,6 @@ function procCursedPony() {
     InventoryAdd(Player, "LatexCorset1", "ItemTorso");
     InventoryAdd(Player, "CollarShockUnit", "ItemNeckAccessories");
     
-    //undresses the player
-   ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
-   .forEach(item => InventoryRemove(Player, item));
-
     //wears the items
     InventoryWear(Player, "SeamlessCatsuit", "Suit", "#440000");
     InventoryWear(Player, "SeamlessCatsuit", "SuitLower", "#440000");
