@@ -1,3 +1,31 @@
+
+
+
+
+
+
+Note from ace:
+
+As I see more and more people use the curse. I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # DOCUMENTATION FOR THE SUBMISSIVES AND SLAVES SCRIPT
 
 The design philosophy behind **SASS**: The goal is for it to only affects the wearer but others may interact with it making it opt-in only. It tries to reduce spam and stay mysterious while it informs the wearer of changes. It provides multiple settings to personalize the experience and make it compatible with multiple wearers. It is meant to complement the club and RP, it is not meant to replace any of it! The use of RP along with **SASS** is encouraged, this is why there won't be many features related to things that can already be done. (Tie up x, etc.) Most features will revolve around things that cannot be done at the moment to enhance the experience and give D/s more tools. It tries not to use anything a player cannot already do therefore it will not feature anything that might be considered "cheats". (Examples of what it will never have: escape button, infinite money, reputation change, etc.)
