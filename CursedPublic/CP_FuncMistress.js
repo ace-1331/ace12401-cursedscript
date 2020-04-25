@@ -243,7 +243,7 @@ function MistressCommands({ command, sender, parameters }) {
                 if (strikesToAdd != (0 || -0){
                     cursedConfig.strikes = cursedConfig.strikes + strikesToAdd;
                     sendWhisper(sender, ${Player.Name} has had ${Math.abs(strikesToAdd)} strikes ${strikesToAdd > 0 ? "added to" : "substracted from"} their strike counter.)
-				}
+		}
             }
             break;       
     }
