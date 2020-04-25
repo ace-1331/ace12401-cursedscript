@@ -235,7 +235,7 @@ function MistressCommands({ command, sender, parameters }) {
             KneelAttempt();
             break;
         case "showstrikes":
-            sendWhisper(sender, Player.Name + " has accumulated a total of " +cursedConfig.strikes+ "strikes".);
+            sendWhisper(sender, Player.Name + " has accumulated a total of " +cursedConfig.strikes+ " strikes".);
             break;     
         case "changestrikes":
             if (!isNaN(parameters[0])) {
