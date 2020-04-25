@@ -68,9 +68,13 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 ### The list of functions is located in the wiki
 https://github.com/ace-1331/ace12401-cursedscript/wiki
 
+### Contributions
+Contributions are appreciated. Feel free to fork the repo and create a PR. 
+I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
+
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: #18**
+**Official release: #20**
 
-**THIS PAGE WAS LAST EDITED ON 24-04-2020**
+**THIS PAGE WAS LAST EDITED ON 25-04-2020**
