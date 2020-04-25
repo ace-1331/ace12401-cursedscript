@@ -67,9 +67,9 @@ function MistressCommands({ command, sender, parameters }) {
             break;
         case "public":
             if (!cursedConfig.hasPublicAccess)
-                SendChat("The curse on " + Player.Name + " now listens to the public.");
+                sendWhisper(sender, "-->Public access enabled", true);
             else 
-                SendChat("The curse on " + Player.Name + " no longer listens to the public.");
+                sendWhisper(sender, "-->Public access blocked", true);
             cursedConfig.hasPublicAccess = !cursedConfig.hasPublicAccess;
             break;
         case "cursedcollar":
@@ -164,30 +164,30 @@ function MistressCommands({ command, sender, parameters }) {
         case "banfirstperson":
             if (parameters[0] == "on") {
                 cursedConfig.bannedWords.push('i', '"i', 'am', "myself", "me", "my");
-                popChatSilent("You can no longer speak in first person.");
+                sendWhisper(sender, "-->First person blocked", true);
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
                     ![ 'i', '"i', 'am',  "myself", "me", "my"].includes(word)
                 );
-                popChatSilent("You can now speak in first person.");
+                sendWhisper(sender, "-->First person allowed", true);
             }
             break;
         case "banbegging":
             if (parameters[0] == "on") {
                 cursedConfig.bannedWords.push('please', "beg",  'begging');
-                popChatSilent("You can no longer beg.");
+                sendWhisper(sender, "-->Begging blocked", true);
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
                     !['please', "beg",  'begging'].includes(word)
                 );
-                popChatSilent("You can now beg.");
+                sendWhisper(sender, "-->Begging enabled", true);
             }
             break;
         case "banword":
             if (parameters[0] == "on") {
                 if (parameters[1] && !cursedConfig.bannedWords.includes(parameters[1])) {
                     cursedConfig.bannedWords.push(parameters[1]);
-                    popChatSilent("New banned word: " + parameters[1]);
+                    sendWhisper(sender, "New banned word: " + parameters[1], true);
                 }
             } else if (parameters[0] == "off") {
                 if (parameters[1] && cursedConfig.bannedWords.includes(parameters[1])) {
@@ -195,7 +195,7 @@ function MistressCommands({ command, sender, parameters }) {
                         word != parameters[1]
                         || word != parameters[1].substring(0, 1) + "-" + parameters[1]
                     );
-                    popChatSilent("Word allowed: " + parameters[1]);
+                    sendWhisper(sender, "Word allowed: " + parameters[1], true);
                 }
             }
             break;
@@ -208,9 +208,9 @@ function MistressCommands({ command, sender, parameters }) {
             break;
         case "deactivateonpresence":
             if (!cursedConfig.disaledOnMistress)
-                SendChat("The curse on " + Player.Name + " lets her mistress do the work.");
+                sendWhisper(sender, "-->Curse deactivated while a mistress is present", true);
             else 
-                SendChat("The curse on " + Player.Name + " regains control.");
+                sendWhisper(sender, "-->Curse activated while a mistress is present", true);
             cursedConfig.disaledOnMistress = !cursedConfig.disaledOnMistress;
             break;
         case "kneel":

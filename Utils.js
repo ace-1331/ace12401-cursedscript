@@ -86,7 +86,7 @@ function CursedStarter() {
             
             if (oldVersion != currentVersion) {
                 SendChat("The curse following " + Player.Name + " has changed.");
-                popChatSilent("You have loaded an updated version of the curse, please report any new bugs. This update may have introduced new features or bug fixes, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
+                popChatSilent("IMPORTANT! You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features or bug fixes, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
                 localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
             } else if (oldVersion == currentVersion) {
                 SendChat("The curse follows " + Player.Name + ".");

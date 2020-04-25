@@ -64,12 +64,12 @@ function AnalyzeMessage(msg) {
     // Sends activated messages to an owner who enters or if the wearer entered
     if (types.contains("ChatMessageEnterLeave")) {
         if (cursedConfig.owners.includes(sender) && chatroomMembers.includes(sender)) {
-            sendWhisper(sender, "(The curse is active on me... and you are amongst my owners... use it wisely. command call id:" + commandCall + ")");
+            sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");
         }
         if (sender == Player.MemberNumber) {
             chatroomMembers.forEach(el => {
                 if (cursedConfig.owners.includes(el)) {
-                    sendWhisper(el, "(The curse is active on me... and you are amongst my owners... use it wisely. command call id:" + commandCall + ")");
+                    sendWhisper(el, "(The curse is active. Command call id: " + commandCall + ")");
                 }
             })
         }

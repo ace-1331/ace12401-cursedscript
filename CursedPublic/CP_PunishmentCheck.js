@@ -1,9 +1,9 @@
 function PunishmentCheck() { 
     let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
     let r = false;
-    if (difference > 10 && !cursedConfig.punishmentsDisabled) {
+    if (difference > 15 && !cursedConfig.punishmentsDisabled) {
         //More restraints per stages, resets every week
-        let stage = cursedConfig.strikes / 10;
+        let stage = cursedConfig.strikes / 15;
         if (stage >= 5) {
             //Restraints
             if (InventoryGet(Player, "ItemMouth") == null) {
@@ -48,7 +48,9 @@ function PunishmentCheck() {
                 r = true;
             }
         }
-        SendChat("The curse on " + Player.Name + " punishes her.");
+        if (r) {
+            SendChat("The curse on " + Player.Name + " punishes her.");
+        }
         cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
     }
     return r;

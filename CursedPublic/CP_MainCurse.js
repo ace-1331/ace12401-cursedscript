@@ -41,14 +41,16 @@ function CursedCheckUp() {
         msg.setAttributeNode(verifiedAtt);
     });
     
-    //Appearance checks & punishment application 
+    // Appearance checks & punishment application outside of LARP
     // Functions return true if something changed, so refresh or procs will notify with var
-    if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
-        //Reloads Char
-        ChatRoomCharacterUpdate(Player);
-        CharacterLoadEffect(Player);
-        ServerPlayerAppearanceSync();
-        cursedConfig.mustRefresh = false;
+    if (ChatRoomSpace != "LARP") {
+        if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
+            //Reloads Char
+            ChatRoomCharacterUpdate(Player);
+            CharacterLoadEffect(Player);
+            ServerPlayerAppearanceSync();
+            cursedConfig.mustRefresh = false;
+        }
     }
     
     // Saves if needed, strip not required data

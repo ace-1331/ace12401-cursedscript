@@ -11,7 +11,7 @@ function OwnerCommands({ command, parameters, sender }) {
                 cursedConfig.cursedAppearance = [];
                 SendChat("The curse lets " + Player.Name + " dress as she sees fit.");
             }*/
-            popChatSilent("(Appearance Lock is currently disabled.)")
+            sendWhisper(sender, "(Appearance Lock is currently disabled.)", true);
             cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
             break;
         case "fullblockchat":

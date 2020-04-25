@@ -3,7 +3,7 @@
 function popChatGlobal(actionTxt, isNormalTalk) { 
     //Save the old input to drastically reduce message cuts
     if (CurrentScreen == "ChatRoom") { 
-        ServerSend("ChatRoomChat", { Content: isNormalTalk ? actionTxt : "*" + actionTxt, Type: isNormalTalk ? "Chat" : "Emote" });
+        ServerSend("ChatRoomChat", { Content: isNormalTalk ? actionTxt : `*(${actionTxt})`, Type: isNormalTalk ? "Chat" : "Emote" });
     } 
 }
 
