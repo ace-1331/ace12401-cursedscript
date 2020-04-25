@@ -113,23 +113,20 @@ function OwnerCommands({ command, parameters, sender }) {
             sendWhisper(sender, "Banned words cleared.", true);
             break;
         case "forcedsay":
-            if (cursedConfig.hasIntenseVersion) {
+            if (
+                cursedConfig.hasIntenseVersion
+                && !cursedConfig.isMute
+                && !cursedConfig.hasSound
+            ) {
                 //Forces as a global msg, bypass expected "say" and bypass blockchat
                 var oldBlockConfig = cursedConfig.hasFullMuteChat;
-                var oldMuteConfig = cursedConfig.isMute;
-                var oldSoundConfig = cursedConfig.hasSound;
-                var oldSpeechConfig = cursedConfig.hasCursedSpeech;
                 cursedConfig.hasFullMuteChat = false;
-                cursedConfig.isMute = false;
-                cursedConfig.hasSound = false;
-                cursedConfig.hasCursedSpeech = false;
 
                 popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
 
-                cursedConfig.isMute = oldMuteConfig;
                 cursedConfig.hasFullMuteChat = oldBlockConfig;
-                cursedConfig.hasSound = oldSoundConfig;
-                cursedConfig.hasCursedSpeech = oldSpeechConfig;
+            } else { 
+                sendWhisper(sender, "-->Current speech configs do not allow this.");
             }
             break;
         case "say":
@@ -142,6 +139,8 @@ function OwnerCommands({ command, parameters, sender }) {
                 cursedConfig.say = parameters.join(" ")
                     .replace(/^\**/g, "").replace(/^\/*/g, "");//stops emotes & stops commands
                 document.getElementById("InputChat").value = cursedConfig.say;
+            } else { 
+                sendWhisper(sender, "-->Current speech configs do not allow this.");
             }
             break;
         case "cursedbelt":

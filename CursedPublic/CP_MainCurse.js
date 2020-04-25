@@ -48,7 +48,6 @@ function CursedCheckUp() {
             //Reloads Char
             ChatRoomCharacterUpdate(Player);
             CharacterLoadEffect(Player);
-            ServerPlayerAppearanceSync();
             cursedConfig.mustRefresh = false;
         }
     }

@@ -63,7 +63,7 @@ function CursedStarter() {
             hasForward: false,
         };
     
-        window.currentVersion = 19;
+        window.currentVersion = 20;
         window.oldStorage = null;
         window.oldVersion = null;
     
@@ -86,8 +86,9 @@ function CursedStarter() {
             
             if (oldVersion != currentVersion) {
                 SendChat("The curse following " + Player.Name + " has changed.");
-                popChatSilent("IMPORTANT! You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features or bug fixes, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
+                popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
                 localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
+                alert("IMPORTANT! Please make sure you refreshed your page after updating.")
             } else if (oldVersion == currentVersion) {
                 SendChat("The curse follows " + Player.Name + ".");
                 popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.");
