@@ -84,13 +84,13 @@ function AppearanceCheck() {
         });
         
         //Locked appearance
-        //cursedConfig.cursedAppearance.forEach(({ name, group, color }) => { 
-        //    var item = Player.Appearance.filter(el => el.Asset.Name == name && el.Asset.Group.Name != group && el.Color == color);
-        //    if (item.length == 0) { 
-        //        InventoryRemove(Player, group)
-        //        procGenericItem(name, group, color);
-        //    }
-        //});
+        /*cursedConfig.cursedAppearance.forEach(({ name, group, color }) => { 
+           var item = Player.Appearance.filter(el => el.Asset.Name == name && el.Asset.Group.Name != group && el.Color == color);
+           if (item.length == 0) { 
+               InventoryRemove(Player, group)
+               procGenericItem(name, group, color);
+           }
+        });*/
         
         //Cursed nakedness
         if (
@@ -122,21 +122,22 @@ function AppearanceCheck() {
                 || !InventoryGet(Player, "ItemNipplesPiercings")
                 || (
                     InventoryGet(Player, "ItemButt").Asset.Name == "InflVibeButtPlug"
-                    && (InventoryGet(Player, "ItemButt").Property.Intensity != 4
+                    && (!InventoryGet(Player, "ItemButt").Property ||
+                        InventoryGet(Player, "ItemButt").Property.Intensity != 4
                         || InventoryGet(Player, "ItemButt").Property.InflateLevel != 4)
                 ) || (
                     InventoryGet(Player, "ItemVulva").Asset.Name == "InflatableVibeDildo"
-                    && (InventoryGet(Player, "ItemVulva").Property.Intensity != 4
+                    && (!InventoryGet(Player, "ItemVulva").Property || InventoryGet(Player, "ItemVulva").Property.Intensity != 4
                         || InventoryGet(Player, "ItemVulva").Property.InflateLevel != 4)
                 ) || (
                     InventoryGet(Player, "ItemNipples").Asset.Name == "TapedVibeEggs"
-                    && InventoryGet(Player, "ItemNipples").Property.Intensity != 4
+                    && (!InventoryGet(Player, "ItemNipples").Property || InventoryGet(Player, "ItemNipples").Property.Intensity != 4)
                 ) || (
                     InventoryGet(Player, "ItemVulvaPiercings").Asset.Name == "VibeHeartClitPiercing"
-                    && InventoryGet(Player, "ItemVulvaPiercings").Property.Intensity != 4
+                    && (!InventoryGet(Player, "ItemVulvaPiercings").Property || InventoryGet(Player, "ItemVulvaPiercings").Property.Intensity != 4)
                 ) || (
                     InventoryGet(Player, "ItemNipplesPiercings").Asset.Name == "VibeHeartPiercings"
-                    && InventoryGet(Player, "ItemNipplesPiercings").Property.Intensity != 4
+                    && (!InventoryGet(Player, "ItemNipplesPiercings").Property || InventoryGet(Player, "ItemNipplesPiercings").Property.Intensity != 4)
                 )
             )) {
             

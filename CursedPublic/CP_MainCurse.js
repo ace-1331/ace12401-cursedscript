@@ -31,6 +31,31 @@ function CursedCheckUp() {
         );
     }
     
+    //Running the normal curse
+    if (ChatRoomSpace != "LARP" && !cursedConfig.onRestart) {
+        //Triggers the function for unverified messages
+        messagesToVerify.forEach(msg => {
+            AnalyzeMessage(msg);
+            
+            // Marks message as verified
+            var verifiedAtt = document.createAttribute("verified");
+            verifiedAtt.value = "true";
+            msg.setAttributeNode(verifiedAtt);
+        });
+        
+        //Runs only if something happened
+        if (messagesToVerify.length > 0) {
+            // Appearance checks & punishment application outside of LARP
+            // Functions return true if something changed, so refresh or procs will notify with var
+            if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
+                //Reloads Char
+                ChatRoomCharacterUpdate(Player);
+                CharacterLoadEffect(Player);
+                cursedConfig.mustRefresh = false;
+            }
+        }
+    }
+    
     //Reapplies everything on restart for fairness
     if (cursedConfig.onRestart) { 
         let oldLog = [...cursedConfig.chatlog];
@@ -49,30 +74,6 @@ function CursedCheckUp() {
         }
         cursedConfig.onRestart = false;
     }
-    
-    //Running the normal curse
-    if (ChatRoomSpace != "LARP" && !cursedConfig.onRestart) {
-        //Triggers the function for unverified messages
-        messagesToVerify.forEach(msg => {
-            AnalyzeMessage(msg);
-            
-            // Marks message as verified
-            var verifiedAtt = document.createAttribute("verified");
-            verifiedAtt.value = "true";
-            msg.setAttributeNode(verifiedAtt);
-        });
-        
-        
-        // Appearance checks & punishment application outside of LARP
-        // Functions return true if something changed, so refresh or procs will notify with var
-        if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
-            //Reloads Char
-            ChatRoomCharacterUpdate(Player);
-            CharacterLoadEffect(Player);
-            cursedConfig.mustRefresh = false;
-        }
-    }
-    
     
     // Saves if needed, strip not required data
     if (messagesToVerify.length > 0) {
