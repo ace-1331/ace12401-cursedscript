@@ -15,7 +15,6 @@ function AppearanceCheck() {
             && !Player.Pose.includes("Kneel")
         ) {
             SendChat("The cursed collar on " + Player.Name + "'s neck gives her an extreme shock, forcing her to get on her knees.");
-            triggerInPain();
             KneelAttempt();
             cursedConfig.strikes++;
         }

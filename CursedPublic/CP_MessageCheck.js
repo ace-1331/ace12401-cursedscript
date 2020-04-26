@@ -72,7 +72,9 @@ function AnalyzeMessage(msg) {
                 if (cursedConfig.owners.includes(el)) {
                     sendWhisper(el, "(The curse is active. Command call id: " + commandCall + ")");
                 }
-            })
+            });
+            // Kneels if you have cursedcollar to prevent login issues
+            KneelAttempt();
         }
     }
 

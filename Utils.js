@@ -61,6 +61,7 @@ function CursedStarter() {
             chatlog: [],
             chatStreak: 0,
             hasForward: false,
+            onRestart: true,
         };
     
         window.currentVersion = 20;
@@ -108,6 +109,7 @@ function CursedStarter() {
     
         //Runs the script
         cursedConfig.isRunning = true;
+        cursedConfig.onRestart = true;
         CursedCheckUp(); //Initial check
         ChatlogProcess(); //Chatlog handling
         InitHelpMsg();

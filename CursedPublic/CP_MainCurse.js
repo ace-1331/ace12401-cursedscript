@@ -30,20 +30,41 @@ function CursedCheckUp() {
                 ? cursedConfig.ownerIsHere = true : ''
         );
     }
-        
-    //Triggers the function for unverified messages
-    messagesToVerify.forEach(msg => {
-        AnalyzeMessage(msg);
-        
-        // Marks message as verified
-        var verifiedAtt = document.createAttribute("verified");
-        verifiedAtt.value = "true";
-        msg.setAttributeNode(verifiedAtt);
-    });
     
-    // Appearance checks & punishment application outside of LARP
-    // Functions return true if something changed, so refresh or procs will notify with var
-    if (ChatRoomSpace != "LARP") {
+    //Reapplies everything on restart for fairness
+    if (cursedConfig.onRestart) { 
+        let oldLog = [...cursedConfig.chatlog];
+        let oldStrikes = cursedConfig.strikes;
+        //Process the required things
+        if (AppearanceCheck() || cursedConfig.mustRefresh) {
+            //Reloads Char for free
+            ChatRoomCharacterUpdate(Player);
+            CharacterLoadEffect(Player);
+            cursedConfig.mustRefresh = false;
+            
+            //Resumes as normal
+            cursedConfig.chatlog = oldLog;
+            cursedConfig.strikes = oldStrikes;
+            popChatSilent("Your current curses have been applied with no punishments.");
+        }
+        cursedConfig.onRestart = false;
+    }
+    
+    //Running the normal curse
+    if (ChatRoomSpace != "LARP" && !cursedConfig.onRestart) {
+        //Triggers the function for unverified messages
+        messagesToVerify.forEach(msg => {
+            AnalyzeMessage(msg);
+            
+            // Marks message as verified
+            var verifiedAtt = document.createAttribute("verified");
+            verifiedAtt.value = "true";
+            msg.setAttributeNode(verifiedAtt);
+        });
+        
+        
+        // Appearance checks & punishment application outside of LARP
+        // Functions return true if something changed, so refresh or procs will notify with var
         if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
             //Reloads Char
             ChatRoomCharacterUpdate(Player);
@@ -51,6 +72,7 @@ function CursedCheckUp() {
             cursedConfig.mustRefresh = false;
         }
     }
+    
     
     // Saves if needed, strip not required data
     if (messagesToVerify.length > 0) {
@@ -60,6 +82,7 @@ function CursedCheckUp() {
             delete dbConfigs.chatlog;
             delete dbConfigs.mustRefresh;
             delete dbConfigs.isRunning;
+            delete dbConfigs.onRestart;
             delete dbConfigs.wasLARPWarned;
             delete dbConfigs.ownerIsHere;
             delete dbConfigs.mistressIsHere;
@@ -74,8 +97,8 @@ function CursedCheckUp() {
 
 // Chat sender queue loop
 function ChatlogProcess() { 
-    //Optimizes send times, removes fast dupes, keeps the order
-    if (cursedConfig.chatlog.length != 0) {
+    //Optimizes send times, removes fast dupes, keeps the order, does not work while restarting
+    if (cursedConfig.chatlog.length != 0 && !cursedConfig.onRestart) {
         var actionTxt = cursedConfig.chatlog.shift();
         cursedConfig.chatlog = cursedConfig.chatlog.filter(el => el != actionTxt);
         popChatGlobal(actionTxt);
