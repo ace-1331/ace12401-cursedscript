@@ -3,6 +3,7 @@
 //Starts the script
 function CursedStarter() {
     try {
+        //Base configs
         window.cursedConfig = {
             hasPublicAccess: true,
             hasCursedBelt: false,
@@ -68,6 +69,7 @@ function CursedStarter() {
         window.oldStorage = null;
         window.oldVersion = null;
     
+        //Tries to load configs
         try {
             oldStorage = JSON.parse(localStorage.getItem(`bc-cursedConfig-${Player.MemberNumber}`));
             oldVersion = JSON.parse(localStorage.getItem(`bc-cursedConfig-version-${Player.MemberNumber}`));
@@ -107,38 +109,21 @@ function CursedStarter() {
             msg.setAttributeNode(verifiedAtt);
         });
     
+        //Resets Strikes when it has been a week 
+        if (cursedConfig.strikeStartTime + 604800000 < Date.now()) { 
+            SendChat("The curse on " + Player.Name + " forgets her past transgressions, a new week has begun.");
+            cursedConfig.strikeStartTime = Date.now();
+            cursedConfig.strikes = 0;
+            cursedConfig.lastPunishmentAmount = 0;
+        }
+        
         //Runs the script
         cursedConfig.isRunning = true;
         cursedConfig.onRestart = true;
+        InitHelpMsg();
+        InitAlteredFns();
         CursedCheckUp(); //Initial check
         ChatlogProcess(); //Chatlog handling
-        InitHelpMsg();
-    
-        //ALTERED FUNCTIONS
-        
-        // Sends a message to the server.
-        ServerSend = function (Message, Data) {
-            var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
-                && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning
-            if (Message == "ChatRoomChat" && Data.Type == "Chat" && cursedConfig.hasIntenseVersion && cursedConfig.hasFullMuteChat && isActivated) return;
-            ServerSocket.emit(Message, Data);
-        }
-        
-        //Management break functions
-        ManagementCanBreakTrialOnline = function () { return (( !cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner == "") && (Player.Ownership != null) && (Player.Ownership.Stage != null) && (Player.Ownership.Stage == 0)) }
-        ManagementCanBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 <= CurrentTime)) }
-        ManagementCannotBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 > CurrentTime)) }
-        
-        //Maid
-        MainHallMaidReleasePlayer = function () {
-            if (MainHallMaid.CanInteract() && (!cursedConfig.isRunning || !cursedConfig.hasIntenseVersion || !cursedConfig.hasNoMaid)) {
-                for(var D = 0; D < MainHallMaid.Dialog.length; D++)
-                    if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option == null))
-                        MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "AlreadyReleased");
-                CharacterRelease(Player);
-                MainHallMaid.Stage = "10";
-            } else MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
-        }
     } catch { }
 }
 
@@ -172,22 +157,4 @@ function CursedIntenseOff() {
         }
     } catch { }
     
-}
-
-//Import/Export extension buttons
-async function CursedExtImport() {
-    try {
-        let configs = await navigator.clipboard.readText();
-        cursedImport(configs);
-        localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(cursedConfig));
-    } catch { console.log("Import failed"); }
-}
-function CursedExtExport() { 
-    try {
-        navigator.permissions.query({name: "clipboard-write"}).then(result => {
-            if (result.state == "granted" || result.state == "prompt") {
-                navigator.clipboard.writeText(cursedExport());
-            }
-        });
-    } catch { console.log("Export failed"); }
 }

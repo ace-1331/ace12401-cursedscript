@@ -3,15 +3,7 @@
 //Verify function that applies the curses if needed
 function CursedCheckUp() {
     //Gets the messages
-    var messagesToVerify = document.querySelectorAll('.ChatMessage:not([verified=true]');
-    
-    //Resets Strikes when it has been a week 
-    if (cursedConfig.strikeStartTime + 604800000 < Date.now()) { 
-        SendChat("The curse on " + Player.Name + " awakes, a new week has begun.");
-        cursedConfig.strikeStartTime = Date.now();
-        cursedConfig.strikes = 0;
-        cursedConfig.lastPunishmentAmount = 0;
-    }
+    let messagesToVerify = document.querySelectorAll('.ChatMessage:not([verified=true]');
     
     //Verifies if a mistress is here
     if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) { 
@@ -31,8 +23,18 @@ function CursedCheckUp() {
         );
     }
     
+    //LARP Warn
+    if (CurrentScreen == "ChatRoom" && ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
+        popChatSilent("LARP Room detected: the curse is inactive in this room");
+        //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
+        cursedConfig.wasLARPWarned = true;
+        cursedConfig.onRestart = true;
+    }
+    
     //Running the normal curse
     if (ChatRoomSpace != "LARP" && !cursedConfig.onRestart) {
+        cursedConfig.wasLARPWarned = false;
+        
         //Triggers the function for unverified messages
         messagesToVerify.forEach(msg => {
             AnalyzeMessage(msg);
@@ -56,8 +58,8 @@ function CursedCheckUp() {
         }
     }
     
-    //Reapplies everything on restart for fairness
-    if (cursedConfig.onRestart) { 
+    //Running the curse on restart for fairness
+    if (CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP" && cursedConfig.onRestart) { 
         let oldLog = [...cursedConfig.chatlog];
         let oldStrikes = cursedConfig.strikes;
         //Process the required things
@@ -79,14 +81,8 @@ function CursedCheckUp() {
     if (messagesToVerify.length > 0) {
         try { 
             const dbConfigs = { ...cursedConfig };
-            delete dbConfigs.chatStreak;
-            delete dbConfigs.chatlog;
-            delete dbConfigs.mustRefresh;
-            delete dbConfigs.isRunning;
-            delete dbConfigs.onRestart;
-            delete dbConfigs.wasLARPWarned;
-            delete dbConfigs.ownerIsHere;
-            delete dbConfigs.mistressIsHere;
+            const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere"];
+            toDelete.forEach(prop => delete dbConfigs[prop]);
             localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
         } catch { }
     }

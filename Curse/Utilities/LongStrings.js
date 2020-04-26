@@ -2,16 +2,20 @@
 function InitHelpMsg() { 
     window.helpTxt = `<pre>Your calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
     ${ChatRoomCharacter.map(el => el.Name).filter(n => n == cursedConfig.slaveIdentifier).length > 1 ? "WARNING: Potential clash with another character!" : ""}
-
     
     //WEARER FUNCTIONS//
+    
+    >>> Information <<<
     -help
-    -issilent
+    *NEW*-speechreport
     -showstrikes
     -showmistresses
     -showowners
     -showenforced
     -showblacklist
+    
+    >>> Config Commands <<<
+    -issilent
     -blacklist [on/off] [a member number]
     -mistress [on/off] [a member number]
     -owner [on/off] [a member number]
@@ -19,7 +23,6 @@ function InitHelpMsg() {
     -changeidentifier [new identifier]
     *NEW*-punishmentcolor ["#colorcode"]
     *NEW*-forwardall
-    *NEW*-speechreport
 
     
     //PUBLIC FUNCTIONS//
@@ -54,7 +57,7 @@ function InitHelpMsg() {
     -cursedclothes
     -cursedorgasms
     -cursedlatex 
-    *NEW*-cursedpony
+    -cursedpony
     -cursedcollar
     -cursedmittens
     -cursedgag 

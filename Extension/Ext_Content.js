@@ -8,15 +8,16 @@ window.addEventListener("load", e => {
     }
     
     AddScript("Utils.js");
-    AddScript("CursedPublic/CP_Activators.js");
-    AddScript("CursedPublic/CP_Helpers.js");
-    AddScript("CursedPublic/CP_LongStrings.js");
-    AddScript("CursedPublic/CP_MainCurse.js");
-    AddScript("CursedPublic/CP_MessageCheck.js");
-    AddScript("CursedPublic/CP_PunishmentCheck.js");
-    AddScript("CursedPublic/CP_AppearanceCheck.js");
-    AddScript("CursedPublic/CP_FuncOwner.js");
-    AddScript("CursedPublic/CP_FuncMistress.js");
-    AddScript("CursedPublic/CP_FuncPublic.js");
-    AddScript("CursedPublic/CP_FuncWearer.js");
+    AddScript("Curse/MainCurse.js");
+    AddScript("Curse/Checks/MessageCheck.js");
+    AddScript("Curse/Checks/PunishmentCheck.js");
+    AddScript("Curse/Checks/AppearanceCheck.js");
+    AddScript("Curse/Functions/Owner.js");
+    AddScript("Curse/Functions/Mistress.js");
+    AddScript("Curse/Functions/Public.js");
+    AddScript("Curse/Functions/Wearer.js");
+    AddScript("Curse/Utilities/Activators.js");
+    AddScript("Curse/Utilities/AlteredFunctions.js");
+    AddScript("Curse/Utilities/Helpers.js");
+    AddScript("Curse/Utilities/LongStrings.js");
 });

@@ -1,19 +1,19 @@
-function MistressCommands({ command, sender, parameters }) { 
-    switch (command) { 
+function MistressCommands({ command, sender, parameters }) {
+    switch (command) {
         case "cursedearplugs":
-                if (!cursedConfig.hasCursedEarplugs) {
-                    SendChat("The curse arises on " + Player.Name + "'s earplugs.");
-                    procGenericItem("HeavyDutyEarPlugs", "ItemEars");
-                } else  
-                    SendChat("The curse on " + Player.Name + "'s earplugs vanished.");
-                cursedConfig.hasCursedEarplugs = !cursedConfig.hasCursedEarplugs;
-                break;
+            if (!cursedConfig.hasCursedEarplugs) {
+                SendChat("The curse arises on " + Player.Name + "'s earplugs.");
+                procGenericItem("HeavyDutyEarPlugs", "ItemEars");
+            } else
+                SendChat("The curse on " + Player.Name + "'s earplugs vanished.");
+            cursedConfig.hasCursedEarplugs = !cursedConfig.hasCursedEarplugs;
+            break;
         case "cursedhood":
             if (!cursedConfig.hasCursedHood) {
                 cursedConfig.hasCursedBlindfold = false;
                 SendChat("The curse arises on " + Player.Name + "'s VR Hood.");
                 procGenericItem("LeatherHoodSensDep", "ItemHead");
-            } else 
+            } else
                 SendChat("The curse on " + Player.Name + "'s VR Hood vanished.");
             cursedConfig.hasCursedHood = !cursedConfig.hasCursedHood;
             break;
@@ -22,7 +22,7 @@ function MistressCommands({ command, sender, parameters }) {
                 SendChat("The curse arises on " + Player.Name + "'s blindfold.");
                 procGenericItem("FullBlindfold", "ItemHead");
                 cursedConfig.hasCursedHood = false;
-            } else 
+            } else
                 SendChat("The curse on " + Player.Name + "'s blindfold vanished.");
             cursedConfig.hasCursedBlindfold = !cursedConfig.hasCursedBlindfold;
             break;
@@ -74,7 +74,7 @@ function MistressCommands({ command, sender, parameters }) {
         case "public":
             if (!cursedConfig.hasPublicAccess)
                 sendWhisper(sender, "-->Public access enabled", true);
-            else 
+            else
                 sendWhisper(sender, "-->Public access blocked", true);
             cursedConfig.hasPublicAccess = !cursedConfig.hasPublicAccess;
             break;
@@ -82,7 +82,7 @@ function MistressCommands({ command, sender, parameters }) {
             if (!cursedConfig.hasCursedKneel) {
                 SendChat("The curse arises on " + Player.Name + "'s collar.");
                 KneelAttempt();
-            } else 
+            } else
                 SendChat("The curse on " + Player.Name + "'s collar vanished.");
             cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;
             break;
@@ -157,7 +157,7 @@ function MistressCommands({ command, sender, parameters }) {
                     SendChat(Player.Name + " no longer has enforced protocols on her mistress.");
                 }
                 // Can enforce someone else with #name enforce 00000 on
-            } else if (!isNaN(parameters[0])) { 
+            } else if (!isNaN(parameters[0])) {
                 enforce([...parameters], parameters[0], true);
             }
             break;
@@ -176,27 +176,26 @@ function MistressCommands({ command, sender, parameters }) {
                     );
                     popChatSilent("Removed mistress: " + parameters[1]);
                 }
-                // Can enforce someone else with #name enforce 00000 on
             }
             break;
         case "banfirstperson":
             if (parameters[0] == "on") {
-                cursedConfig.bannedWords.push('i', '"i', 'am', "myself", "me", "my");
+                cursedConfig.bannedWords.push('i', 'am', "myself", "me", "my", "mine");
                 sendWhisper(sender, "-->First person blocked", true);
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
-                    ![ 'i', '"i', 'am',  "myself", "me", "my"].includes(word)
+                    !['i', '"i', 'am', "myself", "me", "my", "mine"].includes(word)
                 );
                 sendWhisper(sender, "-->First person allowed", true);
             }
             break;
         case "banbegging":
             if (parameters[0] == "on") {
-                cursedConfig.bannedWords.push('please', "beg",  'begging');
+                cursedConfig.bannedWords.push('please', "beg", 'begging');
                 sendWhisper(sender, "-->Begging blocked", true);
             } else if (parameters[0] == "off") {
                 cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
-                    !['please', "beg",  'begging'].includes(word)
+                    !['please', "beg", 'begging'].includes(word)
                 );
                 sendWhisper(sender, "-->Begging enabled", true);
             }
@@ -218,7 +217,7 @@ function MistressCommands({ command, sender, parameters }) {
             }
             break;
         case "mute":
-            if (!cursedConfig.isMute) 
+            if (!cursedConfig.isMute)
                 SendChat("The curse on " + Player.Name + " forbids her to speak.");
             else
                 SendChat("The curse on " + Player.Name + " allows her to use her words again.");
@@ -226,8 +225,8 @@ function MistressCommands({ command, sender, parameters }) {
             break;
         case "deactivateonpresence":
             if (!cursedConfig.disaledOnMistress)
-                sendWhisper(sender, "-->Curse deactivated while a mistress is present", true);
-            else 
+                sendWhisper(sender, "-->Curse is deactivated while a mistress is present", true);
+            else
                 sendWhisper(sender, "-->Curse activated while a mistress is present", true);
             cursedConfig.disaledOnMistress = !cursedConfig.disaledOnMistress;
             break;
@@ -235,19 +234,19 @@ function MistressCommands({ command, sender, parameters }) {
             KneelAttempt();
             break;
         case "showstrikes":
-            sendWhisper(sender, Player.Name + " has accumulated a total of " +cursedConfig.strikes+ " strikes.");
-            break;     
+            sendWhisper(sender, Player.Name + " has accumulated a total of " + cursedConfig.strikes + " strikes.");
+            break;
         case "changestrikes":
             if (!isNaN(parameters[0])) {
                 var strikesToAdd = parseInt(parameters[0]);
-                if (strikesToAdd != 0){
+                if (strikesToAdd != 0) {
                     cursedConfig.strikes += strikesToAdd;
                     sendWhisper(sender, `${Player.Name} has had ${Math.abs(strikesToAdd)} strikes ${strikesToAdd > 0 ? "added to" : "subtracted from"} their strike counter.`, true);
-                    if (cursedConfig.strikes < 0) { 
+                    if (cursedConfig.strikes < 0) {
                         cursedConfig.strikes = 0;
-                    } 
-		        }
+                    }
+                }
             }
-            break;       
+            break;
     }
 }

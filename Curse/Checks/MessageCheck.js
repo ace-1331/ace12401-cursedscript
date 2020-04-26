@@ -18,18 +18,6 @@ function AnalyzeMessage(msg) {
         return;
     }
 
-    if (ChatRoomSpace == "LARP") {
-        if (!cursedConfig.wasLARPWarned) {
-            popChatSilent("LARP Room detected: the curse is inactive in this room");
-            cursedConfig.wasLARPWarned = true;
-        }
-        return;
-    }
-
-    if (ChatRoomSpace != "LARP") {
-        cursedConfig.wasLARPWarned = false;
-    }
-
     // Clears whisper text
     if (sender == Player.MemberNumber && (types.contains("ChatMessageWhisper") || types.contains("ChatMessageChat"))) {
         textmsg = textmsg.split(":")
@@ -74,11 +62,12 @@ function AnalyzeMessage(msg) {
                 }
             });
             // Kneels if you have cursedcollar to prevent login issues
-            KneelAttempt();
+            if (cursedConfig.hasCursedKneel)
+                KneelAttempt();
         }
     }
 
-    // Checks for commands to change settings if able to, self is not able to do it
+    // Checks for commands to change settings if able to
     if (
         (types.contains("ChatMessageChat") || types.contains("ChatMessageWhisper"))
         && textmsg.toLowerCase().indexOf(commandCall.toLowerCase()) != -1
@@ -111,7 +100,6 @@ function AnalyzeMessage(msg) {
             }
 
             // Verifies owner for private commands
-            // Checks if public has access or mistress can do all
             if (isOwner) {
                 OwnerCommands({ command, parameters, sender });
             }
@@ -171,7 +159,6 @@ function AnalyzeMessage(msg) {
                     textmsg.trim() != cursedConfig.say.toLowerCase().trim()
                     && Player.Effect.filter(ef => ef.indexOf("Gag") != -1).length == 0
                 ) {
-                    console.log(textmsg, cursedConfig.say.toLowerCase().trim());
                     popChatSilent("You were punished for not saying the expected sentence willingly: " + cursedConfig.say);
                     document.getElementById("InputChat").value = cursedConfig.say;
                     cursedConfig.strikes += 2;
@@ -179,19 +166,22 @@ function AnalyzeMessage(msg) {
                     cursedConfig.say = "";
                 }
             }
+            
             //Cursed Speech
             if (
                 cursedConfig.hasCursedSpeech
                 && textmsg.indexOf("silent: *") == -1
-                && cursedConfig.bannedWords
-                    .filter(word => (
-                        textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
-                        )).length != 0
                 && (!types.contains("ChatMessageChat") || Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0)
             ) {
-                SendChat(Player.Name + " angers the curse on her.");
-                popChatSilent("Bad girl. You used a banned word.");
-                cursedConfig.strikes += 5;
+                let badWords = cursedConfig.bannedWords.filter(word => (
+                        textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
+                    ));
+                
+                if (badWords.length != 0) {
+                    SendChat(Player.Name + " angers the curse on her.");
+                    popChatSilent("Bad girl. Bad word(s) used: " + badWords.join(", "));
+                    cursedConfig.strikes += 5;
+                }
             }
 
             //Cursed Sound
@@ -199,7 +189,7 @@ function AnalyzeMessage(msg) {
                 cursedConfig.hasSound
                 && cursedConfig.hasIntenseVersion
                 && textmsg.indexOf("silent: *") == -1
-                && textmsg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(!)|(\?)/g, " ").split(" ")
+                && textmsg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").split(" ")
                     .filter(w => {
                         return !(new RegExp("^" + cursedConfig.sound.split("").map(el => el + "*").join("") + "$", "g")).test(w);
                     }).length > 0

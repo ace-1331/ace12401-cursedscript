@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Bondage Club - Cursed",
     "description": "Injects the scripts relative to wearing the curse",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"
@@ -22,17 +22,18 @@
             ],
             "all_frames": true,
             "js": [ 
-                "CursedPublic/CP_Activators.js",
-                "CursedPublic/CP_Helpers.js",
-                "CursedPublic/CP_LongStrings.js",
-                "CursedPublic/CP_MainCurse.js",
-                "CursedPublic/CP_MessageCheck.js",
-                "CursedPublic/CP_PunishmentCheck.js",
-                "CursedPublic/CP_AppearanceCheck.js",
-                "CursedPublic/CP_FuncOwner.js",
-                "CursedPublic/CP_FuncMistress.js",
-                "CursedPublic/CP_FuncPublic.js",
-                "CursedPublic/CP_FuncWearer.js",
+                "Curse/MainCurse.js",
+                "Curse/Checks/MessageCheck.js",
+                "Curse/Checks/PunishmentCheck.js",
+                "Curse/Checks/AppearanceCheck.js",
+                "Curse/Functions/Owner.js",
+                "Curse/Functions/Mistress.js",
+                "Curse/Functions/Public.js",
+                "Curse/Functions/Wearer.js",
+                "Curse/Utilities/Activators.js",
+                "Curse/Utilities/Helpers.js",
+                "Curse/Utilities/LongStrings.js",
+                "Curse/Utilities/AlteredFunctions.js",
                 "Utils.js",
                 "Extension/Ext_Content.js"
             ]

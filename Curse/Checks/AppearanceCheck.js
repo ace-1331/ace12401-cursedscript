@@ -95,18 +95,8 @@ function AppearanceCheck() {
         //Cursed nakedness
         if (
             cursedConfig.hasCursedNakedness
-            && (InventoryGet(Player, "Cloth")
-                || InventoryGet(Player, "ClothLower")
-                || InventoryGet(Player, "ClothAccessory")
-                || InventoryGet(Player, "Suit")
-                || InventoryGet(Player, "SuitLower")
-                || InventoryGet(Player, "Bra")
-                || InventoryGet(Player, "Panties")
-                || InventoryGet(Player, "Socks")
-                || InventoryGet(Player, "Shoes")
-                || InventoryGet(Player, "Hat")
-                || InventoryGet(Player, "Gloves")
-            )) {
+            && ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"].filter(item => InventoryGet(Player, item)).length > 0
+            ) {
             SendChat("The curse on " + Player.Name + " makes her clothes vanish mysteriously.");
             procCursedNaked();
             cursedConfig.strikes++;
