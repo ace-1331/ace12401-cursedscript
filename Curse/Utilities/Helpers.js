@@ -7,22 +7,41 @@ function popChatGlobal(actionTxt, isNormalTalk) {
 }
 
 function popChatSilent(actionTxt) { 
-    //Directly sends to wearer
-    var div = document.createElement("div");
-    div.setAttribute('class', 'ChatMessage ChatMessageEmote');
-    div.setAttribute('data-time', ChatRoomCurrentTime());
-    div.setAttribute('data-sender', Player.MemberNumber);
-    div.setAttribute('verifed', "true");
-    div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(Player.LabelColor) + ';');
-    div.innerHTML = "SILENT: *" + actionTxt + "*";
-
-    var Refocus = document.activeElement.id == "InputChat";
-    var ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
-    if (document.getElementById("TextAreaChatLog") != null) {
-        document.getElementById("TextAreaChatLog").appendChild(div);
-        if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
-        if (Refocus) ElementFocus("InputChat");
+    //Add to log
+    if (!window.savedSilent) window.savedSilent = [];
+    if (actionTxt) window.savedSilent.push(actionTxt);
+    
+    //Save in log until player is in a room
+    if (CurrentScreen != "ChatRoom") { 
+        return
     }
+    
+    //Removes dupes
+    window.savedSilent = window.savedSilent.filter((m,i) => window.savedSilent.indexOf(m) === i);
+    
+    //Sends messages
+    window.savedSilent.forEach(silentMsg => {
+        //Directly sends to wearer
+        var div = document.createElement("div");
+        div.setAttribute('class', 'ChatMessage ChatMessageEmote');
+        div.setAttribute('data-time', ChatRoomCurrentTime());
+        div.setAttribute('data-sender', Player.MemberNumber);
+        div.setAttribute('verifed', "true");
+        div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(Player.LabelColor) + ';');
+        div.innerHTML = "SILENT: *" + silentMsg + "*";
+        
+        //Refocus the chat to the bottom
+        var Refocus = document.activeElement.id == "InputChat";
+        var ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
+        if (document.getElementById("TextAreaChatLog") != null) {
+            document.getElementById("TextAreaChatLog").appendChild(div);
+            if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
+            if (Refocus) ElementFocus("InputChat");
+        }
+    });
+    
+    //Clears log
+    window.savedSilent = [];
 }
 
 //Send a whisper

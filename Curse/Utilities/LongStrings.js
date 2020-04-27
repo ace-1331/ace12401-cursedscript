@@ -44,6 +44,7 @@ function InitHelpMsg() {
     -mistress [on/off] [a member number]
     -public
     -deactivateonpresence
+    -nickname [Name]
     
     >>>Speech Commands<<<
     -mute
@@ -76,6 +77,7 @@ function InitHelpMsg() {
     -asylum [nb of hours]
     *NEW*-restrainplay
     -owner [on/off] [a member number]
+    -nickname [Number] [Name]
     *NEW*INTENSE VERSION: -lockowner
     *NEW*INTENSE VERSION: -maid
     

@@ -31,52 +31,65 @@ function CursedCheckUp() {
         cursedConfig.onRestart = true;
     }
     
-    //Running the normal curse
-    if (ChatRoomSpace != "LARP" && !cursedConfig.onRestart) {
-        cursedConfig.wasLARPWarned = false;
+    //When it should be ran 
+    if (CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP") {
+        //Making sure all names are up-to-date
+        //Try catch in case the updated player is no longer there (extreme edge case)
+        try {
+            ChatRoomCharacter.forEach(char => {
+                let user = cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber);
+                if (user.length > 0) { 
+                    char.Name = user[0].Nickname;
+                }
+             });
+        } catch { console.log("failed to update a name") }
         
-        //Triggers the function for unverified messages
-        messagesToVerify.forEach(msg => {
-            AnalyzeMessage(msg);
+        //Running the normal curse
+        if (!cursedConfig.onRestart) {
+            cursedConfig.wasLARPWarned = false;
+        
+            //Triggers the function for unverified messages
+            messagesToVerify.forEach(msg => {
+                AnalyzeMessage(msg);
             
-            // Marks message as verified
-            var verifiedAtt = document.createAttribute("verified");
-            verifiedAtt.value = "true";
-            msg.setAttributeNode(verifiedAtt);
-        });
+                // Marks message as verified
+                var verifiedAtt = document.createAttribute("verified");
+                verifiedAtt.value = "true";
+                msg.setAttributeNode(verifiedAtt);
+            });
         
-        //Runs only if something happened
-        if (messagesToVerify.length > 0) {
-            // Appearance checks & punishment application outside of LARP
-            // Functions return true if something changed, so refresh or procs will notify with var
-            if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
-                //Reloads Char
+            //Runs only if something happened
+            if (messagesToVerify.length > 0) {
+                // Appearance checks & punishment application outside of LARP
+                // Functions return true if something changed, so refresh or procs will notify with var
+                if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
+                    //Reloads Char
+                    ChatRoomCharacterUpdate(Player);
+                    CharacterLoadEffect(Player);
+                    cursedConfig.mustRefresh = false;
+                }
+            }
+        }
+    
+        //Running the curse on restart for fairness
+        if (cursedConfig.onRestart) {
+            let oldLog = [...cursedConfig.chatlog];
+            let oldStrikes = cursedConfig.strikes;
+            //Process the required things
+            if (AppearanceCheck() || cursedConfig.mustRefresh) {
+                //Reloads Char for free
                 ChatRoomCharacterUpdate(Player);
                 CharacterLoadEffect(Player);
                 cursedConfig.mustRefresh = false;
-            }
-        }
-    }
-    
-    //Running the curse on restart for fairness
-    if (CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP" && cursedConfig.onRestart) { 
-        let oldLog = [...cursedConfig.chatlog];
-        let oldStrikes = cursedConfig.strikes;
-        //Process the required things
-        if (AppearanceCheck() || cursedConfig.mustRefresh) {
-            //Reloads Char for free
-            ChatRoomCharacterUpdate(Player);
-            CharacterLoadEffect(Player);
-            cursedConfig.mustRefresh = false;
             
-            //Resumes as normal
-            cursedConfig.chatlog = oldLog;
-            cursedConfig.strikes = oldStrikes;
-            popChatSilent("Your current curses have been applied with no punishments.");
+                //Resumes as normal
+                cursedConfig.chatlog = oldLog;
+                cursedConfig.strikes = oldStrikes;
+                popChatSilent("Your current curses have been applied with no punishments.");
+            }
+            cursedConfig.onRestart = false;
         }
-        cursedConfig.onRestart = false;
     }
-    
     // Saves if needed, strip not required data
     if (messagesToVerify.length > 0) {
         try { 

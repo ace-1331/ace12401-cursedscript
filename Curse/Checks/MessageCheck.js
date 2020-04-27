@@ -17,7 +17,7 @@ function AnalyzeMessage(msg) {
     if (types.contains("ChatMessageGlobal") || types.contains("ChatMessageLocalMessage")) {
         return;
     }
-
+    
     // Clears whisper text
     if (sender == Player.MemberNumber && (types.contains("ChatMessageWhisper") || types.contains("ChatMessageChat"))) {
         textmsg = textmsg.split(":")
@@ -25,8 +25,8 @@ function AnalyzeMessage(msg) {
         textmsg = textmsg.join(":");
     }
 
-    // Clears stuttering
-    textmsg = textmsg.replace(/[A-Za-z]-/g, "");
+    // Clears stuttering + * from emote and action
+    textmsg = textmsg.replace(/[A-Za-z]-/g, "").replace(/^\*/g, "").replace(/\*$/g, "");
 
     // Checks if player should be kneeling
     if (
@@ -61,6 +61,8 @@ function AnalyzeMessage(msg) {
                     sendWhisper(el, "(The curse is active. Command call id: " + commandCall + ")");
                 }
             });
+            // Pop saved messages while outside of room
+            popChatSilent();
             // Kneels if you have cursedcollar to prevent login issues
             if (cursedConfig.hasCursedKneel)
                 KneelAttempt();

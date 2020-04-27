@@ -37,6 +37,7 @@ function CursedStarter() {
             bannedWords: [],
             cursedItems: [],
             cursedAppearance: [],
+            nicknames: [],
             entryMsg: "",
             say: "",
             sound: "",
@@ -65,7 +66,7 @@ function CursedStarter() {
             onRestart: true,
         };
     
-        window.currentVersion = 20;
+        window.currentVersion = 21;
         window.oldStorage = null;
         window.oldVersion = null;
     

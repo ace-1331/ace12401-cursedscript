@@ -178,6 +178,14 @@ function MistressCommands({ command, sender, parameters }) {
                 }
             }
             break;
+        case "rename":
+            let nickname = parameters.join(" ");
+            if (nickname) {
+                cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != sender);
+                cursedConfig.nicknames.push({Number: sender, Nickname: nickname});
+                sendWhisper(sender, "New nickname for " + sender + " : " + nickname, true);
+            }
+            break;
         case "banfirstperson":
             if (parameters[0] == "on") {
                 cursedConfig.bannedWords.push('i', 'am', "myself", "me", "my", "mine");
