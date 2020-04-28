@@ -49,7 +49,6 @@ function CursedStarter() {
             
             strikes: 0,
             lastPunishmentAmount: 0,
-            lastWardrobeLock: 0,
             strikeStartTime: Date.now(),
             punishmentColor: "#222",
             punishmentsDisabled: false,
@@ -87,12 +86,20 @@ function CursedStarter() {
             //Load previous data, takes care of upgrades or downgrades
             cursedConfig = { ...cursedConfig, ...oldStorage };
             console.log(oldStorage, cursedConfig);
-            
+            if (oldVersion > currentVersion) { 
+                alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. Error: V03");
+            }
             if (oldVersion != currentVersion) {
+                localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
+                alert("IMPORTANT! Please make sure you refreshed your page after updating.");
+                
+                //Clean deprecated props
+                const toDelete = ["hasCursedBunny", "lastWardrobeLock"];
+                toDelete.forEach(prop => delete cursedConfig[prop]);
+                
+                //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
                 SendChat("The curse following " + Player.Name + " has changed.");
                 popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
-                localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
-                alert("IMPORTANT! Please make sure you refreshed your page after updating.")
             } else if (oldVersion == currentVersion) {
                 SendChat("The curse follows " + Player.Name + ".");
                 popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.");

@@ -141,7 +141,6 @@ function enforce(parameters, sender, isMistress) {
 //Checks if an item can be worn and if it can be but is not, returns true
 function itemIsAllowed(name, group) {
     if (
-        !InventoryGet(Player, group) &&
         !(InventoryGet(Player, group)
             && InventoryGet(Player, group).Asset
             && InventoryGet(Player, group).Asset.Name == name)

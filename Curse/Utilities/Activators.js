@@ -1,7 +1,12 @@
 //************************************  Curse Activations ************************************//
 function procGenericItem(item, group, color) {
     //Makes sure the player has the items
-    InventoryWear(Player, item, group, color);
+    if (!cursedConfig.genericProcs.includes(group)) {
+        cursedConfig.genericProcs.push(group);
+        InventoryWear(Player, item, group, color);
+    } else { 
+        popChatSilent("Error P04: the curse tried to apply more than one curse to the same group. Please report this issues and how it happened.");
+    }
     cursedConfig.mustRefresh = true;
 }
 
