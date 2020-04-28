@@ -26,6 +26,7 @@
                 "Curse/Checks/MessageCheck.js",
                 "Curse/Checks/PunishmentCheck.js",
                 "Curse/Checks/AppearanceCheck.js",
+                "Curse/Functions/All.js",
                 "Curse/Functions/Owner.js",
                 "Curse/Functions/Mistress.js",
                 "Curse/Functions/Public.js",

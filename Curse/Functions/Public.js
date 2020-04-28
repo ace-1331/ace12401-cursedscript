@@ -1,12 +1,7 @@
 function PublicCommands({
-    command, sender, commandCall,  parameters
+    command, sender, commandCall,  parameters, isOwner, isMistress
 }) { 
     switch (command) {
-        case "help":
-            sendWhisper(sender, `(To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. 
-            Commands are called with ${commandCall}, like "${commandCall} enforce on")`);
-            sendWhisper(sender, `(To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions )`);
-            break;
         case "asylumtimeleft":
             var oldLog = Log.filter(el => el.Name == "Committed");
             var timeLeft = oldLog.length > 0 ? oldLog[0].Value - CurrentTime : 0;
@@ -29,6 +24,13 @@ function PublicCommands({
         case "enforce":
             if (parameters.length == 1)
                 enforce(parameters, sender, false);
+            break;
+        case "nickname":
+            //Force update self
+            SetNickname([sender, parameters], sender, 1);
+            break;
+        case "allownickname":
+            DeleteNickname([sender], sender, 5);
             break;
     }
 }

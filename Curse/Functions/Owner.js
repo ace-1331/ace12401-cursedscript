@@ -111,17 +111,8 @@ function OwnerCommands({ command, parameters, sender }) {
             cursedConfig.bannedWords = [];
             sendWhisper(sender, "Banned words cleared.", true);
             break;
-        case "nickname":
-            if (!isNaN(parameters[0])) {
-                let userNumber = parseInt(parameters[0]);
-                parameters.shift();
-                let nickname = parameters.join(" ");
-                if (nickname) {
-                    cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != userNumber);
-                    cursedConfig.nicknames.push({Number: userNumber, Nickname: nickname});
-                    sendWhisper(sender, "New nickname for " + userNumber + " : " + nickname, true);
-                }
-            }
+        case "onickname":
+            SetNickname(parameters, sender, 3);
             break;
         case "forcedsay":
             if (

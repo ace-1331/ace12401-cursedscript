@@ -1,5 +1,10 @@
-function MistressCommands({ command, sender, parameters }) {
+function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
+        case "cursereport":
+            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid","punishmentsDisabled", "isLockedOwner"];
+            let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
+            sendWhisper(sender, report, true);
+            break;
         case "cursedearplugs":
             if (!cursedConfig.hasCursedEarplugs) {
                 SendChat("The curse arises on " + Player.Name + "'s earplugs.");
@@ -182,7 +187,7 @@ function MistressCommands({ command, sender, parameters }) {
             let nickname = parameters.join(" ");
             if (nickname) {
                 cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != sender);
-                cursedConfig.nicknames.push({Number: sender, Nickname: nickname});
+                cursedConfig.nicknames.push({ Number: sender, Nickname: nickname });
                 sendWhisper(sender, "New nickname for " + sender + " : " + nickname, true);
             }
             break;
@@ -255,6 +260,13 @@ function MistressCommands({ command, sender, parameters }) {
                     }
                 }
             }
+            break;
+        case "mnickname":
+            SetNickname(parameters, sender, 2);
+            break;
+        case "deletenickname":
+            //Force delete self
+            DeleteNickname(parameters, sender, isOwner ? 3 : 2);
             break;
     }
 }

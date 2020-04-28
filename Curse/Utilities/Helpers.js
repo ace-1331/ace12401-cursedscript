@@ -1,24 +1,34 @@
 //************************************  HELPERS ************************************//
 //Pop a message, will not if player is not in a room
-function popChatGlobal(actionTxt, isNormalTalk) { 
-    if (CurrentScreen == "ChatRoom") { 
-        ServerSend("ChatRoomChat", { Content: isNormalTalk ? actionTxt : `*(${actionTxt})`, Type: isNormalTalk ? "Chat" : "Emote" });
-    } 
+function popChatGlobal(actionTxt, isNormalTalk) {
+    if (CurrentScreen == "ChatRoom" && actionTxt != "") {
+        if (isNormalTalk) {
+            ServerSend("ChatRoomChat", { Content: actionTxt, Type: "Chat" });
+        } else {
+            ServerSend("ChatRoomChat", {
+                Content: "Beep", Type: "Action", Dictionary: [
+                    { Tag: "Beep", Text: "msg" },
+                    { Tag: "Biep", Text: "msg" },
+                    { Tag: "Sonner", Text: "msg" },
+                    { Tag: "msg", Text: actionTxt }]
+            });
+        }
+    }
 }
 
-function popChatSilent(actionTxt) { 
+function popChatSilent(actionTxt) {
     //Add to log
     if (!window.savedSilent) window.savedSilent = [];
     if (actionTxt) window.savedSilent.push(actionTxt);
-    
+
     //Save in log until player is in a room
-    if (CurrentScreen != "ChatRoom") { 
+    if (CurrentScreen != "ChatRoom") {
         return
     }
-    
+
     //Removes dupes
-    window.savedSilent = window.savedSilent.filter((m,i) => window.savedSilent.indexOf(m) === i);
-    
+    window.savedSilent = window.savedSilent.filter((m, i) => window.savedSilent.indexOf(m) === i);
+
     //Sends messages
     window.savedSilent.forEach(silentMsg => {
         //Directly sends to wearer
@@ -29,7 +39,7 @@ function popChatSilent(actionTxt) {
         div.setAttribute('verifed', "true");
         div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(Player.LabelColor) + ';');
         div.innerHTML = "SILENT: *" + silentMsg + "*";
-        
+
         //Refocus the chat to the bottom
         var Refocus = document.activeElement.id == "InputChat";
         var ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
@@ -39,18 +49,18 @@ function popChatSilent(actionTxt) {
             if (Refocus) ElementFocus("InputChat");
         }
     });
-    
+
     //Clears log
     window.savedSilent = [];
 }
 
 //Send a whisper
-function sendWhisper(target, msg, sendSelf, forceHide) { 
+function sendWhisper(target, msg, sendSelf, forceHide) {
     if (!isNaN(target)) {
         ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
         if (sendSelf) {
             popChatSilent(msg);
-        } else if (cursedConfig.hasForward && !forceHide) { 
+        } else if (cursedConfig.hasForward && !forceHide) {
             popChatSilent("Whisper sent to #" + target + ": " + msg);
         }
     }
@@ -62,26 +72,26 @@ function SendChat(actionTxt) {
     if (!cursedConfig.isSilent) {
         //Add to queue
         cursedConfig.chatlog.push(actionTxt);
-    } else { 
+    } else {
         popChatSilent(actionTxt);
     }
 }
 
 //Tries to kneel
-function KneelAttempt() { 
-    if (Player.CanKneel() && !Player.Pose.includes("Kneel")) { 
+function KneelAttempt() {
+    if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
         CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
         cursedConfig.mustRefresh = true;
     }
 }
 
 //Common Expression Triggers
-function triggerInPain() { 
+function triggerInPain() {
     CharacterSetFacialExpression(Player, "Blush", "High");
     CharacterSetFacialExpression(Player, "Eyebrows", "Soft");
     CharacterSetFacialExpression(Player, "Fluids", "TearsHigh");
     CharacterSetFacialExpression(Player, "Mouth", "Sad");
-    CharacterSetFacialExpression(Player, "Eyes", "Closed", 5); 
+    CharacterSetFacialExpression(Player, "Eyes", "Closed", 5);
 }
 
 function triggerInPleasure() {
@@ -89,46 +99,118 @@ function triggerInPleasure() {
     CharacterSetFacialExpression(Player, "Eyebrows", "Soft");
     CharacterSetFacialExpression(Player, "Fluids", "DroolMessy");
     CharacterSetFacialExpression(Player, "Mouth", "Ahegao");
-    CharacterSetFacialExpression(Player, "Eyes", "VeryLewd");  
+    CharacterSetFacialExpression(Player, "Eyes", "VeryLewd");
 }
 
 //Export/Import configs
-function cursedImport(curseSaveFile) { 
+function cursedImport(curseSaveFile) {
     cursedConfig = JSON.parse(curseSaveFile);
 }
 
-function cursedExport() { 
+function cursedExport() {
     return JSON.stringify(cursedConfig);
 }
 
 //Enforces someone
-function enforce(parameters, sender, isMistress) { 
+function enforce(parameters, sender, isMistress) {
     if (parameters.includes("on")) {
         if (!cursedConfig.enforced.includes(sender)) {
             cursedConfig.enforced.push(sender);
-            SendChat(Player.Name + " now has enforced protocols on #" + sender + (isMistress ? " has requested by her owner": "."));
+            SendChat(Player.Name + " now has enforced protocols on #" + sender + (isMistress ? " has requested by her owner" : "."));
         }
     } else if (parameters.includes("off")) {
         if (cursedConfig.enforced.includes(sender)) {
             cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(sender), 1)
-            SendChat(Player.Name + " no longer has enforced protocols on #" + sender + (isMistress ? " has requested by her owner": "."));
+            SendChat(Player.Name + " no longer has enforced protocols on #" + sender + (isMistress ? " has requested by her owner" : "."));
         }
     }
 }
 
 //Checks if an item can be worn and if it can be but is not, returns true
-function itemIsAllowed(name, group) { 
+function itemIsAllowed(name, group) {
     if (
         !InventoryGet(Player, group) &&
         !(InventoryGet(Player, group)
-        && InventoryGet(Player, group).Asset
-        && InventoryGet(Player, group).Asset.Name == name)
-    ) { 
+            && InventoryGet(Player, group).Asset
+            && InventoryGet(Player, group).Asset.Name == name)
+    ) {
         return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
     }
     return false;
 }
 
+//Nicknames
+//Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Self 5 - Remove self block
+function SetNickname(parameters, sender, priority) {
+    let shouldSendSelf = sender != Player.MemberNumber;
+    if (!cursedConfig.hasIntenseVersion) {
+        sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
+        return;
+    }
+    if (!isNaN(parameters[0])) {
+        let userNumber = parseInt(parameters[0]);
+        parameters.shift();
+        let nickname = parameters.join(" ");
+        if (nickname) {
+            let oldNickname = cursedConfig.nicknames.filter(u => u.Number == userNumber) || [];
+            if (oldNickname.length == 0 || (oldNickname.length > 0 && oldNickname[0].Priority <= priority)) {
+                cursedConfig.nicknames = cursedConfig.nicknames
+                    .filter(u => u.Number != userNumber);
+                cursedConfig.nicknames.push(
+                    { Number: userNumber, Nickname: nickname, Priority: priority, SavedName: oldNickname[0] && oldNickname[0].length > 0 ? oldNickname[0].SavedName : "" }
+                );
+                sendWhisper(
+                    sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
+                );
+            } else {
+                sendWhisper(
+                    sender, "(Permission denied.)", shouldSendSelf
+                );
+            }
+        }
+    }
+}
+
+function DeleteNickname(parameters, sender, priority) {
+    if (!isNaN(parameters[0])) {
+        let userNumber = parseInt(parameters[0]);
+        parameters.shift();
+        let oldNickname = cursedConfig.nicknames.filter(u => u.Number == userNumber) || [];
+        if (oldNickname.length > 0) {
+            if (oldNickname[0].Priority <= priority) {
+                //Restores name
+                try {
+                    ChatRoomCharacter.forEach(char => {
+                        if (oldNickname[0].userNumber == char.MemberNumber) {
+                            char.Name = oldNickname[0].SavedName;
+                        }
+                    });
+                } catch (e) { console.log(e,"failed to update a name") }
+                
+                //Delete nickname
+                cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != userNumber);
+                
+                //Block changing if removed self
+                if (priority == 4) {
+                    cursedConfig.nicknames.push(
+                        { Number: sender, Nickname: oldNickname[0].SavedName, Priority: 4, SavedName: oldNickname[0].SavedName }
+                    );
+                    sendWhisper( sender, "-->Deleted and blocked nickname for " + userNumber, true );
+                } else if (priority == 5) { 
+                    sendWhisper( sender, "-->Allowed nickname for " + userNumber, true );
+                }
+            } else {
+                sendWhisper(
+                    sender, "(Permission denied.)", true
+                );
+            }
+        } else {
+            sendWhisper(
+                sender, "(No nickname set for this character.)", true
+            );
+        }
+    }
+}
 // Card Deck
 var cardDeck = [];
 
@@ -147,7 +229,7 @@ function shuffle(a) {
     return a;
 }
 
-function shuffleDeck() { 
+function shuffleDeck() {
     cardDeck = [];
     const cardType = ["♥", "♦", "♠", "♣"];
     const cardNb = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
@@ -162,12 +244,12 @@ function shuffleDeck() {
     popChatGlobal("The deck was shuffled because it was empty or requested by the dealer");
 }
 
-function drawCard() { 
+function drawCard() {
     if (cardDeck.length == 0) shuffleDeck();
     return cardDeck.pop();
 }
 
-function drawCards(nbCards, players) { 
+function drawCards(nbCards, players) {
     //If no player was given, just draw X card to the current target
     players = players || [ChatRoomTargetMemberNumber.toString()];
     if (players[0] == null) {
@@ -176,7 +258,7 @@ function drawCards(nbCards, players) {
             drawnCards.push(drawCard());
         }
         popChatGlobal("You drew the following cards: " + drawnCards.join(" "));
-    } else { 
+    } else {
         for (let i = 0; i < nbCards; i++) {
             players.forEach(p => {
                 sendWhisper(p, "(The following card was drawn: " + drawCard() + ")", true);

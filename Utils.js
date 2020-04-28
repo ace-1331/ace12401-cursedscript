@@ -118,6 +118,11 @@ function CursedStarter() {
             cursedConfig.lastPunishmentAmount = 0;
         }
         
+        //Make sure the real owner is in the list
+        if (Player.Owner && !cursedConfig.owners.includes(Player.Ownership.MemberNumber.toString())) { 
+            cursedConfig.owners.push(Player.Ownership.MemberNumber.toString());
+        }
+        
         //Runs the script
         cursedConfig.isRunning = true;
         cursedConfig.onRestart = true;

@@ -12,6 +12,7 @@ window.addEventListener("load", e => {
     AddScript("Curse/Checks/MessageCheck.js");
     AddScript("Curse/Checks/PunishmentCheck.js");
     AddScript("Curse/Checks/AppearanceCheck.js");
+    AddScript("Curse/Functions/All.js");
     AddScript("Curse/Functions/Owner.js");
     AddScript("Curse/Functions/Mistress.js");
     AddScript("Curse/Functions/Public.js");

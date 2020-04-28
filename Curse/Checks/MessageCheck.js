@@ -7,8 +7,8 @@ function AnalyzeMessage(msg) {
     var sender = msg.getAttribute("data-sender");
     var chatroomMembers = ChatRoomCharacter.map(el => el.MemberNumber.toString());
     var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
-    var isMistress = cursedConfig.mistresses.includes(sender);
-    var isOwner = cursedConfig.owners.includes(sender);
+    var isMistress = cursedConfig.mistresses.includes(sender.toString());
+    var isOwner = cursedConfig.owners.includes(sender.toString());
     var isOnEntry = types.contains("ChatMessageEnterLeave") && sender == Player.MemberNumber;
     var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress)
@@ -17,7 +17,7 @@ function AnalyzeMessage(msg) {
     if (types.contains("ChatMessageGlobal") || types.contains("ChatMessageLocalMessage")) {
         return;
     }
-    
+
     // Clears whisper text
     if (sender == Player.MemberNumber && (types.contains("ChatMessageWhisper") || types.contains("ChatMessageChat"))) {
         textmsg = textmsg.split(":")
@@ -90,7 +90,7 @@ function AnalyzeMessage(msg) {
 
             //Wearer only command
             if (sender == Player.MemberNumber) {
-                WearerCommands({ command, parameters });
+                WearerCommands({ command, parameters, sender });
                 //Quit loop to prevent wearer from doing the rest (can't add self as owner)
                 return;
             }
@@ -108,13 +108,16 @@ function AnalyzeMessage(msg) {
 
             //Verify mistress for private commands
             if (isMistress || isOwner) {
-                MistressCommands({ command, sender, parameters });
+                MistressCommands({ command, sender, parameters, isOwner });
             }
 
             // Checks if public has access or mistress can do all
             if (cursedConfig.hasPublicAccess || isMistress || isOwner) {
-                PublicCommands({ command, sender, commandCall, parameters });
+                PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress });
             }
+            
+            //Perma commands for all
+            AllCommands({ command, sender, commandCall, parameters });
 
         } catch (err) { console.log(err) }
 
@@ -131,17 +134,15 @@ function AnalyzeMessage(msg) {
                         .filter(el => el.MemberNumber == memberNumber)[0].Name;
                     var requiredName = ['miss', 'mistress', 'goddess', 'owner']
                         .map(el => el + " " + Name.toLowerCase());
-
-                    var matches = [[...textmsg
+                    var matches = [...textmsg
                         .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", 'g'))
-                    ]];
+                    ];
                     if (!matches) matches = [];
                     var goodMatches = [];
                     requiredName.forEach(rn =>
-                        goodMatches.push([...textmsg.matchAll(new RegExp(rn, 'g'))])
-                    )
-
-                    if (matches[0].length > goodMatches.filter(el => el.length > 0).length) {
+                        goodMatches.push(...lowmsg.matchAll(new RegExp(rn, 'g')))
+                    );
+                    if (matches.length > goodMatches.length) {
                         SendChat(Player.Name + " angers the curse on her with her lack of respect.");
                         popChatSilent("Respecting " + memberNumber + " is required.");
                         cursedConfig.strikes += 7;
@@ -168,7 +169,7 @@ function AnalyzeMessage(msg) {
                     cursedConfig.say = "";
                 }
             }
-            
+
             //Cursed Speech
             if (
                 cursedConfig.hasCursedSpeech
@@ -176,9 +177,9 @@ function AnalyzeMessage(msg) {
                 && (!types.contains("ChatMessageChat") || Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0)
             ) {
                 let badWords = cursedConfig.bannedWords.filter(word => (
-                        textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
+                    textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
                     ));
-                
+
                 if (badWords.length != 0) {
                     SendChat(Player.Name + " angers the curse on her.");
                     popChatSilent("Bad girl. Bad word(s) used: " + badWords.join(", "));

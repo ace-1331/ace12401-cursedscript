@@ -13,6 +13,8 @@ function InitHelpMsg() {
     -showowners
     -showenforced
     -showblacklist
+    -shownicknames
+    *NEW*-configreport
     
     >>> Config Commands <<<
     -issilent
@@ -24,6 +26,11 @@ function InitHelpMsg() {
     *NEW*-punishmentcolor ["#colorcode"]
     *NEW*-forwardall
 
+    >>> Other Commands <<<
+    *NEW*INTENSE V:-nickname [Number] [Name]
+    *NEW*INTENSE V:-deletenickname [Number] [Name]
+    -draw [nb of cards] [players]
+    -shuffle
     
     //PUBLIC FUNCTIONS//
     -help
@@ -31,20 +38,22 @@ function InitHelpMsg() {
     -punish
     -edge
     -asylumtimeleft
-    -draw [nb of cards] [players]
-    -shuffle
-
+    *NEW*INTENSE V:-nickname [Name]
+    *NEW*INTENSE V:-blocknickname
+    *NEW*INTENSE V:-allownickname
     
     //MISTRESS FUNCTIONS//
     >>> Basic Commands<<<
     -kneel
+    *NEW*-cursereport
     *NEW*-showstrikes
     *NEW*-changestrikes [+/- nb strikes]
     -enforce [on/off] [a member number]
     -mistress [on/off] [a member number]
     -public
     -deactivateonpresence
-    -nickname [Name]
+    *NEW*INTENSE V:-mnickname [Number] [Name]
+    *NEW*INTENSE V:-deletenickname [Number]
     
     >>>Speech Commands<<<
     -mute
@@ -77,7 +86,7 @@ function InitHelpMsg() {
     -asylum [nb of hours]
     *NEW*-restrainplay
     -owner [on/off] [a member number]
-    -nickname [Number] [Name]
+    *NEW*INTENSE V:-onickname [Number] [Name]
     *NEW*INTENSE VERSION: -lockowner
     *NEW*INTENSE VERSION: -maid
     
@@ -92,6 +101,10 @@ function InitHelpMsg() {
     
     >>>Curses<<<
     -cursedbelt
+    ---------
+    More on nicknames:
+    https://github.com/ace-1331/
+    ace12401-cursedscript/wiki/Nicknames
     ---------
     Made by ace (12401) - Ace__#5558
     Official release: V${currentVersion} 

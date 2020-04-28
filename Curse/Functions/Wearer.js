@@ -1,5 +1,10 @@
-function WearerCommands({ command, parameters }) {
+function WearerCommands({ command, parameters, sender }) {
     switch (command) {
+        case "configreport":
+            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion"];
+            let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
+            popChatSilent(sender, report, true);
+            break;
         case "forwardall":
             if (!cursedConfig.hasForward)
                 popChatSilent("Your curse will forward all whispers to you.");
@@ -32,8 +37,11 @@ function WearerCommands({ command, parameters }) {
         case "showowners":
             popChatSilent("Your owners: #" + cursedConfig.owners.join(" #"));
             break;
+        case "shownicknames":
+            popChatSilent("Currently set nicknames: " + cursedConfig.nicknames.map(n => n.Number + ": " + n.Nickname + " (Priority: " + n.Priority + ")").join(", "));
+            break;
         case "speechreport":
-            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${ cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
+            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
             break;
         case "owner":
             if (cursedConfig.hasRestrainedPlay) {
@@ -41,7 +49,7 @@ function WearerCommands({ command, parameters }) {
                 return;
             }
             if (parameters[0] == "on") {
-                if (!isNaN(parameters[1])  && !cursedConfig.owners.includes(parameters[1])) {
+                if (!isNaN(parameters[1]) && !cursedConfig.owners.includes(parameters[1])) {
                     cursedConfig.owners.push(parameters[1]);
                     SendChat(
                         Player.Name + " now has a new owner (#" + parameters[1] + ")."
@@ -67,7 +75,7 @@ function WearerCommands({ command, parameters }) {
                 return;
             }
             if (parameters[0] == "on") {
-                if (!isNaN(parameters[1])  && !cursedConfig.mistresses.includes(parameters[1])) {
+                if (!isNaN(parameters[1]) && !cursedConfig.mistresses.includes(parameters[1])) {
                     cursedConfig.mistresses.push(parameters[1]);
                     SendChat(
                         Player.Name + " now has a new mistress (#" + parameters[1] + ")."
@@ -120,6 +128,12 @@ function WearerCommands({ command, parameters }) {
             break;
         case "shuffle":
             shuffleDeck();
+            break;
+        case "nickname":
+            SetNickname(parameters, sender, 0);
+            break;
+        case "deletenickname":
+            DeleteNickname(parameters, sender, 0);
             break;
     }
 }

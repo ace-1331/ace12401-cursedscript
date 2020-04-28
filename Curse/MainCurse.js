@@ -36,10 +36,14 @@ function CursedCheckUp() {
         //Making sure all names are up-to-date
         //Try catch in case the updated player is no longer there (extreme edge case)
         try {
+            //Save real name, restores if curse is not running
             ChatRoomCharacter.forEach(char => {
                 let user = cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber);
                 if (user.length > 0) { 
-                    char.Name = user[0].Nickname;
+                    if (char.Name != user[0].Nickname) { 
+                        cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
+                    }
+                    char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning ? user[0].Nickname : user[0].SavedName;
                 }
              });
         } catch { console.log("failed to update a name") }
