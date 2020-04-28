@@ -140,7 +140,6 @@ function enforce(parameters, sender, isMistress) {
 
 //Checks if an item can be worn and if it can be but is not, returns true
 function itemIsAllowed(name, group) {
-    console.log(name, group, !InventoryGet(Player, group))
     if (
         !InventoryGet(Player, group) &&
         !(InventoryGet(Player, group)

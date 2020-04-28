@@ -140,7 +140,7 @@ function AnalyzeMessage(msg) {
                     if (!matches) matches = [];
                     var goodMatches = [];
                     requiredName.forEach(rn =>
-                        goodMatches.push(...lowmsg.matchAll(new RegExp(rn, 'g')))
+                        goodMatches.push(...textmsg.matchAll(new RegExp(rn, 'g')))
                     );
                     if (matches.length > goodMatches.length) {
                         SendChat(Player.Name + " angers the curse on her with her lack of respect.");
