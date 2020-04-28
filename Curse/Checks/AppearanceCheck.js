@@ -148,7 +148,7 @@ function AppearanceCheck() {
                 || itemIsAllowed("LatexBallMuzzleGag", "ItemMouth")
                 || itemIsAllowed("BoxTieArmbinder", "ItemArms")
                 || itemIsAllowed("LatexCorset1", "ItemTorso")
-                || itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")
+                /*|| itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")*/
             )) {
             SendChat("The cursed latex embraces " + Player.Name + ".");
             procCursedLatex();
@@ -165,7 +165,7 @@ function AppearanceCheck() {
                 || itemIsAllowed("ArmbinderJacket", "ItemArms")
                 || itemIsAllowed("LeatherLegCuffs", "ItemLegs")
                 || itemIsAllowed("LatexCorset1", "ItemTorso")
-                || itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")
+                /*|| itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")*/
             )) {
             SendChat("The curse keeps " + Player.Name + " as a pony.");
             procCursedPony();

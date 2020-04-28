@@ -1,6 +1,12 @@
 //************************************  HELPERS ************************************//
 //Pop a message, will not if player is not in a room
 function popChatGlobal(actionTxt, isNormalTalk) {
+    if (actionTxt.length > 1000) {
+        actionTxt = actionTxt.substring(0, 1000);
+        cursedConfig.hadOverflowMsg = true;
+        popChatSilent("(The curse tried to send a message longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: C01)");
+    }
+    
     if (CurrentScreen == "ChatRoom" && actionTxt != "") {
         if (isNormalTalk) {
             ServerSend("ChatRoomChat", { Content: actionTxt, Type: "Chat" });
@@ -56,6 +62,12 @@ function popChatSilent(actionTxt) {
 
 //Send a whisper
 function sendWhisper(target, msg, sendSelf, forceHide) {
+    if (msg.length > 1000) {
+        msg = msg.substring(0, 1000);
+        cursedConfig.hadOverflowMsg = true;
+        popChatSilent("(The curse tried to send a whisper longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: W02)");
+    }
+    
     if (!isNaN(target)) {
         ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
         if (sendSelf) {
@@ -128,6 +140,7 @@ function enforce(parameters, sender, isMistress) {
 
 //Checks if an item can be worn and if it can be but is not, returns true
 function itemIsAllowed(name, group) {
+    console.log(name, group, !InventoryGet(Player, group))
     if (
         !InventoryGet(Player, group) &&
         !(InventoryGet(Player, group)
@@ -140,7 +153,7 @@ function itemIsAllowed(name, group) {
 }
 
 //Nicknames
-//Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Self 5 - Remove self block
+//Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Blocked 5 - Remove self block
 function SetNickname(parameters, sender, priority) {
     let shouldSendSelf = sender != Player.MemberNumber;
     if (!cursedConfig.hasIntenseVersion) {
@@ -150,7 +163,8 @@ function SetNickname(parameters, sender, priority) {
     if (!isNaN(parameters[0])) {
         let userNumber = parseInt(parameters[0]);
         parameters.shift();
-        let nickname = parameters.join(" ");
+        console.log(parameters, parameters.join(" "))
+        let nickname = parameters.join(" ").replace(/[,]/g, ' ');
         if (nickname) {
             let oldNickname = cursedConfig.nicknames.filter(u => u.Number == userNumber) || [];
             if (oldNickname.length == 0 || (oldNickname.length > 0 && oldNickname[0].Priority <= priority)) {

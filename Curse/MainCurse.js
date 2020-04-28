@@ -43,7 +43,7 @@ function CursedCheckUp() {
                     if (char.Name != user[0].Nickname) { 
                         cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
                     }
-                    char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning ? user[0].Nickname : user[0].SavedName;
+                    char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) ? user[0].Nickname : user[0].SavedName;
                 }
              });
         } catch { console.log("failed to update a name") }

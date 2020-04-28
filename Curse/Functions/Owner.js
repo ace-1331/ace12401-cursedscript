@@ -31,6 +31,10 @@ function OwnerCommands({ command, parameters, sender }) {
                 sendWhisper(sender, "(Wearer is now able to add/remove mistresses and owners.)", true);
             cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
             break;
+        case "note":
+            localStorage.setItem(`bc-cursedNote-${Player.MemberNumber}`, parameters.join(" "));
+            sendWhisper(sender, "(Note saved.)", true)
+            break;
         case "maid":
             if (!cursedConfig.hasIntenseVersion) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
