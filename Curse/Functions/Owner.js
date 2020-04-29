@@ -112,7 +112,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
                 return;
             }
-            cursedConfig.sound = parameters[0];
+            cursedConfig.sound = parameters[0].replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ");
             sendWhisper(sender, "New sound: " + cursedConfig.sound, true);
             break;
         case "clearwords":
