@@ -65,7 +65,7 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 
 - IMPORTANT NOTE ON PERSISTANCE: even though there are ways to circumvent how data is stored on your character, the public version contains no code that would allow that to spare the servers and respect the "no cheat" policy. To have your configurations persist between sessions, you need to be on the same device/browser. However, there is an import and an export function available to use. Run "cursedExport()" in the console and save the whole string it gives you wherever you want. On the next browser you can use the command "cursedImport("yourgivenstringhere")" to import your configs. This will allow you to carry over your configurations between versions of the club, devices or browsers.
 
-### The list of functions is located in the wiki
+### The list of functions and various features is located in the wiki
 https://github.com/ace-1331/ace12401-cursedscript/wiki
 
 ### Contributions
@@ -75,6 +75,6 @@ I recommend talking to me first before doing anything to get some tips and to ma
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: #20**
+**Official release: #21**
 
 **THIS PAGE WAS LAST EDITED ON 25-04-2020**
