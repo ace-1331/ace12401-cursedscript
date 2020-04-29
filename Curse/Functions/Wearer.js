@@ -3,7 +3,7 @@ function WearerCommands({ command, parameters, sender }) {
         case "configreport":
             let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
-            popChatSilent(sender, report, true);
+            popChatSilent(report);
             break;
         case "forwardall":
             if (!cursedConfig.hasForward)

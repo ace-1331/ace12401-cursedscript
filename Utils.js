@@ -35,7 +35,7 @@ function CursedStarter() {
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             enforced: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
-            blacklist: [...Player.BlackList],
+            blacklist: [],
             bannedWords: [],
             cursedItems: [],
             cursedAppearance: [],
