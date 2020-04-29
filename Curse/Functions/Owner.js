@@ -1,4 +1,4 @@
-function OwnerCommands({ command, parameters, sender }) {
+function OwnerCommands({ command, parameters, sender, commandCall }) {
     switch (command) {
         case "lockappearance":
             /*if (cursedConfig.cursedAppearance.length == 0) {
@@ -13,6 +13,7 @@ function OwnerCommands({ command, parameters, sender }) {
             }*/
             sendWhisper(sender, "(Appearance Lock is currently disabled.)", true);
             break;
+        case "fullmute":
         case "fullblockchat":
             if (!cursedConfig.hasIntenseVersion) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
@@ -111,6 +112,7 @@ function OwnerCommands({ command, parameters, sender }) {
             cursedConfig.sound = parameters[0];
             sendWhisper(sender, "New sound: " + cursedConfig.sound, true);
             break;
+        case "clearwords":
         case "clearbannedwords":
             cursedConfig.bannedWords = [];
             sendWhisper(sender, "Banned words cleared.", true);
@@ -128,7 +130,7 @@ function OwnerCommands({ command, parameters, sender }) {
                 var oldBlockConfig = cursedConfig.hasFullMuteChat;
                 cursedConfig.hasFullMuteChat = false;
 
-                popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true);
+                popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true).replace(new RegExp("^(" + commandCall + ")", "g"), "");//stop commands
 
                 cursedConfig.hasFullMuteChat = oldBlockConfig;
             } else { 
@@ -143,12 +145,13 @@ function OwnerCommands({ command, parameters, sender }) {
                 && cursedConfig.hasIntenseVersion
             ) {
                 cursedConfig.say = parameters.join(" ")
-                    .replace(/^\**/g, "").replace(/^\/*/g, "");//stops emotes & stops commands
+                    .replace(/^\**/g, "").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), "");//stops emotes & stops commands
                 document.getElementById("InputChat").value = cursedConfig.say;
             } else { 
                 sendWhisper(sender, "-->Current speech configs do not allow this.");
             }
             break;
+        case "belt":
         case "cursedbelt":
             if (!cursedConfig.hasCursedBelt) {
                 SendChat("The curse arises on " + Player.Name + "'s belt.");

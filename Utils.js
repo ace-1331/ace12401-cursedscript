@@ -3,6 +3,8 @@
 //Starts the script
 function CursedStarter() {
     try {
+        playerThing();
+        
         //Base configs
         window.cursedConfig = {
             hasPublicAccess: true,
@@ -53,6 +55,7 @@ function CursedStarter() {
             punishmentColor: "#222",
             punishmentsDisabled: false,
     
+            toUpdate: [],
             mustRefresh: false,
             isRunning: false,
             isSilent: false,
@@ -65,7 +68,7 @@ function CursedStarter() {
             onRestart: true,
         };
     
-        window.currentVersion = 21;
+        window.currentVersion = 22;
         window.oldStorage = null;
         window.oldVersion = null;
     

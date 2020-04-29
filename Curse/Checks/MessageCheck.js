@@ -74,6 +74,7 @@ function AnalyzeMessage(msg) {
         (types.contains("ChatMessageChat") || types.contains("ChatMessageWhisper"))
         && textmsg.toLowerCase().indexOf(commandCall.toLowerCase()) != -1
         && cursedConfig.blacklist.indexOf(sender) == -1
+        && Player.BlackList.filter( u => u == sender).length == 0
     ) {
         // Parses the command
         var command;
@@ -83,7 +84,7 @@ function AnalyzeMessage(msg) {
             command = commandString.split(" ")[0];
             parameters = commandString.split(" ");
             parameters.shift();//THROWS HERE IF COMMAND IS BAD
-
+            
             //Defaults to on
             if (parameters.length == 0)
                 parameters.push("on");
@@ -103,7 +104,7 @@ function AnalyzeMessage(msg) {
 
             // Verifies owner for private commands
             if (isOwner) {
-                OwnerCommands({ command, parameters, sender });
+                OwnerCommands({ command, parameters, sender, commandCall });
             }
 
             //Verify mistress for private commands

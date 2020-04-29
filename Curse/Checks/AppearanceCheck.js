@@ -1,5 +1,6 @@
 //IMPORTANT: Returns true if character needs refresh when using something else than an activator
 function AppearanceCheck() { 
+    playerThing();
     var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && (
             (cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere)
@@ -150,7 +151,8 @@ function AppearanceCheck() {
                 || itemIsAllowed("BoxTieArmbinder", "ItemArms")
                 || itemIsAllowed("LatexCorset1", "ItemTorso")
                 /*|| itemIsAllowed("CollarShockUnit", "ItemNeckAccessories")*/
-            )) {
+            )
+        ) {
             SendChat("The cursed latex embraces " + Player.Name + ".");
             procCursedLatex();
             cursedConfig.strikes += 2;

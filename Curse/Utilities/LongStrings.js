@@ -21,8 +21,8 @@ function InitHelpMsg() {
     -blacklist [on/off] [a member number]
     -mistress [on/off] [a member number]
     -owner [on/off] [a member number]
-    -changecommandchar [! / & / $ / #]
-    -changeidentifier [new identifier]
+    -commandchar [! / & / $ / #]
+    -identifier [new identifier]
     *NEW*-punishmentcolor ["#colorcode"]
     *NEW*-forwardall
 
@@ -61,22 +61,22 @@ function InitHelpMsg() {
     -banword [on/off] [the word itself]
     -banbegging [on/off]
     -banfirstperson [on/off]
-    -clearbannedwords
+    -clearwords
     
     >>>Curses<<<
-    -cursedclothes
-    -cursedorgasms
-    -cursedlatex 
-    -cursedpony
-    -cursedcollar
-    -cursedmittens
-    -cursedgag 
-    -cursedblindfold
-    -cursedhood
-    -cursedearplugs
-    -curseddildogag
-    -cursedpanties
-    -cursedscrews
+    -naked
+    -vibes
+    -latex 
+    -pony
+    -collar
+    -mittens
+    -gag 
+    -blindfold
+    -hood
+    -earplugs
+    -dildogag
+    -panties
+    -screws
     
     
     //OWNER FUNCTIONS//
@@ -95,16 +95,16 @@ function InitHelpMsg() {
     -entrymessage [sentence]
     INTENSE V: -forcedsay [sentence]
     INTENSE V: -say [sentence]
-    INTENSE V: -fullblockchat
+    INTENSE V: -fullmute
     *NEW*INTENSE V: -enablesound
     *NEW*INTENSE V: -sound ["oink", "meow", ...]
     
     >>>Curses<<<
-    -cursedbelt
+    -belt
     ---------
-    More on nicknames:
+    More on various features:
     https://github.com/ace-1331/
-    ace12401-cursedscript/wiki/Nicknames
+    ace12401-cursedscript/wiki
     ---------
     Made by ace (12401) - Ace__#5558
     Official release: V${currentVersion} 

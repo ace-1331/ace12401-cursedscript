@@ -9,6 +9,8 @@ function CursedCheckUp() {
     if (CurrentScreen == "ChatRoom") {
         messagesToVerify = document.querySelectorAll('.ChatMessage:not([verified=true]');
         
+        playerThing();
+        
         //Verifies if a mistress is here
         if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
             cursedConfig.mistressIsHere = false;
@@ -26,7 +28,7 @@ function CursedCheckUp() {
                     ? cursedConfig.ownerIsHere = true : ''
             );
         }
-        
+
         //Making sure all names are up-to-date
         //Try catch in case the updated player is no longer there (extreme edge case)
         try {
@@ -37,7 +39,7 @@ function CursedCheckUp() {
                     if (char.Name != user[0].Nickname && !user[0].SavedName) {
                         cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
                     }
-                    char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) ? user[0].Nickname : user[0].SavedName;
+                    char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
                 }
             });
         } catch { console.log("failed to update a name") }
@@ -72,13 +74,22 @@ function CursedCheckUp() {
                     // Functions return true if something changed, so refresh or procs will notify with var
                     if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
                         //Reloads Char
-                        ChatRoomCharacterUpdate(Player);
                         CharacterLoadEffect(Player);
+                        ChatRoomCharacterUpdate(Player);
+                        /*let before = cursedConfig.toUpdate.length;
+                        cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
+                        if (before - cursedConfig.toUpdate.length > 0) {
+                            popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01");
+                        }
+                        cursedConfig.toUpdate.forEach(group => {
+                            ChatRoomCharacterItemUpdate(Player, group);
+                        });*/
                         cursedConfig.mustRefresh = false;
+                        cursedConfig.toUpdate = [];
                     }
                 }
             }
-
+            
             //Running the curse on restart for fairness
             if (cursedConfig.onRestart) {
                 let oldLog = [...cursedConfig.chatlog];
@@ -86,10 +97,18 @@ function CursedCheckUp() {
                 //Process the required things
                 if (AppearanceCheck() || cursedConfig.mustRefresh) {
                     //Reloads Char for free
-                    ChatRoomCharacterUpdate(Player);
                     CharacterLoadEffect(Player);
+                    ChatRoomCharacterUpdate(Player);
+                    /*let before = cursedConfig.toUpdate.length;
+                    cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
+                    if (before - cursedConfig.toUpdate.length > 0) {
+                        popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01");
+                    }
+                    cursedConfig.toUpdate.forEach(group => {
+                        ChatRoomCharacterItemUpdate(Player, group);
+                    });*/
                     cursedConfig.mustRefresh = false;
-
+                    cursedConfig.toUpdate = [];
                     //Resumes as normal
                     cursedConfig.chatlog = oldLog;
                     cursedConfig.strikes = oldStrikes;
@@ -99,12 +118,12 @@ function CursedCheckUp() {
             }
         }
     }
-    
+
     // Saves if needed, strip not required data
     if (messagesToVerify.length > 0) {
         try {
             const dbConfigs = { ...cursedConfig };
-            const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs"];
+            const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate"];
             toDelete.forEach(prop => delete dbConfigs[prop]);
             localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
         } catch { }
@@ -117,6 +136,7 @@ function CursedCheckUp() {
 
 // Chat sender queue loop
 function ChatlogProcess() {
+    playerThing();
     //Optimizes send times, removes fast dupes, keeps the order, does not work while restarting
     let purged = 0;
     if (cursedConfig.chatlog.length != 0 && !cursedConfig.onRestart) {
@@ -134,7 +154,7 @@ function ChatlogProcess() {
     if (cursedConfig.chatStreak > 5 || purged > 3) {
         cursedConfig.isRunning = false;
         cursedConfig.chatlog = [];
-        popChatSilent("WARNING: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord");
+        popChatSilent("ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord");
     }
     setTimeout(ChatlogProcess, 500);
 }

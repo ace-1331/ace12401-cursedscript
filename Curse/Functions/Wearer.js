@@ -105,10 +105,12 @@ function WearerCommands({ command, parameters, sender }) {
                 }
             }
             break;
+        case "identifier":
         case "changeidentifier":
             cursedConfig.slaveIdentifier = parameters.join(" ");
             popChatSilent("Your wearer identifier was changed to: " + cursedConfig.slaveIdentifier);
             break;
+        case "commandchar":
         case "changecommandchar":
             if (["!", "@", "#", "$"].includes(parameters[0])) {
                 cursedConfig.commandChar = parameters[0];
