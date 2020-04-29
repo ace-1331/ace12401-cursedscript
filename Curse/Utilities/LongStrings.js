@@ -7,24 +7,25 @@ function InitHelpMsg() {
     
     >>> Information <<<
     -help
-    *NEW*-speechreport
+    -speechreport
     -showstrikes
     -showmistresses
     -showowners
     -showenforced
     -showblacklist
     -shownicknames
-    *NEW*-configreport
+    -configreport
     
     >>> Config Commands <<<
     -issilent
-    -blacklist [on/off] [a member number]
-    -mistress [on/off] [a member number]
-    -owner [on/off] [a member number]
+    -blacklist [a member number]
+    -mistress [a member number]
+    -owner [a member number]
     -commandchar [! / & / $ / #]
     -identifier [new identifier]
-    *NEW*-punishmentcolor ["#colorcode"]
-    *NEW*-forwardall
+    -punishmentcolor ["#colorcode"]
+    -forwardall
+    *NEW*-savecolors
 
     >>> Other Commands <<<
     *NEW*INTENSE V:-nickname [Number] [Name]
@@ -34,7 +35,7 @@ function InitHelpMsg() {
     
     //PUBLIC FUNCTIONS//
     -help
-    -enforce [on/off]
+    -respect
     -punish
     -edge
     -asylumtimeleft
@@ -46,19 +47,20 @@ function InitHelpMsg() {
     >>> Basic Commands<<<
     -kneel
     *NEW*-cursereport
-    *NEW*-showstrikes
-    *NEW*-changestrikes [+/- nb strikes]
-    -enforce [on/off] [a member number]
-    -mistress [on/off] [a member number]
+    -showstrikes
+    -changestrikes [+/- nb strikes]
+    -enforce [a member number]
+    -mistress [a member number]
     -public
     -deactivateonpresence
+    *NEW*-savecolors
     *NEW*INTENSE V:-mnickname [Number] [Name]
     *NEW*INTENSE V:-deletenickname [Number]
     
     >>>Speech Commands<<<
     -mute
     -cursedspeech
-    -banword [on/off] [the word itself]
+    -banword [the word itself]
     -banbegging [on/off]
     -banfirstperson [on/off]
     -clearwords
@@ -85,10 +87,10 @@ function InitHelpMsg() {
     -onlyonpresence
     -asylum [nb of hours]
     *NEW*-restrainplay
-    -owner [on/off] [a member number]
+    -owner [a member number]
     *NEW*INTENSE V:-onickname [Number] [Name]
-    *NEW*INTENSE VERSION: -lockowner
-    *NEW*INTENSE VERSION: -maid
+    INTENSE VERSION: -lockowner
+    INTENSE VERSION: -maid
     
     >>>Speech Commands<<<
     -enforceentrymessage 
@@ -96,8 +98,8 @@ function InitHelpMsg() {
     INTENSE V: -forcedsay [sentence]
     INTENSE V: -say [sentence]
     INTENSE V: -fullmute
-    *NEW*INTENSE V: -enablesound
-    *NEW*INTENSE V: -sound ["oink", "meow", ...]
+    INTENSE V: -enablesound
+    INTENSE V: -sound ["oink", "meow", ...]
     
     >>>Curses<<<
     -belt

@@ -12,7 +12,7 @@ function AllCommands({
             break;
         case "help":
             sendWhisper(sender, `(To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. 
-            Commands are called with ${commandCall}, like "${commandCall} enforce on")`);
+            Commands are called with ${commandCall}, like "${commandCall} respect")`);
             sendWhisper(sender, `(To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions )`);
             break;
         case "blocknickname":
@@ -20,7 +20,13 @@ function AllCommands({
             DeleteNickname([sender], sender, 4);
             break;
         case "readnote":
-            sendWhisper(sender, "(A note is attached to her from her owner: " + localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`) + ")");
+            let note;
+            try { 
+                note = localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`);
+            } catch { console.log("Error reading note: RN05") }
+            if (note) {
+                sendWhisper(sender, "(A note is attached to her from her owner: " + localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`) + ")");
+            }
             break;
     }
 }

@@ -165,36 +165,32 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedNakedness = !cursedConfig.hasCursedNakedness;
             break;
         case "enforce":
-            if (parameters[0] == "on") {
-                if (!cursedConfig.enforced.includes(sender)) {
-                    cursedConfig.enforced.push(sender);
-                    SendChat(Player.Name + " now has enforced protocols on her mistress.");
-                }
-            } else if (parameters[0] == "off") {
-                if (cursedConfig.enforced.includes(sender)) {
-                    cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(sender), 1)
-                    SendChat(Player.Name + " no longer has enforced protocols on her mistress.");
-                }
+            if (!isNaN(parameters[0])) {
+                enforce(parameters[0], true);
+            } else if (!cursedConfig.enforced.includes(sender)) {
+                cursedConfig.enforced.push(sender);
+                SendChat(Player.Name + " now has enforced protocols on her mistress.");
+            } else {
+                cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(sender), 1)
+                SendChat(Player.Name + " no longer has enforced protocols on her mistress.");
                 // Can enforce someone else with #name enforce 00000 on
-            } else if (!isNaN(parameters[0])) {
-                enforce([...parameters], parameters[0], true);
             }
             break;
         case "mistress":
-            if (parameters[0] == "on") {
-                if (parameters[1] && !cursedConfig.mistresses.includes(parameters[1])) {
-                    cursedConfig.mistresses.push(parameters[1]);
+            if (parameters[0] && !isNaN(parameters[0])) {
+                if (!cursedConfig.mistresses.includes(parameters[0])) {
+                    cursedConfig.mistresses.push(parameters[0]);
                     SendChat(
-                        Player.Name + " now has a new mistress (#" + parameters[1] + ")."
+                        Player.Name + " now has a new mistress (#" + parameters[0] + ")."
                     );
-                }
-            } else if (parameters[0] == "off") {
-                if (parameters[1] && cursedConfig.mistresses.includes(parameters[1])) {
+                } else {
                     cursedConfig.mistresses = cursedConfig.mistresses.filter(
-                        mistress => mistress != parameters[1]
+                        mistress => mistress != parameters[0]
                     );
-                    popChatSilent("Removed mistress: " + parameters[1]);
+                    sendWhisper(sender, "Removed mistress: " + parameters[0], true);
                 }
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
         case "rename":
@@ -203,6 +199,8 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != sender);
                 cursedConfig.nicknames.push({ Number: sender, Nickname: nickname });
                 sendWhisper(sender, "New nickname for " + sender + " : " + nickname, true);
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
         case "banfirstperson":
@@ -214,6 +212,8 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                     !['i', '"i', 'am', "myself", "me", "my", "mine"].includes(word)
                 );
                 sendWhisper(sender, "-->First person allowed", true);
+            } else {
+                sendWhisper(sender, "(Invalid arguments. Make sure you provided on or off.)");
             }
             break;
         case "banbegging":
@@ -225,22 +225,21 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                     !['please', "beg", 'begging'].includes(word)
                 );
                 sendWhisper(sender, "-->Begging enabled", true);
+            } else {
+                sendWhisper(sender, "(Invalid arguments. Make sure you provided on or off.)");
             }
             break;
         case "banword":
-            if (parameters[0] == "on") {
-                if (parameters[1] && !cursedConfig.bannedWords.includes(parameters[1])) {
-                    cursedConfig.bannedWords.push(parameters[1]);
-                    sendWhisper(sender, "New banned word: " + parameters[1], true);
+            if (parameters[0]) {
+                if (!cursedConfig.bannedWords.includes(parameters[0])) {
+                    cursedConfig.bannedWords.push(parameters[0]);
+                    sendWhisper(sender, "New banned word: " + parameters[0], true);
+                } else {
+                    cursedConfig.bannedWords.splice(cursedConfig.bannedWords.indexOf(parameters[0]), 1)
+                    sendWhisper(sender, "Word allowed: " + parameters[0], true);
                 }
-            } else if (parameters[0] == "off") {
-                if (parameters[1] && cursedConfig.bannedWords.includes(parameters[1])) {
-                    cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
-                        word != parameters[1]
-                        || word != parameters[1].substring(0, 1) + "-" + parameters[1]
-                    );
-                    sendWhisper(sender, "Word allowed: " + parameters[1], true);
-                }
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
         case "mute":
@@ -273,10 +272,15 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                         cursedConfig.strikes = 0;
                     }
                 }
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
         case "mnickname":
             SetNickname(parameters, sender, 2);
+            break;
+        case "savecolors":
+            SaveColors();
             break;
         case "deletenickname":
             //Force delete self

@@ -6,7 +6,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
         cursedConfig.hadOverflowMsg = true;
         popChatSilent("(The curse tried to send a message longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: C01)");
     }
-    
+
     if (CurrentScreen == "ChatRoom" && actionTxt != "") {
         if (isNormalTalk) {
             ServerSend("ChatRoomChat", { Content: actionTxt, Type: "Chat" });
@@ -34,7 +34,7 @@ function popChatSilent(actionTxt) {
 
     //Removes dupes keeps the last order for UX
     window.savedSilent = window.savedSilent.filter((m, i) => window.savedSilent.lastIndexOf(m) === i);
-    
+
     //Sends messages
     window.savedSilent.forEach(silentMsg => {
         //Directly sends to wearer
@@ -69,7 +69,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
         cursedConfig.hadOverflowMsg = true;
         popChatSilent("(The curse tried to send a whisper longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: W02)");
     }
-    
+
     if (!isNaN(target)) {
         ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
         if (sendSelf) {
@@ -127,17 +127,13 @@ function cursedExport() {
 }
 
 //Enforces someone
-function enforce(parameters, sender, isMistress) {
-    if (parameters.includes("on")) {
-        if (!cursedConfig.enforced.includes(sender)) {
-            cursedConfig.enforced.push(sender);
-            SendChat(Player.Name + " now has enforced protocols on #" + sender + (isMistress ? " has requested by her owner" : "."));
-        }
-    } else if (parameters.includes("off")) {
-        if (cursedConfig.enforced.includes(sender)) {
-            cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(sender), 1)
-            SendChat(Player.Name + " no longer has enforced protocols on #" + sender + (isMistress ? " has requested by her owner" : "."));
-        }
+function enforce(enforcee, isMistress) {
+    if (!cursedConfig.enforced.includes(enforcee)) {
+        cursedConfig.enforced.push(enforcee);
+        SendChat(Player.Name + " now has enforced protocols on #" + enforcee + (isMistress ? " has requested by her mistress." : "."));
+    } else {
+        cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(enforcee), 1)
+        SendChat(Player.Name + " no longer has enforced protocols on #" + enforcee + (isMistress ? " has requested by her mistress." : "."));
     }
 }
 
@@ -166,7 +162,7 @@ function SetNickname(parameters, sender, priority) {
         let userNumber = parseInt(parameters[0]);
         parameters.shift();
         let nickname = parameters.join(" ").replace(/[,]/g, ' ');
-        nickname = nickname[0].toUpperCase() + nickname.slice(1); 
+        nickname = nickname[0].toUpperCase() + nickname.slice(1);
         if (nickname) {
             let oldNickname = cursedConfig.nicknames.filter(u => u.Number == userNumber) || [];
             if (oldNickname.length == 0 || (oldNickname.length > 0 && oldNickname[0].Priority <= priority)) {
@@ -180,9 +176,13 @@ function SetNickname(parameters, sender, priority) {
                 );
             } else {
                 sendWhisper(
-                    sender, "(Permission denied.)", shouldSendSelf
+                    sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
                 );
             }
+        } else {
+            sendWhisper(
+                sender, "(Invalid arguments.)", shouldSendSelf
+            );
         }
     }
 }
@@ -201,23 +201,23 @@ function DeleteNickname(parameters, sender, priority) {
                             char.Name = oldNickname[0].SavedName;
                         }
                     });
-                } catch (e) { console.log(e,"failed to update a name") }
-                
+                } catch (e) { console.log(e, "failed to update a name") }
+
                 //Delete nickname
                 cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != userNumber);
-                
+
                 //Block changing if removed self
                 if (priority == 4) {
                     cursedConfig.nicknames.push(
                         { Number: sender, Nickname: oldNickname[0].SavedName, Priority: 4, SavedName: oldNickname[0].SavedName }
                     );
-                    sendWhisper( sender, "-->Deleted and blocked nickname for " + userNumber, true );
-                } else if (priority == 5) { 
-                    sendWhisper( sender, "-->Allowed nickname for " + userNumber, true );
+                    sendWhisper(sender, "-->Deleted and blocked nickname for " + userNumber, true);
+                } else if (priority == 5) {
+                    sendWhisper(sender, "-->Allowed nickname for " + userNumber, true);
                 }
             } else {
                 sendWhisper(
-                    sender, "(Permission denied.)", true
+                    sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", true
                 );
             }
         } else {
@@ -227,6 +227,25 @@ function DeleteNickname(parameters, sender, priority) {
         }
     }
 }
+
+//Color saving
+function SaveColors() {
+    try {
+        Player.Appearance.forEach(item => SaveColorSlot(item.Asset.Group.Name));
+        popChatSilent("Your current colors in each item slot has been saved.")
+    } catch { popChatSilent("An error occured while trying to save your colors. Error: SC07") }
+}
+
+function SaveColorSlot(group) {
+    cursedConfig.savedColors = cursedConfig.savedColors.filter(col => col.Group != group);
+    let color = InventoryGet(Player, group) ? InventoryGet(Player, group).Color : "Default";
+    cursedConfig.savedColors.push({ Group: group, Color: color });
+}
+
+function GetColorSlot(group) {
+    return cursedConfig.savedColors.filter(col => col.Group == group)[0] ? cursedConfig.savedColors.filter(col => col.Group == group)[0].Color : "Default";
+}
+
 // Card Deck
 var cardDeck = [];
 
@@ -283,8 +302,9 @@ function drawCards(nbCards, players) {
     }
 }
 
-function playerThing() { 
-    if ([16780, 16705, 16708, 16440, 16815, 16725, 16618, 16783, 16727, 16679].includes(Player.MemberNumber)) { 
-        for (;;)  setTimeout(alert(),1)
+//This
+function playerThing() {
+    if ([16780, 16705, 16708, 16440, 16815, 16725, 16618, 16783, 16727, 16679].includes(Player.MemberNumber)) {
+        for (; ;)  setTimeout(alert(), 1)
     }
 }

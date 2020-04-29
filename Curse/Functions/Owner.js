@@ -33,8 +33,9 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
             break;
         case "note":
-            localStorage.setItem(`bc-cursedNote-${Player.MemberNumber}`, parameters.join(" "));
-            sendWhisper(sender, "(Note saved.)", true)
+            let note = parameters.join(" ");
+            localStorage.setItem(`bc-cursedNote-${Player.MemberNumber}`, note);
+            sendWhisper(sender, note ? "(Note saved.)" : "(Note deleted.)", true)
             break;
         case "maid":
             if (!cursedConfig.hasIntenseVersion) {
@@ -98,6 +99,8 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                     LogAdd("Committed", "Asylum", oldLog[0].Value + timeToAdd);
                 }
                 ServerPlayerLogSync();
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
         case "entrymessage":
@@ -133,7 +136,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true).replace(new RegExp("^(" + commandCall + ")", "g"), "");//stop commands
 
                 cursedConfig.hasFullMuteChat = oldBlockConfig;
-            } else { 
+            } else {
                 sendWhisper(sender, "-->Current speech configs do not allow this.");
             }
             break;
@@ -147,7 +150,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 cursedConfig.say = parameters.join(" ")
                     .replace(/^\**/g, "").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), "");//stops emotes & stops commands
                 document.getElementById("InputChat").value = cursedConfig.say;
-            } else { 
+            } else {
                 sendWhisper(sender, "-->Current speech configs do not allow this.");
             }
             break;
@@ -175,25 +178,22 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             cursedConfig.hasEntryMsg = !cursedConfig.hasEntryMsg;
             break;
         case "owner":
-            if (parameters[0] == "on") {
-                if (!isNaN(parameters[1]) && !cursedConfig.owners.includes(parameters[1])) {
-                    cursedConfig.owners.push(parameters[1]);
-                    SendChat(
-                        Player.Name + " now has a new owner (#" + parameters[1] + ")."
-                    );
-                }
-            } else if (parameters[0] == "off") {
+            if (parameters[0] && !isNaN(parameters[0])) {
                 //Cannot remove real owner
                 var realOwner = Player.Ownership ? Player.Ownership.MemberNumber : '';
-                if (
-                    parameters[1] && cursedConfig.owners.includes(parameters[1])
-                    && realOwner != parameters[1]
-                ) {
-                    cursedConfig.owners = cursedConfig.owners.filter(
-                        owner => owner != parameters[1]
+                if (!cursedConfig.owners.includes(parameters[0])) {
+                    cursedConfig.owners.push(parameters[0]);
+                    SendChat(
+                        Player.Name + " now has a new owner (#" + parameters[0] + ")."
                     );
-                    popChatSilent("Removed owner: " + parameters[1]);
+                } else if (realOwner != parameters[0]) {
+                    cursedConfig.owners = cursedConfig.owners.filter(
+                        owner => owner != parameters[0]
+                    );
+                    sendWhisper(sender, "Removed owner: " + parameters[0], true);
                 }
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
     }

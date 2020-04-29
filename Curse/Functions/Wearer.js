@@ -48,25 +48,22 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Your owner disabled this command.");
                 return;
             }
-            if (parameters[0] == "on") {
-                if (!isNaN(parameters[1]) && !cursedConfig.owners.includes(parameters[1])) {
-                    cursedConfig.owners.push(parameters[1]);
-                    SendChat(
-                        Player.Name + " now has a new owner (#" + parameters[1] + ")."
-                    );
-                }
-            } else if (parameters[0] == "off") {
+            if (parameters[0] && !isNaN(parameters[0])) {
                 //Cannot remove real owner
                 var realOwner = Player.Ownership ? Player.Ownership.MemberNumber : '';
-                if (
-                    parameters[1] && cursedConfig.owners.includes(parameters[1])
-                    && realOwner != parameters[1]
-                ) {
-                    cursedConfig.owners = cursedConfig.owners.filter(
-                        owner => owner != parameters[1]
+                if (!cursedConfig.owners.includes(parameters[0])) {
+                    cursedConfig.owners.push(parameters[0]);
+                    SendChat(
+                        Player.Name + " now has a new owner (#" + parameters[0] + ")."
                     );
-                    popChatSilent("Removed owner: " + parameters[1]);
+                } else if (realOwner != parameters[0]) {
+                    cursedConfig.owners = cursedConfig.owners.filter(
+                        owner => owner != parameters[0]
+                    );
+                    popChatSilent("Removed owner: " + parameters[0]);
                 }
+            } else {
+                popChatSilent("(Invalid arguments.)");
             }
             break;
         case "mistress":
@@ -74,35 +71,35 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Your owner disabled this command.");
                 return;
             }
-            if (parameters[0] == "on") {
-                if (!isNaN(parameters[1]) && !cursedConfig.mistresses.includes(parameters[1])) {
-                    cursedConfig.mistresses.push(parameters[1]);
+            if (parameters[0] && !isNaN(parameters[0])) {
+                if (!cursedConfig.mistresses.includes(parameters[0])) {
+                    cursedConfig.mistresses.push(parameters[0]);
                     SendChat(
-                        Player.Name + " now has a new mistress (#" + parameters[1] + ")."
+                        Player.Name + " now has a new mistress (#" + parameters[0] + ")."
                     );
-                }
-            } else if (parameters[0] == "off") {
-                if (parameters[1] && cursedConfig.mistresses.includes(parameters[1])) {
+                } else {
                     cursedConfig.mistresses = cursedConfig.mistresses.filter(
-                        mistress => mistress != parameters[1]
+                        mistress => mistress != parameters[0]
                     );
-                    popChatSilent("Removed mistress: " + parameters[1]);
+                    popChatSilent("Removed mistress: " + parameters[0]);
                 }
+            } else {
+                popChatSilent("Invalid Arguments.");
             }
             break;
         case "blacklist":
-            if (parameters[0] == "on") {
-                if (parameters[1] && !cursedConfig.blacklist.includes(parameters[1])) {
-                    cursedConfig.blacklist.push(parameters[1]);
-                    popChatSilent("Added to blacklist: " + parameters[1]);
-                }
-            } else if (parameters[0] == "off") {
-                if (parameters[1] && cursedConfig.blacklist.includes(parameters[1])) {
+            if (parameters[0] && !isNaN(parameters[0]) && parameters[0] != sender) {
+                if (!cursedConfig.blacklist.includes(parameters[0])) {
+                    cursedConfig.blacklist.push(parameters[0]);
+                    popChatSilent("Added to blacklist: " + parameters[0]);
+                } else {
                     cursedConfig.blacklist = cursedConfig.blacklist.filter(
-                        blacklist => blacklist != parameters[1]
+                        blacklist => blacklist != parameters[0]
                     );
-                    popChatSilent("Removed from blacklist: " + parameters[1]);
+                    popChatSilent("Removed from blacklist: " + parameters[0]);
                 }
+            } else {
+                popChatSilent("Invalid Arguments.");
             }
             break;
         case "identifier":
@@ -130,6 +127,9 @@ function WearerCommands({ command, parameters, sender }) {
             break;
         case "shuffle":
             shuffleDeck();
+            break;
+        case "savecolors":
+            SaveColors();
             break;
         case "nickname":
             SetNickname(parameters, sender, 0);

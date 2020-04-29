@@ -13,9 +13,8 @@ function PublicCommands({
             triggerInPleasure();
             KneelAttempt();
             break;
-        case "enforce":
-            if (parameters.length == 1)
-                enforce(parameters, sender, false);
+        case "respect":
+            enforce(sender, false);
             break;
         case "nickname":
             //Force update self

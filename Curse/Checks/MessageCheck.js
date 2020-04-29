@@ -30,15 +30,11 @@ function AnalyzeMessage(msg) {
 
     // Checks if player should be kneeling
     if (
-        types.contains("ChatMessageEnterLeave") && isOnEntry
-        && sender != Player.MemberNumber && Player.CanKneel() && isActivated
+        (types.contains("ChatMessageEnterLeave") && cursedConfig.enforced.includes(sender) || isOnEntry && chatroomMembers.some( el => cursedConfig.enforced.includes(el)))
+        && Player.CanKneel() 
+        && (!Player.Pose.includes("Kneel") || !Player.Pose.includes("ForceKneel"))
     ) {
-        if (
-            [...cursedConfig.enforced, ...cursedConfig.mistresses, ...cursedConfig.owners]
-                .includes(sender + "")
-        ) {
-            checkKneeling(sender);
-        }
+        checkKneeling(sender);
     }
 
     // Sends intro if the wearer has one
@@ -52,12 +48,12 @@ function AnalyzeMessage(msg) {
 
     // Sends activated messages to an owner who enters or if the wearer entered
     if (types.contains("ChatMessageEnterLeave")) {
-        if (cursedConfig.owners.includes(sender) && chatroomMembers.includes(sender)) {
+        if ((cursedConfig.owners.includes(sender) || cursedConfig.mistresses.includes(sender)) && chatroomMembers.includes(sender)) {
             sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");
-        }
+        } 
         if (sender == Player.MemberNumber) {
             chatroomMembers.forEach(el => {
-                if (cursedConfig.owners.includes(el)) {
+                if (cursedConfig.owners.includes(el) || cursedConfig.mistresses.includes(el)) {
                     sendWhisper(el, "(The curse is active. Command call id: " + commandCall + ")");
                 }
             });
@@ -84,10 +80,6 @@ function AnalyzeMessage(msg) {
             command = commandString.split(" ")[0];
             parameters = commandString.split(" ");
             parameters.shift();//THROWS HERE IF COMMAND IS BAD
-            
-            //Defaults to on
-            if (parameters.length == 0)
-                parameters.push("on");
 
             //Wearer only command
             if (sender == Player.MemberNumber) {
@@ -115,6 +107,8 @@ function AnalyzeMessage(msg) {
             // Checks if public has access or mistress can do all
             if (cursedConfig.hasPublicAccess || isMistress || isOwner) {
                 PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress });
+            } else {
+                sendWhisper(sender, "(Public access is currently disabled.)")
             }
             
             //Perma commands for all
@@ -129,8 +123,8 @@ function AnalyzeMessage(msg) {
         if (sender == Player.MemberNumber) {
             //Reinforcement
             cursedConfig.enforced.forEach(memberNumber => {
-                if (ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(memberNumber) && textmsg.indexOf("silent: *") == -1) {
-                    var Name = ChatRoomCharacter
+                if (ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(memberNumber)) {
+                    var Name = cursedConfig.nicknames.filter(u => u.Number == memberNumber)[0] ? cursedConfig.nicknames.filter(u => u.Number == memberNumber)[0].SavedName : "" || ChatRoomCharacter
                         .map(el => { return { MemberNumber: el.MemberNumber, Name: el.Name } })
                         .filter(el => el.MemberNumber == memberNumber)[0].Name;
                     var requiredName = ['miss', 'mistress', 'goddess', 'owner']

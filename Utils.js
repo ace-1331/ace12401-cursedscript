@@ -39,6 +39,7 @@ function CursedStarter() {
             bannedWords: [],
             cursedItems: [],
             cursedAppearance: [],
+            savedColors: [],
             nicknames: [],
             entryMsg: "",
             say: "",
