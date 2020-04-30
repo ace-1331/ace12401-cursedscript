@@ -158,7 +158,7 @@ function SetNickname(parameters, sender, priority) {
         sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
         return;
     }
-    if (!isNaN(parameters[0])) {
+    if (!isNaN(parameters[0]) && parameters[0] != "") {
         let userNumber = parseInt(parameters[0]);
         parameters.shift();
         let nickname = parameters.join(" ").replace(/[,]/g, ' ');
@@ -184,11 +184,16 @@ function SetNickname(parameters, sender, priority) {
                 sender, "(Invalid arguments.)", shouldSendSelf
             );
         }
+    } else {
+        sendWhisper(
+            sender, "(Invalid arguments.)", shouldSendSelf
+        );
     }
 }
 
 function DeleteNickname(parameters, sender, priority) {
-    if (!isNaN(parameters[0])) {
+    let shouldSendSelf = sender != Player.MemberNumber;
+    if (!isNaN(parameters[0]) && parameters[0] != "") {
         let userNumber = parseInt(parameters[0]);
         parameters.shift();
         let oldNickname = cursedConfig.nicknames.filter(u => u.Number == userNumber) || [];
@@ -211,20 +216,24 @@ function DeleteNickname(parameters, sender, priority) {
                     cursedConfig.nicknames.push(
                         { Number: sender, Nickname: oldNickname[0].SavedName, Priority: 4, SavedName: oldNickname[0].SavedName }
                     );
-                    sendWhisper(sender, "-->Deleted and blocked nickname for " + userNumber, true);
+                    sendWhisper(sender, "-->Deleted and blocked nickname for " + userNumber, shouldSendSelf);
                 } else if (priority == 5) {
-                    sendWhisper(sender, "-->Allowed nickname for " + userNumber, true);
+                    sendWhisper(sender, "-->Allowed nickname for " + userNumber, shouldSendSelf);
                 }
             } else {
                 sendWhisper(
-                    sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", true
+                    sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
                 );
             }
         } else {
             sendWhisper(
-                sender, "(No nickname set for this character.)", true
+                sender, "(No nickname set for this character.)", shouldSendSelf
             );
         }
+    } else {
+        sendWhisper(
+            sender, "(Invalid arguments.)", shouldSendSelf
+        );
     }
 }
 

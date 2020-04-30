@@ -22,6 +22,7 @@
             "all_frames": true,
             "js": [ 
                 "Curse/MainCurse.js",
+                "Curse/Checks/SelfMessageCheck.js",
                 "Curse/Checks/MessageCheck.js",
                 "Curse/Checks/PunishmentCheck.js",
                 "Curse/Checks/AppearanceCheck.js",

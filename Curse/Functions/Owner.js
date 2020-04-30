@@ -80,7 +80,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
             break;
         case "asylum":
-            if (!isNaN(parameters[0])) {
+            if (!isNaN(parameters[0]) && parameters[0] != "") {
                 //Calculate time
                 var timeToAdd = 6000000 * parameters[0];
                 SendChat(Player.Name + " has more time to spend in the asylum.");
@@ -104,7 +104,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "entrymessage":
-            cursedConfig.entryMsg = parameters.join(" ");
+            cursedConfig.entryMsg = parameters.join(" ").replace(/(~)|(")|(!)|(\*)|(\?)|(\/)/g, " ");
             sendWhisper(sender, "New entry message: " + cursedConfig.entryMsg, true);
             break;
         case "sound":

@@ -24,4 +24,21 @@ function InitAlteredFns() {
             MainHallMaid.Stage = "10";
         } else MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
     }
+    
+    //Wearer tap in chat
+    let backupChatRoomSendChat = ChatRoomSendChat;
+    ChatRoomSendChat = () => {
+        var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+            && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
+        
+        var msg = ElementValue("InputChat").trim();
+        var m = msg.toLowerCase().trim();
+        if (msg != "" && m.indexOf("/") != 0 && isActivated) { 
+            if (SelfMessageCheck(msg)) { 
+                document.getElementById('InputChat').value = "";
+                return;
+            }
+        }
+        backupChatRoomSendChat();
+    }
 }

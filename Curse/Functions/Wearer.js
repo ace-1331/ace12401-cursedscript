@@ -1,4 +1,5 @@
 function WearerCommands({ command, parameters, sender }) {
+    let r = false;
     switch (command) {
         case "configreport":
             let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion"];
@@ -137,5 +138,11 @@ function WearerCommands({ command, parameters, sender }) {
         case "deletenickname":
             DeleteNickname(parameters, sender, 0);
             break;
+        default:
+            //notifies no commands were found
+            r = true;
+            break
+            
     }
+    return r;
 }

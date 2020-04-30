@@ -83,7 +83,7 @@ function AnalyzeMessage(msg) {
 
             //Wearer only command
             if (sender == Player.MemberNumber) {
-                WearerCommands({ command, parameters, sender });
+                //WearerCommands({ command, parameters, sender });
                 //Quit loop to prevent wearer from doing the rest (can't add self as owner)
                 return;
             }
@@ -121,82 +121,10 @@ function AnalyzeMessage(msg) {
 
         //Stuff that only applies to self
         if (sender == Player.MemberNumber) {
-            //Reinforcement
-            cursedConfig.enforced.forEach(memberNumber => {
-                if (ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(memberNumber)) {
-                    var Name = cursedConfig.nicknames.filter(u => u.Number == memberNumber)[0] ? cursedConfig.nicknames.filter(u => u.Number == memberNumber)[0].SavedName : "" || ChatRoomCharacter
-                        .map(el => { return { MemberNumber: el.MemberNumber, Name: el.Name } })
-                        .filter(el => el.MemberNumber == memberNumber)[0].Name;
-                    var requiredName = ['miss', 'mistress', 'goddess', 'owner']
-                        .map(el => el + " " + Name.toLowerCase());
-                    var matches = [...textmsg
-                        .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", 'g'))
-                    ];
-                    if (!matches) matches = [];
-                    var goodMatches = [];
-                    requiredName.forEach(rn =>
-                        goodMatches.push(...textmsg.matchAll(new RegExp(rn, 'g')))
-                    );
-                    if (matches.length > goodMatches.length) {
-                        SendChat(Player.Name + " angers the curse on her with her lack of respect.");
-                        popChatSilent("Respecting " + memberNumber + " is required.");
-                        cursedConfig.strikes += 7;
-                    }
-                }
-            });
-
             //Mute
             if (cursedConfig.isMute && textmsg.length != 0 && types.contains("ChatMessageChat")) {
                 SendChat(Player.Name + " angers the curse by speaking when she is not allowed to.");
                 cursedConfig.strikes += 5;
-            }
-
-            //Should say
-            if (cursedConfig.say != "" && types.contains("ChatMessageChat") && !cursedConfig.hasFullMuteChat) {
-                if (
-                    textmsg.trim() != cursedConfig.say.toLowerCase().trim()
-                    && Player.Effect.filter(ef => ef.indexOf("Gag") != -1).length == 0
-                ) {
-                    popChatSilent("You were punished for not saying the expected sentence willingly: " + cursedConfig.say);
-                    document.getElementById("InputChat").value = cursedConfig.say;
-                    cursedConfig.strikes += 2;
-                } else {
-                    cursedConfig.say = "";
-                }
-            }
-
-            //Cursed Speech
-            if (
-                cursedConfig.hasCursedSpeech
-                && textmsg.indexOf("silent: *") == -1
-                && (!types.contains("ChatMessageChat") || Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0)
-            ) {
-                let badWords = cursedConfig.bannedWords.filter(word => (
-                    textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
-                    ));
-
-                if (badWords.length != 0) {
-                    SendChat(Player.Name + " angers the curse on her.");
-                    popChatSilent("Bad girl. Bad word(s) used: " + badWords.join(", "));
-                    cursedConfig.strikes += 5;
-                }
-            }
-
-            //Cursed Sound
-            if (
-                cursedConfig.hasSound
-                && cursedConfig.hasIntenseVersion
-                && textmsg.indexOf("silent: *") == -1
-                && textmsg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").split(" ")
-                    .filter(w => {
-                        return !(new RegExp("^" + cursedConfig.sound.split("").map(el => el + "*").join("") + "$", "g")).test(w);
-                    }).length > 0
-                && types.contains("ChatMessageChat")
-                && Player.Effect.filter(E => E.indexOf("Gag") != -1).length == 0
-            ) {
-                SendChat(Player.Name + " angers the curse on her.");
-                popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
-                cursedConfig.strikes++;
             }
         }
     }

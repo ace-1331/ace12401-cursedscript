@@ -9,6 +9,7 @@ window.addEventListener("load", e => {
     
     AddScript("Utils.js");
     AddScript("Curse/MainCurse.js");
+    AddScript("Curse/Checks/SelfMessageCheck.js");
     AddScript("Curse/Checks/MessageCheck.js");
     AddScript("Curse/Checks/PunishmentCheck.js");
     AddScript("Curse/Checks/AppearanceCheck.js");

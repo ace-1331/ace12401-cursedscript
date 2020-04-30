@@ -165,7 +165,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedNakedness = !cursedConfig.hasCursedNakedness;
             break;
         case "enforce":
-            if (!isNaN(parameters[0])) {
+            if (!isNaN(parameters[0]) && parameters[0] != "") {
                 enforce(parameters[0], true);
             } else if (!cursedConfig.enforced.includes(sender)) {
                 cursedConfig.enforced.push(sender);
@@ -263,7 +263,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             sendWhisper(sender, Player.Name + " has accumulated a total of " + cursedConfig.strikes + " strikes.");
             break;
         case "changestrikes":
-            if (!isNaN(parameters[0])) {
+            if (!isNaN(parameters[0]) && parameters[0] != "") {
                 var strikesToAdd = parseInt(parameters[0]);
                 if (strikesToAdd != 0) {
                     cursedConfig.strikes += strikesToAdd;
