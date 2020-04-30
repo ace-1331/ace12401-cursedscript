@@ -94,7 +94,7 @@ function CursedStarter() {
             onRestart: true,
         };
 
-        window.currentVersion = 22;
+        window.currentVersion = 23;
         window.oldStorage = null;
         window.oldVersion = null;
 
