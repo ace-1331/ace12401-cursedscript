@@ -1,9 +1,11 @@
 function SelfMessageCheck(msg) {
     //Returns true if the message cannot be sent
     let r = false;
-    //Clears OOC
+    
+    //Clears stuff
     originalMsg = msg;
     msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
+    if (msg == "") return false;
     
     //Parse Commands
     var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();

@@ -33,8 +33,8 @@ function InitAlteredFns() {
         
         var msg = ElementValue("InputChat").trim();
         var m = msg.toLowerCase().trim();
-        if (msg != "" && m.indexOf("/") != 0 && isActivated) { 
-            if (SelfMessageCheck(msg)) { 
+        if (m != "" && m.indexOf("/") != 0 && isActivated) { 
+            if (SelfMessageCheck(m)) { 
                 document.getElementById('InputChat').value = "";
                 return;
             }
