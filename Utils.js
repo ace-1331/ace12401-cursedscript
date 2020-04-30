@@ -20,6 +20,7 @@ async function LoginListener() {
             isLoaded = true;
             CursedStarter();
         } catch { };
+        await new Promise(r => setTimeout(r, 2000));
     }
 }
 
@@ -113,7 +114,16 @@ function CursedStarter() {
         } else {
             //Load previous data, takes care of upgrades or downgrades
             cursedConfig = { ...cursedConfig, ...oldStorage };
-            console.log(oldStorage, cursedConfig);
+
+            //Set name immediately
+            let user = cursedConfig.nicknames.filter(c => c.Number == Player.MemberNumber);
+            if (user.length > 0) {
+                if (Player.Name != user[0].Nickname && !user[0].SavedName) {
+                    cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = Player.Name;
+                }
+                Player.Name = cursedConfig.hasIntenseVersion && ChatRoomSpace != "LARP" ? user[0].Nickname : user[0].SavedName;
+            }
+
             if (oldVersion > currentVersion) {
                 alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. Error: V03");
             }

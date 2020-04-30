@@ -3,9 +3,13 @@ function procGenericItem(item, group) {
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
-        InventoryWear(Player, item, group, GetColorSlot(group));
-        cursedConfig.toUpdate.push(group);
-        cursedConfig.mustRefresh = true;
+        if (!InventoryGet(Player, group)) {
+            InventoryWear(Player, item, group, GetColorSlot(group));
+            cursedConfig.toUpdate.push(group);
+            cursedConfig.mustRefresh = true;
+        } else { 
+            popChatSilent("The curse is active, but did not apply the item as there was already something there.");
+        }
     } else { 
         popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)");
         cursedConfig.isRunning = false;
