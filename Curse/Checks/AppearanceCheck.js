@@ -108,12 +108,7 @@ function AppearanceCheck() {
         //Cursed Orgasms
         if (
             cursedConfig.hasCursedOrgasm
-            && (!InventoryGet(Player, "ItemButt")
-                || !InventoryGet(Player, "ItemVulva")
-                || !InventoryGet(Player, "ItemNipples")
-                || !InventoryGet(Player, "ItemVulvaPiercings")
-                || !InventoryGet(Player, "ItemNipplesPiercings")
-                || (
+            && ((
                     InventoryGet(Player, "ItemButt").Asset.Name == "InflVibeButtPlug"
                     && (!InventoryGet(Player, "ItemButt").Property ||
                         InventoryGet(Player, "ItemButt").Property.Intensity != 4
