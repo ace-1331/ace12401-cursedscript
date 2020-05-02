@@ -170,6 +170,21 @@ function AppearanceCheck() {
             procCursedPony();
             cursedConfig.strikes += 2;
         }
+
+        //Cursed ropes
+        if (
+            cursedConfig.hasCursedRopes
+            && (
+                itemIsAllowed("HempRope", "ItemArms")
+                || itemIsAllowed("HempRope", "ItemLegs")
+                || itemIsAllowed("HempRope", "ItemFeet")
+            )
+        ) {
+            SendChat(`The cursed ropes embraces ${Player.Name}.`);
+            procCursedRopes();
+            cursedConfig.strikes += 2;
+        }
+
     }
     return r;
 }
