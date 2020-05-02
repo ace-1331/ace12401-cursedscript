@@ -127,6 +127,16 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 SendChat("The ponycurse lets go of " + Player.Name + ".");
             cursedConfig.hasCursedPony = !cursedConfig.hasCursedPony;
             break;
+        case "rope":
+            if (!cursedConfig.hasCursedRopes) {
+                SendChat(`The cursed ropes embraces ${Player.Name}.`);
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
+                procCursedRopes();
+            } else
+                SendChat(`The cursed ropes lets go of ${Player.Name}.`);
+            cursedConfig.hasCursedRopes = !cursedConfig.hasCursedRopes;
+            break;
         case "screws":
         case "cursedscrews":
             if (!cursedConfig.hasCursedScrews) {
@@ -285,18 +295,6 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
         case "deletenickname":
             //Force delete self
             DeleteNickname(parameters, sender, isOwner ? 3 : 2);
-            break;
-        case "rope":
-            if (!cursedConfig.hasCursedRopes) {
-                SendChat(`The cursed ropes embraces ${Player.Name}.`);
-                cursedConfig.hasCursedLatex = false;
-                cursedConfig.hasCursedPony = false;
-                cursedConfig.hasCursedNakedness = false;
-                cursedConfig.hasCursedPanties = false;
-                procCursedRopes();
-            } else
-                SendChat(`The cursed ropes lets go of ${Player.Name}.`);
-            cursedConfig.hasCursedRopes = !cursedConfig.hasCursedRopes;
             break;
 
     }
