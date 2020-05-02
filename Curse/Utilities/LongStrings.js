@@ -72,6 +72,7 @@ function InitHelpMsg() {
     -pony
     -collar
     -mittens
+    -paws
     -gag
     -blindfold
     -hood

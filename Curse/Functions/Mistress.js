@@ -37,11 +37,21 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
         case "mittens":
         case "cursedmittens":
             if (!cursedConfig.hasCursedMittens) {
+                cursedConfig.hasCursedPaws = false;
                 SendChat("The curse arises on " + Player.Name + "'s mittens.");
-                procGenericItem("PawMittens", "ItemHands");
+                procGenericItem("LeatherMittens", "ItemHands");
             } else
                 SendChat("The curse on " + Player.Name + "'s mittens disappears.");
             cursedConfig.hasCursedMittens = !cursedConfig.hasCursedMittens;
+            break;
+        case "paws":
+            if (!cursedConfig.hasCursedPaws) {
+                cursedConfig.hasCursedMittens = false;
+                SendChat(`The curse arises on ${Player.Name}'s paws.`);
+                procGenericItem("PawMittens", "ItemHands");
+            } else
+                SendChat(`The curse on ${Player.Name}'s paws disappears.`);
+            cursedConfig.hasCursedPaws = !cursedConfig.hasCursedPaws;
             break;
         case "panties":
         case "cursedpanties":

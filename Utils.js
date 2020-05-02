@@ -49,6 +49,7 @@ function CursedStarter() {
             hasCursedPanties: false,
             hasCursedGag: false,
             hasCursedMittens: false,
+            hasCursedPaws: false,
             hasEntryMsg: false,
             hasFullMuteChat: false,
             hasCursedScrews: false,

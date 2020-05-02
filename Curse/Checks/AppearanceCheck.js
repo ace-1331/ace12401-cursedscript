@@ -35,8 +35,14 @@ function AppearanceCheck() {
             cursedConfig.strikes += 5;
         }
 
-        if (cursedConfig.hasCursedMittens &&  itemIsAllowed("PawMittens", "ItemHands")) {
+        if (cursedConfig.hasCursedMittens &&  itemIsAllowed("LeatherMittens", "ItemHands")) {
             SendChat("The cursed mittens on " + Player.Name + " reappear.");
+            procGenericItem("LeatherMittens", "ItemHands");
+            cursedConfig.strikes += 5;
+        }
+
+        if (cursedConfig.hasCursedPaws &&  itemIsAllowed("PawMittens", "ItemHands")) {
+            SendChat("The cursed paws on " + Player.Name + " reappear.");
             procGenericItem("PawMittens", "ItemHands");
             cursedConfig.strikes += 5;
         }
