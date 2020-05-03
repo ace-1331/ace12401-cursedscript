@@ -1,7 +1,7 @@
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
-            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid", "punishmentsDisabled", "isLockedOwner"];
+            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid", "punishmentsDisabled", "isLockedOwner"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report, true);
             break;
@@ -118,6 +118,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedGag = false;
                 cursedConfig.hasCursedPanties = false;
                 cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedRopes = false;
                 procCursedLatex();
             } else
                 SendChat("The cursed latex lets go of " + Player.Name + ".");
@@ -132,6 +133,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedGag = false;
                 cursedConfig.hasCursedPanties = false;
                 cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedRopes = false;
                 procCursedPony();
             } else
                 SendChat("The ponycurse lets go of " + Player.Name + ".");
@@ -144,7 +146,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedPony = false;
                 procCursedRopes();
             } else
-                SendChat(`The cursed ropes lets go of ${Player.Name}.`);
+                SendChat(`The cursed ropes let go of ${Player.Name}.`);
             cursedConfig.hasCursedRopes = !cursedConfig.hasCursedRopes;
             break;
         case "screws":
