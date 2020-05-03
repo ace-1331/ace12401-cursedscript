@@ -255,6 +255,20 @@ function GetColorSlot(group) {
     return cursedConfig.savedColors.filter(col => col.Group == group)[0] ? cursedConfig.savedColors.filter(col => col.Group == group)[0].Color : "Default";
 }
 
+//Cleaning the data
+function InitCleanup() {
+    //Clean deprecated props
+    const toDelete = ["hasCursedBunny", "lastWardrobeLock"];
+    toDelete.forEach(prop => delete cursedConfig[prop]);
+    
+    //Cleans dupes and bad stuff
+    cursedConfig.owners = cursedConfig.owners.filter((m, i) => cursedConfig.owners.indexOf(m) == i && !isNaN(m));
+    cursedConfig.mistresses = cursedConfig.mistresses.filter((m, i) => cursedConfig.mistresses.indexOf(m) == i && !isNaN(m));
+    cursedConfig.enforced = cursedConfig.enforced.filter((m, i) => cursedConfig.enforced.indexOf(m) == i && !isNaN(m));
+    cursedConfig.blacklist = cursedConfig.blacklist.filter((m, i) => cursedConfig.blacklist.indexOf(m) == i && !isNaN(m));
+    cursedConfig.bannedwords = cursedConfig.bannedwords.filter((m, i) => cursedConfig.bannedwords.indexOf(m) == i && !isNaN(m));
+}
+
 // Card Deck
 var cardDeck = [];
 

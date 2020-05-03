@@ -1,12 +1,11 @@
 //************************************Callbacks************************************
 
-//Listen if always on is toggled, will proc when logged in
+//Boot up sequence
 let AlwaysOn;
 let isLoaded;
 try {
     AlwaysOn = localStorage.getItem("bc-cursed-always-on");
 } catch { }
-
 LoginListener();
 
 async function LoginListener() {
@@ -16,12 +15,12 @@ async function LoginListener() {
                 await new Promise(r => setTimeout(r, 2000));
             }
             isLoaded = true;
+            //Initialize base functions
+            InitBasedFns();
             //AlwaysOn
             if (AlwaysOn == "enabled") {
                 CursedStarter();
             }
-            //Initialize base functions
-            InitBasedFns();
         } catch { };
         await new Promise(r => setTimeout(r, 2000));
     }
@@ -134,10 +133,6 @@ function CursedStarter() {
                 localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
                 alert("IMPORTANT! Please make sure you refreshed your page after updating.");
 
-                //Clean deprecated props
-                const toDelete = ["hasCursedBunny", "lastWardrobeLock"];
-                toDelete.forEach(prop => delete cursedConfig[prop]);
-
                 //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
                 SendChat("The curse following " + Player.Name + " has changed.");
                 popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
@@ -178,6 +173,7 @@ function CursedStarter() {
         InitAlteredFns();
         CursedCheckUp(); //Initial check
         ChatlogProcess(); //Chatlog handling
+        InitCleanup(); //Cleans up the arrays
     } catch { }
 }
 

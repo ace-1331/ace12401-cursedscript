@@ -82,7 +82,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
         case "asylum":
             if (!isNaN(parameters[0]) && parameters[0] != "") {
                 //Calculate time
-                var timeToAdd = 6000000 * parameters[0];
+                var timeToAdd = 3600000 * parameters[0];
                 SendChat(Player.Name + " has more time to spend in the asylum.");
                 oldLog = Log.filter(el => el.Name == "Committed");
                 //Send or Add to existing time

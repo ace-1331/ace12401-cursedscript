@@ -5,7 +5,7 @@ function AllCommands({
         case "asylumtimeleft":
             var oldLog = Log.filter(el => el.Name == "Committed");
             var timeLeft = oldLog.length > 0 ? oldLog[0].Value - CurrentTime : 0;
-            timeLeft /= 6000000;
+            timeLeft /= 3600000;
             SendChat(Player.Name + " has " +
                 (timeLeft < 0 ? "0" : Math.round(timeLeft * 100) / 100) +
                 " hours left in the asylum");
