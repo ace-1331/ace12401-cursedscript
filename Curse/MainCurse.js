@@ -9,6 +9,9 @@ function CursedCheckUp() {
     if (CurrentScreen == "ChatRoom") {
         messagesToVerify = document.querySelectorAll('.ChatMessage:not([verified=true]');
         
+        //Fixes empty name in case of weird mess up
+        if (cursedConfig.slaveIdentifier == "")
+            cursedConfig.slaveIdentifier = Player.Name;
         playerThing();
         
         //Verifies if a mistress is here

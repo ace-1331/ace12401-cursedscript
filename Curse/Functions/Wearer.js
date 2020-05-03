@@ -105,7 +105,7 @@ function WearerCommands({ command, parameters, sender }) {
             break;
         case "identifier":
         case "changeidentifier":
-            cursedConfig.slaveIdentifier = parameters.join(" ");
+            cursedConfig.slaveIdentifier = parameters.join(" ") || Player.Name;
             popChatSilent("Your wearer identifier was changed to: " + cursedConfig.slaveIdentifier);
             break;
         case "commandchar":

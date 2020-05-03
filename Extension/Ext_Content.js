@@ -22,4 +22,5 @@ window.addEventListener("load", e => {
     AddScript("Curse/Utilities/AlteredFunctions.js");
     AddScript("Curse/Utilities/Helpers.js");
     AddScript("Curse/Utilities/LongStrings.js");
+    AddScript("Curse/Room/CurseRoom.js");
 });

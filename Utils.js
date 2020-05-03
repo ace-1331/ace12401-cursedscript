@@ -7,9 +7,7 @@ try {
     AlwaysOn = localStorage.getItem("bc-cursed-always-on");
 } catch { }
 
-if (AlwaysOn == "enabled") {
-    LoginListener();
-}
+LoginListener();
 
 async function LoginListener() {
     while (!isLoaded) {
@@ -18,7 +16,12 @@ async function LoginListener() {
                 await new Promise(r => setTimeout(r, 2000));
             }
             isLoaded = true;
-            CursedStarter();
+            //AlwaysOn
+            if (AlwaysOn == "enabled") {
+                CursedStarter();
+            }
+            //Initialize base functions
+            InitBasedFns();
         } catch { };
         await new Promise(r => setTimeout(r, 2000));
     }
@@ -31,7 +34,7 @@ function CursedStarter() {
         playerThing();
 
         //Base configs
-        window.cursedConfig = {
+        window.cursedConfigInit = {
             hasPublicAccess: true,
             hasCursedBelt: false,
             hasCursedKneel: false,
@@ -93,7 +96,7 @@ function CursedStarter() {
             hasForward: false,
             onRestart: true,
         };
-
+        window.cursedConfig = cursedConfigInit;
         window.currentVersion = 23;
         window.oldStorage = null;
         window.oldVersion = null;

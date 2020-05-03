@@ -41,4 +41,24 @@ function InitAlteredFns() {
         }
         backupChatRoomSendChat();
     }
+    
+}
+
+function InitBasedFns() { 
+    //Custom Room 
+    let backupMainHallRun = MainHallRun;
+    MainHallRun = () => {
+        DrawButton(145, 465, 90, 90, "", "White", "Icons/Question.png", "Bunny hole?");
+        backupMainHallRun();
+    }
+    
+    let backupMainHallClick = MainHallClick;
+    MainHallClick = () => {
+        if ((MouseX >= 145) && (MouseX < 235) && (MouseY >= 465) && (MouseY < 555)) { 
+            CurseRoomAce = null;
+            CurseRoomRun();
+            CurrentScreen = "CurseRoom";
+        }
+        backupMainHallClick();
+    }
 }
