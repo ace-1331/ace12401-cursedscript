@@ -7,10 +7,10 @@ function procGenericItem(item, group) {
             InventoryWear(Player, item, group, GetColorSlot(group));
             cursedConfig.toUpdate.push(group);
             cursedConfig.mustRefresh = true;
-        } else { 
+        } else {
             popChatSilent("The curse is active, but did not apply the item as there was already something there.");
         }
-    } else { 
+    } else {
         popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)");
         cursedConfig.isRunning = false;
     }
@@ -64,35 +64,35 @@ function procCursedOrgasm() {
 
 function procCursedLatex() {
     //wears the items
-    if (!InventoryGet(Player, "Suit")) { 
+    if (!InventoryGet(Player, "Suit")) {
         InventoryWear(Player, "SeamlessCatsuit", "Suit", GetColorSlot("Suit"));
         cursedConfig.toUpdate.push("Suit");
     }
-    if (!InventoryGet(Player, "SuitLower")) { 
+    if (!InventoryGet(Player, "SuitLower")) {
         InventoryWear(Player, "SeamlessCatsuit", "SuitLower", GetColorSlot("SuitLower"));
         cursedConfig.toUpdate.push("SuitLower");
     }
-    if (!InventoryGet(Player, "Gloves")) { 
+    if (!InventoryGet(Player, "Gloves")) {
         InventoryWear(Player, "Catsuit", "Gloves", GetColorSlot("Gloves"));
         cursedConfig.toUpdate.push("Gloves");
     }
-    if (!InventoryGet(Player, "ClothLower")) { 
+    if (!InventoryGet(Player, "ClothLower")) {
         InventoryWear(Player, "LatexPants1", "ClothLower", GetColorSlot("ClothLower"));
         cursedConfig.toUpdate.push("ClothLower");
     }
-    if (!InventoryGet(Player, "ItemBoots")) { 
+    if (!InventoryGet(Player, "ItemBoots")) {
         InventoryWear(Player, "ThighHighLatexHeels", "ItemBoots", GetColorSlot("ItemBoots"), 10);
         cursedConfig.toUpdate.push("ItemBoots");
     }
-    if (!InventoryGet(Player, "ItemMouth")) { 
+    if (!InventoryGet(Player, "ItemMouth")) {
         InventoryWear(Player, "LatexBallMuzzleGag", "ItemMouth", GetColorSlot("ItemMouth"), 10);
         cursedConfig.toUpdate.push("ItemMouth");
     }
-    if (!InventoryGet(Player, "ItemArms")) { 
+    if (!InventoryGet(Player, "ItemArms")) {
         InventoryWear(Player, "BoxTieArmbinder", "ItemArms", GetColorSlot("ItemArms"), 15);
         cursedConfig.toUpdate.push("ItemArms");
     }
-    if (!InventoryGet(Player, "ItemTorso")) { 
+    if (!InventoryGet(Player, "ItemTorso")) {
         InventoryWear(Player, "LatexCorset1", "ItemTorso", GetColorSlot("ItemTorso"), 10);
         cursedConfig.toUpdate.push("ItemTorso");
     }
@@ -104,35 +104,35 @@ function procCursedLatex() {
 
 function procCursedPony() {
     //wears the items
-    if (!InventoryGet(Player, "Suit")) { 
+    if (!InventoryGet(Player, "Suit")) {
         InventoryWear(Player, "SeamlessCatsuit", "Suit", GetColorSlot("Suit"));
         cursedConfig.toUpdate.push("Suit");
     }
-    if (!InventoryGet(Player, "SuitLower")) { 
+    if (!InventoryGet(Player, "SuitLower")) {
         InventoryWear(Player, "SeamlessCatsuit", "SuitLower", GetColorSlot("SuitLower"));
         cursedConfig.toUpdate.push("SuitLower");
     }
-    if (!InventoryGet(Player, "Gloves")) { 
+    if (!InventoryGet(Player, "Gloves")) {
         InventoryWear(Player, "Catsuit", "Gloves", GetColorSlot("Gloves"));
         cursedConfig.toUpdate.push("Gloves");
     }
-    if (!InventoryGet(Player, "ItemBoots")) { 
+    if (!InventoryGet(Player, "ItemBoots")) {
         InventoryWear(Player, "PonyBoots", "ItemBoots", GetColorSlot("ItemBoots"), 10);
         cursedConfig.toUpdate.push("ItemBoots");
     }
-    if (!InventoryGet(Player, "ItemMouth")) { 
+    if (!InventoryGet(Player, "ItemMouth")) {
         InventoryWear(Player, "HarnessPonyBits", "ItemMouth", GetColorSlot("ItemMouth"), 10);
         cursedConfig.toUpdate.push("ItemMouth");
     }
-    if (!InventoryGet(Player, "ItemArms")) { 
+    if (!InventoryGet(Player, "ItemArms")) {
         InventoryWear(Player, "ArmbinderJacket", "ItemArms", GetColorSlot("ItemArms"), 15);
         cursedConfig.toUpdate.push("ItemArms");
     }
-    if (!InventoryGet(Player, "ItemLegs")) { 
+    if (!InventoryGet(Player, "ItemLegs")) {
         InventoryWear(Player, "LeatherLegCuffs", "ItemLegs", GetColorSlot("ItemLegs"), 10);
         cursedConfig.toUpdate.push("ItemLegs");
     }
-    if (!InventoryGet(Player, "ItemTorso")) { 
+    if (!InventoryGet(Player, "ItemTorso")) {
         InventoryWear(Player, "LatexCorset1", "ItemTorso", GetColorSlot("ItemTorso"), 10);
         cursedConfig.toUpdate.push("ItemTorso");
     }
@@ -140,6 +140,25 @@ function procCursedPony() {
 
     cursedConfig.mustRefresh = true;
 }
+
+
+function procCursedRopes() {
+    if (!InventoryGet(Player, "ItemArms")) {
+        InventoryWear(Player, "HempRope", "ItemArms", GetColorSlot("ItemArms"), 10);
+        cursedConfig.toUpdate.push("ItemArms");
+    }
+    if (!InventoryGet(Player, "ItemLegs")) {
+        InventoryWear(Player, "HempRope", "ItemLegs", GetColorSlot("ItemLegs"), 10);
+        cursedConfig.toUpdate.push("ItemLegs");
+    }
+    if (!InventoryGet(Player, "ItemFeet")) {
+        InventoryWear(Player, "HempRope", "ItemFeet", GetColorSlot("ItemFeet"), 10);
+        cursedConfig.toUpdate.push("ItemFeet");
+    }
+
+    cursedConfig.mustRefresh = true;
+}
+
 
 async function checkKneeling(sender) {
     // Kneel on enforced
@@ -153,7 +172,7 @@ async function checkKneeling(sender) {
             await new Promise(r => setTimeout(r, 2000));
         }
     }
-    
+
     // When timer is over
     if (
         ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)

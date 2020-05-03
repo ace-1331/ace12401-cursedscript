@@ -51,6 +51,7 @@ function CursedStarter() {
             hasCursedPanties: false,
             hasCursedGag: false,
             hasCursedMittens: false,
+            hasCursedPaws: false,
             hasEntryMsg: false,
             hasFullMuteChat: false,
             hasCursedScrews: false,
@@ -58,6 +59,7 @@ function CursedStarter() {
             hasSound: false,
             hasRestrainedPlay: false,
             hasNoMaid: false,
+            hasCursedRopes: false,
 
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -153,7 +155,7 @@ function CursedStarter() {
             msg.setAttributeNode(verifiedAtt);
         });
 
-        //Resets Strikes when it has been a week 
+        //Resets Strikes when it has been a week
         if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
             SendChat("The curse on " + Player.Name + " forgets her past transgressions, a new week has begun.");
             cursedConfig.strikeStartTime = Date.now();

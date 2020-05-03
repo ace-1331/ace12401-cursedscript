@@ -35,9 +35,15 @@ function AppearanceCheck() {
             cursedConfig.strikes += 5;
         }
 
-        if (cursedConfig.hasCursedMittens && itemIsAllowed("LeatherMittens", "ItemHands")) {
+        if (cursedConfig.hasCursedMittens &&  itemIsAllowed("LeatherMittens", "ItemHands")) {
             SendChat("The cursed mittens on " + Player.Name + " reappear.");
             procGenericItem("LeatherMittens", "ItemHands");
+            cursedConfig.strikes += 5;
+        }
+
+        if (cursedConfig.hasCursedPaws &&  itemIsAllowed("PawMittens", "ItemHands")) {
+            SendChat("The cursed paws on " + Player.Name + " reappear.");
+            procGenericItem("PawMittens", "ItemHands");
             cursedConfig.strikes += 5;
         }
 
@@ -47,7 +53,7 @@ function AppearanceCheck() {
             cursedConfig.strikes += 5;
         }
 
-        if (cursedConfig.hasCursedHood && itemIsAllowed("LeatherHoodSensDep", "ItemHead")) {
+        if (cursedConfig.hasCursedHood &&  itemIsAllowed("LeatherHoodSensDep", "ItemHead")) {
             SendChat("The cursed VR Hood on " + Player.Name + " reappears.");
             procGenericItem("LeatherHoodSensDep", "ItemHead");
             cursedConfig.strikes += 5;
@@ -78,7 +84,7 @@ function AppearanceCheck() {
         }
 
         //Generic Cursed Item
-        cursedConfig.cursedItems.forEach(({ name, group, color }) => {
+        cursedConfig.cursedItems.forEach(({name, group, color}) => {
             if (itemIsAllowed(name, group)) {
                 SendChat(`The cursed item on ${Player.Name} reappears. (${name})`);
                 procGenericItem(name, group, color);
@@ -87,9 +93,9 @@ function AppearanceCheck() {
         });
 
         //Locked appearance
-        /*cursedConfig.cursedAppearance.forEach(({ name, group, color }) => { 
+        /*cursedConfig.cursedAppearance.forEach(({ name, group, color }) => {
            var item = Player.Appearance.filter(el => el.Asset.Name == name && el.Asset.Group.Name != group && el.Color == color);
-           if (item.length == 0) { 
+           if (item.length == 0) {
                InventoryRemove(Player, group)
                procGenericItem(name, group, color);
            }
@@ -181,6 +187,21 @@ function AppearanceCheck() {
             procCursedPony();
             cursedConfig.strikes += 2;
         }
+
+        //Cursed ropes
+        if (
+            cursedConfig.hasCursedRopes
+            && (
+                itemIsAllowed("HempRope", "ItemArms")
+                || itemIsAllowed("HempRope", "ItemLegs")
+                || itemIsAllowed("HempRope", "ItemFeet")
+            )
+        ) {
+            SendChat(`The cursed ropes embraces ${Player.Name}.`);
+            procCursedRopes();
+            cursedConfig.strikes += 2;
+        }
+
     }
     return r;
 }

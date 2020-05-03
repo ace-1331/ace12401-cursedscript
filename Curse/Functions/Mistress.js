@@ -1,7 +1,7 @@
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
-            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid", "punishmentsDisabled", "isLockedOwner"];
+            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid", "punishmentsDisabled", "isLockedOwner"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report, true);
             break;
@@ -37,11 +37,21 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
         case "mittens":
         case "cursedmittens":
             if (!cursedConfig.hasCursedMittens) {
+                cursedConfig.hasCursedPaws = false;
                 SendChat("The curse arises on " + Player.Name + "'s mittens.");
                 procGenericItem("LeatherMittens", "ItemHands");
             } else
                 SendChat("The curse on " + Player.Name + "'s mittens disappears.");
             cursedConfig.hasCursedMittens = !cursedConfig.hasCursedMittens;
+            break;
+        case "paws":
+            if (!cursedConfig.hasCursedPaws) {
+                cursedConfig.hasCursedMittens = false;
+                SendChat(`The curse arises on ${Player.Name}'s paws.`);
+                procGenericItem("PawMittens", "ItemHands");
+            } else
+                SendChat(`The curse on ${Player.Name}'s paws disappears.`);
+            cursedConfig.hasCursedPaws = !cursedConfig.hasCursedPaws;
             break;
         case "panties":
         case "cursedpanties":
@@ -108,6 +118,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedGag = false;
                 cursedConfig.hasCursedPanties = false;
                 cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedRopes = false;
                 procCursedLatex();
             } else
                 SendChat("The cursed latex lets go of " + Player.Name + ".");
@@ -122,10 +133,21 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedGag = false;
                 cursedConfig.hasCursedPanties = false;
                 cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedRopes = false;
                 procCursedPony();
             } else
                 SendChat("The ponycurse lets go of " + Player.Name + ".");
             cursedConfig.hasCursedPony = !cursedConfig.hasCursedPony;
+            break;
+        case "rope":
+            if (!cursedConfig.hasCursedRopes) {
+                SendChat(`The cursed ropes embraces ${Player.Name}.`);
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
+                procCursedRopes();
+            } else
+                SendChat(`The cursed ropes let go of ${Player.Name}.`);
+            cursedConfig.hasCursedRopes = !cursedConfig.hasCursedRopes;
             break;
         case "screws":
         case "cursedscrews":
@@ -286,5 +308,6 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             //Force delete self
             DeleteNickname(parameters, sender, isOwner ? 3 : 2);
             break;
+
     }
 }
