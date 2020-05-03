@@ -144,15 +144,15 @@ function procCursedPony() {
 
 function procCursedRopes() {
     if (!InventoryGet(Player, "ItemArms")) {
-        InventoryWear(Player, "HempRope", "ItemArms", cursedConfig.punishmentColor, 10);
+        InventoryWear(Player, "HempRope", "ItemArms", GetColorSlot("ItemArms"), 10);
         cursedConfig.toUpdate.push("ItemArms");
     }
     if (!InventoryGet(Player, "ItemLegs")) {
-        InventoryWear(Player, "HempRope", "ItemLegs", cursedConfig.punishmentColor, 10);
+        InventoryWear(Player, "HempRope", "ItemLegs", GetColorSlot("ItemLegs"), 10);
         cursedConfig.toUpdate.push("ItemLegs");
     }
     if (!InventoryGet(Player, "ItemFeet")) {
-        InventoryWear(Player, "HempRope", "ItemFeet", cursedConfig.punishmentColor, 10);
+        InventoryWear(Player, "HempRope", "ItemFeet", GetColorSlot("ItemFeet"), 10);
         cursedConfig.toUpdate.push("ItemFeet");
     }
 
