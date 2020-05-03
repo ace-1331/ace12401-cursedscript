@@ -25,6 +25,7 @@ function InitHelpMsg() {
     -identifier [new identifier]
     -punishmentcolor ["#colorcode"]
     -forwardall
+    *NEW*-isclassic
     *NEW*-savecolors
 
     >>> Other Commands <<<
@@ -46,7 +47,7 @@ function InitHelpMsg() {
     //MISTRESS FUNCTIONS//
     >>> Basic Commands<<<
     -kneel
-    *NEW*-cursereport
+    -cursereport
     -showstrikes
     -changestrikes [+/- nb strikes]
     -enforce [a member number]
@@ -64,7 +65,8 @@ function InitHelpMsg() {
     -banbegging [on/off]
     -banfirstperson [on/off]
     -clearwords
-
+    *NEW*-contractions
+    
     >>>Curses<<<
     -naked
     -vibes
@@ -85,12 +87,16 @@ function InitHelpMsg() {
 
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
-    *NEW*-disablepunishments
-    -onlyonpresence
     -asylum [nb of hours]
-    *NEW*-restrainplay
     -owner [a member number]
     *NEW*INTENSE V:-onickname [Number] [Name]
+
+    >>>Configuration Commands<<<
+    -disablepunishments
+    -onlyonpresence
+    -restrainplay
+    *NEW*-fullpublic
+    *NEW*-afk
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid
 

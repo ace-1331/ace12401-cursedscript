@@ -52,11 +52,7 @@ function AnalyzeMessage(msg) {
             sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");
         } 
         if (sender == Player.MemberNumber) {
-            chatroomMembers.forEach(el => {
-                if (cursedConfig.owners.includes(el) || cursedConfig.mistresses.includes(el)) {
-                    sendWhisper(el, "(The curse is active. Command call id: " + commandCall + ")");
-                }
-            });
+            NotifyOwners("(The curse is active. Command call id: " + commandCall + ")")
             // Pop saved messages while outside of room
             popChatSilent();
             // Kneels if you have cursedcollar to prevent login issues
@@ -100,7 +96,7 @@ function AnalyzeMessage(msg) {
             }
 
             //Verify mistress for private commands
-            if (isMistress || isOwner) {
+            if (isMistress || isOwner || cursedConfig.hasFullPublic) {
                 MistressCommands({ command, sender, parameters, isOwner });
             }
 

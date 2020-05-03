@@ -1,4 +1,18 @@
 //************************************  HELPERS ************************************//
+//Message to all owners/mistress
+function NotifyOwners(msg, sendSelf) { 
+    ChatRoomCharacter.forEach(char => { 
+        if (
+            cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString())
+        ) {
+            sendWhisper(char.MemberNumber, msg);
+        }
+    });
+    if (sendSelf) { 
+        popChatSilent(msg);
+    }
+}
+
 //Pop a message, will not if player is not in a room
 function popChatGlobal(actionTxt, isNormalTalk) {
     if (actionTxt.length > 1000) {
@@ -87,7 +101,7 @@ function SendChat(actionTxt) {
         //Add to queue
         cursedConfig.chatlog.push(actionTxt);
     } else {
-        popChatSilent(actionTxt);
+        NotifyOwners(actionTxt, true);
     }
 }
 

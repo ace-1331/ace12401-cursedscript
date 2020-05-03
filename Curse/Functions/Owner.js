@@ -79,10 +79,20 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 SendChat("The curse allows " + Player.Name + " to break their collar.");
             cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
             break;
+        case "fullpublic":
+            if (!cursedConfig.hasFullPublic)
+                SendChat("The curse on " + Player.Name + " allows the public to do as they please.");
+            else
+                SendChat("The curse on " + Player.Name + " no longer listens to everything the public says.");
+            cursedConfig.hasFullPublic = !cursedConfig.hasFullPublic;
+            break;
         case "asylum":
             if (!isNaN(parameters[0]) && parameters[0] != "") {
                 //Calculate time
                 var timeToAdd = 3600000 * parameters[0];
+                if (timeToAdd > 1000000000000000000000000000000000000) { 
+                    timeToAdd = 999588479404333;
+                }
                 SendChat(Player.Name + " has more time to spend in the asylum.");
                 oldLog = Log.filter(el => el.Name == "Committed");
                 //Send or Add to existing time
@@ -162,6 +172,13 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             } else
                 SendChat("The curse on " + Player.Name + "'s belt vanished.");
             cursedConfig.hasCursedBelt = !cursedConfig.hasCursedBelt;
+            break;
+        case "afk":
+            if (!cursedConfig.hasAntiAFK) {
+                sendWhisper(sender, "(No longer allowed to be AFK. Note: the afk timer must be enabled in the wearer's settings for this to work.)", true);
+            } else
+                sendWhisper(sender, "(Allowed to be AFK)", true);
+            cursedConfig.hasAntiAFK = !cursedConfig.hasAntiAFK;
             break;
         case "onlyonpresence":
             if (!cursedConfig.enabledOnMistress)

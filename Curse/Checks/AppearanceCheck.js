@@ -197,7 +197,7 @@ function AppearanceCheck() {
                 || itemIsAllowed("HempRope", "ItemFeet")
             )
         ) {
-            SendChat(`The cursed ropes embraces ${Player.Name}.`);
+            SendChat(`The cursed ropes embrace ${Player.Name}.`);
             procCursedRopes();
             cursedConfig.strikes += 2;
         }

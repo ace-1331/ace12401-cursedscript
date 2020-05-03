@@ -2,7 +2,7 @@ function WearerCommands({ command, parameters, sender }) {
     let r = false;
     switch (command) {
         case "configreport":
-            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion"];
+            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             popChatSilent(report);
             break;
@@ -12,6 +12,13 @@ function WearerCommands({ command, parameters, sender }) {
             else
                 popChatSilent("Your curse will no longer forward unnecessary whispers.");
             cursedConfig.hasForward = !cursedConfig.hasForward;
+            break;
+        case "isclassic":
+            if (!cursedConfig.isClassic)
+                popChatSilent("Your curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
+            else
+            popChatSilent("Your curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
+            cursedConfig.isClassic = !cursedConfig.isClassic;
             break;
         case "issilent":
             if (!cursedConfig.isSilent)
@@ -42,7 +49,7 @@ function WearerCommands({ command, parameters, sender }) {
             popChatSilent("Currently set nicknames: " + cursedConfig.nicknames.map(n => n.Number + ": " + n.Nickname + " (Priority: " + n.Priority + ")").join(", "));
             break;
         case "speechreport":
-            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
+            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContrations} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
             break;
         case "owner":
             if (cursedConfig.hasRestrainedPlay) {
@@ -142,7 +149,7 @@ function WearerCommands({ command, parameters, sender }) {
             //notifies no commands were found
             r = true;
             break
-            
+
     }
     return r;
 }

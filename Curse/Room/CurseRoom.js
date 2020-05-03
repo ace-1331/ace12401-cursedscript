@@ -11,8 +11,8 @@ function CurseRoomLoad() {
     CharacterReset("NPC_Ace", "Female3DCG");
     CurseRoomAce = Character["NPC_Ace"];
     CurseRoomAce.Name = "Miss Ace";
-    Player.LabelColor = "#c0a4ff";
-    Player.BlinkFactor = 10;
+    CurseRoomAce.LabelColor = "#c0a4ff";
+    CurseRoomAce.BlinkFactor = 10;
     InventoryWear(CurseRoomAce, "HairBack8", "HairBack", "#c0a4ff");
     InventoryWear(CurseRoomAce, "Large", "BodyUpper", "Asian");
     InventoryWear(CurseRoomAce, "Blush", "Blush", "Default");
@@ -59,7 +59,7 @@ function CurseRoomLoad() {
     
     CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her to alter your speech.)", Result: "(Her eyes glow purple.) I am surprised you dared to go this far. You are only able to meow from now on.", Prerequisite: "HasIntense()", Function: "TryMeow()"});
     CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her for some strange mittens.)", Result: "(Her eyes glow purple as she puts mittens on you.) Alright dear. Don't try to take them off", Function: "TryMittens()"});
-    CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her to restric your speech.)", Result: "(Her eyes glow purple.) My favorite! You can no longer speak in first person.", Function: "TryPerson()"});
+    CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her to restrict your speech.)", Result: "(Her eyes glow purple.) My favorite! You can no longer speak in first person.", Function: "TryPerson()"});
     CurseRoomAce.Dialog.push({ Stage: "30", Option: "I've changed my mind, miss.", NextStage: "0", Result: "(She nods and looks disappointed she could not toy with you.)" });
     //third person, cursed mittens, if intense have it be a meow
     if (Player.CanKneel()) CharacterSetActivePose(Player, "Kneel");

@@ -38,7 +38,7 @@ function CursedStarter() {
             hasCursedBelt: false,
             hasCursedKneel: false,
             hasCursedLatex: false,
-            hasCursedSpeech: false,
+            hasCursedSpeech: true,
             hasCursedOrgasm: false,
             hasCursedNakedness: false,
             isMute: false,
@@ -60,7 +60,10 @@ function CursedStarter() {
             hasRestrainedPlay: false,
             hasNoMaid: false,
             hasCursedRopes: false,
-
+            hasNoContractions: false,
+            hasFullPublic: false,
+            hasAntiAFK: false,
+            
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             enforced: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -89,6 +92,7 @@ function CursedStarter() {
             mustRefresh: false,
             isRunning: false,
             isSilent: false,
+            isClassic: false,
             isLockedOwner: false,
             hasIntenseVersion: false,
             wasLARPWarned: false,
@@ -97,7 +101,7 @@ function CursedStarter() {
             hasForward: false,
             onRestart: true,
         };
-        window.cursedConfig = cursedConfigInit;
+        window.cursedConfig = { ...cursedConfigInit };
         window.currentVersion = 23;
         window.oldStorage = null;
         window.oldVersion = null;

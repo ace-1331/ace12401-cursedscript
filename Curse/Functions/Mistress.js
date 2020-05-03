@@ -1,7 +1,7 @@
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
-            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasRestrainedPlay", "hasNoMaid", "punishmentsDisabled", "isLockedOwner"];
+            let toReport = ["hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report, true);
             break;
@@ -140,8 +140,11 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             cursedConfig.hasCursedPony = !cursedConfig.hasCursedPony;
             break;
         case "rope":
+        case "ropes":
+        case "cursedrope":
+        case "cursedropes":
             if (!cursedConfig.hasCursedRopes) {
-                SendChat(`The cursed ropes embraces ${Player.Name}.`);
+                SendChat(`The cursed ropes embrace ${Player.Name}.`);
                 cursedConfig.hasCursedLatex = false;
                 cursedConfig.hasCursedPony = false;
                 procCursedRopes();
@@ -307,6 +310,18 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
         case "deletenickname":
             //Force delete self
             DeleteNickname(parameters, sender, isOwner ? 3 : 2);
+            break;
+        case "contractions":
+            if (!cursedConfig.hasNoContractions) {
+                sendWhisper(sender, "-->Can no longer use contractions.", true);
+                cursedConfig.bannedWords.push("im", "youre", "youll", "cant", "wont", "havent", "arent", "shouldnt", "wouldnt");
+            } else {
+                sendWhisper(sender, "-->Can now use contractions.", true);
+                cursedConfig.bannedWords = cursedConfig.bannedWords.filter(word =>
+                    !["im", "youre", "youll", "cant", "wont", "havent", "arent", "shouldnt", "wouldnt"].includes(word)
+                );
+            }
+            cursedConfig.hasNoContractions = !cursedConfig.hasNoContractions;
             break;
 
     }

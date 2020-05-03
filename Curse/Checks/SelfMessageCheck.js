@@ -28,8 +28,9 @@ function SelfMessageCheck(msg) {
             msg != cursedConfig.say.toLowerCase().trim()
             && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0
         ) {
+            NotifyOwners("(Did not say the sentence willingly.)");
             popChatSilent("You were punished for not saying the expected sentence willingly: " + cursedConfig.say);
-            cursedConfig.strikes += 6;
+            cursedConfig.strikes += 15;
             cursedConfig.say = "";
             return true;
         } else {
@@ -56,7 +57,7 @@ function SelfMessageCheck(msg) {
                 goodMatches.push(...msg.matchAll(new RegExp(rn, 'g')))
             );
             if (matches.length > goodMatches.length) {
-                sendWhisper(memberNumber, "(Tried to be disrespectful.)");
+                NotifyOwners("(Tried to be disrespectful)");
                 popChatSilent("Respecting " + memberNumber + " is required.");
                 cursedConfig.strikes += 7;
                 r = true;
@@ -72,6 +73,7 @@ function SelfMessageCheck(msg) {
             msg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
             ));
         if (badWords.length != 0) {
+            NotifyOwners(`(Used banned words: ${badWords.join(", ")})`);
             popChatSilent("Bad girl. Bad word(s) used: " + badWords.join(", "));
             cursedConfig.strikes += 5;
             r = true;
@@ -88,8 +90,17 @@ function SelfMessageCheck(msg) {
             }).length > 0
         && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0
     ) {
+        NotifyOwners("(Tried to make unallowed sounds)");
         popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
-        cursedConfig.strikes++;
+        cursedConfig.strikes+=3;
+        r = true;
+    }
+    
+    //Contractions
+    if (cursedConfig.hasNoContractions && !cursedConfig.hasSound && (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).length != 0) { 
+        NotifyOwners("(Tried to use contractions)");
+        popChatSilent("WARNING: You are not allowed to use contractions!");
+        cursedConfig.strikes+=2;
         r = true;
     }
     

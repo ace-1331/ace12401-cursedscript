@@ -4,7 +4,7 @@ function InitAlteredFns() {
     // Sends a message to the server. (Chatblock)
     ServerSend = function (Message, Data) {
         var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
-            && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning
+            && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
         if (Message == "ChatRoomChat" && Data.Type == "Chat" && cursedConfig.hasIntenseVersion && cursedConfig.hasFullMuteChat && isActivated) return;
         ServerSocket.emit(Message, Data);
     }
@@ -34,7 +34,7 @@ function InitAlteredFns() {
         var msg = ElementValue("InputChat").trim();
         var m = msg.toLowerCase().trim();
         if (m != "" && m.indexOf("/") != 0 && isActivated) { 
-            if (SelfMessageCheck(m)) { 
+            if (SelfMessageCheck(m) && !cursedConfig.isClassic) { 
                 document.getElementById('InputChat').value = "";
                 return;
             }
@@ -42,6 +42,17 @@ function InitAlteredFns() {
         backupChatRoomSendChat();
     }
     
+    //Anti AFK
+    let backupAfk = AfkTimerSetIsAfk;
+    AfkTimerSetIsAfk = () => { 
+        var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+            && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
+        if (isActivated && cursedConfig.hasAntiAFK) { 
+            NotifyOwners("(Was AFK for more than 5 minutes.)");
+            cursedConfig.strikes += 10;
+        }
+        backupAfk();
+    }
 }
 
 function InitBasedFns() { 
