@@ -13,6 +13,13 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Your curse will no longer forward unnecessary whispers.");
             cursedConfig.hasForward = !cursedConfig.hasForward;
             break;
+        case "wardrobev2":
+            if (!cursedConfig.hasWardrobeV2)
+                popChatSilent("Enabled enhanced wardrobe. (Changes will be applied on the next reload.)");
+            else
+                popChatSilent("Disabled enhanced wardrobe. (Changes will be applied on the next reload.)");
+            cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
+            break;
         case "isclassic":
             if (!cursedConfig.isClassic)
                 popChatSilent("Your curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");

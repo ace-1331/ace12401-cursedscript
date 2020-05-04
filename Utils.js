@@ -94,6 +94,7 @@ function CursedStarter() {
             isSilent: false,
             isClassic: false,
             isLockedOwner: false,
+            hasWardrobeV2: false,
             hasIntenseVersion: false,
             wasLARPWarned: false,
             chatlog: [],

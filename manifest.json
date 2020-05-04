@@ -36,6 +36,7 @@
                 "Curse/Utilities/LongStrings.js",
                 "Curse/Utilities/AlteredFunctions.js",
                 "Curse/Room/CurseRoom.js",
+                "Curse/Room/WardrobeV2.js",
                 "Utils.js",
                 "Extension/Ext_Content.js"
             ]

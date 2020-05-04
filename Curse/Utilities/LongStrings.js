@@ -27,6 +27,7 @@ function InitHelpMsg() {
     -forwardall
     *NEW*-isclassic
     *NEW*-savecolors
+    *NEW*-wardrobev2
 
     >>> Other Commands <<<
     *NEW*INTENSE V:-nickname [Number] [Name]

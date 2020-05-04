@@ -48,10 +48,15 @@ function InitAlteredFns() {
         var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
         if (isActivated && cursedConfig.hasAntiAFK) { 
-            NotifyOwners("(Was AFK for more than 5 minutes.)");
-            cursedConfig.strikes += 10;
+            NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
+            cursedConfig.strikes += 5;
         }
         backupAfk();
+    }
+    
+    //Wardrobe V2
+    if (cursedConfig.hasWardrobeV2) { 
+        LoadAppearanceV2();
     }
 }
 
