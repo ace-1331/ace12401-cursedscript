@@ -26,12 +26,12 @@ function InitHelpMsg() {
     -punishmentcolor ["#colorcode"]
     -forwardall
     *NEW*-isclassic
-    *NEW*-savecolors
+    -savecolors
     *NEW*-wardrobev2
 
     >>> Other Commands <<<
-    *NEW*INTENSE V:-nickname [Number] [Name]
-    *NEW*INTENSE V:-deletenickname [Number] [Name]
+    INTENSE V:-nickname [Number] [Name]
+    INTENSE V:-deletenickname [Number] [Name]
     -draw [nb of cards] [players]
     -shuffle
 
@@ -41,9 +41,10 @@ function InitHelpMsg() {
     -punish
     -edge
     -asylumtimeleft
-    *NEW*INTENSE V:-nickname [Name]
-    *NEW*INTENSE V:-blocknickname
-    *NEW*INTENSE V:-allownickname
+    -readnote
+    INTENSE V:-nickname [Name]
+    INTENSE V:-blocknickname
+    INTENSE V:-allownickname
 
     //MISTRESS FUNCTIONS//
     >>> Basic Commands<<<
@@ -55,9 +56,9 @@ function InitHelpMsg() {
     -mistress [a member number]
     -public
     -deactivateonpresence
-    *NEW*-savecolors
-    *NEW*INTENSE V:-mnickname [Number] [Name]
-    *NEW*INTENSE V:-deletenickname [Number]
+    -savecolors
+    INTENSE V:-mnickname [Number] [Name]
+    INTENSE V:-deletenickname [Number]
 
     >>>Speech Commands<<<
     -mute
@@ -90,7 +91,7 @@ function InitHelpMsg() {
     >>>Basic Commands<<<
     -asylum [nb of hours]
     -owner [a member number]
-    *NEW*INTENSE V:-onickname [Number] [Name]
+    INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
     -disablepunishments
@@ -98,6 +99,7 @@ function InitHelpMsg() {
     -restrainplay
     *NEW*-fullpublic
     *NEW*-afk
+    -note
     *NEW*INTENSE VERSION: -leash
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid
