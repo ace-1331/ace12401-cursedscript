@@ -1,6 +1,7 @@
 function LoadAppearanceV2() {
 
-    if (typeof window.AssetTypeOverrides !== 'undefined') return;
+  if (typeof window.AssetTypeOverrides !== 'undefined') return;
+    AssetGroup.forEach(e => { if (["Hat", "HairAccessory1", "HairAccessory2", "Wings", "TailStraps"].indexOf(e.Name) >= 0) e.KeepNaked = true; });
     LoadAppearanceV2Optimize();
     LoadAppearanceV2ColorPicker();
     LoadAppearanceV2Drawing();
