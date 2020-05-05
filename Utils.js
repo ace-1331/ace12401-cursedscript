@@ -104,7 +104,7 @@ function CursedStarter() {
             onRestart: true,
         };
         window.cursedConfig = { ...cursedConfigInit };
-        window.currentVersion = 23;
+        window.currentVersion = 24;
         window.oldStorage = null;
         window.oldVersion = null;
 
