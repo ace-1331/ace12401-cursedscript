@@ -34,7 +34,7 @@ Please use the commands in whispers. Reduce spam as much as you can, make sure t
 
 **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-**Last approved on the following versions: V13W**
+**Last approved on the following versions: R56**
 
 Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating.
 
@@ -44,7 +44,7 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 3. Enable Developer mode
 4. Remove previous versions of the curse (if applicable).
 5. Click 'Load unpacked' button and browse to the unzipped folder (see the notes below)
-6. Login and click on "start curse"
+6. Login and click on "wear curse" or come to the bunny hole icon in the main hall to speak to me first!
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
 
