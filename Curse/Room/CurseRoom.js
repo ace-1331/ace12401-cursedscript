@@ -89,23 +89,28 @@ function CurseRoomCursedReset() {
     try {
         cursedConfig = window.cursedConfigInit;
     } catch { }
+    SaveConfigs();
 }
 
 function CurseRoomCursedStarter() {
     CursedStarter();
     CurseRoomHasCurse = true;
+    SaveConfigs();
 }
 
 function CurseRoomColors() {
     SaveColors();
+    SaveConfigs();
 }
 
 function CurseRoomIntenseOn() {
     CursedIntenseOn();
+    SaveConfigs();
 }
 
 function CurseRoomIntenseOff() {
     CursedIntenseOff();
+    SaveConfigs();
 }
 
 function CurseRoomHasIntense() {
@@ -116,14 +121,17 @@ function CurseRoomTryMittens() {
     cursedConfig.hasCursedMittens = true;
     cursedConfig.genericProcs = [];
     procGenericItem("LeatherMittens", "ItemHands");
+    SaveConfigs();
 }
 
 function CurseRoomTryMeow() {
     cursedConfig.hasSound = true;
     cursedConfig.sound = "meow";
+    SaveConfigs();
 }
 
 function CurseRoomTryPerson() {
     cursedConfig.hasCursedSpeech = true;
     cursedConfig.bannedWords.push('i', 'am', "myself", "me", "my", "mine");
+    SaveConfigs();
 }

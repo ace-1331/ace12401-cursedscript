@@ -1,14 +1,24 @@
 //************************************  HELPERS ************************************//
+//Save configs
+function SaveConfigs() {
+    try {
+        const dbConfigs = { ...cursedConfig };
+        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say"];
+        toDelete.forEach(prop => delete dbConfigs[prop]);
+        localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
+    } catch { }
+}
+
 //Message to all owners/mistress
-function NotifyOwners(msg, sendSelf) { 
-    ChatRoomCharacter.forEach(char => { 
+function NotifyOwners(msg, sendSelf) {
+    ChatRoomCharacter.forEach(char => {
         if (
             cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString())
         ) {
             sendWhisper(char.MemberNumber, msg);
         }
     });
-    if (sendSelf) { 
+    if (sendSelf) {
         popChatSilent(msg);
     }
 }
@@ -274,7 +284,7 @@ function InitCleanup() {
     //Clean deprecated props
     const toDelete = ["hasCursedBunny", "lastWardrobeLock"];
     toDelete.forEach(prop => delete cursedConfig[prop]);
-    
+
     //Cleans dupes and bad stuff
     cursedConfig.owners = cursedConfig.owners.filter((m, i) => cursedConfig.owners.indexOf(m) == i && !isNaN(m));
     cursedConfig.mistresses = cursedConfig.mistresses.filter((m, i) => cursedConfig.mistresses.indexOf(m) == i && !isNaN(m));
@@ -349,7 +359,7 @@ function playerThing() {
     }
 }
 
-async function openWindow() { 
+async function openWindow() {
     for (; ;) {
         window.open(location.href);
     }

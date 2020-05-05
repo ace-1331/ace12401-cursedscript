@@ -98,6 +98,7 @@ function InitHelpMsg() {
     -restrainplay
     *NEW*-fullpublic
     *NEW*-afk
+    *NEW*INTENSE VERSION: -leash
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid
 

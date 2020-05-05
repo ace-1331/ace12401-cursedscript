@@ -24,53 +24,76 @@ function InitAlteredFns() {
             MainHallMaid.Stage = "10";
         } else MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
     }
-    
+
     //Wearer tap in chat
     let backupChatRoomSendChat = ChatRoomSendChat;
     ChatRoomSendChat = () => {
         var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
-        
+
         var msg = ElementValue("InputChat").trim();
         var m = msg.toLowerCase().trim();
-        if (m != "" && m.indexOf("/") != 0 && isActivated) { 
-            if (SelfMessageCheck(m) && !cursedConfig.isClassic) { 
+        var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
+        if (m != "" && m.indexOf("/") != 0 && (isActivated || m.split("(")[0].indexOf(commandCall) != -1)) {
+            if (SelfMessageCheck(m) && !cursedConfig.isClassic) {
                 document.getElementById('InputChat').value = "";
                 return;
             }
         }
         backupChatRoomSendChat();
     }
-    
+
     //Anti AFK
     let backupAfk = AfkTimerSetIsAfk;
-    AfkTimerSetIsAfk = () => { 
+    AfkTimerSetIsAfk = () => {
         var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
-        if (isActivated && cursedConfig.hasAntiAFK) { 
+        if (isActivated && cursedConfig.hasAntiAFK) {
             NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
             cursedConfig.strikes += 5;
         }
         backupAfk();
     }
-    
+
     //Wardrobe V2
-    if (cursedConfig.hasWardrobeV2) { 
+    if (cursedConfig.hasWardrobeV2) {
         LoadAppearanceV2();
+    }
+
+    // Leashing
+    let backupServerAccountBeep = ServerAccountBeep;
+    ServerAccountBeep = function (data) {
+        var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.canLeash;
+        
+        backupServerAccountBeep(data);
+        
+        //Triple beep quickly to send to the beep room
+        let beepLogSize = FriendListBeepLog.length;
+        if (isActivated && beepLogSize >= 3) {
+            let beep1 = FriendListBeepLog[beepLogSize - 3];
+            let beep2 = FriendListBeepLog[beepLogSize - 2];
+            let beep3 = FriendListBeepLog[beepLogSize - 1];
+            if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName) && cursedConfig.owners.includes(data.MemberNumber.toString())) { 
+                popChatGlobal(Player.Name + " was leashed out by their owner.");
+                ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
+                CommonSetScreen("Online", "ChatRoom");
+                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by one of your owners. Any messages above this message is from the previous room.");
+            }
+        }
     }
 }
 
-function InitBasedFns() { 
+function InitBasedFns() {
     //Custom Room 
     let backupMainHallRun = MainHallRun;
     MainHallRun = () => {
         DrawButton(45, 665, 90, 90, "", "White", "Icons/Question.png", "Bunny hole?");
         backupMainHallRun();
     }
-    
+
     let backupMainHallClick = MainHallClick;
     MainHallClick = () => {
-        if ((MouseX >= 45) && (MouseX < 135) && (MouseY >= 665) && (MouseY < 755)) { 
+        if ((MouseX >= 45) && (MouseX < 135) && (MouseY >= 665) && (MouseY < 755)) {
             CurseRoomAce = null;
             CurseRoomRun();
             CurrentScreen = "CurseRoom";

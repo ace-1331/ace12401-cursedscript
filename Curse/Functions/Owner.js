@@ -90,7 +90,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             if (!isNaN(parameters[0]) && parameters[0] != "") {
                 //Calculate time
                 var timeToAdd = 3600000 * parameters[0];
-                if (timeToAdd > 1000000000000000000000000000000000000) { 
+                if (timeToAdd > 1000000000000000000000000000000000000) {
                     timeToAdd = 999588479404333;
                 }
                 SendChat(Player.Name + " has more time to spend in the asylum.");
@@ -186,6 +186,13 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             else
                 SendChat("The curse on " + Player.Name + " goes back to always listening.");
             cursedConfig.enabledOnMistress = !cursedConfig.enabledOnMistress;
+            break;
+        case "leash":
+            if (!cursedConfig.canLeash)
+                sendWhisper(sender, "(Can now be leashed into another room.)", true);
+            else
+                sendWhisper(sender, "(Can no longer be leashed into rooms.)", true);
+            cursedConfig.canLeash = !cursedConfig.canLeash;
             break;
         case "enforceentrymessage":
             if (!cursedConfig.hasEntryMsg)

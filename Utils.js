@@ -93,6 +93,7 @@ function CursedStarter() {
             isRunning: false,
             isSilent: false,
             isClassic: false,
+            canLeash: false,
             isLockedOwner: false,
             hasWardrobeV2: false,
             hasIntenseVersion: false,

@@ -124,12 +124,7 @@ function CursedCheckUp() {
 
     // Saves if needed, strip not required data
     if (messagesToVerify.length > 0) {
-        try {
-            const dbConfigs = { ...cursedConfig };
-            const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say"];
-            toDelete.forEach(prop => delete dbConfigs[prop]);
-            localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
-        } catch { }
+        SaveConfigs();
     }
 
     // Loops if activated

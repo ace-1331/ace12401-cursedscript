@@ -1,4 +1,7 @@
 
+//Display version
+document.getElementById("versionNo").innerHTML = 'v' + chrome.runtime.getManifest().version;
+
 /**Injects a function as plain code */
 function InjectCode(tabId, func, callback) {
     var code = JSON.stringify(func.toString());
