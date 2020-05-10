@@ -1,12 +1,12 @@
 function SelfMessageCheck(msg) {
     //Returns true if the message cannot be sent
     let r = false;
-    
+
     //Clears stuff
     originalMsg = msg;
     msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
     if (msg == "") return false;
-    
+
     //Parse Commands
     var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
     if (msg.indexOf(commandCall) != -1) {
@@ -20,7 +20,7 @@ function SelfMessageCheck(msg) {
         }
         if (r) return true;
     }
-    
+
     //Should say 
     //Returns immediately, that way it wont collide with other stuff
     if (cursedConfig.say != "" && !cursedConfig.hasFullMuteChat && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0) {
@@ -38,7 +38,19 @@ function SelfMessageCheck(msg) {
             return false;
         }
     }
-    
+
+    //Restrained speech (will not proc in whispers or emotes)
+    if (
+        cursedConfig.hasRestrainedSpeech
+        && cursedConfig.hasIntenseVersion
+        && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0
+    ) {
+        NotifyOwners("(Tried to speak freely when her speech was restrained.)");
+        popChatSilent("Bad girl. You tried to speak freely while your speech is being restrained.");
+        cursedConfig.strikes += 5;
+        r = true;
+    }
+
     //Speech Restrictions
     //Reinforcement
     cursedConfig.enforced.forEach(memberNumber => {
@@ -64,7 +76,7 @@ function SelfMessageCheck(msg) {
             }
         }
     });
-    
+
     //Cursed Speech
     if (
         cursedConfig.hasCursedSpeech
@@ -79,7 +91,7 @@ function SelfMessageCheck(msg) {
             r = true;
         }
     }
-    
+
     //Cursed Sound
     if (
         cursedConfig.hasSound
@@ -92,17 +104,17 @@ function SelfMessageCheck(msg) {
     ) {
         NotifyOwners("(Tried to make unallowed sounds)");
         popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
-        cursedConfig.strikes+=3;
+        cursedConfig.strikes += 3;
         r = true;
     }
-    
+
     //Contractions
-    if (cursedConfig.hasNoContractions && !cursedConfig.hasSound && (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).length != 0) { 
+    if (cursedConfig.hasNoContractions && !cursedConfig.hasSound && (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).length != 0) {
         NotifyOwners("(Tried to use contractions)");
         popChatSilent("WARNING: You are not allowed to use contractions!");
-        cursedConfig.strikes+=2;
+        cursedConfig.strikes += 2;
         r = true;
     }
-    
+
     return r;
 }

@@ -15,6 +15,7 @@ function InitHelpMsg() {
     -showblacklist
     -shownicknames
     -configreport
+    *NEW*-listsentences
 
     >>> Config Commands <<<
     -issilent
@@ -29,6 +30,8 @@ function InitHelpMsg() {
     -savecolors
     *NEW*-wardrobev2
 
+    >>>Speech Commands<<<
+    *NEW*INTENSE:-talk [target id] [sentence id]
     >>> Other Commands <<<
     INTENSE V:-nickname [Number] [Name]
     INTENSE V:-deletenickname [Number] [Name]
@@ -85,6 +88,7 @@ function InitHelpMsg() {
     -panties
     -screws
     -rope
+    -maiduniform
 
 
     //OWNER FUNCTIONS//
@@ -107,6 +111,11 @@ function InitHelpMsg() {
     >>>Speech Commands<<<
     -enforceentrymessage
     -entrymessage [sentence]
+    *NEW*-listsentences
+    *NEW*INTENSE V:-restrainedspeech
+    *NEW*INTENSE V:-target [id] [target]
+    *NEW*INTENSE V:-sentence [id] [sentence]
+    *NEW*INTENSE V:-listsentences
     INTENSE V: -forcedsay [sentence]
     INTENSE V: -say [sentence]
     INTENSE V: -fullmute

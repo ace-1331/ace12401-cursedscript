@@ -56,7 +56,21 @@ function WearerCommands({ command, parameters, sender }) {
             popChatSilent("Currently set nicknames: " + cursedConfig.nicknames.map(n => n.Number + ": " + n.Nickname + " (Priority: " + n.Priority + ")").join(", "));
             break;
         case "speechreport":
-            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContrations} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
+            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContrations} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
+            break;
+        case "listsentences":
+            popChatSilent("Here are your allowed targets -->" + cursedConfig.targets.map(target => `Command: ${target.ident} Ouputs: ${target.text}`).join("; - "));
+            popChatSilent("Here are your allowed sentences -->" + cursedConfig.sentences.map(sentence => `Command: ${sentence.ident} Outputs: ${sentence.text}`).join("; - "));
+            break;
+        case "talk":
+            const target = cursedConfig.targets.filter(t => t.ident == parameters[0])[0];
+            const sentence = cursedConfig.sentences.filter(s => s.ident == parameters[1])[0];
+            console.log(target , sentence);
+            if (target && sentence) {
+                popChatGlobal(sentence.text.replace("%target%", target.text), true)
+            } else { 
+                popChatSilent("Invalid arguments. you need to specify the target id and the sentence id like '#name talk miss yes' where miss is the target id and yes is the sentence id.");
+            }
             break;
         case "owner":
             if (cursedConfig.hasRestrainedPlay) {
@@ -76,6 +90,8 @@ function WearerCommands({ command, parameters, sender }) {
                         owner => owner != parameters[0]
                     );
                     popChatSilent("Removed owner: " + parameters[0]);
+                } else {
+                    popChatSilent("(Cannot remove your official owner.)");
                 }
             } else {
                 popChatSilent("(Invalid arguments.)");

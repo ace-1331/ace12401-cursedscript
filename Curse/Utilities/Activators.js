@@ -3,12 +3,12 @@ function procGenericItem(item, group) {
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
-        if (!InventoryGet(Player, group)) {
+        if (!InventoryOwnerOnlyItem(InventoryGet(Player, group)) ) {
             InventoryWear(Player, item, group, GetColorSlot(group));
             cursedConfig.toUpdate.push(group);
             cursedConfig.mustRefresh = true;
         } else {
-            popChatSilent("The curse is active, but did not apply the item as there was already something there.");
+            popChatSilent("The curse is active, but did not apply the item as there was already something there which carries an owner lock.");
         }
     } else {
         popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)");
@@ -159,6 +159,17 @@ function procCursedRopes() {
     cursedConfig.mustRefresh = true;
 }
 
+function procCursedMaid() { 
+    if (!InventoryGet(Player, "Cloth")) {
+        InventoryWear(Player, "MaidOutfit1", "Cloth", GetColorSlot("Cloth"), 10);
+        cursedConfig.toUpdate.push("Cloth");
+    }
+    if (!InventoryGet(Player, "Hat")) {
+        InventoryWear(Player, "MaidHairband1", "Hat", GetColorSlot("Hat"), 10);
+        cursedConfig.toUpdate.push("Hat");
+    }
+    cursedConfig.mustRefresh = true;
+}
 
 async function checkKneeling(sender) {
     // Kneel on enforced

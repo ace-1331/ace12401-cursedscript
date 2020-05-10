@@ -68,6 +68,57 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 SendChat("The curse lets " + Player.Name + " speak normally.");
             cursedConfig.hasSound = !cursedConfig.hasSound;
             break;
+        case "restrainedspeech":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (!cursedConfig.hasRestrainedSpeech)
+                sendWhisper(sender, "(Wearer can now only speak with the given sentences. There are some default sentences which can be modified at will. Check the wiki page on restrained speech for more info.)", true);
+            else
+                sendWhisper(sender, "(Wearer can now speak freely again.)", true);
+            cursedConfig.hasRestrainedSpeech = !cursedConfig.hasRestrainedSpeech;
+            break;
+        case "target":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (parameters[0]) {
+                cursedConfig.targets = cursedConfig.targets.filter(t => t.ident != parameters[0]);
+                const ident = parameters.shift();
+                const target = parameters.join(" ").replace(/(~)|(")|(!)|(\*)|(\?)|(\/)/g, " ").trim();
+                if (target) {
+                    cursedConfig.targets.push({ ident: ident, text: target });
+                    sendWhisper(sender, `(A new target was added/modified. Its id is "${ident}")`, true);
+                } else {
+                    sendWhisper(sender, `(Removed a target. Its id is "${ident}")`, true);
+                }
+            } else
+                sendWhisper(sender, "(Invalid arguments. Specify the target identifier then its attached text like '#name target bunny Miss bun bun' to have the 'bunny' identifier refer to Miss bun bun.)", true);
+            break;
+        case "sentence":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (parameters[0]) {
+                cursedConfig.sentences = cursedConfig.sentences.filter(s => s.ident != parameters[0]);
+                const ident = parameters.shift();
+                const sentence = parameters.join(" ").replace(/(")|(\*)|(\/)/g, " ").trim();
+                if (sentence) {
+                    cursedConfig.sentences.push({ ident: ident, text: sentence });
+                    sendWhisper(sender, `(A new sentence was added/modified. Its id is "${ident}")`, true);
+                } else {
+                    sendWhisper(sender, `(Removed a sentence. Its id is "${ident}")`, true);
+                }
+            } else
+                sendWhisper(sender, "(Invalid arguments. Specify the sentence identifier then its attached text like '#name sentence yes Yes, %target%?' to have the 'yes' identifier refer to 'Yes, %target%?'. The %target% placeholder will be where the given target is placed in the sentence)", true);
+            break;
+        case "listsentences":
+            sendWhisper(sender, "Here are the allowed targets -->" + cursedConfig.targets.map(target => `Command: ${target.ident} Ouputs: ${target.text}`).join("; - "));
+            sendWhisper(sender, "Here are the allowed sentences -->" + cursedConfig.sentences.map(sentence => `Command: ${sentence.ident}`).join("; - "));
+            break;
         case "lockowner":
             if (!cursedConfig.hasIntenseVersion) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);

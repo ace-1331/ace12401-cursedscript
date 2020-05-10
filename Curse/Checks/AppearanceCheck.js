@@ -171,6 +171,20 @@ function AppearanceCheck() {
             cursedConfig.strikes += 2;
         }
 
+        //Cursed maid
+        if (
+            cursedConfig.hasCursedMaid
+            && (
+                itemIsAllowed("MaidOutfit1", "Cloth")
+                || itemIsAllowed("MaidHairband1", "Hat")
+            )
+        ) {
+            SendChat("The curse keeps " + Player.Name + " as a maid.");
+            procCursedMaid();
+            cursedConfig.strikes += 2;
+        }
+        
+        //Cursed pony
         if (
             cursedConfig.hasCursedPony
             && (itemIsAllowed("SeamlessCatsuit", "Suit")
