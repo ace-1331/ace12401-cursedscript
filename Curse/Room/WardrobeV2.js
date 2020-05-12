@@ -25,7 +25,7 @@ function LoadAppearanceV2() {
     let AppearanceShade = 5;
     let AppearanceColorPaste = "#FFFFFF";
     let AppearanceBlockMode = false;
-    let AppearanceSelectedCategory = "Appearance";
+    window.AppearanceSelectedCategory = "Appearance";
     let AppearanceHideColorPicker = true;
     let AppearanceShadeMode = "LIG";
   

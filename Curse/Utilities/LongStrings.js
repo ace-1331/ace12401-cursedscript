@@ -111,8 +111,8 @@ function InitHelpMsg() {
     >>>Speech Commands<<<
     -enforceentrymessage
     -entrymessage [sentence]
-    *NEW*-listsentences
     *NEW*INTENSE V:-restrainedspeech
+    *NEW*INTENSE V:-self [I, this slave, etc.]
     *NEW*INTENSE V:-target [id] [target]
     *NEW*INTENSE V:-sentence [id] [sentence]
     *NEW*INTENSE V:-listsentences

@@ -97,6 +97,18 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             } else
                 sendWhisper(sender, "(Invalid arguments. Specify the target identifier then its attached text like '#name target bunny Miss bun bun' to have the 'bunny' identifier refer to Miss bun bun.)", true);
             break;
+        case "self":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            const newSelf = parameters.join(" ").trim();
+            if (newSelf) {
+                cursedConfig.self = newSelf;
+                sendWhisper(sender, `(%self% tags in restrained speech will now refer to the wearer as ${newSelf})`, true);
+            } else
+                sendWhisper(sender, "(Invalid arguments. Specify the self identifier.)", true);
+            break;
         case "sentence":
             if (!cursedConfig.hasIntenseVersion) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
@@ -113,7 +125,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                     sendWhisper(sender, `(Removed a sentence. Its id is "${ident}")`, true);
                 }
             } else
-                sendWhisper(sender, "(Invalid arguments. Specify the sentence identifier then its attached text like '#name sentence yes Yes, %target%?' to have the 'yes' identifier refer to 'Yes, %target%?'. The %target% placeholder will be where the given target is placed in the sentence)", true);
+                sendWhisper(sender, "(Invalid arguments. Specify the sentence identifier then its attached text like '#name sentence yes Yes, %target%?' to have the 'yes' identifier refer to 'Yes, %target%?'. The %target% placeholder will be where the given target is placed in the sentence.)", true);
             break;
         case "listsentences":
             sendWhisper(sender, "Here are the allowed targets -->" + cursedConfig.targets.map(target => `Command: ${target.ident} Ouputs: ${target.text}`).join("; - "));

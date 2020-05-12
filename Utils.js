@@ -71,7 +71,7 @@ function CursedStarter() {
             enforced: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             blacklist: [],
             bannedWords: [],
-            sentences: [{ident: "yes", text: "Yes, %target%"},{ident: "no", text: "No, %target%"},{ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?"},{ident: "greetings", text: "Greetings, %target%, it is good to see you."},{ident: "leave", text: "May I be excused, %target%?"},{ident: "service", text: "How may I be useful for you today, %target%?"},],
+            sentences: [{ident: "yes", text: "Yes, %target%"},{ident: "no", text: "No, %target%"},{ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?"},{ident: "greetings", text: "Greetings, %target%, it is good to see you."},{ident: "leave", text: "May %self% be excused, %target%?"},{ident: "service", text: "How may %self% be useful for you today, %target%?"},],
             cursedItems: [],
             cursedAppearance: [],
             savedColors: [],
@@ -79,6 +79,7 @@ function CursedStarter() {
             entryMsg: "",
             say: "",
             sound: "",
+            self: "I",
             targets: [{ident: "miss", text: "miss"}, {ident: "mistress", text: "mistress"}],
             mistressIsHere: false,
             ownerIsHere: false,
@@ -108,7 +109,7 @@ function CursedStarter() {
             onRestart: true,
         };
         window.cursedConfig = { ...cursedConfigInit };
-        window.currentVersion = 24;
+        window.currentVersion = 25;
         window.oldStorage = null;
         window.oldVersion = null;
 
