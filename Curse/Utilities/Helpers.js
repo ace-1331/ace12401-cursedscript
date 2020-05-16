@@ -154,10 +154,10 @@ function cursedExport() {
 function enforce(enforcee, isMistress) {
     if (!cursedConfig.enforced.includes(enforcee)) {
         cursedConfig.enforced.push(enforcee);
-        SendChat(Player.Name + " now has enforced protocols on #" + enforcee + (isMistress ? " has requested by her mistress." : "."));
+        SendChat(Player.Name + " now has enforced protocols on " + FetchName(enforcee) + (isMistress ? " has requested by her mistress." : "."));
     } else {
         cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(enforcee), 1)
-        SendChat(Player.Name + " no longer has enforced protocols on #" + enforcee + (isMistress ? " has requested by her mistress." : "."));
+        SendChat(Player.Name + " no longer has enforced protocols on " + FetchName(enforcee) + (isMistress ? " has requested by her mistress." : "."));
     }
 }
 
@@ -196,7 +196,7 @@ function SetNickname(parameters, sender, priority) {
                     { Number: userNumber, Nickname: nickname, Priority: priority, SavedName: oldNickname[0] ? oldNickname[0].SavedName : "" }
                 );
                 sendWhisper(
-                    sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
+                    sender, "(New nickname for " + FetchName(userNumber) + " : " + nickname + ")", shouldSendSelf
                 );
             } else {
                 sendWhisper(
@@ -240,9 +240,9 @@ function DeleteNickname(parameters, sender, priority) {
                     cursedConfig.nicknames.push(
                         { Number: sender, Nickname: oldNickname[0].SavedName, Priority: 4, SavedName: oldNickname[0].SavedName }
                     );
-                    sendWhisper(sender, "-->Deleted and blocked nickname for " + userNumber, shouldSendSelf);
+                    sendWhisper(sender, "-->Deleted and blocked nickname for " + FetchName(userNumber), shouldSendSelf);
                 } else if (priority == 5) {
-                    sendWhisper(sender, "-->Allowed nickname for " + userNumber, shouldSendSelf);
+                    sendWhisper(sender, "-->Allowed nickname for " + FetchName(userNumber), shouldSendSelf);
                 }
             } else {
                 sendWhisper(
@@ -259,6 +259,21 @@ function DeleteNickname(parameters, sender, priority) {
             sender, "(Invalid arguments.)", shouldSendSelf
         );
     }
+}
+
+// Tries to get the name of someone
+function FetchName(number) { 
+    ChatRoomCharacter.forEach(C => {
+        if (C.MemberNumber == number) {
+            return C.Name;
+        }
+    });
+    cursedConfig.nicknames.forEach(C => {
+        if (number == C.Number) { 
+            return cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) ? C.Nickname : C.SavedName
+        }
+    });
+    return "#" + number;
 }
 
 //Color saving

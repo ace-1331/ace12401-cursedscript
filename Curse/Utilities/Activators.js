@@ -3,6 +3,9 @@ function procGenericItem(item, group) {
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
+        if (Player.BlockItems.filter(it => it.Name == item && it.Group == group).length !== 0) { 
+            popChatSilent("You currently have a curse activated for which the item is blocked, the curse will not apply the following item, please disable the curse using the item or unblock the item: " + item + " " + group);  
+        }
         if (!InventoryOwnerOnlyItem(InventoryGet(Player, group)) ) {
             InventoryWear(Player, item, group, GetColorSlot(group));
             cursedConfig.toUpdate.push(group);

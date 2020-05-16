@@ -271,13 +271,13 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 if (!cursedConfig.owners.includes(parameters[0])) {
                     cursedConfig.owners.push(parameters[0]);
                     SendChat(
-                        Player.Name + " now has a new owner (#" + parameters[0] + ")."
+                        Player.Name + " now has a new owner (" + FetchName(parameters[0]) + ")."
                     );
                 } else if (realOwner != parameters[0]) {
                     cursedConfig.owners = cursedConfig.owners.filter(
                         owner => owner != parameters[0]
                     );
-                    sendWhisper(sender, "Removed owner: " + parameters[0], true);
+                    sendWhisper(sender, "Removed owner: " + FetchName(parameters[0]), true);
                 }
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");

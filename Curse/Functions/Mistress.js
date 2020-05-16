@@ -220,7 +220,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 if (!cursedConfig.mistresses.includes(parameters[0])) {
                     cursedConfig.mistresses.push(parameters[0]);
                     SendChat(
-                        Player.Name + " now has a new mistress (#" + parameters[0] + ")."
+                        Player.Name + " now has a new mistress (" + FetchName(parameters[0]) + ")."
                     );
                 } else {
                     cursedConfig.mistresses = cursedConfig.mistresses.filter(
@@ -235,9 +235,9 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
         case "rename":
             let nickname = parameters.join(" ");
             if (nickname) {
+                sendWhisper(sender, "New nickname for " + FetchName(sender) + " : " + nickname, true);
                 cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != sender);
                 cursedConfig.nicknames.push({ Number: sender, Nickname: nickname });
-                sendWhisper(sender, "New nickname for " + sender + " : " + nickname, true);
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");
             }
