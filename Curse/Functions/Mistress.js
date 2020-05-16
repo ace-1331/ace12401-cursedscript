@@ -1,7 +1,7 @@
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
-            let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasCursedMaid", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner"];
+            let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasCursedMaid", "hasCursedDildogag", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report, true);
             break;
@@ -73,6 +73,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedGag = false;
                 cursedConfig.hasCursedLatex = false;
                 cursedConfig.hasCursedPony = false;
+                cursedConfig.hasCursedDoubleGag = false;
             } else {
                 SendChat("The curse on " + Player.Name + "'s panties vanished.");
             }
@@ -86,6 +87,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedPanties = false;
                 cursedConfig.hasCursedLatex = false;
                 cursedConfig.hasCursedPony = false;
+                cursedConfig.hasCursedDoubleGag = false;
                 procGenericItem("DildoPlugGag", "ItemMouth");
             } else
                 SendChat("The curse on " + Player.Name + "'s dildo vanished.");
@@ -99,10 +101,25 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 cursedConfig.hasCursedPanties = false;
                 cursedConfig.hasCursedLatex = false;
                 cursedConfig.hasCursedPony = false;
+                cursedConfig.hasCursedDoubleGag = false;
                 procGenericItem("BallGag", "ItemMouth");
             } else
                 SendChat("The curse on " + Player.Name + "'s gag vanished.");
             cursedConfig.hasCursedGag = !cursedConfig.hasCursedGag;
+            break;
+        case "doublegag":
+        case "curseddoublegag":
+            if (!cursedConfig.hasCursedDoubleGag) {
+                SendChat("The curse arises on " + Player.Name + "'s gag.");
+                cursedConfig.hasCursedDildogag = false;
+                cursedConfig.hasCursedPanties = false;
+                cursedConfig.hasCursedLatex = false;
+                cursedConfig.hasCursedPony = false;
+                cursedConfig.hasCursedGag = false;
+                procGenericItem("DildoGag", "ItemMouth");
+            } else
+                SendChat("The curse on " + Player.Name + "'s gag vanished.");
+            cursedConfig.hasCursedDoubleGag = !cursedConfig.hasCursedDoubleGag;
             break;
         case "public":
             if (!cursedConfig.hasPublicAccess)
@@ -116,6 +133,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             if (!cursedConfig.hasCursedKneel) {
                 SendChat("The curse arises on " + Player.Name + "'s collar.");
                 KneelAttempt();
+                procGenericItem("HighSecurityCollar", "ItemNeck");
             } else
                 SendChat("The curse on " + Player.Name + "'s collar vanished.");
             cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;

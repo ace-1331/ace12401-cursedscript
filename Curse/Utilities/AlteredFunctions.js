@@ -34,8 +34,10 @@ function InitAlteredFns() {
         var msg = ElementValue("InputChat").trim();
         var m = msg.toLowerCase().trim();
         var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
-        if (m != "" && m.indexOf("/") != 0 && (isActivated || m.split("(")[0].indexOf(commandCall) != -1)) {
-            if (SelfMessageCheck(m) && !cursedConfig.isClassic) {
+        var isCommand =  m.split("(")[0].indexOf(commandCall) != -1;
+        if (m != "" && m.indexOf("/") != 0 && (isActivated || isCommand)) {
+            var shouldReturn = SelfMessageCheck(m);
+            if ((shouldReturn && !cursedConfig.isClassic) || isCommand) {
                 document.getElementById('InputChat').value = "";
                 return;
             }
@@ -76,6 +78,7 @@ function InitAlteredFns() {
             if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName) && cursedConfig.owners.includes(data.MemberNumber.toString())) { 
                 popChatGlobal(Player.Name + " was leashed out by their owner.");
                 ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
+                ElementRemove("FriendList");
                 CommonSetScreen("Online", "ChatRoom");
                 popChatSilent("You have been sent to the room " + data.ChatRoomName + " by one of your owners. Any messages above this message is from the previous room.");
             }

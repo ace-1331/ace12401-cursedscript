@@ -77,6 +77,12 @@ function AppearanceCheck() {
             cursedConfig.strikes += 5;
         }
 
+        if (cursedConfig.hasCursedKneel && itemIsAllowed("HighSecurityCollar", "ItemNeck")) {
+            SendChat("The cursed collar on " + Player.Name + " reappears.");
+            procGenericItem("HighSecurityCollar", "ItemNeck");
+            cursedConfig.strikes += 5;
+        }
+        
         if (cursedConfig.hasCursedScrews && itemIsAllowed("ScrewClamps", "ItemNipples")) {
             SendChat("The cursed screw clamps on " + Player.Name + " reappear.");
             procGenericItem("ScrewClamps", "ItemNipples");

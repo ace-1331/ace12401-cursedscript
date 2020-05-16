@@ -45,6 +45,7 @@ function InitHelpMsg() {
     -edge
     -asylumtimeleft
     -readnote
+    *NEW*-sendnote
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
@@ -88,7 +89,8 @@ function InitHelpMsg() {
     -panties
     -screws
     -rope
-    -maiduniform
+    *NEW*-maiduniform
+    *NEW*-doublegag
 
 
     //OWNER FUNCTIONS//
@@ -98,6 +100,8 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    *NEW*-guestnotes
+    *NEW*-readnotes
     -disablepunishments
     -onlyonpresence
     -restrainplay

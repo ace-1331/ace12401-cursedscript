@@ -1,6 +1,6 @@
 function AllCommands({
-    command, sender, commandCall,  parameters
-}) { 
+    command, sender, commandCall, parameters
+}) {
     switch (command) {
         case "asylumtimeleft":
             var oldLog = Log.filter(el => el.Name == "Committed");
@@ -21,12 +21,21 @@ function AllCommands({
             break;
         case "readnote":
             let note;
-            try { 
+            try {
                 note = localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`);
             } catch { console.log("Error reading note: RN05") }
             if (note) {
                 sendWhisper(sender, "(A note is attached to her from her owner: " + localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`) + ")");
             }
+            break;
+        case "sendnote":
+            let notes;
+            try { 
+                notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`));
+                notes.push(FetchName(sender) + ": " + parameters.join(" "));
+                localStorage.setItem(`bc-cursedReviews-${Player.MemberNumber}`, JSON.stringify(notes));
+            } catch { console.log("Error sending notes: RS65") }
+            sendWhisper(sender, "(Note sent to owner(s).)");
             break;
     }
 }

@@ -250,6 +250,24 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 SendChat("The curse on " + Player.Name + " goes back to always listening.");
             cursedConfig.enabledOnMistress = !cursedConfig.enabledOnMistress;
             break;
+        case "guestnotes":
+            if (!cursedConfig.canReceiveNotes)
+                sendWhisper(sender, "(Can now receive notes from others.)", true);
+            else
+                sendWhisper(sender, "(Can no longer receive notes from others.)", true);
+            cursedConfig.canReceiveNotes = !cursedConfig.canReceiveNotes;
+            break;
+        case "readnotes":
+            let notes;
+            try { 
+                notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
+                localStorage.removeItem(`bc-cursedReviews-${Player.MemberNumber}`);
+            } catch { console.log("Error reading notes: RN55") }
+            if (notes) {
+                sendWhisper(sender, "(The following notes have been attached to " + Player.Name + ")");
+                notes.forEach(n => sendWhisper(sender, "(" + n + ")") );
+            }
+            break;
         case "leash":
             if (!cursedConfig.canLeash)
                 sendWhisper(sender, "(Can now be leashed into another room.)", true);

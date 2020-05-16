@@ -65,6 +65,7 @@ function CursedStarter() {
             hasAntiAFK: false,
             hasCursedMaid: false,
             hasRestrainedSpeech: false,
+            canReceiveNotes: false,
             
             owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
             mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
