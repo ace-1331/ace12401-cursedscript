@@ -30,11 +30,11 @@ function AllCommands({
             break;
         case "sendnote":
             let notes;
-            try { 
-                notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`));
-                notes.push(FetchName(sender) + ": " + parameters.join(" "));
+            try {
+                notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
+                notes.push(FetchName(sender) + " (" + sender + "): " + parameters.join(" "));
                 localStorage.setItem(`bc-cursedReviews-${Player.MemberNumber}`, JSON.stringify(notes));
-            } catch { console.log("Error sending notes: RS65") }
+            } catch (e){ console.log("Error sending notes: RS65", e) }
             sendWhisper(sender, "(Note sent to owner(s).)");
             break;
     }

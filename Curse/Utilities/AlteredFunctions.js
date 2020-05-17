@@ -34,7 +34,7 @@ function InitAlteredFns() {
         var msg = ElementValue("InputChat").trim();
         var m = msg.toLowerCase().trim();
         var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
-        var isCommand =  m.split("(")[0].indexOf(commandCall) != -1;
+        var isCommand = m.split("(")[0].indexOf(commandCall) != -1;
         if (m != "" && m.indexOf("/") != 0 && (isActivated || isCommand)) {
             var shouldReturn = SelfMessageCheck(m);
             if ((shouldReturn && !cursedConfig.isClassic) || isCommand) {
@@ -66,17 +66,26 @@ function InitAlteredFns() {
     let backupServerAccountBeep = ServerAccountBeep;
     ServerAccountBeep = function (data) {
         var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.canLeash;
-        
+
         backupServerAccountBeep(data);
-        
+
+        //Single beep in capture mode
+        if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
+            popChatGlobal(Player.Name + " was dragged out by her captor.");
+            ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
+            ElementRemove("FriendList");
+            CommonSetScreen("Online", "ChatRoom");
+            popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.");
+        }
+
         //Triple beep quickly to send to the beep room
         let beepLogSize = FriendListBeepLog.length;
         if (isActivated && beepLogSize >= 3) {
             let beep1 = FriendListBeepLog[beepLogSize - 3];
             let beep2 = FriendListBeepLog[beepLogSize - 2];
             let beep3 = FriendListBeepLog[beepLogSize - 1];
-            if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName) && cursedConfig.owners.includes(data.MemberNumber.toString())) { 
-                popChatGlobal(Player.Name + " was leashed out by their owner.");
+            if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName) && cursedConfig.owners.includes(data.MemberNumber.toString())) {
+                popChatGlobal(Player.Name + " was leashed out by her owner.");
                 ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
                 ElementRemove("FriendList");
                 CommonSetScreen("Online", "ChatRoom");
@@ -84,8 +93,16 @@ function InitAlteredFns() {
             }
         }
     }
+    
+    // Prevent leaving a room
+    Player.walkBackup = Player.CanWalk;
+    Player.CanWalk = function () { 
+        var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
+        return Player.walkBackup() && (!isActivated || cursedConfig.capture.Valid < Date.now());
+    }
 }
 
+// Things that do *NOT* require cursedConfig
 function InitBasedFns() {
     //Custom Room 
     let backupMainHallRun = MainHallRun;

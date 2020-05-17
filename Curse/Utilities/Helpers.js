@@ -265,17 +265,18 @@ function DeleteNickname(parameters, sender, priority) {
 
 // Tries to get the name of someone
 function FetchName(number) { 
+    let Name;
     ChatRoomCharacter.forEach(C => {
         if (C.MemberNumber == number) {
-            return C.Name;
+            Name = C.Name;
         }
     });
     cursedConfig.nicknames.forEach(C => {
         if (number == C.Number) { 
-            return cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) ? C.Nickname : C.SavedName
+            Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) ? C.Nickname : C.SavedName
         }
     });
-    return "#" + number;
+    return Name || "#" + number;
 }
 
 //Color saving

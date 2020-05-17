@@ -26,9 +26,10 @@ function InitHelpMsg() {
     -identifier [new identifier]
     -punishmentcolor ["#colorcode"]
     -forwardall
-    *NEW*-isclassic
+    -isclassic
     -savecolors
     *NEW*-wardrobev2
+    *NEW* INTENSE V:-capture
 
     >>>Speech Commands<<<
     *NEW*INTENSE:-talk [target id] [sentence id]
@@ -49,6 +50,7 @@ function InitHelpMsg() {
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
+    *NEW* INTENSE V:-capture
 
     //MISTRESS FUNCTIONS//
     >>> Basic Commands<<<
@@ -71,7 +73,7 @@ function InitHelpMsg() {
     -banbegging [on/off]
     -banfirstperson [on/off]
     -clearwords
-    *NEW*-contractions
+    -contractions
     
     >>>Curses<<<
     -naked
@@ -106,7 +108,7 @@ function InitHelpMsg() {
     -onlyonpresence
     -restrainplay
     *NEW*-fullpublic
-    *NEW*-afk
+    -afk
     -note
     *NEW*INTENSE VERSION: -leash
     INTENSE VERSION: -lockowner

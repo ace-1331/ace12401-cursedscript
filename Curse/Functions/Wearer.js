@@ -13,6 +13,17 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Your curse will no longer forward unnecessary whispers.");
             cursedConfig.hasForward = !cursedConfig.hasForward;
             break;
+        case "capture":
+            if (!cursedConfig.hasIntenseVersion) {
+                popChatSilent("(Will only work if intense mode is turned on.)");
+                return;
+            }
+            if (!cursedConfig.hasCaptureMode)
+                popChatSilent("You can now be captured by anyone.");
+            else
+                popChatSilent("You can no longer be captured.");
+            cursedConfig.hasCaptureMode = !cursedConfig.hasCaptureMode;
+            break;
         case "wardrobev2":
             if (!cursedConfig.hasWardrobeV2)
                 popChatSilent("Enabled enhanced wardrobe. (Changes will be applied on the next reload.)");
