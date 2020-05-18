@@ -1,12 +1,9 @@
 
 
+# You are responsible of your own account(s) and acts when using this extension. Use it properly and keep yourself up to date to avoid potential issues with newer versions. 
 
 
-
-
-Note from ace:
-
-As I see more and more people use the curse. I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
+# As I see more and more people use the curse. I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
 
 
 
