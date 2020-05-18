@@ -73,6 +73,6 @@ I recommend talking to me first before doing anything to get some tips and to ma
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: #23**
+**Official release: 1.1.5R**
 
-**THIS PAGE WAS LAST EDITED ON 29-04-2020**
+**THIS PAGE WAS LAST EDITED ON 18-05-2020**
