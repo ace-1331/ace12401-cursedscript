@@ -84,7 +84,7 @@ function InitAlteredFns() {
             let beep1 = FriendListBeepLog[beepLogSize - 3];
             let beep2 = FriendListBeepLog[beepLogSize - 2];
             let beep3 = FriendListBeepLog[beepLogSize - 1];
-            if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName) && cursedConfig.owners.includes(data.MemberNumber.toString())) {
+            if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom") && cursedConfig.owners.includes(data.MemberNumber.toString())) {
                 popChatGlobal(Player.Name + " was leashed out by her owner.");
                 ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
                 ElementRemove("FriendList");
