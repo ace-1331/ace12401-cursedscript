@@ -1,12 +1,9 @@
 
 
+# You are responsible of your own account(s) and acts when using this extension. Use it properly and keep yourself up to date to avoid potential issues with newer versions. 
 
 
-
-
-Note from ace:
-
-As I see more and more people use the curse. I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
+# As I see more and more people use the curse. I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
 
 
 
@@ -76,6 +73,6 @@ I recommend talking to me first before doing anything to get some tips and to ma
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: #23**
+**Official release: 1.1.5R**
 
-**THIS PAGE WAS LAST EDITED ON 29-04-2020**
+**THIS PAGE WAS LAST EDITED ON 18-05-2020**
