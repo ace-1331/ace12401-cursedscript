@@ -31,7 +31,14 @@ async function LoginListener() {
 function CursedStarter() {
     try {
         playerThing();
-
+        
+        //Cleans the existing chatlog
+        document.querySelectorAll('.ChatMessage:not([verified=true]').forEach(msg => {
+            var verifiedAtt = document.createAttribute("verified");
+            verifiedAtt.value = "true";
+            msg.setAttributeNode(verifiedAtt);
+        });
+        
         // Just restarts if the curse already exists (prevents dupes)
         if (window.cursedConfigInit) {
             //Runs the script
@@ -171,13 +178,6 @@ function CursedStarter() {
             if (cursedConfig.hasIntenseVersion) {
                 popChatSilent("Intense mode is on (risky).");
             }
-
-            //Cleans the existing chatlog
-            document.querySelectorAll('.ChatMessage:not([verified=true]').forEach(msg => {
-                var verifiedAtt = document.createAttribute("verified");
-                verifiedAtt.value = "true";
-                msg.setAttributeNode(verifiedAtt);
-            });
 
             //Resets Strikes when it has been a week
             if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
