@@ -9,9 +9,9 @@
 
 
 
-##**WARNING: be careful when using the curse in a beta release/NEW VERSION**
+## **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-##**Last approved on the following versions: R57**
+## **Last approved on the following versions: R57**
 
 
 
