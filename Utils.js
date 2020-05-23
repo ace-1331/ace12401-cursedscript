@@ -27,11 +27,9 @@ async function LoginListener() {
 }
 
 
-//Starts the script
+/** Starts the script */
 function CursedStarter() {
     try {
-        playerThing();
-        
         //Cleans the existing chatlog
         document.querySelectorAll('.ChatMessage:not([verified=true]').forEach(msg => {
             var verifiedAtt = document.createAttribute("verified");
@@ -40,14 +38,12 @@ function CursedStarter() {
         });
         
         // Just restarts if the curse already exists (prevents dupes)
-        if (window.cursedConfigInit) {
+        if (window.cursedConfigInit && cursedConfig.isRunning == false) {
             //Runs the script
             cursedConfig.isRunning = true;
             cursedConfig.onRestart = true;
-            CursedCheckUp(); //Initial check
-            ChatlogProcess(); //Chatlog handling
-            popChatSilent("Curse restarted.");
-        } else {
+            popChatSilent("Curse restarted.", "System");
+        } else if (!window.cursedConfigInit) {
             //Base configs
             window.cursedConfigInit = {
                 hasPublicAccess: true,
@@ -84,6 +80,7 @@ function CursedStarter() {
                 hasCursedDildogag: false,
                 canReceiveNotes: false,
                 hasCaptureMode: false,
+                hasReminders: false,
             
                 owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -95,6 +92,8 @@ function CursedStarter() {
                 cursedAppearance: [],
                 savedColors: [],
                 nicknames: [],
+                reminders: [],
+                reminderInterval: 5,
                 entryMsg: "",
                 say: "",
                 sound: "",
@@ -129,7 +128,7 @@ function CursedStarter() {
                 onRestart: true,
             };
             window.cursedConfig = { ...cursedConfigInit };
-            window.currentVersion = 26;
+            window.currentVersion = 27;
             window.oldStorage = null;
             window.oldVersion = null;
 
@@ -142,7 +141,7 @@ function CursedStarter() {
             //Pull config from log or create
             if (!oldStorage) {
                 SendChat("The curse awakens on " + Player.Name + ".");
-                popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). Please report any issues or bug you encounter to ace (12401) - Ace__#5558.");
+                popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
                 try {
                     localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
                 } catch { }
@@ -168,10 +167,10 @@ function CursedStarter() {
 
                     //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
                     SendChat("The curse following " + Player.Name + " has changed.");
-                    popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)");
+                    popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
                 } else if (oldVersion == currentVersion) {
                     SendChat("The curse follows " + Player.Name + ".");
-                    popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.");
+                    popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
                 }
             }
 
@@ -181,7 +180,7 @@ function CursedStarter() {
 
             //Resets Strikes when it has been a week
             if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-                SendChat("The curse on " + Player.Name + " forgets her past transgressions, a new week has begun.");
+                popChatSilent("A new week has begun, your strikes have reset.", "System");
                 cursedConfig.strikeStartTime = Date.now();
                 cursedConfig.strikes = 0;
                 cursedConfig.lastPunishmentAmount = 0;
@@ -199,47 +198,51 @@ function CursedStarter() {
             InitAlteredFns();
             CursedCheckUp(); //Initial check
             ChatlogProcess(); //Chatlog handling
+            ReminderProcess(); //Reminders handling
             InitCleanup(); //Cleans up the arrays
         }
     } catch { }
 }
 
-//Stops the script
+/** Stops the script */
 function CursedStopper() {
     try {
         if (cursedConfig.isRunning) {
             cursedConfig.isRunning = false;
-            popChatSilent("Curse stopped");
+            popChatSilent("Curse stopped", "System");
         }
     } catch { }
 }
 
-//Intense Mode
+/** Intense Mode Switch On */
 function CursedIntenseOn() {
     try {
         if (!cursedConfig.hasIntenseVersion) {
             cursedConfig.hasIntenseVersion = true;
-            popChatSilent("Intense mode activated (risky).");
+            popChatSilent("Intense mode activated (risky).", "System");
         }
     } catch { }
 }
 
+/** Intense Mode Switch Off */
 function CursedIntenseOff() {
     try {
         if (cursedConfig.hasIntenseVersion) {
             cursedConfig.hasIntenseVersion = false;
             cursedConfig.say = "";
             cursedConfig.hasFullMuteChat = false;
-            popChatSilent("Intense mode deactivated (safe).");
+            popChatSilent("Intense mode deactivated (safe).", "System");
         }
     } catch { }
 
 }
 
+/** Always on mode to start on load switch on */
 function AlwaysOnTurnOn() {
     localStorage.setItem("bc-cursed-always-on", "enabled");
 }
 
+/** Always on mode to start on load switch off */
 function AlwaysOnTurnOff() {
     localStorage.setItem("bc-cursed-always-on", "disabled");
 }

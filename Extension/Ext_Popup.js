@@ -2,7 +2,7 @@
 //Display version
 document.getElementById("versionNo").innerHTML = 'v' + chrome.runtime.getManifest().version;
 
-/**Injects a function as plain code */
+/** Injects a function as plain code */
 function InjectCode(tabId, func, callback) {
     var code = JSON.stringify(func.toString());
     code = code.slice(code.indexOf('{') + 1, code.length - 2);
@@ -16,43 +16,25 @@ function InjectCode(tabId, func, callback) {
         });
 }
 
-//Start
-document.getElementById("btnStart").addEventListener("click", e => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs)  {
-        InjectCode(tabs[0].id, CursedStarter);
+/** Attaches a listener to a button and inserts the function to inject */
+function buttonListener(id, fn) { 
+    document.getElementById(id).addEventListener("click", e => {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            InjectCode(tabs[0].id, fn);
+        });
     });
-});
+}
+
+//Start
+buttonListener("btnStart", CursedStarter);
 
 //Stop
-document.getElementById("btnStop").addEventListener("click", e => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs)  {
-        InjectCode(tabs[0].id, CursedStopper);
-    });
-});
+buttonListener("btnStop", CursedStopper);
 
 //Intense on/off
-document.getElementById("btnIntOn").addEventListener("click", e => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs)  {
-        InjectCode(tabs[0].id, CursedIntenseOn);
-    });
-});
-
-document.getElementById("btnIntOff").addEventListener("click", e => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs)  {
-        InjectCode(tabs[0].id, CursedIntenseOff);
-    });
-});
+buttonListener("btnIntOn", CursedIntenseOn);
+buttonListener("btnIntOff", CursedIntenseOff);
 
 //Always on
-
-document.getElementById("btnAlwaysOn").addEventListener("click", e => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        InjectCode(tabs[0].id, AlwaysOnTurnOn);
-    });
-});
-
-document.getElementById("btnAlwaysOff").addEventListener("click", e => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        InjectCode(tabs[0].id, AlwaysOnTurnOff);
-    });
-});
+buttonListener("btnAlwaysOn", AlwaysOnTurnOn);
+buttonListener("btnAlwaysOff", AlwaysOnTurnOff);

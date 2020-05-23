@@ -1,4 +1,5 @@
 //************************************ MESSAGE CHECKER ************************************//
+/** Function to analyze a chatroom message and parse commands or apply certain rules to it */
 function AnalyzeMessage(msg) {
     // Parse needed data
     var originalContent = msg.textContent.split("(")[0].trim();
@@ -113,8 +114,6 @@ function AnalyzeMessage(msg) {
         } catch (err) { console.log(err) }
 
     } else if (isActivated) {
-        //Checks if message settings are respected otherwise
-
         //Stuff that only applies to self
         if (sender == Player.MemberNumber) {
             //Mute

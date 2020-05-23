@@ -1,3 +1,4 @@
+/** Altered club functions to patch in stuff for rules (a function must be intense if it modifies something existing). These require the curse to be started once */
 function InitAlteredFns() {
     //ALTERED FUNCTIONS
 
@@ -10,19 +11,23 @@ function InitAlteredFns() {
     }
 
     // Management break functions (Owner breaking block)
-    ManagementCanBreakTrialOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner == "") && (Player.Ownership != null) && (Player.Ownership.Stage != null) && (Player.Ownership.Stage == 0)) }
-    ManagementCanBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 <= CurrentTime)) }
-    ManagementCannotBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && (Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 > CurrentTime)) }
+    let backupManagementCanBreakTrialOnline = ManagementCanBreakTrialOnline;
+    ManagementCanBreakTrialOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCanBreakTrialOnline()) }
+    
+    let backupManagementCanBeReleasedOnline = ManagementCanBeReleasedOnline;
+    ManagementCanBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCanBeReleasedOnline()) }
+    
+    let backupManagementCannotBeReleasedOnline = ManagementCannotBeReleasedOnline;
+    ManagementCannotBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCannotBeReleasedOnline()) }
 
     // Maid (Maid block)
+    let backupMainHallMaidReleasePlayer = MainHallMaidReleasePlayer;
     MainHallMaidReleasePlayer = function () {
-        if (MainHallMaid.CanInteract() && (!cursedConfig.isRunning || !cursedConfig.hasIntenseVersion || !cursedConfig.hasNoMaid)) {
-            for (var D = 0; D < MainHallMaid.Dialog.length; D++)
-                if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option == null))
-                    MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "AlreadyReleased");
-            CharacterRelease(Player);
-            MainHallMaid.Stage = "10";
-        } else MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
+        if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) { 
+            MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
+            return;
+        }
+        backupMainHallMaidReleasePlayer();
     }
 
     //Wearer tap in chat
@@ -75,7 +80,7 @@ function InitAlteredFns() {
             ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
             ElementRemove("FriendList");
             CommonSetScreen("Online", "ChatRoom");
-            popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.");
+            popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
         }
 
         //Triple beep quickly to send to the beep room
@@ -89,7 +94,7 @@ function InitAlteredFns() {
                 ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
                 ElementRemove("FriendList");
                 CommonSetScreen("Online", "ChatRoom");
-                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by one of your owners. Any messages above this message is from the previous room.");
+                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by one of your owners. Any messages above this message is from the previous room.", "System");
             }
         }
     }
@@ -102,7 +107,7 @@ function InitAlteredFns() {
     }
 }
 
-// Things that do *NOT* require cursedConfig
+/** Altered functions that do *NOT* require cursedConfig */
 function InitBasedFns() {
     //Custom Room 
     let backupMainHallRun = MainHallRun;

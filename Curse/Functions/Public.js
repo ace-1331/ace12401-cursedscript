@@ -1,3 +1,4 @@
+/** Function to trigger commands intended for public (can be turned off) */
 function PublicCommands({
     command, sender, commandCall, parameters, isOwner, isMistress
 }) {

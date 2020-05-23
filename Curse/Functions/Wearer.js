@@ -1,3 +1,6 @@
+/** Function to trigger commands intended for the wearer. 
+ * Returns true if a message should be sent 
+ */
 function WearerCommands({ command, parameters, sender }) {
     let r = false;
     switch (command) {

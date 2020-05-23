@@ -1,3 +1,4 @@
+/** Function vital to any speech restrictions as it will block a giving message by returning true either directly or after checking all conditions, moving things here has a huge chance of causing logic errors. Be careful when adding to it. */
 function SelfMessageCheck(msg) {
     //Returns true if the message cannot be sent
     let r = false;

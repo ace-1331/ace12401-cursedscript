@@ -1,3 +1,4 @@
+/** Function to trigger commands intended for all */
 function AllCommands({
     command, sender, commandCall, parameters
 }) {

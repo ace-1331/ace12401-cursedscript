@@ -46,6 +46,7 @@ function CurseRoomLoad() {
     CurseRoomAce.Dialog.push({ Stage: "0", Option: "I have something I would like to say about the curse.", Result: "I'd love to hear your thoughts, send me a message on discord. Ace___#5558 (She smiles.)" });
     CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I get cursed, miss?", Result: "Of course! (She lays a hand on your shoulders, her eyes glow purple and you feel something odd.)", Prerequisite: "!HasCurse", Function: "CursedStarter()" });
     CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I have some money, miss?", Result: "(She looks furious, you have clearly insulted her.) Not going to happen, sweetheart. This is not meant to be for cheating." });
+    CurseRoomAce.Dialog.push({ Stage: "0", Option: "Is this dangerous, miss?", Result: "This only affects you. Make sure to keep your curse up to date and listen to the directives in the github ReadMe. Running the curse on a non-approved version is done at your own risks." });
     CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I customize my curse, miss?", NextStage: "20", Result: "Sure, what can I do for you?", Prerequisite: "HasCurse" });
     CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I have the link again, miss?", Result: "(She ignores how forgetful you are and hands you a note.) github.com/ace-1331/ace12401-cursedscript" });
     CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I have a taste of the curse, miss?", Result: "(She grins.) Of course, I can do many things.", Prerequisite: "HasCurse", NextStage: "30" });

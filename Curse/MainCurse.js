@@ -1,7 +1,13 @@
 //************************************ LOOP LOGIC ************************************//
 
-//Verify function that applies the curses if needed
+/** Main curse loop to prepare data and patch it through the right areas */
 function CursedCheckUp() {
+    // Stays Idle if the curse is disabled
+    if (!cursedConfig.isRunning) {
+        setTimeout(CursedCheckUp, 10000);
+        return;
+    }
+    
     //Gets the messages
     let messagesToVerify = [];
 
@@ -12,7 +18,6 @@ function CursedCheckUp() {
         //Fixes empty name in case of weird mess up
         if (cursedConfig.slaveIdentifier == "")
             cursedConfig.slaveIdentifier = Player.Name;
-        playerThing();
         
         //Verifies if a mistress is here
         if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
@@ -49,7 +54,7 @@ function CursedCheckUp() {
 
         //LARP Warn
         if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
-            popChatSilent("LARP Room detected: the curse is inactive in this room");
+            popChatSilent("LARP Room detected: the curse is inactive in this room", "System");
             //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
             cursedConfig.wasLARPWarned = true;
             cursedConfig.onRestart = true;
@@ -115,7 +120,7 @@ function CursedCheckUp() {
                     //Resumes as normal
                     cursedConfig.chatlog = oldLog;
                     cursedConfig.strikes = oldStrikes;
-                    popChatSilent("Your current curses have been applied with no punishments.");
+                    popChatSilent("Your current curses have been applied with no punishments.", "System");
                 }
                 cursedConfig.onRestart = false;
             }
@@ -127,14 +132,12 @@ function CursedCheckUp() {
         SaveConfigs();
     }
 
-    // Loops if activated
-    if (cursedConfig.isRunning)
-        setTimeout(CursedCheckUp, 1800);
+    // Loops
+    setTimeout(CursedCheckUp, 1800);
 }
 
-// Chat sender queue loop
+/** Function to process the chat message queue */
 function ChatlogProcess() {
-    playerThing();
     //Optimizes send times, removes fast dupes, keeps the order, does not work while restarting
     let purged = 0;
     if (cursedConfig.chatlog.length != 0 && !cursedConfig.onRestart) {
@@ -152,7 +155,19 @@ function ChatlogProcess() {
     if (cursedConfig.chatStreak > 5 || purged > 3) {
         cursedConfig.isRunning = false;
         cursedConfig.chatlog = [];
-        popChatSilent("ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord");
+        popChatSilent("ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord", "Error");
     }
     setTimeout(ChatlogProcess, 500);
+}
+
+/** Function to display reminders. Will not loop if reminders are not enabled */
+function ReminderProcess() { 
+    if (!cursedConfig.hasReminders) { 
+        return;
+    }
+    if (cursedConfig.isRunning) {
+        var reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
+        popChatSilent(reminder, "Reminder");
+    }
+    setTimeout(ReminderProcess, cursedConfig.reminderInterval);
 }

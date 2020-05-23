@@ -1,24 +1,26 @@
 //************************************  Curse Activations ************************************//
+/** Toggles a curse on any given item */
 function procGenericItem(item, group) {
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
         if (Player.BlockItems.filter(it => it.Name == item && it.Group == group).length !== 0) { 
-            popChatSilent("You currently have a curse activated for which the item is blocked, the curse will not apply the following item, please disable the curse using the item or unblock the item: " + item + " " + group);  
+            popChatSilent("You currently have a curse activated for which the item is blocked, the curse will not apply the following item, please disable the curse using the item or unblock the item: " + item + " " + group, "System");  
         }
         if (!InventoryOwnerOnlyItem(InventoryGet(Player, group)) ) {
             InventoryWear(Player, item, group, GetColorSlot(group));
             cursedConfig.toUpdate.push(group);
             cursedConfig.mustRefresh = true;
         } else {
-            popChatSilent("The curse is active, but did not apply the item as there was already something there which carries an owner lock.");
+            popChatSilent("The curse is active, but did not apply an item as there was already something there which carries an owner lock.", "System");
         }
     } else {
-        popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)");
+        popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)", "Error");
         cursedConfig.isRunning = false;
     }
 }
 
+/** Triggers cursed naked */
 function procCursedNaked() {
     ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
         .forEach(group => {
@@ -28,6 +30,7 @@ function procCursedNaked() {
     cursedConfig.mustRefresh = true;
 }
 
+/** Triggers cursed vibrators */
 function procCursedOrgasm() {
     //Wears the vibe
     if (!InventoryGet(Player, "ItemButt"))
@@ -65,6 +68,7 @@ function procCursedOrgasm() {
     cursedConfig.mustRefresh = true;
 }
 
+/** Triggers cursed latex */
 function procCursedLatex() {
     //wears the items
     if (!InventoryGet(Player, "Suit")) {
@@ -104,7 +108,7 @@ function procCursedLatex() {
     cursedConfig.mustRefresh = true;
 }
 
-
+/** Triggers cursed pony */
 function procCursedPony() {
     //wears the items
     if (!InventoryGet(Player, "Suit")) {
@@ -144,7 +148,7 @@ function procCursedPony() {
     cursedConfig.mustRefresh = true;
 }
 
-
+/** Triggers the cursed rope */
 function procCursedRopes() {
     if (!InventoryGet(Player, "ItemArms")) {
         InventoryWear(Player, "HempRope", "ItemArms", GetColorSlot("ItemArms"), 10);
@@ -162,6 +166,7 @@ function procCursedRopes() {
     cursedConfig.mustRefresh = true;
 }
 
+/** Triggers the curse maid */
 function procCursedMaid() { 
     if (!InventoryGet(Player, "Cloth")) {
         InventoryWear(Player, "MaidOutfit1", "Cloth", GetColorSlot("Cloth"), 10);
@@ -174,11 +179,12 @@ function procCursedMaid() {
     cursedConfig.mustRefresh = true;
 }
 
+/** Async function that will check if a character kneels within 30 seconds */
 async function checkKneeling(sender) {
     // Kneel on enforced
     if (ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)) {
         let startDate = Date.now();
-        popChatSilent("Reminder: You must be on your knees when you first see someone in this room.(Someone is enforced)");
+        popChatSilent("Reminder: You must be on your knees when you first see someone in this room.(Someone is enforced)", "System");
         while (Date.now() < startDate + 30000) {
             if (Player.Pose.includes("Kneel") || Player.Pose.includes("ForceKneel")) {
                 return;

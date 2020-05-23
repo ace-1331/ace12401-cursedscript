@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "Bondage Club - Cursed",
-    "description": "Injects the scripts relative to wearing the curse",
-    "version": "1.1.5",
+    "description": "Injects the scripts needed to wear the curse",
+    "version": "1.1.6",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"

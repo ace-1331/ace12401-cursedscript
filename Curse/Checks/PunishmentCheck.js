@@ -1,3 +1,4 @@
+/** Function to check if a punishment must be applied, returns true if one has been applied, works in severity stages. More can be added, items can be changed, etc. */
 function PunishmentCheck() { 
     let difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
     let r = false;

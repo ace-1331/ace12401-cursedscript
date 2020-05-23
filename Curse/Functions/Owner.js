@@ -1,3 +1,4 @@
+/** Function to trigger commands intended for owners */
 function OwnerCommands({ command, parameters, sender, commandCall }) {
     switch (command) {
         case "lockappearance":
@@ -31,6 +32,14 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             else
                 sendWhisper(sender, "(Wearer is now able to add/remove mistresses and owners.)", true);
             cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
+            break;
+        case "reminders":
+            if (!cursedConfig.hasReminders) {
+                sendWhisper(sender, "(Wearer will now receive reminders.)", true);
+                ReminderProcess();
+            } else
+                sendWhisper(sender, "(Wearer will no longer receive reminders.)", true);
+            cursedConfig.hasReminders = !cursedConfig.hasReminders;
             break;
         case "note":
             let note = parameters.join(" ");
@@ -259,13 +268,13 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             break;
         case "readnotes":
             let notes;
-            try { 
+            try {
                 notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
                 localStorage.removeItem(`bc-cursedReviews-${Player.MemberNumber}`);
             } catch { console.log("Error reading notes: RN55") }
             if (notes) {
                 sendWhisper(sender, "(The following notes have been attached to " + Player.Name + ")");
-                notes.forEach(n => sendWhisper(sender, "(" + n + ")") );
+                notes.forEach(n => sendWhisper(sender, "(" + n + ")"));
             }
             break;
         case "leash":
@@ -296,6 +305,37 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                         owner => owner != parameters[0]
                     );
                     sendWhisper(sender, "Removed owner: " + FetchName(parameters[0]), true);
+                }
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
+            }
+            break;
+        case "reminderinterval":
+        case "interval":
+            console.log(parameters)
+            if (!isNaN(parameters[0]) && parameters[0] != "") {
+                //Calculate time
+                var seconds = Math.round(parameters[0])
+                cursedConfig.reminderInterval = 1000 * (seconds >= 60 ? seconds : 60);
+                sendWhisper(sender, "Reminders will now be every " + (cursedConfig.reminderInterval / 1000) + " seconds.");
+            } else {
+                sendWhisper(sender, "(Invalid arguments.)");
+            }
+            break;
+        case "clearreminders":
+        case "clearallreminders":
+            cursedConfig.reminders = [];
+            sendWhisper(sender, "All reminders cleared.", true);
+            break;
+        case "togglereminder":
+            if (parameters[0]) {
+                let reminder = parameters.join(" ");
+                if (!cursedConfig.reminders.includes(reminder)) {
+                    cursedConfig.reminders.push(reminder);
+                    sendWhisper(sender, "New reminder: " + reminder);
+                } else {
+                    cursedConfig.reminders.splice(cursedConfig.reminders.indexOf(reminder), 1)
+                    sendWhisper(sender, "Removed reminder: " + reminder);
                 }
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");

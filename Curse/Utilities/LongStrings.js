@@ -1,4 +1,5 @@
 //************************************ LONG STRINGS ************************************//
+/** Initializes all the long strings needed to split them from the rest of the code */
 function InitHelpMsg() {
     window.helpTxt = `<pre>Your calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
     ${ChatRoomCharacter.map(el => el.Name).filter(n => n == cursedConfig.slaveIdentifier).length > 1 ? "WARNING: Potential clash with another character!" : ""}
@@ -28,7 +29,7 @@ function InitHelpMsg() {
     -forwardall
     -isclassic
     -savecolors
-    *NEW*-wardrobev2
+    -wardrobev2
     *NEW* INTENSE V:-capture
 
     >>>Speech Commands<<<
@@ -91,8 +92,8 @@ function InitHelpMsg() {
     -panties
     -screws
     -rope
-    *NEW*-maiduniform
-    *NEW*-doublegag
+    -maiduniform
+    -doublegag
 
 
     //OWNER FUNCTIONS//
@@ -107,10 +108,12 @@ function InitHelpMsg() {
     -disablepunishments
     -onlyonpresence
     -restrainplay
-    *NEW*-fullpublic
+    -fullpublic
     -afk
     -note
-    *NEW*INTENSE VERSION: -leash
+    *NEW*-reminderinterval [minutes]
+    *NEW*-clearallreminders [seconds]
+    INTENSE VERSION: -leash
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid
 
@@ -130,6 +133,8 @@ function InitHelpMsg() {
 
     >>>Curses<<<
     -belt
+    *NEW*-reminders
+    *NEW*-togglereminder [reminder]
     ---------
     More on various features:
     https://github.com/ace-1331/

