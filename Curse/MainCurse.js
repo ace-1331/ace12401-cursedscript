@@ -165,7 +165,7 @@ function ReminderProcess() {
     if (!cursedConfig.hasReminders) { 
         return;
     }
-    if (cursedConfig.isRunning) {
+    if (cursedConfig.isRunning && cursedConfig.reminders.length > 0 && CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP") {
         var reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
         popChatSilent(reminder, "Reminder");
     }

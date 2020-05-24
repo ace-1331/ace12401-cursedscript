@@ -34,12 +34,12 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
             break;
         case "reminders":
-            if (!cursedConfig.hasReminders) {
+            if (!cursedConfig.hasReminders)
                 sendWhisper(sender, "(Wearer will now receive reminders.)", true);
-                ReminderProcess();
-            } else
+            else
                 sendWhisper(sender, "(Wearer will no longer receive reminders.)", true);
             cursedConfig.hasReminders = !cursedConfig.hasReminders;
+            ReminderProcess();
             break;
         case "note":
             let note = parameters.join(" ");
