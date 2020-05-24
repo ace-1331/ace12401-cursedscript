@@ -93,7 +93,7 @@ function CursedStarter() {
                 savedColors: [],
                 nicknames: [],
                 reminders: [],
-                reminderInterval: 5,
+                reminderInterval: 60000,
                 entryMsg: "",
                 say: "",
                 sound: "",

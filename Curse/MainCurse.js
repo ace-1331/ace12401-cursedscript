@@ -169,5 +169,6 @@ function ReminderProcess() {
         var reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
         popChatSilent(reminder, "Reminder");
     }
+    cursedConfig.reminderInterval < 60000 ? cursedConfig.reminderInterval = 60000: '';
     setTimeout(ReminderProcess, cursedConfig.reminderInterval);
 }
