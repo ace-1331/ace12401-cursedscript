@@ -49,8 +49,10 @@ function AnalyzeMessage(msg) {
 
     // Sends activated messages to an owner who enters or if the wearer entered
     if (types.contains("ChatMessageEnterLeave")) {
-        if ((cursedConfig.owners.includes(sender) || cursedConfig.mistresses.includes(sender)) && chatroomMembers.includes(sender)) {
+        //Warn only if the player is not aware
+        if ((cursedConfig.owners.includes(sender) || cursedConfig.mistresses.includes(sender)) && chatroomMembers.includes(sender) && !cursedConfig.warned.includes(sender)) {
             sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");
+            cursedConfig.warned.push(sender);
         } 
         if (sender == Player.MemberNumber) {
             NotifyOwners("(The curse is active. Command call id: " + commandCall + ")")
@@ -80,38 +82,43 @@ function AnalyzeMessage(msg) {
 
             //Wearer only command
             if (sender == Player.MemberNumber) {
-                //WearerCommands({ command, parameters, sender });
                 //Quit loop to prevent wearer from doing the rest (can't add self as owner)
                 return;
             }
 
-            //Global warning to prevent spam if not the owner
+            //Global warning to prevent spam.
             if (types.contains("ChatMessageChat")) {
                 sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam.", true);
                 return;
             }
 
+            var needWarning = true;
+            
             // Verifies owner for private commands
             if (isOwner) {
-                OwnerCommands({ command, parameters, sender, commandCall });
+                OwnerCommands({ command, parameters, sender, commandCall }) ? '' : needWarning = false;
             }
 
             //Verify mistress for private commands
             if (isMistress || isOwner || cursedConfig.hasFullPublic) {
-                MistressCommands({ command, sender, parameters, isOwner });
+                MistressCommands({ command, sender, parameters, isOwner }) ? '' : needWarning = false;
             }
 
             // Checks if public has access or mistress can do all
             if (cursedConfig.hasPublicAccess || isMistress || isOwner) {
-                PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress });
+                PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress }) ? '' : needWarning = false;
             } else {
                 sendWhisper(sender, "(Public access is currently disabled.)")
             }
             
             //Perma commands for all
-            AllCommands({ command, sender, commandCall, parameters });
-
-        } catch (err) { console.log(err) }
+            AllCommands({ command, sender, commandCall, parameters }) ? '' : needWarning = false;
+            
+            //Warn an attempt was made but no command was found
+            if (needWarning)
+                sendWhisper(sender, "(Invalid command: A command was possibly requested, but no matching command was found. Check for typos , or verify your version number and curse settings.)", true);
+                
+        } catch (err) { console.error("Curse: " + err) }
 
     } else if (isActivated) {
         //Stuff that only applies to self

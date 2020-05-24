@@ -112,6 +112,7 @@ function CursedStarter() {
                 punishmentColor: "#222",
                 punishmentsDisabled: false,
 
+                warned: [],
                 toUpdate: [],
                 mustRefresh: false,
                 isRunning: false,

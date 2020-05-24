@@ -50,7 +50,7 @@ function CursedCheckUp() {
                     char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
                 }
             });
-        } catch { console.log("failed to update a name") }
+        } catch { console.error("Curse: failed to update a name") }
 
         //LARP Warn
         if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {

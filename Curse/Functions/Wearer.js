@@ -79,7 +79,6 @@ function WearerCommands({ command, parameters, sender }) {
         case "talk":
             const target = cursedConfig.targets.filter(t => t.ident == parameters[0])[0];
             const sentence = cursedConfig.sentences.filter(s => s.ident == parameters[1])[0];
-            console.log(target , sentence);
             if (target && sentence) {
                 popChatGlobal(sentence.text.replace("%target%", target.text).replace("%self%", cursedConfig.self), true)
             } else { 

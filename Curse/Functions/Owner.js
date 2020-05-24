@@ -1,4 +1,4 @@
-/** Function to trigger commands intended for owners */
+/** Function to trigger commands intended for owners, returns true if no command was executed */
 function OwnerCommands({ command, parameters, sender, commandCall }) {
     switch (command) {
         case "lockappearance":
@@ -271,7 +271,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             try {
                 notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
                 localStorage.removeItem(`bc-cursedReviews-${Player.MemberNumber}`);
-            } catch { console.log("Error reading notes: RN55") }
+            } catch { console.error("Curse: Error reading notes: RN55") }
             if (notes) {
                 sendWhisper(sender, "(The following notes have been attached to " + Player.Name + ")");
                 notes.forEach(n => sendWhisper(sender, "(" + n + ")"));
@@ -312,7 +312,6 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             break;
         case "reminderinterval":
         case "interval":
-            console.log(parameters)
             if (!isNaN(parameters[0]) && parameters[0] != "") {
                 //Calculate time
                 var seconds = Math.round(parameters[0])
@@ -341,5 +340,8 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
+        default:
+            // No command found
+            return true;
     }
 }

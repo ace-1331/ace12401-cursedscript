@@ -1,4 +1,4 @@
-/** Function to trigger commands intended for all */
+/** Function to trigger commands intended for all, returns true if no command was executed */
 function AllCommands({
     command, sender, commandCall, parameters
 }) {
@@ -24,7 +24,7 @@ function AllCommands({
             let note;
             try {
                 note = localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`);
-            } catch { console.log("Error reading note: RN05") }
+            } catch { console.error("Curse: Error reading note: RN05") }
             if (note) {
                 sendWhisper(sender, "(A note is attached to her from her owner: " + localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`) + ")");
             }
@@ -35,8 +35,11 @@ function AllCommands({
                 notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
                 notes.push(FetchName(sender) + " (" + sender + "): " + parameters.join(" "));
                 localStorage.setItem(`bc-cursedReviews-${Player.MemberNumber}`, JSON.stringify(notes));
-            } catch (e){ console.log("Error sending notes: RS65", e) }
+            } catch (e){ console.error("Curse: Error sending notes: RS65", e) }
             sendWhisper(sender, "(Note sent to owner(s).)");
             break;
+        default:
+            // No command found
+            return true;
     }
 }

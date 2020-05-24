@@ -111,8 +111,8 @@ function InitHelpMsg() {
     -fullpublic
     -afk
     -note
-    *NEW*-reminderinterval [minutes]
-    *NEW*-clearallreminders [seconds]
+    *NEW*-reminderinterval [seconds]
+    *NEW*-clearallreminders
     INTENSE VERSION: -leash
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid

@@ -1,4 +1,4 @@
-/** Function to trigger commands intended for mistresses */
+/** Function to trigger commands intended for mistresses, returns true if no command was executed */
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
@@ -356,6 +356,9 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             }
             cursedConfig.hasNoContractions = !cursedConfig.hasNoContractions;
             break;
+        default:
+            // No command found
+            return true;
 
     }
 }

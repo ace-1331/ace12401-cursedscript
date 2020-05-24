@@ -3,7 +3,7 @@
 function SaveConfigs() {
     try {
         const dbConfigs = { ...cursedConfig };
-        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say"];
+        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned"];
         toDelete.forEach(prop => delete dbConfigs[prop]);
         localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
     } catch { }
@@ -16,6 +16,9 @@ function NotifyOwners(msg, sendSelf) {
             cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString())
         ) {
             sendWhisper(char.MemberNumber, msg);
+            // Character knows the curse is there, no need to warn anymore
+            if (!cursedConfig.warned.includes(char.MemberNumber.toString()))
+                cursedConfig.warned.push(char.MemberNumber.toString());
         }
     });
     if (sendSelf) {
@@ -237,7 +240,7 @@ function DeleteNickname(parameters, sender, priority) {
                             char.Name = oldNickname[0].SavedName;
                         }
                     });
-                } catch (e) { console.log(e, "failed to update a name") }
+                } catch (e) { console.error(e, "failed to update a name") }
 
                 //Delete nickname
                 cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != userNumber);

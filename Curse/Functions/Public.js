@@ -1,4 +1,4 @@
-/** Function to trigger commands intended for public (can be turned off) */
+/** Function to trigger commands intended for public (can be turned off), returns true if no command was executed */
 function PublicCommands({
     command, sender, commandCall, parameters, isOwner, isMistress
 }) {
@@ -37,11 +37,14 @@ function PublicCommands({
                     sendWhisper(sender, "For the next 5 minutes, the wearer is unable to leave a room and can be brought into any given room by beeping them.", true);
                 } else if (cursedConfig.capture.capturedBy !== sender) {
                     sendWhisper(sender, "Someone else has captured the wearer in the past 5 minutes, try again later.", true);
-                } else { 
+                } else {
                     sendWhisper(sender, "You have already captured the wearer.", true);
                 }
             } else
                 popChatSilent("Capture mode disabled.");
             break;
+        default:
+            // No command found
+            return true;
     }
 }
