@@ -16,7 +16,7 @@ function InitHelpMsg() {
     -showblacklist
     -shownicknames
     -configreport
-    *NEW*-listsentences
+    -listsentences
 
     >>> Config Commands <<<
     -issilent
@@ -33,7 +33,7 @@ function InitHelpMsg() {
     *NEW* INTENSE V:-capture
 
     >>>Speech Commands<<<
-    *NEW*INTENSE:-talk [target id] [sentence id]
+    INTENSE:-talk [target id] [sentence id]
     >>> Other Commands <<<
     INTENSE V:-nickname [Number] [Name]
     INTENSE V:-deletenickname [Number] [Name]
@@ -47,7 +47,7 @@ function InitHelpMsg() {
     -edge
     -asylumtimeleft
     -readnote
-    *NEW*-sendnote
+    -sendnote
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
@@ -116,15 +116,16 @@ function InitHelpMsg() {
     INTENSE VERSION: -leash
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid
+    *NEW*INTENSE VERSION: -sensdep
 
     >>>Speech Commands<<<
     -enforceentrymessage
     -entrymessage [sentence]
-    *NEW*INTENSE V:-restrainedspeech
-    *NEW*INTENSE V:-self [I, this slave, etc.]
-    *NEW*INTENSE V:-target [id] [target]
-    *NEW*INTENSE V:-sentence [id] [sentence]
-    *NEW*INTENSE V:-listsentences
+    INTENSE V:-restrainedspeech
+    INTENSE V:-self [I, this slave, etc.]
+    INTENSE V:-target [id] [target]
+    INTENSE V:-sentence [id] [sentence]
+    INTENSE V:-listsentences
     INTENSE V: -forcedsay [sentence]
     INTENSE V: -say [sentence]
     INTENSE V: -fullmute

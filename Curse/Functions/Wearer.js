@@ -5,7 +5,7 @@ function WearerCommands({ command, parameters, sender }) {
     let r = false;
     switch (command) {
         case "configreport":
-            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner"];
+            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "hasForcedSensDep"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             popChatSilent(report);
             break;

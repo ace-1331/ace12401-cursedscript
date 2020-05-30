@@ -37,6 +37,12 @@ function CursedCheckUp() {
             );
         }
 
+        //Checks settings
+        if (cursedConfig.hasForcedSensDep && cursedConfig.hasIntenseVersion) { 
+            Player.GameplaySettings.SensDepChatLog = "SensDepTotal";
+            Player.GameplaySettings.BlindDisableExamine = true;
+        }
+        
         //Making sure all names are up-to-date
         //Try catch in case the updated player is no longer there (extreme edge case)
         try {
@@ -133,7 +139,7 @@ function CursedCheckUp() {
     }
 
     // Loops
-    setTimeout(CursedCheckUp, 1800);
+    setTimeout(CursedCheckUp, 1000);
 }
 
 /** Function to process the chat message queue */

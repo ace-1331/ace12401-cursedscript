@@ -57,6 +57,17 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 sendWhisper(sender, "(Wearer is now able to be freed by the rescue maid.)", true);
             cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
             break;
+        case "sensdep":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (!cursedConfig.hasForcedSensDep)
+                sendWhisper(sender, "(Wearer now has full sens dep settings locked.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has full sens dep settings locked.)", true);
+            cursedConfig.hasForcedSensDep = !cursedConfig.hasForcedSensDep;
+            break;
         case "disablepunishments":
             if (!cursedConfig.punishmentsDisabled)
                 sendWhisper(sender, "(Auto punishments disabled.)", true);

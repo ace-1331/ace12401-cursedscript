@@ -81,7 +81,8 @@ function CursedStarter() {
                 canReceiveNotes: false,
                 hasCaptureMode: false,
                 hasReminders: false,
-            
+                hasForcedSensDep: false,
+                
                 owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 enforced: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -129,7 +130,7 @@ function CursedStarter() {
                 onRestart: true,
             };
             window.cursedConfig = { ...cursedConfigInit };
-            window.currentVersion = 27;
+            window.currentVersion = 28;
             window.oldStorage = null;
             window.oldVersion = null;
 
