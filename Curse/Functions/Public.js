@@ -4,13 +4,13 @@ function PublicCommands({
 }) {
     switch (command) {
         case "punish":
-            SendChat("The curse on " + Player.Name + " listens, growing angry has someone requests a punishment for the bad slave. " + Player.Name + " is  engulfed in pain as she gets spanked roughly multiple times.");
+            SendChat(`The curse on ${Player.Name} punishes her as requested by ${FetchName(sender)}.`);
             triggerInPain();
             KneelAttempt();
             cursedConfig.strikes += 2;
             break;
         case "edge":
-            SendChat("The curse on " + Player.Name + " listens, growing hungry for more moans. " + Player.Name + " gets drowned in lust as she is brought to her edge... left there for a while, unable to climax.");
+            SendChat(`The curse on ${Player.Name} edges her as requested by ${FetchName(sender)}.`);
             triggerInPleasure();
             KneelAttempt();
             break;

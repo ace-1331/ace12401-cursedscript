@@ -114,7 +114,6 @@ function InitHelpMsg() {
     *NEW*-reminderinterval [seconds]
     *NEW*-clearallreminders
     INTENSE VERSION: -leash
-    INTENSE VERSION: -lockowner
     INTENSE VERSION: -maid
     *NEW*INTENSE VERSION: -sensdep
 
@@ -136,6 +135,11 @@ function InitHelpMsg() {
     -belt
     *NEW*-reminders
     *NEW*-togglereminder [reminder]
+    
+    //CLUB OWNER FUNCTIONS//
+    >>>Configuration Commands<<<
+    INTENSE VERSION: -lockowner
+    
     ---------
     More on various features:
     https://github.com/ace-1331/

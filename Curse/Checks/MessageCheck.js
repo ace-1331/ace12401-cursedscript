@@ -9,7 +9,8 @@ function AnalyzeMessage(msg) {
     var chatroomMembers = ChatRoomCharacter.map(el => el.MemberNumber.toString());
     var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
     var isMistress = cursedConfig.mistresses.includes(sender.toString());
-    var isOwner = cursedConfig.owners.includes(sender.toString());
+    var isClubOwner = Player.Owner && Player.Ownership && (Player.Ownership.MemberNumber == sender);
+    var isOwner = cursedConfig.owners.includes(sender.toString()) || isClubOwner;
     var isOnEntry = types.contains("ChatMessageEnterLeave") && sender == Player.MemberNumber;
     var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress)
@@ -94,29 +95,36 @@ function AnalyzeMessage(msg) {
 
             var needWarning = true;
             
+            /* Will not cascade if a command was already found */
+            
+            // Verifies club owner commands
+            if (isClubOwner && needWarning) {
+                needWarning = ClubOwnerCommands({ command, parameters, sender, commandCall });
+            }
+            
             // Verifies owner for private commands
-            if (isOwner) {
-                OwnerCommands({ command, parameters, sender, commandCall }) ? '' : needWarning = false;
+            if (isOwner && needWarning) {
+                needWarning = OwnerCommands({ command, parameters, sender, commandCall });
             }
 
             //Verify mistress for private commands
-            if (isMistress || isOwner || cursedConfig.hasFullPublic) {
-                MistressCommands({ command, sender, parameters, isOwner }) ? '' : needWarning = false;
+            if ((isMistress || isOwner || cursedConfig.hasFullPublic) && needWarning) {
+                needWarning = MistressCommands({ command, sender, parameters, isOwner });
             }
-
+            
             // Checks if public has access or mistress can do all
-            if (cursedConfig.hasPublicAccess || isMistress || isOwner) {
-                PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress }) ? '' : needWarning = false;
-            } else {
-                sendWhisper(sender, "(Public access is currently disabled.)")
+            if ((cursedConfig.hasPublicAccess || isMistress || isOwner) && needWarning) {
+                needWarning = PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress });
             }
             
             //Perma commands for all
-            AllCommands({ command, sender, commandCall, parameters }) ? '' : needWarning = false;
+            if (needWarning) {
+                needWarning = AllCommands({ command, sender, commandCall, parameters });
+            }
             
             //Warn an attempt was made but no command was found
             if (needWarning)
-                sendWhisper(sender, "(Invalid command: A command was possibly requested, but no matching command was found. Check for typos , or verify your version number and curse settings.)", true);
+                sendWhisper(sender, `(Invalid command: A command was possibly requested, but no matching command was found. Check for typos , or verify your version number and curse settings. Info about the person who sent the command: Club owner: ${isClubOwner ? "Yes" : "No"}, Curse owner: ${isOwner ? "Yes" : "No"}, Mistress: ${isOwner || isMistress ? "Yes" : "No"}, Public access: ${cursedConfig.hasPublicAccess ? "Yes" : "No"}, Full public access: ${cursedConfig.hasFullPublic ? "Yes" : "No"})`, true);
                 
         } catch (err) { console.error("Curse: " + err) }
 

@@ -151,17 +151,6 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             sendWhisper(sender, "Here are the allowed targets -->" + cursedConfig.targets.map(target => `Command: ${target.ident} Ouputs: ${target.text}`).join("; - "));
             sendWhisper(sender, "Here are the allowed sentences -->" + cursedConfig.sentences.map(sentence => `Command: ${sentence.ident}`).join("; - "));
             break;
-        case "lockowner":
-            if (!cursedConfig.hasIntenseVersion) {
-                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-                return;
-            }
-            if (!cursedConfig.isLockedOwner)
-                SendChat("The curse keeps " + Player.Name + " from leaving their owner.");
-            else
-                SendChat("The curse allows " + Player.Name + " to break their collar.");
-            cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
-            break;
         case "fullpublic":
             if (!cursedConfig.hasFullPublic)
                 SendChat("The curse on " + Player.Name + " allows the public to do as they please.");
