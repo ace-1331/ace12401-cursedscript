@@ -17,7 +17,8 @@ function SelfMessageCheck(msg) {
         if (parameters.length > 0) {
             parameters.shift();
             //Wearer only command
-            r = WearerCommands({ command, parameters, sender: Player.MemberNumber }) ? false : true;
+            r = WearerCommands({ command, parameters, sender: Player.MemberNumber }) ? r : true;
+            r = PrivateCommands({ command, parameters, sender: Player.MemberNumber }) ? r : true;
         }
         if (r) return true;
     }

@@ -4,11 +4,6 @@
 function WearerCommands({ command, parameters, sender }) {
     let r = false;
     switch (command) {
-        case "configreport":
-            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasForcedSensDep", "hasHiddenDisplay"];
-            let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
-            popChatSilent(report);
-            break;
         case "forwardall":
             if (!cursedConfig.hasForward)
                 popChatSilent("Your curse will forward all whispers to you.");
@@ -41,13 +36,6 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Disabled enhanced wardrobe. (Changes will be applied on the next reload.)");
             cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
             break;
-        case "isclassic":
-            if (!cursedConfig.isClassic)
-                popChatSilent("Your curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
-            else
-                popChatSilent("Your curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
-            cursedConfig.isClassic = !cursedConfig.isClassic;
-            break;
         case "issilent":
             if (!cursedConfig.isSilent)
                 popChatSilent("Your curse will no longer display public messages");
@@ -63,21 +51,6 @@ function WearerCommands({ command, parameters, sender }) {
             break;
         case "showblacklist":
             popChatSilent("Your blacklist: #" + cursedConfig.blacklist.join(" #"));
-            break;
-        case "showenforced":
-            popChatSilent("Your enforced list: #" + cursedConfig.enforced.join(" #"));
-            break;
-        case "showmistresses":
-            popChatSilent("Your mistresses: #" + cursedConfig.mistresses.join(" #"));
-            break;
-        case "showowners":
-            popChatSilent("Your owners: #" + cursedConfig.owners.join(" #"));
-            break;
-        case "shownicknames":
-            popChatSilent("Currently set nicknames: " + cursedConfig.nicknames.map(n => n.Number + ": " + n.Nickname + " (Priority: " + n.Priority + ")").join(", "));
-            break;
-        case "speechreport":
-            popChatSilent(`Here are your speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}. (Note that banned words with '-' and such in them are for compatibility, they will not be picked up so you can ignore them.)`);
             break;
         case "listsentences":
             popChatSilent("Here are your allowed targets -->" + cursedConfig.targets.map(target => `Command: ${target.ident} Ouputs: ${target.text}`).join("; - "));

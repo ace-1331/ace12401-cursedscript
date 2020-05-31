@@ -109,6 +109,10 @@ function AnalyzeMessage(msg) {
                 needWarning = ClubOwnerCommands({ command, parameters, sender, commandCall });
             }
             
+            if (isOwner && needWarning) {
+                needWarning = PrivateCommands({ command, parameters, sender });
+            }
+            
             // Verifies owner for private commands
             if (isOwner && needWarning) {
                 needWarning = OwnerCommands({ command, parameters, sender, commandCall });

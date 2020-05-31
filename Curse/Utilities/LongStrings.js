@@ -9,14 +9,8 @@ function InitHelpMsg() {
 
     >>> Information <<<
     -help
-    -speechreport
     -showstrikes
-    -showmistresses
-    -showowners
-    -showenforced
     -showblacklist
-    -shownicknames
-    -configreport
     -listsentences
 
     >>> Config Commands <<<
@@ -29,7 +23,6 @@ function InitHelpMsg() {
     -identifier [new identifier]
     -punishmentcolor ["#colorcode"]
     -forwardall
-    -isclassic
     -savecolors
     -wardrobev2
     INTENSE V:-capture
@@ -97,6 +90,17 @@ function InitHelpMsg() {
     -maiduniform
     -doublegag
 
+    //OWNER AND WEARER FUNCTIONS//
+    >>>Configuration Commands<<<
+    -isclassic
+    
+    >>> Information <<<
+    -speechreport
+    -showmistresses
+    -showowners
+    -showenforced
+    -shownicknames
+    -configreport
 
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
