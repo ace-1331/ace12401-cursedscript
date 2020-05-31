@@ -1,11 +1,14 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
+window.currentVersion = 28;
 let AlwaysOn;
 let isLoaded;
+
 try {
     AlwaysOn = localStorage.getItem("bc-cursed-always-on");
 } catch { }
+
 LoginListener();
 
 async function LoginListener() {
@@ -25,7 +28,6 @@ async function LoginListener() {
         await new Promise(r => setTimeout(r, 2000));
     }
 }
-
 
 /** Starts the script */
 function CursedStarter() {
@@ -128,9 +130,9 @@ function CursedStarter() {
                 chatStreak: 0,
                 hasForward: false,
                 onRestart: true,
+                hasHiddenDisplay: false,
             };
             window.cursedConfig = { ...cursedConfigInit };
-            window.currentVersion = 28;
             window.oldStorage = null;
             window.oldVersion = null;
 
@@ -182,17 +184,17 @@ function CursedStarter() {
 
             //Resets Strikes when it has been a week
             if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-                popChatSilent("A new week has begun, your strikes have reset.", "System");
+                popChatSilent("A new week has begun, your strikes have reset. (Might be a good time to check for updates!)", "System");
                 cursedConfig.strikeStartTime = Date.now();
                 cursedConfig.strikes = 0;
                 cursedConfig.lastPunishmentAmount = 0;
             }
 
-            //Make sure the real owner is in the list
-            if (Player.Owner && !cursedConfig.owners.includes(Player.Ownership.MemberNumber.toString())) {
-                cursedConfig.owners.push(Player.Ownership.MemberNumber.toString());
-            }
-
+            //Enables the hidden curse item to display who has the curse
+            AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
+            AssetLoadAll();
+            InventoryAdd(Player, "Curse", "ItemHidden");
+            
             //Runs the script
             cursedConfig.isRunning = true;
             cursedConfig.onRestart = true;

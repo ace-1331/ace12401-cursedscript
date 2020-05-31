@@ -2,20 +2,25 @@
 <html>
 
 <body>
+    <h2><b>Latest news:</b></h2>
+    <script src="https://gist.github.com/ace-1331/731ae0bb5508e2a1cc9aee5671b79ab7.js"></script>
+    <hr />
     <p class="warning">You are responsible for what happens on your account when using console scripts or third-party extensions/mods.</p>
     <hr />
-    <button id="btnStart">Wear the curse</button>
-    <button id="btnStop">Disable the curse</button>
+    <b>Activation:</b>
+    <button id="btnStart">Wear</button>
+    <button id="btnStop">Disable</button>
     <hr />
-    <button id="btnIntOn">Intense Version On (Risky)</button>
-    <button id="btnIntOff">Intense Version Off</button>
+    <b>Intense Version:</b>
+    <button id="btnIntOn">On (Risky)</button>
+    <button id="btnIntOff">Off</button>
     <hr />
-    <button id="btnAlwaysOn">Activate Permamently</button>
-    <button id="btnAlwaysOff">Deactivate Perma Wear</button>
+    <b>Permanent Activation:</b>
+    <button id="btnAlwaysOn">On</button>
+    <button id="btnAlwaysOff">Off</button>
     <hr />
-    <p>Report issues to: Ace__#5558 on discord</p>
     <p id="versionNo"></p>
-    <p>You can ask to be on the discord list for new version announcements.</p>
+    <p>Report issues to: Ace__#5558 on discord</p>
     <a href="https://github.com/ace-1331/ace12401-cursedscript">
         Official Repo of this extension
     </a>
@@ -24,13 +29,29 @@
 </body>
 <style>
     body {
-        width: 220px;
+        width: 400px;
+        text-align: center;
     }
+
     button {
         margin-bottom: 5px;
     }
+    
+    h2 {
+        margin: 0;
+    }
+
     p.warning {
         color: red;
     }
+    
+    #file-cursemessage-md-readme ul{
+        list-style: none;
+    }
+    
+    .gist-meta, .js-line-number {
+        display: none;
+    }
 </style>
+
 </html>

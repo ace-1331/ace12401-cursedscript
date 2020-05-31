@@ -5,7 +5,7 @@ function WearerCommands({ command, parameters, sender }) {
     let r = false;
     switch (command) {
         case "configreport":
-            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "hasForcedSensDep"];
+            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "hasForcedSensDep", "hasHiddenDisplay"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             popChatSilent(report);
             break;
@@ -15,6 +15,13 @@ function WearerCommands({ command, parameters, sender }) {
             else
                 popChatSilent("Your curse will no longer forward unnecessary whispers.");
             cursedConfig.hasForward = !cursedConfig.hasForward;
+            break;
+        case "hidedisplay":
+            if (!cursedConfig.hasHiddenDisplay)
+                popChatSilent("You will no longer see who has the curse.");
+            else
+                popChatSilent("You will now see who has the curse.");
+            cursedConfig.hasHiddenDisplay = !cursedConfig.hasHiddenDisplay;
             break;
         case "capture":
             if (!cursedConfig.hasIntenseVersion) {
@@ -38,7 +45,7 @@ function WearerCommands({ command, parameters, sender }) {
             if (!cursedConfig.isClassic)
                 popChatSilent("Your curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
             else
-            popChatSilent("Your curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
+                popChatSilent("Your curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
             cursedConfig.isClassic = !cursedConfig.isClassic;
             break;
         case "issilent":
@@ -81,7 +88,7 @@ function WearerCommands({ command, parameters, sender }) {
             const sentence = cursedConfig.sentences.filter(s => s.ident == parameters[1])[0];
             if (target && sentence) {
                 popChatGlobal(sentence.text.replace("%target%", target.text).replace("%self%", cursedConfig.self), true)
-            } else { 
+            } else {
                 popChatSilent("Invalid arguments. you need to specify the target id and the sentence id like '#name talk miss yes' where miss is the target id and yes is the sentence id.");
             }
             break;

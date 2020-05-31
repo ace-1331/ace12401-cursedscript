@@ -13,17 +13,17 @@ function InitAlteredFns() {
     // Management break functions (Owner breaking block)
     let backupManagementCanBreakTrialOnline = ManagementCanBreakTrialOnline;
     ManagementCanBreakTrialOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCanBreakTrialOnline()) }
-    
+
     let backupManagementCanBeReleasedOnline = ManagementCanBeReleasedOnline;
     ManagementCanBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCanBeReleasedOnline()) }
-    
+
     let backupManagementCannotBeReleasedOnline = ManagementCannotBeReleasedOnline;
     ManagementCannotBeReleasedOnline = function () { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCannotBeReleasedOnline()) }
 
     // Maid (Maid block)
     let backupMainHallMaidReleasePlayer = MainHallMaidReleasePlayer;
     MainHallMaidReleasePlayer = function () {
-        if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) { 
+        if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
             MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
             return;
         }
@@ -98,12 +98,44 @@ function InitAlteredFns() {
             }
         }
     }
-    
+
     // Prevent leaving a room
     Player.walkBackup = Player.CanWalk;
-    Player.CanWalk = function () { 
+    Player.CanWalk = function () {
         var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
         return Player.walkBackup() && (!isActivated || cursedConfig.capture.Valid < Date.now());
+    }
+
+    // Draw character for curse icon
+    let backupChatRoomDrawCharacter = ChatRoomDrawCharacter;
+    ChatRoomDrawCharacter = function (DoClick) {
+        backupChatRoomDrawCharacter(DoClick);
+        // Sets the X position
+        var X = 0;
+        var Space = 500;
+        if (ChatRoomCharacter.length == 3) Space = 333;
+        if (ChatRoomCharacter.length == 4) Space = 250;
+        if (ChatRoomCharacter.length >= 5) Space = 200;
+        if (ChatRoomCharacter.length >= 3) X = (Space / -5);
+
+        // Sets the Y position
+        var Y = 0;
+        if (ChatRoomCharacter.length == 3) Y = 50;
+        if (ChatRoomCharacter.length == 4) Y = 150;
+        if (ChatRoomCharacter.length == 5) Y = 250;
+
+        // Sets the zoom factor
+        var Zoom = 1;
+        if (ChatRoomCharacter.length == 3) Zoom = 0.9;
+        if (ChatRoomCharacter.length == 4) Zoom = 0.7;
+        if (ChatRoomCharacter.length >= 5) Zoom = 0.5;
+        for (var C = 0; C < ChatRoomCharacter.length; C++) {
+            if (!DoClick && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
+                if (ChatRoomCharacter[C].MemberNumber != null && ChatRoomCharacter[C].isCursed) {
+                    DrawText("C", (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, "White");
+                }
+            }
+        }
     }
 }
 

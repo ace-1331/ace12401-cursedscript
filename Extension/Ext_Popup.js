@@ -1,6 +1,7 @@
 
 //Display version
-document.getElementById("versionNo").innerHTML = 'v' + chrome.runtime.getManifest().version;
+let CurrentCurseVersion = chrome.runtime.getManifest().version;
+document.getElementById("versionNo").innerHTML = 'Last version detected when chrome was started: v' + CurrentCurseVersion;
 
 /** Injects a function as plain code */
 function InjectCode(tabId, func, callback) {
@@ -17,7 +18,7 @@ function InjectCode(tabId, func, callback) {
 }
 
 /** Attaches a listener to a button and inserts the function to inject */
-function buttonListener(id, fn) { 
+function buttonListener(id, fn) {
     document.getElementById(id).addEventListener("click", e => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             InjectCode(tabs[0].id, fn);

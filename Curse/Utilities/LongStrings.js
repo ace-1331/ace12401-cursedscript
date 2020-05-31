@@ -2,7 +2,8 @@
 /** Initializes all the long strings needed to split them from the rest of the code */
 function InitHelpMsg() {
     window.helpTxt = `<pre>Your calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
-    ${ChatRoomCharacter.map(el => el.Name).filter(n => n == cursedConfig.slaveIdentifier).length > 1 ? "WARNING: Potential clash with another character!" : ""}
+    ${ChatRoomCharacter.map(el => {return { Name: el.Name, isCursed: el.isCursed }}).filter(n => n.Name == cursedConfig.slaveIdentifier && n.isCursed).length > 1
+    ? "WARNING: Potential clash with another character!" : ""}
 
     //WEARER FUNCTIONS//
 
@@ -19,6 +20,7 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
+    *NEW*-hidedisplay
     -issilent
     -blacklist [a member number]
     -mistress [a member number]
@@ -30,7 +32,7 @@ function InitHelpMsg() {
     -isclassic
     -savecolors
     -wardrobev2
-    *NEW* INTENSE V:-capture
+    INTENSE V:-capture
 
     >>>Speech Commands<<<
     INTENSE:-talk [target id] [sentence id]
@@ -51,7 +53,7 @@ function InitHelpMsg() {
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
-    *NEW* INTENSE V:-capture
+    INTENSE V:-capture
 
     //MISTRESS FUNCTIONS//
     >>> Basic Commands<<<
@@ -103,8 +105,8 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
-    *NEW*-guestnotes
-    *NEW*-readnotes
+    -guestnotes
+    -readnotes
     -disablepunishments
     -onlyonpresence
     -restrainplay
