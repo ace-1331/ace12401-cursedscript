@@ -175,6 +175,7 @@ function itemIsAllowed(name, group) {
             && InventoryGet(Player, group).Asset
             && InventoryGet(Player, group).Asset.Name == name
         ) && !InventoryGroupIsBlocked(Player, group)
+        && !InventoryOwnerOnlyItem(InventoryGet(Player, group))
     ) {
         return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
     }

@@ -105,7 +105,16 @@ function InitAlteredFns() {
         var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
         return Player.walkBackup() && (!isActivated || cursedConfig.capture.Valid < Date.now());
     }
-
+    
+    // Block new lovers
+    let backupChatRoomLovershipOptionIs = ChatRoomLovershipOptionIs;
+    ChatRoomLovershipOptionIs = function (Option) {
+        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewLover) { 
+            return false;
+        }
+        return backupChatRoomLovershipOptionIs(Option);
+    }
+    
     // Draw character for curse icon
     let backupChatRoomDrawCharacter = ChatRoomDrawCharacter;
     ChatRoomDrawCharacter = function (DoClick) {

@@ -123,11 +123,11 @@ function AppearanceCheck() {
         if (
             cursedConfig.hasCursedOrgasm
             && (
-                !InventoryGet(Player, "ItemButt")
-                || !InventoryGet(Player, "ItemVulva")
-                || !InventoryGet(Player, "ItemNipples")
-                || !InventoryGet(Player, "ItemVulvaPiercings")
-                || !InventoryGet(Player, "ItemNipplesPiercings")
+                itemIsAllowed(Player, "ItemButt")
+                || itemIsAllowed(Player, "ItemVulva")
+                || itemIsAllowed(Player, "ItemNipples")
+                || itemIsAllowed(Player, "ItemVulvaPiercings")
+                || itemIsAllowed(Player, "ItemNipplesPiercings")
                 || (
                     InventoryGet(Player, "ItemButt")
                     && InventoryGet(Player, "ItemButt").Asset.Name == "InflVibeButtPlug"

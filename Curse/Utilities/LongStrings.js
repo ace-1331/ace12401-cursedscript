@@ -141,6 +141,7 @@ function InitHelpMsg() {
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
     INTENSE VERSION: -lockowner
+    *NEW*INTENSE VERSION: -locknewlover
     
     ---------
     More on various features:

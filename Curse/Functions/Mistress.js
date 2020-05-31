@@ -2,7 +2,7 @@
 function MistressCommands({ command, sender, parameters, isOwner }) {
     switch (command) {
         case "cursereport":
-            let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasCursedMaid", "hasCursedDildogag", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "hasReminders", "canReceiveNotes", "canLeash"];
+            let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedBelt", "hasCursedKneel", "hasCursedLatex", "hasCursedSpeech", "hasCursedOrgasm", "hasCursedNakedness", "isMute", "disaledOnMistress", "enabledOnMistress", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasEntryMsg", "hasFullMuteChat", "hasCursedScrews", "hasCursedRopes", "hasCursedPaws", "hasCursedPony", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasCursedMaid", "hasCursedDildogag", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasReminders", "canReceiveNotes", "canLeash"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report, true);
             break;
@@ -325,7 +325,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 var strikesToAdd = parseInt(parameters[0]);
                 if (strikesToAdd != 0) {
                     cursedConfig.strikes += strikesToAdd;
-                    sendWhisper(sender, `${Player.Name} has had ${Math.abs(strikesToAdd)} strikes ${strikesToAdd > 0 ? "added to" : "subtracted from"} their strike counter.`, true);
+                    sendWhisper(sender, `${Player.Name} has had ${Math.abs(strikesToAdd)} strikes ${strikesToAdd > 0 ? "added to" : "subtracted from"} her strike counter.`, true);
                     if (cursedConfig.strikes < 0) {
                         cursedConfig.strikes = 0;
                     }
