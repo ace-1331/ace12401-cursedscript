@@ -53,7 +53,9 @@ function CursedCheckUp() {
                     if (char.Name != user[0].Nickname && !user[0].SavedName) {
                         cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
                     }
-                    char.Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
+                    let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
+                    char.Name = NameToDisplay;
+                    char.DisplayName = NameToDisplay;
                 }
             });
         } catch { console.error("Curse: failed to update a name") }
@@ -139,7 +141,7 @@ function CursedCheckUp() {
     }
 
     // Loops
-    setTimeout(CursedCheckUp, 1000);
+    setTimeout(CursedCheckUp, 1200);
 }
 
 /** Function to process the chat message queue */

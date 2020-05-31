@@ -15,6 +15,8 @@ function InitHelpMsg() {
 
     >>> Config Commands <<<
     *NEW*-hidedisplay
+    *NEW*-restraintvanish
+    -isclassic
     -issilent
     -blacklist [a member number]
     -mistress [a member number]
@@ -91,9 +93,6 @@ function InitHelpMsg() {
     -doublegag
 
     //OWNER AND WEARER FUNCTIONS//
-    >>>Configuration Commands<<<
-    -isclassic
-    
     >>> Information <<<
     -speechreport
     -showmistresses

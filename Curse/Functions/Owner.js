@@ -241,8 +241,12 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             if (!cursedConfig.hasCursedBelt) {
                 SendChat("The curse arises on " + Player.Name + "'s belt.");
                 procGenericItem("PolishedChastityBelt", "ItemPelvis");
-            } else
+            } else {
                 SendChat("The curse on " + Player.Name + "'s belt vanished.");
+                if (cursedConfig.hasRestraintVanish) {
+                    restraintVanish("ItemPelvis");
+                }
+            }
             cursedConfig.hasCursedBelt = !cursedConfig.hasCursedBelt;
             break;
         case "afk":

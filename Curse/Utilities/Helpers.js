@@ -182,6 +182,23 @@ function itemIsAllowed(name, group) {
     return false;
 }
 
+/** 
+ * Removes one or multiple restraints from a list
+ * @param {string | Array<string>} groups - The group(s) for which to remove items
+ */
+function restraintVanish(groups) {
+    if (!Array.isArray(groups)) { groups = [groups]; }
+    groups.forEach(group => {
+        if (
+            !InventoryOwnerOnlyItem(InventoryGet(Player, group))
+            && !InventoryGroupIsBlocked(Player, group)
+        ) {
+            InventoryRemove(Player, group);
+            cursedConfig.mustRefresh = true;
+        }
+    });
+}
+
 /**
  * Nicknames - Set a nickname for someone
  * Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Blocked 5 - Remove self block
@@ -273,7 +290,7 @@ function DeleteNickname(parameters, sender, priority) {
 }
 
 /** Tries to get the name of a member number */
-function FetchName(number) { 
+function FetchName(number) {
     let Name;
     ChatRoomCharacter.forEach(C => {
         if (C.MemberNumber == number) {
@@ -281,7 +298,7 @@ function FetchName(number) {
         }
     });
     cursedConfig.nicknames.forEach(C => {
-        if (number == C.Number) { 
+        if (number == C.Number) {
             Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) ? C.Nickname : C.SavedName
         }
     });
@@ -352,7 +369,7 @@ function shuffleDeck(auto) {
     shuffle(cardDeck);
     shuffle(cardDeck);
     shuffle(cardDeck);
-    popChatGlobal("The deck was shuffled because it was " + (auto ? "empty." : "requested by the dealer.") );
+    popChatGlobal("The deck was shuffled because it was " + (auto ? "empty." : "requested by the dealer."));
 }
 
 /** Draws a card from the deck */

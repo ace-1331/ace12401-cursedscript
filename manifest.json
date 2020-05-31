@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Bondage Club - Cursed",
     "description": "Injects the scripts needed to wear the curse",
-    "version": "1.1.6.2",
+    "version": "1.1.7.0",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"
@@ -16,7 +16,7 @@
         {
             "run_at": "document_end",
             "matches": [
-                "https://www.bondageprojects.com/college/*",
+                "https://condescending-pare-1bf422.netlify.app/bondageclub/",
                 "https://www.bondageprojects.elementfx.com/*"
             ],
             "all_frames": true,

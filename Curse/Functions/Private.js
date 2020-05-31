@@ -2,16 +2,9 @@
 function PrivateCommands({ command, parameters, sender }) {
     switch (command) {
         case "configreport":
-            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasForcedSensDep", "hasHiddenDisplay"];
+            let toReport = ["punishmentColor", "isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay"];
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report);
-            break;
-        case "isclassic":
-            if (!cursedConfig.isClassic)
-                NotifyOwners("The curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)", true);
-            else
-                NotifyOwners("The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)", true);
-            cursedConfig.isClassic = !cursedConfig.isClassic;
             break;
         case "showenforced":
             sendWhisper(sender, "Enforced list: #" + cursedConfig.enforced.join(" #"));

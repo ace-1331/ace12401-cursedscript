@@ -4,6 +4,13 @@
 function WearerCommands({ command, parameters, sender }) {
     let r = false;
     switch (command) {
+        case "restraintvanish":
+            if (cursedConfig.hasRestraintVanish)
+                popChatSilent("Your curse will no longer remove Items.");
+            else
+                popChatSilent("Your curse will remove Items.");
+            cursedConfig.hasRestraintVanish = !cursedConfig.hasRestraintVanish;
+            break;
         case "forwardall":
             if (!cursedConfig.hasForward)
                 popChatSilent("Your curse will forward all whispers to you.");
@@ -17,6 +24,13 @@ function WearerCommands({ command, parameters, sender }) {
             else
                 popChatSilent("You will now see who has the curse.");
             cursedConfig.hasHiddenDisplay = !cursedConfig.hasHiddenDisplay;
+            break;
+        case "isclassic":
+            if (!cursedConfig.isClassic)
+                popChatSilent("The curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
+            else
+                popChatSilent("The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
+            cursedConfig.isClassic = !cursedConfig.isClassic;
             break;
         case "capture":
             if (!cursedConfig.hasIntenseVersion) {
