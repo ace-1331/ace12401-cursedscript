@@ -3,27 +3,9 @@
 # You are responsible of your own account(s) and acts when using this extension. Use it properly and keep yourself up to date to avoid potential issues with newer versions. 
 
 
-# As I see more and more people use the curse. I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
-
-
-
-
-
 ## **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-## **Last approved on the following versions: R57**
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 # DOCUMENTATION FOR THE SUBMISSIVES AND SLAVES SCRIPT
 
@@ -44,12 +26,13 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 4. Remove previous versions of the curse (if applicable).
 5. Click 'Load unpacked' button and browse to the unzipped folder (see the notes below)
 6. Login and click on "wear curse" or come to the bunny hole icon in the main hall to speak to me first!
+7. Keep yourself up-to-date in the future. Read the news panel and come check github to install the new updates
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
 
 - This extension will work on other Chromium-based browsers that support dev extensions. So it will work on mobile browsers like Yandex or Kiwi. (Use Total Commander file app to fix the manifest bug)
 
-- IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game or use it carefully
+- IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game and I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
 
 ## Useful information
 - ALL COMMANDS ARE PREFIXED WITH THE COMMAND CHARACTER AND THE SLAVE IDENTIFIER, BY DEFAULT IT IS # AND YOUR NAME (IE. #ace help or #ace showowners)
@@ -72,9 +55,11 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
+Contributors: Anna940, Uwnodi, Noname, Saya
+
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: 1.1.5R**
+**Official release: 1.1.7B**
 
-**THIS PAGE WAS LAST EDITED ON 18-05-2020**
+**THIS PAGE WAS LAST EDITED ON 31-05-2020**
