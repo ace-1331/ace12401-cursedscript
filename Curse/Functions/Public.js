@@ -42,6 +42,10 @@ function PublicCommands({
                 }
             } else
                 popChatSilent("Capture mode disabled.");
+        break;
+            case "help":
+            var helpTxt = helpMsg("public");
+            sendWhisper(sender, helpTxt);
             break;
         default:
             // No command found
