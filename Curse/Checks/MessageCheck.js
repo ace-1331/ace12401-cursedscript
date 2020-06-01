@@ -127,8 +127,11 @@ function AnalyzeMessage(msg) {
             }
             
             //Warn an attempt was made but no command was found
-            if (needWarning)
+            if (needWarning) {
                 sendWhisper(sender, `(Invalid command: A command was possibly requested, but no matching command was found. Check for typos , or verify your version number and curse settings. Info about the person who sent the command: Club owner: ${isClubOwner ? "Yes" : "No"}, Curse owner: ${isOwner ? "Yes" : "No"}, Mistress: ${isOwner || isMistress ? "Yes" : "No"}, Public access: ${cursedConfig.hasPublicAccess ? "Yes" : "No"}, Full public access: ${cursedConfig.hasFullPublic ? "Yes" : "No"})`, true);
+            } else if (cursedConfig.isEatingCommands) { 
+                msg.style.display = 'none';
+            }
                 
         } catch (err) { console.error("Curse: " + err) }
 

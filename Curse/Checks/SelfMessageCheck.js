@@ -28,7 +28,7 @@ function SelfMessageCheck(msg) {
     if (cursedConfig.say != "" && !cursedConfig.hasFullMuteChat && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0) {
         if (
             msg != cursedConfig.say.toLowerCase().trim()
-            && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0
+            && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
         ) {
             NotifyOwners("(Did not say the sentence willingly.)");
             popChatSilent("You were punished for not saying the expected sentence willingly: " + cursedConfig.say);
@@ -42,15 +42,18 @@ function SelfMessageCheck(msg) {
     }
 
     //Restrained speech (will not proc in whispers or emotes)
+    //Returns immediately, that way it wont collide with other stuff
     if (
         cursedConfig.hasRestrainedSpeech
         && cursedConfig.hasIntenseVersion
-        && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0
     ) {
-        NotifyOwners("(Tried to speak freely when her speech was restrained.)");
-        popChatSilent("Bad girl. You tried to speak freely while your speech is being restrained.");
-        cursedConfig.strikes += 5;
-        r = true;
+        if (!ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")) {
+            NotifyOwners("(Tried to speak freely when her speech was restrained.)");
+            popChatSilent("Bad girl. You tried to speak freely while your speech is being restrained.");
+            cursedConfig.strikes += 5;
+            return true;
+        }
+        return false;
     }
 
     //Speech Restrictions
@@ -102,7 +105,7 @@ function SelfMessageCheck(msg) {
             .filter(w => {
                 return !(new RegExp("^" + cursedConfig.sound.replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, "").split("").map(el => el + "*").join("") + "$", "g")).test(w);
             }).length > 0
-        && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0
+        && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
     ) {
         NotifyOwners("(Tried to make unallowed sounds)");
         popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
@@ -116,6 +119,22 @@ function SelfMessageCheck(msg) {
         popChatSilent("WARNING: You are not allowed to use contractions!");
         cursedConfig.strikes += 2;
         r = true;
+    }
+
+    //Doll talk
+    if (cursedConfig.hasDollTalk && !originalMsg.startsWith("*")) {
+        let words = msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").trim().split(" ").filter(w => w);
+        if (words.length > 5) {
+            NotifyOwners("(Tried to use too many words (doll talk infraction))");
+            popChatSilent("WARNING: You are not allowed to use more than 5 words! (doll talk infraction)");
+            cursedConfig.strikes += 2;
+            r = true;
+        } else if (words.filter(w => w.length > 6).length > 0) {
+            NotifyOwners("(Tried to use fancy words (doll talk infraction))");
+            popChatSilent("WARNING: You are not allowed to use words with more than 6 letters! (doll talk infraction)");
+            cursedConfig.strikes += 2;
+            r = true;
+        }
     }
 
     return r;

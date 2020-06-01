@@ -50,6 +50,14 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Disabled enhanced wardrobe. (Changes will be applied on the next reload.)");
             cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
             break;
+        case "eatcommand":
+            case "eatcommands":
+            if (!cursedConfig.isEatingCommands)
+                popChatSilent("Will no longer display whispers containing valid commands.");
+            else
+                popChatSilent("Will resume displaying whispers containing valid commands.");
+            cursedConfig.isEatingCommands = !cursedConfig.isEatingCommands;
+            break;
         case "issilent":
             if (!cursedConfig.isSilent)
                 popChatSilent("Your curse will no longer display public messages");

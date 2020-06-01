@@ -1,7 +1,7 @@
 //************************************ LOOP LOGIC ************************************//
 
 /** Main curse loop to prepare data and patch it through the right areas */
-function CursedCheckUp() {
+async function CursedCheckUp() {
     // Stays Idle if the curse is disabled
     if (!cursedConfig.isRunning) {
         setTimeout(CursedCheckUp, 10000);
@@ -150,7 +150,7 @@ function CursedCheckUp() {
 }
 
 /** Function to process the chat message queue */
-function ChatlogProcess() {
+async function ChatlogProcess() {
     //Optimizes send times, removes fast dupes, keeps the order, does not work while restarting
     let purged = 0;
     if (cursedConfig.chatlog.length != 0 && !cursedConfig.onRestart) {
@@ -174,7 +174,7 @@ function ChatlogProcess() {
 }
 
 /** Function to display reminders. Will not loop if reminders are not enabled */
-function ReminderProcess() { 
+async function ReminderProcess() { 
     if (!cursedConfig.hasReminders) { 
         return;
     }

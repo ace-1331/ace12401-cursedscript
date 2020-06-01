@@ -247,7 +247,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             break;
         case "cursedspeech":
         case "speech":
-            if (!cursedConfig.hasCursedSpeech) 
+            if (!cursedConfig.hasCursedSpeech)
                 SendChat("The curse arises on " + Player.Name + "'s mouth.");
             else
                 SendChat("The curse on " + Player.Name + "'s mouth vanished.");
@@ -362,6 +362,13 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             else
                 SendChat("The curse on " + Player.Name + " allows her to use her words again.");
             cursedConfig.isMute = !cursedConfig.isMute;
+            break;
+        case "dolltalk":
+            if (!cursedConfig.hasDollTalk) {
+                SendChat("The curse on " + Player.Name + " stops her from speaking in details.");
+            } else
+                SendChat("The curse on " + Player.Name + " allows her to speak normally again.");
+            cursedConfig.hasDollTalk = !cursedConfig.hasDollTalk;
             break;
         case "deactivateonpresence":
             if (!cursedConfig.disaledOnMistress)

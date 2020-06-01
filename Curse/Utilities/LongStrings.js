@@ -14,6 +14,7 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
+    *NEW*-eatcommands
     *NEW*-hidedisplay
     *NEW*-restraintvanish
     -isclassic
@@ -65,6 +66,7 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number]
 
     >>>Speech Commands<<<
+    *NEW*-dolltalk
     -mute
     -cursedspeech
     -banword [the word itself]
