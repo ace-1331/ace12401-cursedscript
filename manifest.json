@@ -17,7 +17,9 @@
             "run_at": "document_end",
             "matches": [
                 "https://www.bondageprojects.com/college/*",
-                "https://www.bondageprojects.elementfx.com/*"
+                "https://www.bondageprojects.elementfx.com/*",
+                "http://www.bondageprojects.com/college/*",
+                "http://www.bondageprojects.elementfx.com/*"
             ],
             "all_frames": true,
             "js": [ 
