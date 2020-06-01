@@ -21,6 +21,10 @@ function PrivateCommands({ command, parameters, sender }) {
         case "speechreport":
             sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}.`);
             break;
+        case "help":
+            var helpTxt = helpMsg("owner");
+            sendWhisper(sender, helpTxt);
+            return true;
         default:
             // No command found
             return true;
