@@ -202,7 +202,6 @@ function CursedStarter() {
             //Runs the script
             cursedConfig.isRunning = true;
             cursedConfig.onRestart = true;
-            InitHelpMsg();
             InitAlteredFns();
             CursedCheckUp(); //Initial check
             ChatlogProcess(); //Chatlog handling
