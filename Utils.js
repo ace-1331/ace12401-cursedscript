@@ -192,6 +192,13 @@ function CursedStarter() {
                 cursedConfig.lastPunishmentAmount = 0;
             }
             
+            //Enables the hidden curse item to display who has the curse
+            if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
+                AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
+                AssetLoadAll();
+                InventoryAdd(Player, "Curse", "ItemHidden");
+            }
+            
             //Runs the script
             cursedConfig.isRunning = true;
             cursedConfig.onRestart = true;
@@ -201,13 +208,6 @@ function CursedStarter() {
             ChatlogProcess(); //Chatlog handling
             ReminderProcess(); //Reminders handling
             InitCleanup(); //Cleans up the arrays
-            
-            //Enables the hidden curse item to display who has the curse
-            if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
-                AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
-                AssetLoadAll();
-                InventoryAdd(Player, "Curse", "ItemHidden");
-            }
         }
     } catch { }
 }

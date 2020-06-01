@@ -50,13 +50,6 @@ function AnalyzeMessage(msg) {
 
     // Sends activated messages to an owner who enters or if the wearer entered
     if (types.contains("ChatMessageEnterLeave")) {
-        //Identifies the character wearer the curse
-        ChatRoomCharacter.forEach(char => {
-            if (char.Inventory.filter(A => A.Name == "Curse")[0]) {
-                char.isCursed = true;
-            }
-        });
-        
         //Warn only if the player is not aware
         if ((cursedConfig.owners.includes(sender) || cursedConfig.mistresses.includes(sender)) && chatroomMembers.includes(sender) && !cursedConfig.warned.includes(sender)) {
             sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");

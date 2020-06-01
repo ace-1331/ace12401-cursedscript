@@ -43,6 +43,11 @@ function CursedCheckUp() {
             Player.GameplaySettings.BlindDisableExamine = true;
         }
         
+        //Identifies the character wearer the curse
+        ChatRoomCharacter.forEach(char => {
+            char.isCursed = char.Inventory.filter(A => A.Name == "Curse").length > 0;
+        });
+        
         //Making sure all names are up-to-date
         //Try catch in case the updated player is no longer there (extreme edge case)
         try {
