@@ -23,6 +23,10 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
                     sendWhisper(sender, "Cannot have new lovers.", true);
                 cursedConfig.isLockedNewLover = !cursedConfig.isLockedNewLover;
                 break;
+            case "help":
+                var helpTxt = helpMsg("clubowner");
+                sendWhisper(sender, helpTxt);
+                return true;
         default:
             // No command found
             return true;
