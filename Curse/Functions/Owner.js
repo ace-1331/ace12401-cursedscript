@@ -344,6 +344,10 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 sendWhisper(sender, "(Invalid arguments.)");
             }
             break;
+      case "help":
+            var helpTxt = helpMsg("owner");
+            sendWhisper(sender, helpTxt);
+            return true;
         default:
             // No command found
             return true;
