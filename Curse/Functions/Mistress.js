@@ -412,6 +412,10 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             }
             cursedConfig.hasNoContractions = !cursedConfig.hasNoContractions;
             break;
+        case "help":
+            var helpTxt = helpMsg("mistress");
+            sendWhisper(sender, helpTxt);
+            return true;
         default:
             // No command found
             return true;
