@@ -69,7 +69,7 @@ function WearerCommands({ command, parameters, sender }) {
             popChatSilent("You have " + cursedConfig.strikes + " strikes.");
             break;
         case "help":
-            popChatSilent(helpTxt);
+            HelpMsg(sender);
             break;
         case "showblacklist":
             popChatSilent("Your blacklist: #" + cursedConfig.blacklist.join(" #"));
