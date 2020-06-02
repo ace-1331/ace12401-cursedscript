@@ -113,7 +113,7 @@ function AnalyzeMessage(msg) {
 
             //Verify mistress for private commands
             if ((isMistress || isOwner || cursedConfig.hasFullPublic) && needWarning) {
-                needWarning = MistressCommands({ command, sender, parameters, isOwner });
+                needWarning = MistressCommands({ command, sender, parameters, isOwner, isClubOwner });
             }
             
             // Checks if public has access or mistress can do all

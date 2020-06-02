@@ -154,17 +154,22 @@ async function checkKneeling(sender) {
  * Toggles a cursed item on/off
  * @returns true if the group does not exist
  */
-function toggleCurseItem({ name, group, txtGroup, forceAdd, forceRemove }) {
-    group = group || textToGroup(txtGroup);
+function toggleCurseItem({ name, group, forceAdd, forceRemove }) {
+    group = group;
+    let txtGroup = (AssetGroup.find(G => G.Name == group) || {}).Description || 'items';
+
     if (group == "na") return true;
+
     let item = cursedConfig.cursedAppearance.filter(A => A.name == name && A.group == group)[0];
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+
     if ((!item || item.name != name) && (!forceRemove || forceAdd)) {
         cursedConfig.cursedAppearance.push({ name, group });
+        SaveColorSlot(group);
         procGenericItem(name, group);
-        SendChat(`The curse arises on ${Player.Name}'s ${txtGroup || 'item'}.`);
+        SendChat(`The curse arises on ${Player.Name}'s ${txtGroup}.`);
     } else if (!forceAdd) {
-        SendChat(`The curse on ${Player.Name}'s ${txtGroup || 'item'} was lifted.`);
+        SendChat(`The curse on ${Player.Name}'s ${txtGroup} was lifted.`);
         if (cursedConfig.hasRestraintVanish)
             restraintVanish(group);
     }
@@ -172,132 +177,166 @@ function toggleCurseItem({ name, group, txtGroup, forceAdd, forceRemove }) {
 
 /**
  * Function to convert text parameter to a working item group
+ * @param {string} group - the group as it would be typed
+ * @param {number} permission - the permission level where (1 clubowner, 2 owners, 3 mistress)
  * @returns {string} The item group from AssetGroup
  */
-function textToGroup(group) {
-    switch (group.toLowerCase()) {
-        case "arms":
-        case "arm":
-            return "ItemArms";
-        case "cloth":
-            return "Cloth";
-        case "clothaccessory":
-            return "ClothAccessory";
-        case "necklace":
-            return "Necklace";
-        case "suit":
-            return "Suit";
-        case "clothlower":
-            return "ClothLower";
-        case "suitlower":
-            return "SuitLower";
-        case "bra":
-            return "Bra";
-        case "panties":
-            return "Panties";
-        case "sock":
-        case "socks":
-            return "Socks";
-        case "shoe":
-        case "shoes":
-            return "Shoes";
-        case "hat":
-            return "Hat";
-        case "hairaccessory":
-        case "hairaccessory1":
-            return "HairAccessory1";
-        case "hairaccessory2":
-            return "HairAccessory2";
-        case "gloves":
-            return "Gloves";
-        case "glasses":
-            return "Glasses";
-        case "tail":
-        case "tailstrap":
-        case "tailstraps":
-            return "TailStraps";
-        case "wing":
-        case "wings":
-            return "Wings";
-        case "height":
-            return "Height";
-        case "":
-            return "BodyUpper";
-        case "":
-            return "BodyLower";
-        case "hairback":
-            return "HairBack";
-        case "hairfront":
-            return "HairFront";
-        case "foot":
-        case "feet":
-            return "ItemFeet";
-        case "vulva":
-            return "ItemLegs";
-        case "":
-            return "ItemVulva";
-        case "vulvapiercing":
-        case "vulvapiercings":
-            return "ItemVulvaPiercings";
-        case "butt":
-            return "ItemButt";
-        case "pelvis":
-            return "ItemPelvis";
-        case "torso":
-            return "ItemTorso";
-        case "nipple":
-        case "nipples":
-            return "ItemNipples";
-        case "nipplepiercing":
-        case "nipplespiercing":
-        case "nipplepiercings":
-        case "nipplespiercings":
-            return "ItemNipplesPiercings";
-        case "breast":
-        case "breasts":
-            return "ItemBreast";
-        case "hands":
-        case "hand":
-            return "ItemHands";
-        case "neck":
-        case "collar":
-            return "ItemNeck";
-        case "neckaccessorie":
-        case "neckaccessories":
-            return "ItemNeckAccessories";
-        case "neckrestraint":
-        case "neckrestraints":
-            return "ItemNeckRestraints";
-        case "gag":
-        case "mouth":
-            return "ItemMouth";
-        case "mouth2":
-        case "gag2":
-            return "ItemMouth2";
-        case "mouth3":
-        case "gag3":
-            return "ItemMouth3";
-        case "head":
-            return "ItemHead";
-        case "ear":
-        case "ears":
-            return "ItemEars";
-        case "misc":
-        case "tray":
-        case "maidtray":
-            return "ItemMisc";
-        case "device":
-        case "devices":
-            return "ItemDevices";
-        case "addon":
-            return "ItemAddon";
-        case "boot":
-        case "boots":
-            return "ItemBoots";
-        case "hidden":
-        case "strap":
-        case "straps":
-            return "ItemHidden";
+function textToGroup(group, permission) {
+    if (!permission) permission = 1;
+
+    if (permission >= 1) {
+        switch (group.toLowerCase()) {
+            case "arms":
+            case "arm":
+                return "ItemArms";
+            case "cloth":
+                return "Cloth";
+            case "clothaccessory":
+            case "clothesaccessory":
+                return "ClothAccessory";
+            case "necklace":
+                return "Necklace";
+            case "suit":
+                return "Suit";
+            case "clothlower":
+            case "lowercloth":
+                return "ClothLower";
+            case "suitlower":
+            case "lowersuit":
+                return "SuitLower";
+            case "bra":
+                return "Bra";
+            case "panties":
+                return "Panties";
+            case "sock":
+            case "socks":
+                return "Socks";
+            case "shoe":
+            case "shoes":
+                return "Shoes";
+            case "hat":
+                return "Hat";
+            case "gloves":
+                return "Gloves";
+            case "glasses":
+                return "Glasses";
+            case "tail":
+            case "tailstrap":
+            case "tailstraps":
+                return "TailStraps";
+            case "wing":
+            case "wings":
+                return "Wings";
+            case "legs":
+            case "leg":
+                return "ItemLegs";
+            case "vulva":
+            case "pussy":
+                return "ItemVulva";
+            case "vulvapiercing":
+            case "piercingvulva":
+            case "piercingsvulva":
+            case "vulvapiercings":
+                return "ItemVulvaPiercings";
+            case "butt":
+                return "ItemButt";
+            case "pelvis":
+                return "ItemPelvis";
+            case "torso":
+                return "ItemTorso";
+            case "nipple":
+            case "nipples":
+                return "ItemNipples";
+            case "nipplepiercing":
+            case "nipplespiercing":
+            case "nipplepiercings":
+            case "nipplespiercings":
+            case "piercingnipple":
+            case "piercingnipples":
+            case "piercingsnipple":
+            case "piercingsnipples":
+                return "ItemNipplesPiercings";
+            case "breast":
+            case "breasts":
+                return "ItemBreast";
+            case "hands":
+            case "hand":
+                return "ItemHands";
+            case "gag":
+            case "mouth":
+                return "ItemMouth";
+            case "mouth2":
+            case "gag2":
+                return "ItemMouth2";
+            case "mouth3":
+            case "gag3":
+                return "ItemMouth3";
+            case "head":
+                return "ItemHead";
+            case "ear":
+            case "ears":
+                return "ItemEars";
+            case "boot":
+            case "boots":
+                return "ItemBoots";
+            case "foot":
+            case "feet":
+                return "ItemFeet";
+            case "device":
+            case "devices":
+                return "ItemDevices";
+            case "misc":
+            case "tray":
+            case "maidtray":
+                return "ItemMisc";
+            /* 
+            Need different implementation
+            case "addon":
+                return "ItemAddon";
+            case "hidden":
+            case "strap":
+            case "straps":
+                return "ItemHidden";*/
+        }
+    }
+    if (permission >= 2) {
+        switch (group.toLowerCase()) {
+            case "hairaccessory":
+            case "hairaccessory1":
+                return "HairAccessory1";
+            case "hairaccessory2":
+                return "HairAccessory2";
+            case "hairback":
+                return "HairBack";
+            case "hairfront":
+                return "HairFront";
+            case "pelvis":
+                return "ItemPelvis";
+            case "neckaccessory":
+            case "neckaccessorie":
+            case "neckaccessories":
+                return "ItemNeckAccessories";
+            case "neckrestraint":
+            case "neckrestraints":
+                return "ItemNeckRestraints";
+        }
+    }
+    if (permission >= 3) {
+        switch (group.toLowerCase()) {
+            /*
+            Need different implementation
+            case "height":
+                return "Height";
+            case "bodyupper":
+            case "upperbody":
+                return "BodyUpper";
+            case "bodylower":
+            case "lowerbody":
+                return "BodyLower";
+                */
+            case "collar":
+                return "ItemNeck";
+        }
     }
     return 'na';
 }

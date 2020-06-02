@@ -243,7 +243,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             break;
         case "belt":
         case "cursedbelt":
-            toggleCurseItem({ name: "PolishedChastityBelt", txtGroup: "pelvis" });
+            toggleCurseItem({ name: "PolishedChastityBelt", group: "ItemPelvis" });
             break;
         case "afk":
             if (!cursedConfig.hasAntiAFK) {

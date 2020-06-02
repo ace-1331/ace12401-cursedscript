@@ -342,7 +342,7 @@ function InitCleanup() {
         if (cursedConfig[prop]) {
             switch (prop) {
                 case "hasCursedBelt":
-                    toggleCurseItem({ name: "PolishedChastityBelt", txtGroup: "pelvis", forceAdd: true });
+                    toggleCurseItem({ name: "PolishedChastityBelt", group: "ItemPelvis", forceAdd: true });
                     break;
                 case "hasCursedLatex":
                     toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true  });
@@ -355,31 +355,31 @@ function InitCleanup() {
                     toggleCurseItem({ name: "BoxTieArmbinder", group: "ItemArms", forceAdd: true  });
                     break;
                 case "hasCursedBlindfold":
-                    toggleCurseItem({ name: "FullBlindfold", txtGroup: "head", forceAdd: true  });
+                    toggleCurseItem({ name: "FullBlindfold", group: "ItemHead", forceAdd: true  });
                     break;
                 case "hasCursedHood":
-                    toggleCurseItem({ name: "ItemHead", txtGroup: "head", forceAdd: true  });
+                    toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead", forceAdd: true  });
                     break;
                 case "hasCursedEarplugs":
-                    toggleCurseItem({ name: "HeavyDutyEarPlugs", txtGroup: "ears", forceAdd: true  });
+                    toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars", forceAdd: true  });
                     break;
                 case "hasCursedDildogag":
-                    toggleCurseItem({ name: "DildoPlugGag", txtGroup: "mouth", forceAdd: true });
+                    toggleCurseItem({ name: "DildoPlugGag", group: "ItemMouth", forceAdd: true });
                     break;
                 case "hasCursedPanties":
-                    toggleCurseItem({ name: "PantyStuffing", txtGroup: "mouth", forceAdd: true });
+                    toggleCurseItem({ name: "PantyStuffing", group: "ItemMouth", forceAdd: true });
                     break;
                 case "hasCursedGag":
-                    toggleCurseItem({ name: "BallGag", txtGroup: "mouth", forceAdd: true  });
+                    toggleCurseItem({ name: "BallGag", group: "ItemMouth", forceAdd: true  });
                     break;
                 case "hasCursedMittens":
-                    toggleCurseItem({ name: "LeatherMittens", txtGroup: "hands", forceAdd: true });
+                    toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", forceAdd: true });
                     break;
                 case "hasCursedPaws":
-                    toggleCurseItem({ name: "PawMittens", txtGroup: "hands", forceAdd: true  });
+                    toggleCurseItem({ name: "PawMittens", group: "ItemHands", forceAdd: true  });
                     break;
                 case "hasCursedScrews":
-                    toggleCurseItem({ name: "ScrewClamps", txtGroup: "nipplepiercing", forceAdd: true  });
+                    toggleCurseItem({ name: "ScrewClamps", group: "ItemNipplesPiercings", forceAdd: true  });
                     break;
                 case "hasCursedPony":
                     toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true  });

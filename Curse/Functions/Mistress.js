@@ -1,5 +1,5 @@
 /** Function to trigger commands intended for mistresses, returns true if no command was executed */
-function MistressCommands({ command, sender, parameters, isOwner }) {
+function MistressCommands({ command, sender, parameters, isOwner, isClubOwner }) {
     switch (command) {
         case "cursereport":
             let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedKneel", "hasCursedSpeech", "hasCursedOrgasm", "isMute", "disaledOnMistress", "enabledOnMistress", "hasEntryMsg", "hasFullMuteChat", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasReminders", "canReceiveNotes", "canLeash"];
@@ -8,38 +8,38 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             break;
         case "earplugs":
         case "cursedearplugs":
-            toggleCurseItem({ name: "HeavyDutyEarPlugs", txtGroup: "ears" });
+            toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars" });
             break;
         case "cursedhood":
         case "hood":
-            toggleCurseItem({ name: "ItemHead", txtGroup: "head" });
+            toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead" });
             break;
         case "blindfold":
         case "cursedblindfold":
-            toggleCurseItem({ name: "FullBlindfold", txtGroup: "head" });
+            toggleCurseItem({ name: "FullBlindfold", group: "ItemHead" });
             break;
         case "mittens":
         case "cursedmittens":
-            toggleCurseItem({ name: "LeatherMittens", txtGroup: "hands" });
+            toggleCurseItem({ name: "LeatherMittens", group: "ItemHands" });
             break;
         case "paws":
-            toggleCurseItem({ name: "PawMittens", txtGroup: "hands" });
+            toggleCurseItem({ name: "PawMittens", group: "ItemHands" });
             break;
         case "panties":
         case "cursedpanties":
-            toggleCurseItem({ name: "PantyStuffing", txtGroup: "mouth" });
+            toggleCurseItem({ name: "PantyStuffing", group: "ItemMouth" });
             break;
         case "dildogag":
         case "curseddildogag":
-            toggleCurseItem({ name: "DildoPlugGag", txtGroup: "mouth" });
+            toggleCurseItem({ name: "DildoPlugGag", group: "ItemMouth" });
             break;
         case "gag":
         case "cursedgag":
-            toggleCurseItem({ name: "BallGag", txtGroup: "mouth" });
+            toggleCurseItem({ name: "BallGag", group: "ItemMouth" });
             break;
         case "doublegag":
         case "curseddoublegag":
-            toggleCurseItem({ name: "DildoGag", txtGroup: "mouth" });
+            toggleCurseItem({ name: "DildoGag", group: "ItemMouth" });
             break;
         case "public":
             if (!cursedConfig.hasPublicAccess)
@@ -59,7 +59,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
             break;
         case "screws":
         case "cursedscrews":
-            toggleCurseItem({ name: "ScrewClamps", txtGroup: "nipplepiercing" });
+            toggleCurseItem({ name: "ScrewClamps", group: "ItemNipplesPiercings" });
             break;
         case "cursedspeech":
         case "speech":
@@ -230,7 +230,7 @@ function MistressCommands({ command, sender, parameters, isOwner }) {
                 if (
                     toggleCurseItem({
                         name: (currentAsset && currentAsset.Asset.Name) || "",
-                        txtGroup: parameters[0]
+                        group: textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1)
                     })
                 ) {
                     sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);

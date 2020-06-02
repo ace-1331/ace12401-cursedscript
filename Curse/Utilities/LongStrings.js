@@ -26,7 +26,7 @@ function InitHelpMsg() {
     -identifier [new identifier]
     -punishmentcolor ["#colorcode"]
     -forwardall
-    -savecolors
+    *DEPRECATED*-savecolors
     -wardrobev2
     INTENSE V:-capture
 
@@ -61,7 +61,7 @@ function InitHelpMsg() {
     -mistress [a member number]
     -public
     -deactivateonpresence
-    -savecolors
+    *DEPRECATED*-savecolors
     INTENSE V:-mnickname [Number] [Name]
     INTENSE V:-deletenickname [Number]
 
