@@ -169,17 +169,24 @@ function enforce(enforcee, isMistress) {
 /** Checks if an item can be worn and if it can be but is not, returns true */
 function itemIsAllowed(name, group) {
     if (
-        !InventoryGet(Player, group)
-        && !(
+        !(
             InventoryGet(Player, group)
             && InventoryGet(Player, group).Asset
             && InventoryGet(Player, group).Asset.Name == name
         ) && !InventoryGroupIsBlocked(Player, group)
         && !InventoryOwnerOnlyItem(InventoryGet(Player, group))
+        && InventoryAllow(Player, Asset.find(A => A.Name == name && A.Group.Name == group))
     ) {
         return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
     }
     return false;
+}
+
+/** Checks if an item can be removed, if it can it will return true */
+function itemNeedsRemoving(group) {
+    return InventoryGet(Player, group)
+        && !InventoryGroupIsBlocked(Player, group)
+        && !InventoryOwnerOnlyItem(InventoryGet(Player, group));
 }
 
 /** 
@@ -326,8 +333,82 @@ function GetColorSlot(group) {
 
 /** Cleans the data on startup */
 function InitCleanup() {
+    //Migrate item curses (backward compatibility)
+    const oldCurses = ["hasCursedBelt", "hasCursedLatex", "hasCursedBlindfold", "hasCursedHood", "hasCursedEarplugs", "hasCursedDildogag", "hasCursedPanties", "hasCursedGag", "hasCursedMittens", "hasCursedPaws", "hasCursedScrews", "hasCursedPony", "hasCursedRopes", "hasCursedMaid", "hasCursedNakedness"];
+
+    cursedConfig.genericProcs = [];
+
+    oldCurses.forEach(prop => {
+        if (cursedConfig[prop]) {
+            switch (prop) {
+                case "hasCursedBelt":
+                    toggleCurseItem({ name: "PolishedChastityBelt", txtGroup: "pelvis", forceAdd: true });
+                    break;
+                case "hasCursedLatex":
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true  });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "SuitLower", forceAdd: true  });
+                    toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true  });
+                    toggleCurseItem({ name: "Catsuit", group: "Gloves", forceAdd: true  });
+                    toggleCurseItem({ name: "ThighHighLatexHeels", group: "ItemBoots", forceAdd: true  });
+                    toggleCurseItem({ name: "LatexBallMuzzleGag", group: "ItemMouth", forceAdd: true  });
+                    toggleCurseItem({ name: "LatexPants1", group: "ClothLower", forceAdd: true  });
+                    toggleCurseItem({ name: "BoxTieArmbinder", group: "ItemArms", forceAdd: true  });
+                    break;
+                case "hasCursedBlindfold":
+                    toggleCurseItem({ name: "FullBlindfold", txtGroup: "head", forceAdd: true  });
+                    break;
+                case "hasCursedHood":
+                    toggleCurseItem({ name: "ItemHead", txtGroup: "head", forceAdd: true  });
+                    break;
+                case "hasCursedEarplugs":
+                    toggleCurseItem({ name: "HeavyDutyEarPlugs", txtGroup: "ears", forceAdd: true  });
+                    break;
+                case "hasCursedDildogag":
+                    toggleCurseItem({ name: "DildoPlugGag", txtGroup: "mouth", forceAdd: true });
+                    break;
+                case "hasCursedPanties":
+                    toggleCurseItem({ name: "PantyStuffing", txtGroup: "mouth", forceAdd: true });
+                    break;
+                case "hasCursedGag":
+                    toggleCurseItem({ name: "BallGag", txtGroup: "mouth", forceAdd: true  });
+                    break;
+                case "hasCursedMittens":
+                    toggleCurseItem({ name: "LeatherMittens", txtGroup: "hands", forceAdd: true });
+                    break;
+                case "hasCursedPaws":
+                    toggleCurseItem({ name: "PawMittens", txtGroup: "hands", forceAdd: true  });
+                    break;
+                case "hasCursedScrews":
+                    toggleCurseItem({ name: "ScrewClamps", txtGroup: "nipplepiercing", forceAdd: true  });
+                    break;
+                case "hasCursedPony":
+                    toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true  });
+                    toggleCurseItem({ name: "LeatherLegCuffs", group: "ItemLegs", forceAdd: true  });
+                    toggleCurseItem({ name: "ArmbinderJacket", group: "ItemArms", forceAdd: true });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true  });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "SuitLower", forceAdd: true  });
+                    toggleCurseItem({ name: "Catsuit", group: "Gloves", forceAdd: true  });
+                    toggleCurseItem({ name: "PonyBoots", group: "ItemBoots", forceAdd: true  });
+                    toggleCurseItem({ name: "HarnessPonyBits", group: "ItemMouth", forceAdd: true  });
+                    break;
+                case "hasCursedRopes":
+                    toggleCurseItem({ name: "HempRope", group: "ItemFeet", forceAdd: true  });
+                    toggleCurseItem({ name: "HempRope", group: "ItemLegs", forceAdd: true  });
+                    toggleCurseItem({ name: "HempRope", group: "ItemArms", forceAdd: true  });
+                    break;
+                case "hasCursedMaid":
+                    toggleCurseItem({ name: "MaidOutfit1", group: "Cloth", forceAdd: true  });
+                    toggleCurseItem({ name: "MaidHairband1", group: "Hat", forceAdd: true  });
+                    break;
+                case "hasCursedNakedness":
+                    procCursedNaked();
+                    break;
+            }
+        }
+    });
+
     //Clean deprecated props
-    const toDelete = ["hasCursedBunny", "lastWardrobeLock"];
+    const toDelete = ["hasCursedBunny", "lastWardrobeLock", "cursedItems", ...oldCurses];
     toDelete.forEach(prop => delete cursedConfig[prop]);
 
     //Cleans dupes and bad stuff
@@ -335,7 +416,7 @@ function InitCleanup() {
     cursedConfig.mistresses = cursedConfig.mistresses.filter((m, i) => cursedConfig.mistresses.indexOf(m) == i && !isNaN(m));
     cursedConfig.enforced = cursedConfig.enforced.filter((m, i) => cursedConfig.enforced.indexOf(m) == i && !isNaN(m));
     cursedConfig.blacklist = cursedConfig.blacklist.filter((m, i) => cursedConfig.blacklist.indexOf(m) == i && !isNaN(m));
-    cursedConfig.bannedwords = cursedConfig.bannedwords.filter((m, i) => cursedConfig.bannedwords.indexOf(m) == i && !isNaN(m));
+    cursedConfig.bannedWords = cursedConfig.bannedWords.filter((m, i) => cursedConfig.bannedWords.indexOf(m) == i && !isNaN(m));
 }
 
 // Card Deck
@@ -395,4 +476,156 @@ function drawCards(nbCards, players) {
             });
         }
     }
+}
+
+/**
+ * Toggles a cursed item on/off
+ * @returns true if the group does not exist
+ */
+function toggleCurseItem({ name, group, txtGroup, forceAdd, forceRemove }) {
+    group = group || textToGroup(txtGroup);
+    if (group == "na") return true;
+    let item = cursedConfig.cursedAppearance.filter(A => A.name == name && A.group == group)[0];
+    cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+    if ((!item || item.name != name) && (!forceRemove || forceAdd)) {
+        cursedConfig.cursedAppearance.push({ name, group });
+        procGenericItem(name, group);
+        SendChat(`The curse arises on ${Player.Name}'s ${txtGroup || 'item'}.`);
+    } else if (!forceAdd) {
+        SendChat(`The curse on ${Player.Name}'s ${txtGroup || 'item'} was lifted.`);
+        if (cursedConfig.hasRestraintVanish)
+            restraintVanish(group);
+    }
+}
+
+/**
+ * Function to convert text parameter to a working item group
+ * @returns {string} The item group from AssetGroup
+ */
+function textToGroup(group) {
+    switch (group.toLowerCase()) {
+        case "arms":
+        case "arm":
+            return "ItemArms";
+        case "cloth":
+            return "Cloth";
+        case "clothaccessory":
+            return "ClothAccessory";
+        case "necklace":
+            return "Necklace";
+        case "suit":
+            return "Suit";
+        case "clothlower":
+            return "ClothLower";
+        case "suitlower":
+            return "SuitLower";
+        case "bra":
+            return "Bra";
+        case "panties":
+            return "Panties";
+        case "sock":
+        case "socks":
+            return "Socks";
+        case "shoe":
+        case "shoes":
+            return "Shoes";
+        case "hat":
+            return "Hat";
+        case "hairaccessory":
+        case "hairaccessory1":
+            return "HairAccessory1";
+        case "hairaccessory2":
+            return "HairAccessory2";
+        case "gloves":
+            return "Gloves";
+        case "glasses":
+            return "Glasses";
+        case "tail":
+        case "tailstrap":
+        case "tailstraps":
+            return "TailStraps";
+        case "wing":
+        case "wings":
+            return "Wings";
+        case "height":
+            return "Height";
+        case "":
+            return "BodyUpper";
+        case "":
+            return "BodyLower";
+        case "hairback":
+            return "HairBack";
+        case "hairfront":
+            return "HairFront";
+        case "foot":
+        case "feet":
+            return "ItemFeet";
+        case "vulva":
+            return "ItemLegs";
+        case "":
+            return "ItemVulva";
+        case "vulvapiercing":
+        case "vulvapiercings":
+            return "ItemVulvaPiercings";
+        case "butt":
+            return "ItemButt";
+        case "pelvis":
+            return "ItemPelvis";
+        case "torso":
+            return "ItemTorso";
+        case "nipple":
+        case "nipples":
+            return "ItemNipples";
+        case "nipplepiercing":
+        case "nipplespiercing":
+        case "nipplepiercings":
+        case "nipplespiercings":
+            return "ItemNipplesPiercings";
+        case "breast":
+        case "breasts":
+            return "ItemBreast";
+        case "hands":
+        case "hand":
+            return "ItemHands";
+        case "neck":
+        case "collar":
+            return "ItemNeck";
+        case "neckaccessorie":
+        case "neckaccessories":
+            return "ItemNeckAccessories";
+        case "neckrestraint":
+        case "neckrestraints":
+            return "ItemNeckRestraints";
+        case "gag":
+        case "mouth":
+            return "ItemMouth";
+        case "mouth2":
+        case "gag2":
+            return "ItemMouth2";
+        case "mouth3":
+        case "gag3":
+            return "ItemMouth3";
+        case "head":
+            return "ItemHead";
+        case "ear":
+        case "ears":
+            return "ItemEars";
+        case "misc":
+        case "tray":
+        case "maidtray":
+            return "ItemMisc";
+        case "device":
+        case "devices":
+            return "ItemDevices";
+        case "addon":
+            return "ItemAddon";
+        case "boot":
+        case "boots":
+            return "ItemBoots";
+        case "hidden":
+        case "strap":
+        case "straps":
+            return "ItemHidden";
+    }
+    return 'na';
 }

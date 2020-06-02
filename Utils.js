@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 28;
+window.currentVersion = 29;
 let AlwaysOn;
 let isLoaded;
 
@@ -49,37 +49,21 @@ function CursedStarter() {
             //Base configs
             window.cursedConfigInit = {
                 hasPublicAccess: true,
-                hasCursedBelt: false,
                 hasCursedKneel: false,
-                hasCursedLatex: false,
                 hasCursedSpeech: true,
                 hasCursedOrgasm: false,
-                hasCursedNakedness: false,
                 isMute: false,
                 disaledOnMistress: false,
                 enabledOnMistress: false,
-                hasCursedBlindfold: false,
-                hasCursedHood: false,
-                hasCursedEarplugs: false,
-                hasCursedDildogag: false,
-                hasCursedPanties: false,
-                hasCursedGag: false,
-                hasCursedMittens: false,
-                hasCursedPaws: false,
                 hasEntryMsg: false,
                 hasFullMuteChat: false,
-                hasCursedScrews: false,
-                hasCursedPony: false,
                 hasSound: false,
                 hasRestrainedPlay: false,
                 hasNoMaid: false,
-                hasCursedRopes: false,
                 hasNoContractions: false,
                 hasFullPublic: false,
                 hasAntiAFK: false,
-                hasCursedMaid: false,
                 hasRestrainedSpeech: false,
-                hasCursedDildogag: false,
                 canReceiveNotes: false,
                 hasCaptureMode: false,
                 hasReminders: false,
@@ -94,7 +78,6 @@ function CursedStarter() {
                 blacklist: [],
                 bannedWords: [],
                 sentences: [{ ident: "yes", text: "Yes, %target%" }, { ident: "no", text: "No, %target%" }, { ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?" }, { ident: "greetings", text: "Greetings, %target%, it is good to see you." }, { ident: "leave", text: "May %self% be excused, %target%?" }, { ident: "service", text: "How may %self% be useful for you today, %target%?" },],
-                cursedItems: [],
                 cursedAppearance: [],
                 savedColors: [],
                 nicknames: [],
@@ -206,12 +189,12 @@ function CursedStarter() {
             cursedConfig.onRestart = true;
             InitHelpMsg();
             InitAlteredFns();
+            InitCleanup(); //Cleans up the arrays/migrations
             CursedCheckUp(); //Initial check
             ChatlogProcess(); //Chatlog handling
             ReminderProcess(); //Reminders handling
-            InitCleanup(); //Cleans up the arrays
         }
-    } catch { }
+    } catch (err){ console.error(err) }
 }
 
 /** Stops the script */

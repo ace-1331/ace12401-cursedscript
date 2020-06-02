@@ -7,37 +7,43 @@ function PunishmentCheck() {
         let stage = cursedConfig.strikes / 15;
         if (stage >= 5) {
             //Restraints
-            if (InventoryGet(Player, "ItemMouth") == null) {
+            if (itemIsAllowed("PantyStuffing", "ItemMouth")) {
                 InventoryWear(Player, "PantyStuffing", "ItemMouth", cursedConfig.punishmentColor, 15);
+                r = true;
+            }
+            if (itemIsAllowed("HarnessBallGag", "ItemMouth2")) {
                 InventoryWear(Player, "HarnessBallGag", "ItemMouth2", cursedConfig.punishmentColor, 15);
+                r = true;
+            }
+            if (itemIsAllowed("SteelMuzzleGag", "ItemMouth3")) {
                 InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", cursedConfig.punishmentColor, 15);
                 r = true;
             }
         }
         if (stage >= 4) {
             //Restraints
-            if (InventoryGet(Player, "ItemHead") == null) {
+            if (itemIsAllowed("FullBlindfold", "ItemHead")) {
                 InventoryWear(Player, "FullBlindfold", "ItemHead", cursedConfig.punishmentColor, 15);
                 r = true;
             }
         }
         if (stage >= 3) {
             //Restraints
-            if (InventoryGet(Player, "ItemArms") == null) {
+            if (itemIsAllowed("Chains", "ItemArms")) {
                 InventoryWear(Player, "Chains", "ItemArms", cursedConfig.punishmentColor, 15);
                 r = true;
             }
         }
         if (stage >= 2) {
             //Restraints
-            if (InventoryGet(Player, "ItemFeet") == null) {
+            if (itemIsAllowed("Chains", "ItemFeet")) {
                 InventoryWear(Player, "Chains", "ItemFeet", cursedConfig.punishmentColor, 15);
                 r = true;
             }
         }
         if (stage >= 1) {
             //Restraints
-            if (InventoryGet(Player, "ItemLegs") == null) {
+            if (itemIsAllowed("Chains", "ItemLegs")) {
                 InventoryWear(Player, "Chains", "ItemLegs", cursedConfig.punishmentColor, 15);
                 r = true;
             }

@@ -76,23 +76,20 @@ function InitHelpMsg() {
     -contractions
     
     >>>Curses<<<
-    -naked
+    *NEW*-curseitem [group]
+    *DEPRECATED*-naked
     -vibes
-    -latex
-    -pony
     -collar
-    -mittens
-    -paws
-    -gag
-    -blindfold
-    -hood
-    -earplugs
-    -dildogag
-    -panties
-    -screws
-    -rope
-    -maiduniform
-    -doublegag
+    *DEPRECATED*-mittens
+    *DEPRECATED*-paws
+    *DEPRECATED*-gag
+    *DEPRECATED*-blindfold
+    *DEPRECATED*-hood
+    *DEPRECATED*-earplugs
+    *DEPRECATED*-dildogag
+    *DEPRECATED*-panties
+    *DEPRECATED*-screws
+    *DEPRECATED*-doublegag
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -139,9 +136,10 @@ function InitHelpMsg() {
     INTENSE V: -sound ["oink", "meow", ...]
 
     >>>Curses<<<
-    -belt
-    *NEW*-reminders
-    *NEW*-togglereminder [reminder]
+    *DEPRECATED*-belt
+    *NEW*-clearcurses
+    -reminders
+    -togglereminder [reminder]
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<

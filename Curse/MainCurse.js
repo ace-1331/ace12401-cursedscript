@@ -165,7 +165,7 @@ async function ChatlogProcess() {
     }
 
     //Spam block 
-    if (cursedConfig.chatStreak > 5 || purged > 3) {
+    if (cursedConfig.chatStreak > 5 /*|| purged > 3*/) {
         cursedConfig.isRunning = false;
         cursedConfig.chatlog = [];
         popChatSilent("ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord", "Error");

@@ -14,6 +14,11 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }*/
             sendWhisper(sender, "(Appearance Lock is currently disabled.)", true);
             break;
+        case "clearcurse":
+        case "clearcurses":
+            cursedConfig.cursedAppearance = [];
+            SendChat("All curses on " + Player.Name + "'s items have been lifted.");
+            break;
         case "fullmute":
         case "fullblockchat":
             if (!cursedConfig.hasIntenseVersion) {
@@ -238,16 +243,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             break;
         case "belt":
         case "cursedbelt":
-            if (!cursedConfig.hasCursedBelt) {
-                SendChat("The curse arises on " + Player.Name + "'s belt.");
-                procGenericItem("PolishedChastityBelt", "ItemPelvis");
-            } else {
-                SendChat("The curse on " + Player.Name + "'s belt vanished.");
-                if (cursedConfig.hasRestraintVanish) {
-                    restraintVanish("ItemPelvis");
-                }
-            }
-            cursedConfig.hasCursedBelt = !cursedConfig.hasCursedBelt;
+            toggleCurseItem({ name: "PolishedChastityBelt", txtGroup: "pelvis" });
             break;
         case "afk":
             if (!cursedConfig.hasAntiAFK) {

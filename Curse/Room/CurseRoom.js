@@ -121,7 +121,7 @@ function CurseRoomHasIntense() {
 function CurseRoomTryMittens() {
     cursedConfig.hasCursedMittens = true;
     cursedConfig.genericProcs = [];
-    procGenericItem("LeatherMittens", "ItemHands");
+    toggleCurseItem({ name: "LeatherMittens", txtGroup: "hands" });
     SaveConfigs();
 }
 
