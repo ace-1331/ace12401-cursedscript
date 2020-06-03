@@ -46,6 +46,7 @@ function HelpMsg(sender, isClubOwner, isOwner, isMistress){
         
     });
     if(cursedConfig.hasIntenseVersion){
+         sendWhisper(sender, "INTENSE COMMANDS");
         sendWhisper(sender, intenseConfig);
         sendWhisper(sender, intenseSpeech);
         sendWhisper(sender, intenseOther);
@@ -218,10 +219,9 @@ function FindBlock(section) {
         }
        
         case "all":
-            return `
-            Commands are called with ${commandCall}, like "${commandCall} respect"
-           To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions `;
- 
+            let moreinfo = `Commands are called with ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}, like "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} respect"
+                            To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions `;
+            return moreinfo;
         default:
             break;
     }
