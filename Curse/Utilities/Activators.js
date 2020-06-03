@@ -33,100 +33,20 @@ function procCursedNaked() {
 }
 
 /** Triggers cursed vibrators */
-function procCursedOrgasm() {
+function procCursedOrgasm(group) {
     //Turns them to max
     if (
-        InventoryGet(Player, "ItemDevices")
-        && Array.isArray(InventoryGet(Player, "ItemDevices").Asset.Effect)
-        && InventoryGet(Player, "ItemDevices").Asset.Effect.includes("Egged")
+        InventoryGet(Player,group)
+        && Array.isArray(InventoryGet(Player, group).Asset.Effect)
+        && InventoryGet(Player, group).Asset.Effect.includes("Egged")
     ) {
-        let property = InventoryGet(Player, "ItemDevices").Property || {};
+        let property = InventoryGet(Player, group).Property || {};
         property.Intensity = 3;
         if (!property.Effect) property.Effect = []
         property.Effect = [...property.Effect, "Egged", "Vibrating"];
         property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemDevices").Property = property;
-        cursedConfig.toUpdate.push("ItemDevices");
-    }
-    if (
-        InventoryGet(Player, "ItemFeet")
-        && Array.isArray(InventoryGet(Player, "ItemFeet").Asset.Effect)
-        && InventoryGet(Player, "ItemFeet").Asset.Effect.includes("Egged")
-    ) {
-        let property = InventoryGet(Player, "ItemFeet").Property || {};
-        property.Intensity = 3;
-        if (!property.Effect) property.Effect = []
-        property.Effect = [...property.Effect, "Egged", "Vibrating"];
-        property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemFeet").Property = property;
-        cursedConfig.toUpdate.push("ItemFeet");
-    }
-    if (
-        InventoryGet(Player, "ItemButt")
-        && Array.isArray(InventoryGet(Player, "ItemButt").Asset.Effect)
-        && InventoryGet(Player, "ItemButt").Asset.Effect.includes("Egged")
-    ) {
-        let property = InventoryGet(Player, "ItemButt").Property || {};
-        property.Intensity = 3;
-        property.InflateLevel = 4;
-        if (!property.Effect) property.Effect = []
-        property.Effect = [...property.Effect, "Egged", "Vibrating"];
-        property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemButt").Property = property;
-        cursedConfig.toUpdate.push("ItemButt");
-    }
-    if (
-        InventoryGet(Player, "ItemNipplesPiercings")
-        && Array.isArray(InventoryGet(Player, "ItemNipplesPiercings").Asset.Effect)
-        && InventoryGet(Player, "ItemNipplesPiercings").Asset.Effect.includes("Egged")
-    ) {
-        let property = InventoryGet(Player, "ItemNipplesPiercings").Property || {};
-        property.Intensity = 3;
-        if (!property.Effect) property.Effect = []
-        property.Effect = [...property.Effect, "Egged", "Vibrating"];
-        property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemNipplesPiercings").Property = property;
-        cursedConfig.toUpdate.push("ItemNipplesPiercings");
-    }
-    if (
-        InventoryGet(Player, "ItemVulvaPiercings")
-        && Array.isArray(InventoryGet(Player, "ItemVulvaPiercings").Asset.Effect)
-        && InventoryGet(Player, "ItemVulvaPiercings").Asset.Effect.includes("Egged")
-    ) {
-        let property = InventoryGet(Player, "ItemVulvaPiercings").Property || {};
-        property.Intensity = 3;
-        if (!property.Effect) property.Effect = []
-        property.Effect = [...property.Effect, "Egged", "Vibrating"];
-        property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemVulvaPiercings").Property = property;
-        cursedConfig.toUpdate.push("ItemVulvaPiercings");
-    }
-    if (
-        InventoryGet(Player, "ItemNipples")
-        && Array.isArray(InventoryGet(Player, "ItemNipples").Asset.Effect)
-        && InventoryGet(Player, "ItemNipples").Asset.Effect.includes("Egged")
-    ) {
-        let property = InventoryGet(Player, "ItemNipples").Property || {};
-        property.Intensity = 3;
-        if (!property.Effect) property.Effect = []
-        property.Effect = [...property.Effect, "Egged", "Vibrating"];
-        property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemNipples").Property = property;
-        cursedConfig.toUpdate.push("ItemNipples");
-    }
-    if (
-        InventoryGet(Player, "ItemVulva")
-        && Array.isArray(InventoryGet(Player, "ItemVulva").Asset.Effect)
-        && InventoryGet(Player, "ItemVulva").Asset.Effect.includes("Egged")
-    ) {
-        let property = InventoryGet(Player, "ItemVulva").Property || {};
-        property.Intensity = 3;
-        property.InflateLevel = 4;
-        if (!property.Effect) property.Effect = []
-        property.Effect = [...property.Effect, "Egged", "Vibrating"];
-        property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
-        InventoryGet(Player, "ItemVulva").Property = property;
-        cursedConfig.toUpdate.push("ItemVulva");
+        InventoryGet(Player, group).Property = property;
+        cursedConfig.toUpdate.push(group);
     }
     cursedConfig.mustRefresh = true;
 }
