@@ -37,6 +37,7 @@ function procCursedOrgasm() {
     //Turns them to max
     if (
         InventoryGet(Player, "ItemDevices")
+        && Array.isArray(InventoryGet(Player, "ItemDevices").Asset.Effect)
         && InventoryGet(Player, "ItemDevices").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemDevices").Property || {};
@@ -49,6 +50,7 @@ function procCursedOrgasm() {
     }
     if (
         InventoryGet(Player, "ItemFeet")
+        && Array.isArray(InventoryGet(Player, "ItemFeet").Asset.Effect)
         && InventoryGet(Player, "ItemFeet").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemFeet").Property || {};
@@ -61,6 +63,7 @@ function procCursedOrgasm() {
     }
     if (
         InventoryGet(Player, "ItemButt")
+        && Array.isArray(InventoryGet(Player, "ItemButt").Asset.Effect)
         && InventoryGet(Player, "ItemButt").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemButt").Property || {};
@@ -74,6 +77,7 @@ function procCursedOrgasm() {
     }
     if (
         InventoryGet(Player, "ItemNipplesPiercings")
+        && Array.isArray(InventoryGet(Player, "ItemNipplesPiercings").Asset.Effect)
         && InventoryGet(Player, "ItemNipplesPiercings").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemNipplesPiercings").Property || {};
@@ -86,6 +90,7 @@ function procCursedOrgasm() {
     }
     if (
         InventoryGet(Player, "ItemVulvaPiercings")
+        && Array.isArray(InventoryGet(Player, "ItemVulvaPiercings").Asset.Effect)
         && InventoryGet(Player, "ItemVulvaPiercings").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemVulvaPiercings").Property || {};
@@ -98,6 +103,7 @@ function procCursedOrgasm() {
     }
     if (
         InventoryGet(Player, "ItemNipples")
+        && Array.isArray(InventoryGet(Player, "ItemNipples").Asset.Effect)
         && InventoryGet(Player, "ItemNipples").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemNipples").Property || {};
@@ -110,6 +116,7 @@ function procCursedOrgasm() {
     }
     if (
         InventoryGet(Player, "ItemVulva")
+        && Array.isArray(InventoryGet(Player, "ItemVulva").Asset.Effect)
         && InventoryGet(Player, "ItemVulva").Asset.Effect.includes("Egged")
     ) {
         let property = InventoryGet(Player, "ItemVulva").Property || {};
