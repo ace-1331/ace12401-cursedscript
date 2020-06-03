@@ -26,7 +26,7 @@ function InitHelpMsg() {
     -identifier [new identifier]
     -punishmentcolor ["#colorcode"]
     -forwardall
-    *DEPRECATED*-savecolors
+    -savecolors
     -wardrobev2
     INTENSE V:-capture
 
@@ -77,19 +77,19 @@ function InitHelpMsg() {
     
     >>>Curses<<<
     *NEW*-curseitem [group]
-    *DEPRECATED*-naked
+    -naked
     -vibes
     -collar
-    *DEPRECATED*-mittens
-    *DEPRECATED*-paws
-    *DEPRECATED*-gag
-    *DEPRECATED*-blindfold
-    *DEPRECATED*-hood
-    *DEPRECATED*-earplugs
-    *DEPRECATED*-dildogag
-    *DEPRECATED*-panties
-    *DEPRECATED*-screws
-    *DEPRECATED*-doublegag
+    -mittens
+    -paws
+    -gag
+    -blindfold
+    -hood
+    -earplugs
+    -dildogag
+    -panties
+    -screws
+    -doublegag
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -115,8 +115,8 @@ function InitHelpMsg() {
     -fullpublic
     -afk
     -note
-    *NEW*-reminderinterval [seconds]
-    *NEW*-clearallreminders
+    -reminderinterval [seconds]
+    -clearallreminders
     INTENSE VERSION: -leash
     INTENSE VERSION: -maid
     *NEW*INTENSE VERSION: -sensdep
@@ -136,7 +136,7 @@ function InitHelpMsg() {
     INTENSE V: -sound ["oink", "meow", ...]
 
     >>>Curses<<<
-    *DEPRECATED*-belt
+    -belt
     *NEW*-clearcurses
     -reminders
     -togglereminder [reminder]

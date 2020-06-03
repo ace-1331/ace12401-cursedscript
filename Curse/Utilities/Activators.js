@@ -167,8 +167,6 @@ function textToGroup(group, permission) {
                 return "ItemVulvaPiercings";
             case "butt":
                 return "ItemButt";
-            case "pelvis":
-                return "ItemPelvis";
             case "torso":
                 return "ItemTorso";
             case "nipple":
