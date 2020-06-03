@@ -73,7 +73,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         case "vibes":
             if (!cursedConfig.hasCursedOrgasm) {
                 SendChat("The curse arises on " + Player.Name + "'s vibrating toys.");
-                procCursedOrgasm();
+                vibratorGroups.forEach(G =>  procCursedOrgasm(G));
             } else {
                 SendChat("The curse on " + Player.Name + "'s vibrating toys vanished.");
             }

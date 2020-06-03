@@ -26,6 +26,7 @@ function AppearanceCheck() {
 
         let warnAdd = 0;
         let warnRemove = 0;
+        
         //Locked appearance (now all curse items)
         cursedConfig.cursedAppearance.forEach(({ name, group }) => {
             let item = Player.Appearance.filter(el => el.Asset.Group.Name == group && el.Asset.Name == name);
@@ -40,37 +41,32 @@ function AppearanceCheck() {
                 warnRemove++;
             }
         });
+        
         if (warnAdd)
             SendChat(`The curse on ${Player.Name} restores her cursed item${warnAdd > 1 ? 's' : ''}.`);
         if (warnRemove)
             SendChat(`The curse on ${Player.Name} removes unallowed item${warnRemove > 1 ? 's' : ''}.`);
 
+        
         //Cursed Orgasms
         if (cursedConfig.hasCursedOrgasm) {
             // New vibrators will default to max to be fair
-            let vibratorGroups = ["ItemButt", "ItemFeet", "ItemVulva", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings", "ItemDevices"];
             vibratorGroups.forEach(G => {
                 let A = InventoryGet(Player, G);
                 if (
                     A && Array.isArray(A.Asset.Effect)
                     && A.Asset.Effect.includes("Egged")
-                    && (!A.Property)
                 ) {
-                    procCursedOrgasm(G);
+                    if (!A.Property) {
+                        procCursedOrgasm(G);
+                    }
+                    if (A.Property.Intensity < 3) {
+                        SendChat("The curse on " + Player.Name + " brings the vibrators back to their maximum intensity.");
+                        procCursedOrgasm(G);
+                        cursedConfig.strikes++;
+                    }
                 }
-            });
-
-            vibratorGroups.forEach(G => {
-                let A = InventoryGet(Player, G);
-                if (
-                    A && Array.isArray(A.Asset.Effect)
-                    && A.Asset.Effect.includes("Egged")
-                    && (!A.Property || A.Property.Intensity < 3)
-                ) {
-                    SendChat("The curse on " + Player.Name + " brings the vibrators back to their maximum intensity.");
-                    procCursedOrgasm(G);
-                    cursedConfig.strikes++;
-                }
+                
             });
         }
     }

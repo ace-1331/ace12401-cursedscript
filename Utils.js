@@ -122,6 +122,7 @@ function CursedStarter() {
             window.cursedConfig = { ...cursedConfigInit };
             window.oldStorage = null;
             window.oldVersion = null;
+            window.vibratorGroups = ["ItemButt", "ItemFeet", "ItemVulva", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings", "ItemDevices"];
 
             //Tries to load configs
             try {
