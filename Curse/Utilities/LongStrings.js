@@ -4,44 +4,52 @@
 function HelpMsg(sender, isClubOwner, isOwner, isMistress){
  
     let msgList =[];
-    let helpTxt;
+ 
+    var intenseConfig = `Config >>> `;
+    var intenseSpeech = `Speech >>> `;
+    var intenseOther = `Others >>> `;
+
     if (isClubOwner) {
         msgList.push("clubowner", "owner", "private", "mistress", "public", "all");
-        helpTxt = "Club Owner Commands >>> ";
     }
     else if(isOwner) {
         msgList.push("owner", "private", "public", "all");
-        helpTxt = "Owner Commands >>> ";
     }
     else if(isMistress){
         msgList.push("mistress", "all");
     }
     else if(sender == Player.MemberNumber){
         msgList.push("wearer", "private");
-        helpTxt = "Wearer Commands >>> ";
     }
     else if(cursedConfig.hasPublicAccess){
         if(cursedConfig.hasFullPublic){msgList.push("mistress");}
         msgList.push("public", "all");
-        helpTxt = "Public Commands >>> ";
     }
 
     else{
         msgList.push("all");
-        helpTxt = "Commands Available >>> "
     }
-    let helpStart = `Calling ID: $){cursedConfig.commandChar + cursedConfig.slaveIdentifier}
+    let helpStart = `Calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
     ${ChatRoomCharacter.map(el => {return { Name: el.Name, isCursed: el.isCursed }}).filter(n => n.Name == cursedConfig.slaveIdentifier && n.isCursed).length > 1
     ? "WARNING: Potential clash with another character!" : ""}`;
     sendWhisper(sender, helpStart);
-    sendWhisper(sender, helpTxt);
-
+ 
     msgList.forEach(section => {
         var helpmsg = FindBlock(section);
-     
+        
         sendWhisper(sender, helpmsg);
         
+        if(cursedConfig.hasIntenseVersion){
+            let intenseSearch = "intense"+ section;
+            FindBlock(intenseSearch)
+        }
+        
     });
+    if(cursedConfig.hasIntenseVersion){
+        sendWhisper(sender, intenseConfig);
+        sendWhisper(sender, intenseSpeech);
+        sendWhisper(sender, intenseOther);
+    }
     
     sendWhisper(sender,  `
     More on various features:
@@ -51,12 +59,13 @@ function HelpMsg(sender, isClubOwner, isOwner, isMistress){
     Made by ace (12401) - Ace__#5558
     Official release: V${currentVersion}
     `);
-}
+
 
 function FindBlock(section) {
     switch(section){
         case "wearer":
-            return `>>> Information <<<
+            return ` ///WEARER COMMANDS///
+            >>> Information <<<
             -help
             -showstrikes
             -showblacklist
@@ -75,34 +84,40 @@ function FindBlock(section) {
             -identifier [new identifier]
             -punishmentcolor ["#colorcode"]
             -forwardall
- 
+            
             -wardrobev2
-            INTENSE V:-capture
-        
-            >>>Speech Commands<<<
-            INTENSE:-talk [target id] [sentence id]
+            
             >>> Other Commands <<<
-            INTENSE V:-nickname [Number] [Name]
-            INTENSE V:-deletenickname [Number] [Name]
             -draw [nb of cards] [players]
             -shuffle`;
+        case "intensewearer":{
+            intenseConfig += `-allowcapture`;
+            intenseSpeech += `-talk [target id] [sentence id]`;
+            intenseOther += `-nickname [Number] [Name] -deletenickname [Number] [Name] `;
+            break;
+        }
 
         case "public":
-            return`
+            return` ///PUBLIC COMMANDS///
             -help
             -respect
             -punish
             -edge
             -asylumtimeleft
             -readnote
-            -sendnote
-            INTENSE V:-nickname [Name]
-            INTENSE V:-blocknickname
-            INTENSE V:-allownickname
-            INTENSE V:-capture`;
+            -sendnote`;
+        case "intensepublic":{
+            intenseOther += `
+            -nickname [Name]
+            -blocknickname
+            -allownickname
+            -capture`;
+            break;
+        }
 
         case "mistress":
-            return`  >>> Basic Commands<<<
+            return` ///MISTRESS COMMANDS///
+             >>> Basic Commands<<<
             -kneel
             -cursereport
             -showstrikes
@@ -112,8 +127,6 @@ function FindBlock(section) {
             -public
             -deactivateonpresence
    
-            INTENSE V:-mnickname [Number] [Name]
-            INTENSE V:-deletenickname [Number]
         
             >>>Speech Commands<<<
             *NEW*-dolltalk
@@ -127,26 +140,34 @@ function FindBlock(section) {
             
             >>>Curses<<<
             *NEW*-curseitem [group]
-        
             -vibes
             -collar`;
+        case "intensemistress":{
+            intenseOther += `
+            -mnickname [Number] [Name]
+            -deletenickname [Number]`;
+            break;
+        }
 
         case "private":
-            return `>>> Information <<<
+            return ` ///PRIVATE COMMANDS///
+            >>> Information <<<
             -speechreport
             -showmistresses
             -showowners
             -showenforced
             -shownicknames
             -configreport`;
+        case "intenseprivate":{
+            break;
+        }
             
         case "owner":
-            return`
+            return`///OWNER COMMANDS///
             >>>Basic Commands<<<
             -asylum [nb of hours]
             -owner [a member number]
-            INTENSE V:-onickname [Number] [Name]
-        
+         
             >>>Configuration Commands<<<
             -guestnotes
             -readnotes
@@ -158,41 +179,51 @@ function FindBlock(section) {
             -note
             *NEW*-reminderinterval [seconds]
             *NEW*-clearallreminders
-            INTENSE VERSION: -leash
-            INTENSE VERSION: -maid
-            *NEW*INTENSE VERSION: -sensdep
         
             >>>Speech Commands<<<
             -enforceentrymessage
             -entrymessage [sentence]
-            INTENSE V:-restrainedspeech
-            INTENSE V:-self [I, this slave, etc.]
-            INTENSE V:-target [id] [target]
-            INTENSE V:-sentence [id] [sentence]
-            INTENSE V:-listsentences
-            INTENSE V: -forcedsay [sentence]
-            INTENSE V: -say [sentence]
-            INTENSE V: -fullmute
-            INTENSE V: -enablesound
-            INTENSE V: -sound ["oink", "meow", ...]
         
             >>>Curses<<<
-           
             *NEW*-clearcurses
             -reminders
             -togglereminder [reminder]`;
-
+        case "intenseowner":{
+            intenseConfig += `
+             -leash
+             -maid
+            *NEW* -sensdep`;
+            intenseSpeech += `
+            -restrainedspeech
+            -self [I, this slave, etc.]
+            -target [id] [target]
+            -sentence [id] [sentence]
+            -listsentences
+            -forcedsay [sentence]
+            -say [sentence]
+            -fullmute
+            -enablesound
+            -sound ["oink", "meow", ...]`;
+            intenseOther += `
+            -onickname [Number] [Name]`;
+            break;
+        }
         case "clubowner":
-            return ` >>>Configuration Commands<<<
-            INTENSE VERSION: -lockowner
-            *NEW*INTENSE VERSION: -locknewlover`;
+            return ``;
+        case "intenseclubowner":{
+            intenseConfig += `
+            -lockowner
+            *NEW* -locknewlover`;
+            break;
+        }
        
-        default:
+        case "all":
             return `
-            To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. 
             Commands are called with ${commandCall}, like "${commandCall} respect"
            To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions `;
-
+ 
+        default:
+            break;
     }
-
+}
 }
