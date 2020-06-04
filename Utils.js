@@ -187,7 +187,7 @@ function CursedStarter() {
             //Runs the script
             cursedConfig.isRunning = true;
             cursedConfig.onRestart = true;
-            InitHelpMsg();
+         
             InitAlteredFns();
             InitCleanup(); //Cleans up the arrays/migrations
             CursedCheckUp(); //Initial check
