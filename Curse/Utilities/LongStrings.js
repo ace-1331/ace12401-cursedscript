@@ -1,6 +1,6 @@
 //************************************ LONG STRINGS ************************************//
 /** Finds commands available and shows help messages */
-funtion InitHelp(){}
+function InitHelp(){}
 function HelpMsg(sender, isClubOwner, isOwner, isMistress){
  
     let msgList =[];
