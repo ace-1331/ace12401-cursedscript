@@ -8,32 +8,34 @@ function HelpMsg(sender, isClubOwner, isOwner, isMistress){
     var intenseConfig = `Config >>> `;
     var intenseSpeech = `Speech >>> `;
     var intenseOther = `Others >>> `;
+    
+    var helpStart = `Calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
+    ${ChatRoomCharacter.map(el => {return { Name: el.Name, isCursed: el.isCursed }}).filter(n => n.Name == cursedConfig.slaveIdentifier && n.isCursed).length > 1
+    ? "WARNING: Potential clash with another character!" : ""}`;
 
+// Gets available commands 
     if (isClubOwner) {
-        msgList.push("clubowner", "owner", "private", "mistress", "public", "all");
+        msgList = ["clubowner", "owner", "private", "mistress", "public", "all"];
     }
     else if(isOwner) {
-        msgList.push("owner", "private", "public", "all");
+        msgList = ["owner", "mistress", "private", "public", "all"];
     }
     else if(isMistress){
-        msgList.push("mistress", "all");
+        msgList = ["mistress","public", "all"];
     }
     else if(sender == Player.MemberNumber){
-        msgList.push("wearer", "private");
-    }
+        msgList = ["wearer", "private"];
+        popChatSilent(helpStart);
+     }
     else if(cursedConfig.hasPublicAccess){
         if(cursedConfig.hasFullPublic){msgList.push("mistress");}
-        msgList.push("public", "all");
+        msgList = ["public", "all"];
     }
 
     else{
-        msgList.push("all");
+        msgList = ["all"];
     }
-    let helpStart = `Calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
-    ${ChatRoomCharacter.map(el => {return { Name: el.Name, isCursed: el.isCursed }}).filter(n => n.Name == cursedConfig.slaveIdentifier && n.isCursed).length > 1
-    ? "WARNING: Potential clash with another character!" : ""}`;
-    sendWhisper(sender, helpStart);
- 
+
     msgList.forEach(section => {
         var helpmsg = FindBlock(section);
         
@@ -46,13 +48,14 @@ function HelpMsg(sender, isClubOwner, isOwner, isMistress){
         
     });
     if(cursedConfig.hasIntenseVersion){
-         sendWhisper(sender, "INTENSE COMMANDS");
+        sendWhisper(sender, "INTENSE COMMANDS");
         sendWhisper(sender, intenseConfig);
         sendWhisper(sender, intenseSpeech);
         sendWhisper(sender, intenseOther);
     }
-    
-    sendWhisper(sender,  `
+    let moreinfo = `Commands are called with ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}, like "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} respect"
+    To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions `;
+    sendWhisper(sender, moreinfo +  `
     More on various features:
     https://github.com/ace-1331/
     ace12401-cursedscript/wiki
@@ -103,14 +106,11 @@ function FindBlock(section) {
             -help
             -respect
             -punish
-            -edge
-            -asylumtimeleft
-            -readnote
-            -sendnote`;
+            -edge`;
         case "intensepublic":{
             intenseOther += `
             -nickname [Name]
-            -blocknickname
+            
             -allownickname
             -capture`;
             break;
@@ -218,10 +218,16 @@ function FindBlock(section) {
             break;
         }
        
-        case "all":
-            let moreinfo = `Commands are called with ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}, like "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} respect"
-                            To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions `;
-            return moreinfo;
+        case "all":{
+            return ` 
+            -asylumtimeleft
+            -readnote
+            -sendnote`;
+        }
+        case "intenseall" :{
+            intenseOther += `-blocknickname`;
+        }
+           
         default:
             break;
     }
