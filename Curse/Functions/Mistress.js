@@ -226,11 +226,12 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         case "curseitem":
         case "curseditem":
             if (parameters[0]) {
-                var currentAsset = InventoryGet(Player, textToGroup(parameters[0]));
+                var group = textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1);
+                var currentAsset = InventoryGet(Player, group);
                 if (
                     toggleCurseItem({
                         name: (currentAsset && currentAsset.Asset.Name) || "",
-                        group: textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1)
+                        group: group
                     })
                 ) {
                     sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);
