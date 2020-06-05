@@ -123,6 +123,7 @@ function CursedStarter() {
             window.oldStorage = null;
             window.oldVersion = null;
             window.vibratorGroups = ["ItemButt", "ItemFeet", "ItemVulva", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings", "ItemDevices"];
+            window.brokenVibratingItems = ["MermaidSuit", "AnalHook"];
 
             //Tries to load configs
             try {
