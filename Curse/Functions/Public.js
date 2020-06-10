@@ -15,7 +15,13 @@ function PublicCommands({
             KneelAttempt();
             break;
         case "respect":
-            enforce(sender, false);
+            enforce(sender, 1);
+            break;
+        case "respectnickname": {
+            forceNickname(sender);
+        }
+        case "title":
+            toggleTitle(sender, 1, parameters);
             break;
         case "nickname":
             //Force update self

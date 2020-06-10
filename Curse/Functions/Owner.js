@@ -1,21 +1,15 @@
 /** Function to trigger commands intended for owners, returns true if no command was executed */
 function OwnerCommands({ command, parameters, sender, commandCall }) {
     switch (command) {
-        case "lockappearance":
-            /*if (cursedConfig.cursedAppearance.length == 0) {
-                SendChat("The curse locks " + Player.Name + "'s current appearance");
-                Player.Appearance.forEach(item => {
-                    if ((parameters.includes("all") || item.Asset.Group.Name.indexOf("Item") != -1) && !["Fluids", "Emoticon", "Blush", "Eyebrows", "Eyes", "Mouth"].includes(item.Asset.Group.Name))
-                        cursedConfig.cursedAppearance.push({ name: item.Asset.Name, group: item.Asset.Group.Name, color: item.Color });
-                });
-            } else {
-                cursedConfig.cursedAppearance = [];
-                SendChat("The curse lets " + Player.Name + " dress as she sees fit.");
-            }*/
-            sendWhisper(sender, "(Appearance Lock is currently disabled.)", true);
-            break;
         case "clearcurse":
         case "clearcurses":
+            if (cursedConfig.hasRestraintVanish) {
+                cursedConfig.cursedAppearance.forEach(A => { 
+                    if (A.group.indexOf("Item") !== -1) { 
+                        restraintVanish(A.group);
+                    } 
+                });
+            }
             cursedConfig.cursedAppearance = [];
             SendChat("All curses on " + Player.Name + "'s items have been lifted.");
             break;
@@ -206,6 +200,9 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
         case "clearbannedwords":
             cursedConfig.bannedWords = [];
             sendWhisper(sender, "Banned words cleared.", true);
+            break;
+        case "otitle":
+            toggleTitle(sender, 3, parameters);
             break;
         case "onickname":
             SetNickname(parameters, sender, 3);

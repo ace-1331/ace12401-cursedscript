@@ -11,14 +11,10 @@ function AllCommands({
                 (timeLeft < 0 ? "0" : Math.round(timeLeft * 100) / 100) +
                 " hours left in the asylum");
             break;
-        case "help":{
-            
-            var isClubOwner = Player.Owner && Player.Ownership && (Player.Ownership.MemberNumber == sender);
-            var isOwner = cursedConfig.owners.includes(sender.toString()) || isClubOwner;
-            var isMistress = cursedConfig.mistresses.includes(sender.toString());
-
-            HelpMsg(sender, isClubOwner, isOwner, isMistress);
-        }
+        case "help":
+            sendWhisper(sender, `(To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. 
+            Commands are called with ${commandCall}, like "${commandCall} respect")`);
+            sendWhisper(sender, `(To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions )`);
             break;
         case "blocknickname":
             //Force delete self

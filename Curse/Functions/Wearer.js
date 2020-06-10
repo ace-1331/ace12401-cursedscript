@@ -32,7 +32,6 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
             cursedConfig.isClassic = !cursedConfig.isClassic;
             break;
-        case "allowcapture":
         case "capture":
             if (!cursedConfig.hasIntenseVersion) {
                 popChatSilent("(Will only work if intense mode is turned on.)");
@@ -70,7 +69,7 @@ function WearerCommands({ command, parameters, sender }) {
             popChatSilent("You have " + cursedConfig.strikes + " strikes.");
             break;
         case "help":
-            HelpMsg(sender);
+            popChatSilent(helpTxt);
             break;
         case "showblacklist":
             popChatSilent("Your blacklist: #" + cursedConfig.blacklist.join(" #"));

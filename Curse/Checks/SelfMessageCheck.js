@@ -58,13 +58,12 @@ function SelfMessageCheck(msg) {
 
     //Speech Restrictions
     //Reinforcement
-    cursedConfig.enforced.forEach(memberNumber => {
-        if (ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(memberNumber)) {
-            var Name = cursedConfig.nicknames.filter(u => u.Number == memberNumber)[0] ? cursedConfig.nicknames.filter(u => u.Number == memberNumber)[0].SavedName : "" || ChatRoomCharacter
-                .map(el => { return { MemberNumber: el.MemberNumber, Name: el.Name } })
-                .filter(el => el.MemberNumber == memberNumber)[0].Name;
-            var requiredName = ['miss', 'mistress', 'goddess', 'owner']
-                .map(el => el + " " + Name.toLowerCase());
+    cursedConfig.nicknames.forEach(member => {
+        var Name;
+        var requiredName;
+        if (member.isEnforced && ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(member.Number)) {
+            Name = member.SavedName;
+            requiredName = member.RespectNickname ? member.Nickname.toLowerCase() : member.Titles.map(el => el + " " + Name.toLowerCase());
             var matches = [...msg
                 .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", 'g'))
             ];
@@ -75,7 +74,7 @@ function SelfMessageCheck(msg) {
             );
             if (matches.length > goodMatches.length) {
                 NotifyOwners("(Tried to be disrespectful)");
-                popChatSilent("Respecting " + memberNumber + " is required.");
+                popChatSilent("Respecting " + member.Number + " is required.");
                 cursedConfig.strikes += 7;
                 r = true;
             }

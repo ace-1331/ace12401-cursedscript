@@ -82,18 +82,13 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         case "cursedclothes":
         case "naked":
             procCursedNaked();
-        case "enforce":
-            if (!isNaN(parameters[0]) && parameters[0] != "") {
-                enforce(parameters[0], true);
-            } else if (!cursedConfig.enforced.includes(sender)) {
-                cursedConfig.enforced.push(sender);
-                SendChat(Player.Name + " now has enforced protocols on her mistress.");
-            } else {
-                cursedConfig.enforced.splice(cursedConfig.enforced.indexOf(sender), 1)
-                SendChat(Player.Name + " no longer has enforced protocols on her mistress.");
-                // Can enforce someone else with #name enforce 00000 on
+            case "enforce": {
+                let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
+                enforce(sender, priority, parameters);
             }
-            break;
+            case "mtitle":
+                toggleTitle(sender, 2, parameters);
+                break;
         case "mistress":
             if (parameters[0] && !isNaN(parameters[0])) {
                 if (!cursedConfig.mistresses.includes(parameters[0])) {
@@ -211,6 +206,9 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             //Force delete self
             DeleteNickname(parameters, sender, isOwner ? 3 : 2);
             break;
+        case "respectnickname": {
+            forceNickname(sender, parameters);
+        }
         case "contractions":
             if (!cursedConfig.hasNoContractions) {
                 sendWhisper(sender, "-->Can no longer use contractions.", true);
@@ -226,11 +224,12 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         case "curseitem":
         case "curseditem":
             if (parameters[0]) {
-                var currentAsset = InventoryGet(Player, textToGroup(parameters[0]));
+                var group = textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1);
+                var currentAsset = InventoryGet(Player, group);
                 if (
                     toggleCurseItem({
                         name: (currentAsset && currentAsset.Asset.Name) || "",
-                        group: textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1)
+                        group: group
                     })
                 ) {
                     sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);

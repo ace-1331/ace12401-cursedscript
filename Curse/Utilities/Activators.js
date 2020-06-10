@@ -5,7 +5,8 @@ function procGenericItem(item, group) {
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
         if (Player.BlockItems.filter(it => it.Name == item && it.Group == group).length !== 0) {
-            popChatSilent("You currently have a curse activated for which the item is blocked, the curse will not apply the following item, please disable the curse using the item or unblock the item: " + item + " " + group, "System");
+            popChatSilent("An attempt was made to activate the curse on a group for which the item is blocked, the curse on the related group has been lifted. Unblock the following item if you want to curse it: " + item + " " + group, "System");
+            cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
         }
         if (item != "" && itemIsAllowed(item, group)) {
             InventoryWear(Player, item, group, GetColorSlot(group));

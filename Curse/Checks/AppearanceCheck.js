@@ -56,6 +56,7 @@ function AppearanceCheck() {
                 if (
                     A && Array.isArray(A.Asset.Effect)
                     && A.Asset.Effect.includes("Egged")
+                    && !brokenVibratingItems.includes(A.Name)
                 ) {
                     if (!A.Property) {
                         procCursedOrgasm(G);
