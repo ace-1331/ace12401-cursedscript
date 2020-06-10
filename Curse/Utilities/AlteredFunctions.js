@@ -140,7 +140,12 @@ function InitAlteredFns() {
         if (ChatRoomCharacter.length >= 5) Zoom = 0.5;
         for (var C = 0; C < ChatRoomCharacter.length; C++) {
             if (!DoClick && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
-                if (ChatRoomCharacter[C].MemberNumber != null && ChatRoomCharacter[C].isCursed) {
+                if (
+                    ChatRoomCharacter[C].MemberNumber != null
+                    && Array.isArray(ChatRoomCharacter[C].Inventory)
+                    && ChatRoomCharacter[C].Inventory.filter(A => A.Name == "Curse").length > 0
+                ) {
+                    ChatRoomCharacter[C].isCursed = true;
                     DrawText("C", (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, "White");
                 }
             }
