@@ -16,7 +16,6 @@ function AllCommands({
             var isClubOwner = Player.Owner && Player.Ownership && (Player.Ownership.MemberNumber == sender);
             var isOwner = cursedConfig.owners.includes(sender.toString()) || isClubOwner;
             var isMistress = cursedConfig.mistresses.includes(sender.toString());
-            var accessLevels = [isClubOwner, isOwner, isMistress];
 
             HelpMsg(sender, isClubOwner, isOwner, isMistress);
         }
