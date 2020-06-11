@@ -1,6 +1,12 @@
 //************************************  Curse Activations ************************************//
 /** Toggles a curse on any given item */
 function procGenericItem(item, group) {
+    //Removes curses on invalid items
+    if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) { 
+        cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+        return;   
+    };
+    
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);

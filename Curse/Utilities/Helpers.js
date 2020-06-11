@@ -168,6 +168,13 @@ function enforce(enforcee, isMistress) {
 
 /** Checks if an item can be worn and if it can be but is not, returns true */
 function itemIsAllowed(name, group) {
+    //Removes curses on invalid items
+    if (name && !Asset.find(A => A.Name === name && A.Group.Name === group)) {
+        cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+        return false;
+    }
+    
+    // Checks if it can be applied
     if (
         !(
             InventoryGet(Player, group)

@@ -59,7 +59,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             break;
         case "screws":
         case "cursedscrews":
-            toggleCurseItem({ name: "ScrewClamps", group: "ItemNipplesPiercings" });
+            toggleCurseItem({ name: "ScrewClamps", group: "ItemNipples" });
             break;
         case "cursedspeech":
         case "speech":

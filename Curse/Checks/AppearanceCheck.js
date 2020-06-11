@@ -31,7 +31,7 @@ function AppearanceCheck() {
         cursedConfig.cursedAppearance.forEach(({ name, group }) => {
             let item = Player.Appearance.filter(el => el.Asset.Group.Name == group && el.Asset.Name == name);
             if (
-                itemIsAllowed(Player, group) && item.length == 0 && name != ""
+                itemIsAllowed(name, group) && item.length == 0 && name != ""
             ) {
                 procGenericItem(name, group);
                 warnAdd++;
