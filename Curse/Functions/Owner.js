@@ -1,5 +1,6 @@
 /** Function to trigger commands intended for owners, returns true if no command was executed */
-function OwnerCommands({ command, parameters, sender, commandCall }) {
+function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
+    const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
     switch (command) {
         case "clearcurse":
         case "clearcurses":
@@ -335,7 +336,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "blockchange":
-            if (!cursedConfig.isLooseOwner) {
+            if (!looseOwnerActive) {
                 sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
                 return;
             }
@@ -348,7 +349,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "keyblock":
-            if (!cursedConfig.isLooseOwner) {
+            if (!looseOwnerActive) {
                 sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
                 return;
             }
@@ -362,7 +363,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "unlockself":
-            if (!cursedConfig.isLooseOwner) {
+            if (!looseOwnerActive) {
                 sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
                 return;
             }
@@ -375,7 +376,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "remoteblock":
-            if (!cursedConfig.isLooseOwner) {
+            if (!looseOwnerActive) {
                 sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
                 return;
             }
@@ -389,7 +390,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "remoteself":
-            if (!cursedConfig.isLooseOwner) {
+            if (!looseOwnerActive) {
                 sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
                 return;
             }
@@ -402,7 +403,7 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             }
             break;
         case "forcedlabor":
-            if (!cursedConfig.isLooseOwner) {
+            if (!looseOwnerActive) {
                 sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
                 return;
             }
