@@ -8,6 +8,11 @@ async function CursedCheckUp() {
         return;
     }
     
+    // Pop missed silent chats
+    if (cursedConfig.shouldPopSilent) { 
+        popChatSilent();
+    }
+    
     //Gets the messages
     let messagesToVerify = [];
 

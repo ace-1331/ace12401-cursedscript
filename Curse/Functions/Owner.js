@@ -4,10 +4,10 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
         case "clearcurse":
         case "clearcurses":
             if (cursedConfig.hasRestraintVanish) {
-                cursedConfig.cursedAppearance.forEach(A => { 
-                    if (A.group.indexOf("Item") !== -1) { 
+                cursedConfig.cursedAppearance.forEach(A => {
+                    if (A.group.indexOf("Item") !== -1) {
                         restraintVanish(A.group);
-                    } 
+                    }
                 });
             }
             cursedConfig.cursedAppearance = [];
@@ -332,6 +332,95 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 }
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");
+            }
+            break;
+        case "blockchange":
+            if (!cursedConfig.isLooseOwner) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockChange", "OwnerRule")) {
+                NotifyOwners(`(Can now change her clothes again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockChange", "OwnerRule");
+            } else {
+                NotifyOwners(`(Can no longer change her clothes as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockChange", "OwnerRule", CurrentTime + 1000000000000);
+            }
+            break;
+        case "keyblock":
+            if (!cursedConfig.isLooseOwner) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockKey", "OwnerRule")) {
+                NotifyOwners(`(Can now change buy keys again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockKey", "OwnerRule");
+                InventoryConfiscateKey();
+            } else {
+                NotifyOwners(`(Can no longer use keys as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockKey", "OwnerRule");
+            }
+            break;
+        case "unlockself":
+            if (!cursedConfig.isLooseOwner) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockOwnerLockSelf", "OwnerRule")) {
+                NotifyOwners(`(Can now unlock locks on her again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockOwnerLockSelf", "OwnerRule");
+            } else {
+                NotifyOwners(`(Can no longer unlock locks on her as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockOwnerLockSelf", "OwnerRule");
+            }
+            break;
+        case "remoteblock":
+            if (!cursedConfig.isLooseOwner) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockRemoteSelf", "OwnerRule")) {
+                NotifyOwners(`(Can now change buy remotes again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockRemoteSelf", "OwnerRule");
+                InventoryConfiscateRemote();
+            } else {
+                NotifyOwners(`(Can no longer use remotes as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockRemoteSelf", "OwnerRule");
+            }
+            break;
+        case "remoteself":
+            if (!cursedConfig.isLooseOwner) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockRemoteSelf", "OwnerRule")) {
+                NotifyOwners(`(Can now use remotes on herself again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockRemoteSelf", "OwnerRule");
+            } else {
+                NotifyOwners(`(Can no longer use remotes on herself as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockRemoteSelf", "OwnerRule");
+            }
+            break;
+        case "forcedlabor":
+            if (!cursedConfig.isLooseOwner) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (Player.CanWalk() && (ReputationCharacterGet(Player, "Maid") > 0) && Player.Effect.filter(E => E.indexOf("Gag") > -1).length == 0) {
+                NotifyOwners(`(Was sent to the maid quarters by (${FetchName(sender)}))`, true);
+                CharacterSetActivePose(Player, null);
+                let D = TextGet("ActionGrabbedToServeDrinksIntro");
+                ServerSend("ChatRoomChat", { Content: "ActionGrabbedToServeDrinks", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
+                ElementRemove("InputChat");
+                ElementRemove("TextAreaChatLog");
+                ServerSend("ChatRoomLeave", "");
+                CommonSetScreen("Room", "MaidQuarters");
+                CharacterSetCurrent(MaidQuartersMaid);
+                MaidQuartersMaid.CurrentDialog = D;
+                MaidQuartersMaid.Stage = "205";
+                MaidQuartersOnlineDrinkFromOwner = true;
+            } else {
+                sendWhisper(sender, 'Cannot send wearer to the maid quarters while being gagged, being unable to walk or if she is not a maid.', true)
             }
             break;
         default:

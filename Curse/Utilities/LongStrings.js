@@ -8,15 +8,18 @@ function InitHelpMsg() {
     //WEARER FUNCTIONS//
 
     >>> Information <<<
+    *NEW*-tip
+    *NEW*-tip reset
     -help
     -showstrikes
     -showblacklist
     -listsentences
 
     >>> Config Commands <<<
-    *NEW*-eatcommands
-    *NEW*-hidedisplay
-    *NEW*-restraintvanish
+    *NEW*-quickban
+    -eatcommands
+    -hidedisplay
+    -restraintvanish
     -isclassic
     -issilent
     -blacklist [a member number]
@@ -24,7 +27,6 @@ function InitHelpMsg() {
     -owner [a member number]
     -commandchar [! / & / $ / #]
     -identifier [new identifier]
-    -punishmentcolor ["#colorcode"]
     -forwardall
     -savecolors
     -wardrobev2
@@ -66,7 +68,7 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number]
 
     >>>Speech Commands<<<
-    *NEW*-dolltalk
+    -dolltalk
     -mute
     -cursedspeech
     -banword [the word itself]
@@ -119,8 +121,16 @@ function InitHelpMsg() {
     -clearallreminders
     INTENSE VERSION: -leash
     INTENSE VERSION: -maid
-    *NEW*INTENSE VERSION: -sensdep
+    INTENSE VERSION: -sensdep
 
+    >>>Club rules Commands<<<
+    *NEW*-forcedlabor
+    *NEW*-remoteself
+    *NEW*-remoteblock
+    *NEW*-unlockself
+    *NEW*-keyblock
+    *NEW*-blockchange
+    
     >>>Speech Commands<<<
     -enforceentrymessage
     -entrymessage [sentence]
@@ -137,14 +147,16 @@ function InitHelpMsg() {
 
     >>>Curses<<<
     -belt
-    *NEW*-clearcurses
+    -clearcurses
     -reminders
     -togglereminder [reminder]
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
+    *NEW*-looseowner
     INTENSE VERSION: -lockowner
-    *NEW*INTENSE VERSION: -locknewlover
+    INTENSE VERSION: -locknewlover
+    *NEW*INTENSE VERSION: -locknewsub
     
     ---------
     More on various features:

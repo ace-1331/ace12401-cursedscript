@@ -3,7 +3,7 @@
 function SaveConfigs() {
     try {
         const dbConfigs = { ...cursedConfig };
-        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned"];
+        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
         toDelete.forEach(prop => delete dbConfigs[prop]);
         localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
     } catch { }
@@ -52,19 +52,20 @@ function popChatGlobal(actionTxt, isNormalTalk) {
 /** Pop all messages for the wearer to see, will save if player is not in a room */
 function popChatSilent(actionTxt, senderName) {
     //Add to log
-    if (!window.savedSilent) window.savedSilent = [];
-    if (actionTxt) window.savedSilent.push({ actionTxt, senderName });
+    if (actionTxt) cursedConfig.savedSilent.push({ actionTxt, senderName });
 
     //Save in log until player is in a room
     if (CurrentScreen != "ChatRoom") {
+        cursedConfig.shouldPopSilent = true;
         return
     }
+    cursedConfig.shouldPopSilent = false;
 
     //Removes dupes keeps the last order for UX
-    window.savedSilent = window.savedSilent.filter((m, i) => window.savedSilent.lastIndexOf(m) === i);
+    cursedConfig.savedSilent = cursedConfig.savedSilent.filter((m, i) => cursedConfig.savedSilent.lastIndexOf(m) === i);
 
     //Sends messages
-    window.savedSilent.forEach(silentMsg => {
+    cursedConfig.savedSilent.forEach(silentMsg => {
         //Directly sends to wearer
         var div = document.createElement("div");
         var span = document.createElement("span");
@@ -87,7 +88,7 @@ function popChatSilent(actionTxt, senderName) {
     });
 
     //Clears log
-    window.savedSilent = [];
+    cursedConfig.savedSilent = [];
 }
 
 /** Send a whisper to a target */
@@ -116,6 +117,19 @@ function SendChat(actionTxt) {
         cursedConfig.chatlog.push(actionTxt);
     } else {
         NotifyOwners(actionTxt, true);
+    }
+}
+
+/** Sends an unseen tip */
+function PopTip() { 
+    if (!window.curseTips) return;
+    const showTip = curseTips.find(T => !cursedConfig.seenTips.includes(T.ID)) || {};
+    if (showTip.ID) {
+        popChatSilent(showTip.Text, "Tip");
+        popChatSilent("Send the command again to see another tip.", "Tip");
+        cursedConfig.seenTips.push(showTip.ID);
+    } else { 
+        popChatSilent("No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again", "Tip");
     }
 }
 

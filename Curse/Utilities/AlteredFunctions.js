@@ -77,6 +77,7 @@ function InitAlteredFns() {
         //Single beep in capture mode
         if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
             popChatGlobal(Player.Name + " was dragged out by her captor.");
+            ServerSend("ChatRoomLeave", "");
             ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
             ElementRemove("FriendList");
             CommonSetScreen("Online", "ChatRoom");
@@ -91,6 +92,7 @@ function InitAlteredFns() {
             let beep3 = FriendListBeepLog[beepLogSize - 1];
             if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom") && cursedConfig.owners.includes(data.MemberNumber.toString())) {
                 popChatGlobal(Player.Name + " was leashed out by her owner.");
+                ServerSend("ChatRoomLeave", "");
                 ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
                 ElementRemove("FriendList");
                 CommonSetScreen("Online", "ChatRoom");
@@ -113,6 +115,15 @@ function InitAlteredFns() {
             return false;
         }
         return backupChatRoomLovershipOptionIs(Option);
+    }
+    
+    // Block new subs
+    let backupChatRoomOwnershipOptionIs = ChatRoomOwnershipOptionIs;
+    ChatRoomOwnershipOptionIs = function (Option) {
+        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewSub) { 
+            return false;
+        }
+        return backupChatRoomOwnershipOptionIs(Option);
     }
     
     // Draw character for curse icon
