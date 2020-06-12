@@ -24,6 +24,7 @@ function InitAlteredFns() {
     let backupMainHallMaidReleasePlayer = MainHallMaidReleasePlayer;
     MainHallMaidReleasePlayer = function () {
         if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
+            TryPopTip(36);
             MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
             return;
         }
@@ -57,7 +58,7 @@ function InitAlteredFns() {
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
         if (isActivated && cursedConfig.hasAntiAFK) {
             NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
-            cursedConfig.strikes += 5;
+            cursedConfig.strikes ++;
         }
         backupAfk();
     }
@@ -71,9 +72,10 @@ function InitAlteredFns() {
     let backupServerAccountBeep = ServerAccountBeep;
     ServerAccountBeep = function (data) {
         var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.canLeash;
+        TryPopTip(37);
 
         backupServerAccountBeep(data);
-
+        
         //Single beep in capture mode
         if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
             popChatGlobal(Player.Name + " was dragged out by her captor.");
@@ -111,7 +113,8 @@ function InitAlteredFns() {
     // Block new lovers
     let backupChatRoomLovershipOptionIs = ChatRoomLovershipOptionIs;
     ChatRoomLovershipOptionIs = function (Option) {
-        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewLover) { 
+        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewLover) {
+            TryPopTip(38);
             return false;
         }
         return backupChatRoomLovershipOptionIs(Option);
@@ -121,6 +124,7 @@ function InitAlteredFns() {
     let backupChatRoomOwnershipOptionIs = ChatRoomOwnershipOptionIs;
     ChatRoomOwnershipOptionIs = function (Option) {
         if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewSub) { 
+            TryPopTip(39);
             return false;
         }
         return backupChatRoomOwnershipOptionIs(Option);
@@ -158,6 +162,7 @@ function InitAlteredFns() {
                 ) {
                     ChatRoomCharacter[C].isCursed = true;
                     DrawText("C", (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, "White");
+                    TryPopTip(40);
                 }
             }
         }

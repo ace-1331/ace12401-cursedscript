@@ -71,6 +71,7 @@ async function CursedCheckUp() {
             //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
             cursedConfig.wasLARPWarned = true;
             cursedConfig.onRestart = true;
+            TryPopTip(28);
         }
 
         //When it should be ran 
@@ -134,6 +135,7 @@ async function CursedCheckUp() {
                     cursedConfig.chatlog = oldLog;
                     cursedConfig.strikes = oldStrikes;
                     popChatSilent("Your current curses have been applied with no punishments.", "System");
+                    TryPopTip(29);
                 }
                 cursedConfig.onRestart = false;
             }
@@ -179,6 +181,7 @@ async function ReminderProcess() {
         return;
     }
     if (cursedConfig.isRunning && cursedConfig.reminders.length > 0 && CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP") {
+        TryPopTip(30);
         var reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
         popChatSilent(reminder, "Reminder");
     }

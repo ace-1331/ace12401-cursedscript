@@ -35,8 +35,9 @@ function procGenericItem(item, group) {
 function procCursedNaked() {
     ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
         .forEach(group => {
-            toggleCurseItem({ name: "", group, forceAdd: true });
+            toggleCurseItem({ name: "", group, forceAdd: true, isSilent: true });
         });
+    SendChat(`The curse arises on ${Player.Name}'s clothes.`);
 }
 
 /** Triggers cursed vibrators */
@@ -88,8 +89,8 @@ async function checkKneeling(sender) {
  * Toggles a cursed item on/off
  * @returns true if the group does not exist
  */
-function toggleCurseItem({ name, group, forceAdd, forceRemove }) {
-    group = group;
+function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent }) {
+    TryPopTip(16);
     let txtGroup = (AssetGroup.find(G => G.Name == group) || {}).Description || 'items';
 
     if (group == "na") return true;
@@ -101,9 +102,9 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove }) {
         cursedConfig.cursedAppearance.push({ name, group });
         SaveColorSlot(group);
         procGenericItem(name, group);
-        SendChat(`The curse arises on ${Player.Name}'s ${txtGroup}.`);
+        isSilent && SendChat(`The curse arises on ${Player.Name}'s ${txtGroup.toLowerCase()}.`);
     } else if (!forceAdd) {
-        SendChat(`The curse on ${Player.Name}'s ${txtGroup} was lifted.`);
+        isSilent && SendChat(`The curse on ${Player.Name}'s ${txtGroup.toLowerCase()} was lifted.`);
         if (cursedConfig.hasRestraintVanish)
             restraintVanish(group);
     }

@@ -41,7 +41,7 @@ window.curseTips = [
     },
     {
         ID: 10,
-        Text: "You can make your curse send every messages in whispers to you and your mistresses/owners instead of the whole room with '#name issilent'. This helps to hide you are using a script or to not disturb others in a busy room",
+        Text: "You can make your curse send every messages in whispers to you and your mistresses/owners instead of through actions to the whole room with '#name issilent'. This helps to hide you are using a script or to not disturb others in a busy room",
     },
     {
         ID: 11,
@@ -49,7 +49,7 @@ window.curseTips = [
     },
     {
         ID: 12,
-        Text: "You can have your restraints automatically removed when the curse is lifted with '#name restraintvanish'. This makes it more convenient",
+        Text: "You can have your restraints automatically removed when the curse is lifted with '#name restraintvanish'. This makes it more convenient in certain scenarios.",
     },
     {
         ID: 13,
@@ -94,5 +94,98 @@ window.curseTips = [
     {
         ID: 22,
         Text: "The curse will not work while in a LARP room. It will also restore your proper state you activate it to prevent spam and unfair punishment. BE WARNED, this means it will reapply all cursed items on you if you had some which you removed. This helps to do singleplayer stuff without being stuck.",
+    },
+    {
+        ID: 23,
+        Text: "Most commands/curses are toggles. This means sending it for the first time will turn the curse on, then sending it again will turn the curse off.",
+    },
+    {
+        ID: 24,
+        isContextual: true,
+        Text: "You must stay on your knees while the cursed collar is activated. One of your owner or mistress must turn it off to remove the curse.",
+    },
+    {
+        ID: 25,
+        isContextual: true,
+        Text: "A cursed item was removed from your character and was subsequently reapplied. To remove a cursed item, the curse must be lifted by one of your mistress or owners.",
+    },
+    {
+        ID: 26,
+        isContextual: true,
+        Text: "An item was applied to a slot that contains an 'empty' curse. The item was removed from your character. To apply an item on this slot, the curse must be lifted by one of your mistress or owners.",
+    },
+    {
+        ID: 27,
+        Text: "You are currently wearing the cursed vibrator curse, this prevents your vibrators from being on lower intensities. You need one of your owners or mistresses to lift the curse.",
+    },
+    {
+        ID: 28,
+        Text: "The curse does not support LARP rooms, it will disable itself by default, you should not have to do anything yourself. Please be mindful of the people around you when using the curse.",
+    },
+    {
+        ID: 29,
+        Text: "The curse will be fair, when you disable it to go in singleplayer, LARP or to do a RP, it will restore your state without punishing you once you reactivate it.",
+    },
+    {
+        ID: 30,
+        isContextual: true,
+        Text: "You are seeing this reminder because your owner activated reminders at a set interval. You need an owner to lift this curse.",
+    },
+    {
+        ID: 31,
+        isContextual: true,
+        Text: "The curse is turned on permanently as requested from the extension menu. This means you will always be wearing the curse when logging in, regardless of your character. You can always disable the curse manually if necessary. Please keep yourself up-to-date as new club versions might not be compatible with your current curse version.",
+    },
+    {
+        ID: 32,
+        isContextual: true,
+        Text: "You received a message from the curse. These messages are similar to whispers as you are the only one seeing them. The name label is used to differentiate messages (Tip, System, Curse, Reminder, etc.)",
+    },
+    {
+        ID: 33,
+        isContextual: true,
+        Text: "The curse just sent a whisper to someone. Most of the times, they are replica of the info you are seeing to keep your mistress/owner informed of changes to your curse. You will not see those whispers. If you would like to see every message for testing purposes, you can use the 'forwardall' command",
+    },
+    {
+        ID: 34,
+        Text: "Someone who is enforced is someone you must kneel when you first see them in a room. You must also refer to them with appropriate titles like miss/mistress.",
+    },
+    {
+        ID: 35,
+        Text: "The curse will never apply an item when the zone is blocked by owner locks, the zone is blocked by other items or the item is in your blacklist.",
+    },
+    {
+        ID: 36,
+        isContextual: true,
+        Text: "A maid was not able to free you because one of your owners disabled maids for you. You need one of your owners to disable this curse.",
+    },
+    {
+        ID: 37,
+        Text: "There is a leashing feature! When enabled, you will be dragged out of chatrooms to be led into another room by any curse owner who triple beeps you. An owner must activate it with '#name leash'",
+    },
+    {
+        ID: 38,
+        isContextual: true,
+        Text: "Your club owner has activated a curse which currently prevents you from having new lovers.",
+    },
+    {
+        ID: 39,
+        isContextual: true,
+        Text: "Your club owner has activated a curse which currently prevents you from collaring new submissives.",
+    },
+    {
+        ID: 40,
+        isContextual: true,
+        Text: "The 'C' icon above a character's head means she is also using the curse.",
+    },
+    {
+        ID: 41,
+        isContextual: true,
+        Text: "You have just passed a threshold from transgressing too many times. Every time a rule is broken, your strike counter goes up depending on the severity of the transgression. There are various stages, the more you transgress, the more you will be bound when being punished by the curse. The counter is reset every week. Your owner can disable this system, or interact with it to add strikes to your counter. Use the help command to see all available commands.",
+    },
+    {
+        ID: 42,
+        isContextual: true,
+        Text: "The restrained speech system is quite complicated. It allows the ability to restrain the wearer to a set of sentences. Better than being completely mute! For detailed explanations, see this page: https://github.com/ace-1331/ace12401-cursedscript/wiki/Speech-restrictions",
     },
 ];

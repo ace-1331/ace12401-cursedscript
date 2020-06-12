@@ -49,6 +49,7 @@ function PunishmentCheck() {
             }
         }
         if (r) {
+            TryPopTip(41);
             SendChat("The curse on " + Player.Name + " punishes her.");
         }
         cursedConfig.lastPunishmentAmount = cursedConfig.strikes;

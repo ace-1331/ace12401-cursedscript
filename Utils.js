@@ -23,6 +23,7 @@ async function LoginListener() {
             //AlwaysOn
             if (AlwaysOn == "enabled") {
                 CursedStarter();
+                TryPopTip(31);
             }
         } catch { };
         await new Promise(r => setTimeout(r, 2000));
@@ -157,8 +158,9 @@ function CursedStarter() {
                 }
 
                 if (oldVersion > currentVersion) {
-                    alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. Error: V03");
+                    alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.)Error: V03");
                 }
+                
                 if (oldVersion != currentVersion) {
                     localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
                     alert("IMPORTANT! Please make sure you refreshed your page after updating.");
@@ -170,10 +172,10 @@ function CursedStarter() {
                     SendChat("The curse follows " + Player.Name + ".");
                     popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
                 }
-            }
-
-            if (curseTips.find(T => !cursedConfig.seenTips.includes(T.ID))) {
-                popChatSilent("There are unseen tips available. Use '" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip' to see one", "System");
+                
+                if (curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual)) {
+                    popChatSilent("There are unseen tips available. Use '" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip' to see one", "System");
+                }
             }
 
             if (cursedConfig.hasIntenseVersion) {
@@ -223,6 +225,7 @@ function CursedIntenseOn() {
     try {
         if (!cursedConfig.hasIntenseVersion) {
             cursedConfig.hasIntenseVersion = true;
+            TryPopTip(2);
             popChatSilent("Intense mode activated (risky).", "System");
         }
     } catch { }
