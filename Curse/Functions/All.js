@@ -18,7 +18,7 @@ function AllCommands({
             break;
         case "blocknickname":
             //Force delete self
-            DeleteNickname([sender], sender, 4);
+            DeleteNickname([sender], sender, 5);
             break;
         case "readnote":
             let note;

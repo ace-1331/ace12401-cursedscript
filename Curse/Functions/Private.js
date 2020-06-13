@@ -6,21 +6,50 @@ function PrivateCommands({ command, parameters, sender }) {
             let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
             sendWhisper(sender, report);
             break;
-        case "showenforced":
-            sendWhisper(sender, "Enforced list: #" + cursedConfig.enforced.join(" #"));
-            break;
+        case "showenforced":{
+            let tmpstr = "";
+            cursedConfig.charData.map(e => {
+                if(e.isEnforced){
+                    tmpstr += "#" + e.Number + ", ";
+                    e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name:" + e.SavedName + " Titles:" + e.Titles.join(", ");
+                }
+            });
+            sendWhisper(sender, "Enforced list: #" + tmpstr);
+           break;
+        }
         case "showmistresses":
             sendWhisper(sender, "Mistresses: #" + cursedConfig.mistresses.join(" #"));
             break;
         case "showowners":
             sendWhisper(sender, "Owners: #" + cursedConfig.owners.join(" #"));
             break;
-        case "shownicknames":
-            sendWhisper(sender, "Currently set nicknames: " + cursedConfig.nicknames.map(n => n.Number + ": " + n.Nickname + " (Priority: " + n.NPriority + ")").join(", "));
+        case "shownicknames":{
+            let tmpstr = "";
+            cursedConfig.charData.map(n => {
+                if(n.Nickname != n.SavedName){
+                    tmpstr += " #" + n.Number + " " + n.Nickname;
+                }
+            });
+            sendWhisper(sender, "Currently set nicknames:" + tmpstr);
             break;
-        case "speechreport":
-            sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${cursedConfig.enforced.join(", ")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}, Doll talk: ${cursedConfig.hasDollTalk}.`);
+        }
+        case "showtitles":{
+            let tmpstr = "";
+            cursedConfig.charData.map(t => {
+                if(t.Titles.length > 0){
+                    tmpstr += "#" + t.Number + " " + t.Titles.join(", ");
+                }
+            });
+            sendWhisper(sender, "Currently set titles: " + tmpstr);
             break;
+        }
+       case "speechreport": {
+           let tmpstr = [];
+           cursedConfig.charData.forEach(el => {tmpstr.push(el.Number);               
+           });
+           sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${tmpstr.join(", #")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}, Doll talk: ${cursedConfig.hasDollTalk}.`);
+           break;
+       }
         default:
             // No command found
             return true;

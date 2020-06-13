@@ -85,6 +85,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             case "enforce": {
                 let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
                 enforce(sender, priority, parameters);
+                break;
             }
             case "mtitle":
                 toggleTitle(sender, 2, parameters);
@@ -110,8 +111,8 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             let nickname = parameters.join(" ");
             if (nickname) {
                 sendWhisper(sender, "New nickname for " + FetchName(sender) + " : " + nickname, true);
-                cursedConfig.nicknames = cursedConfig.nicknames.filter(u => u.Number != sender);
-                cursedConfig.nicknames.push({ Number: sender, Nickname: nickname });
+                cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != sender);
+                cursedConfig.charData.push({ Number: sender, Nickname: nickname });
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");
             }
@@ -208,6 +209,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             break;
         case "respectnickname": {
             forceNickname(sender, parameters);
+            break;
         }
         case "contractions":
             if (!cursedConfig.hasNoContractions) {

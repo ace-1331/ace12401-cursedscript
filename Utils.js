@@ -80,6 +80,7 @@ function CursedStarter() {
                 sentences: [{ ident: "yes", text: "Yes, %target%" }, { ident: "no", text: "No, %target%" }, { ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?" }, { ident: "greetings", text: "Greetings, %target%, it is good to see you." }, { ident: "leave", text: "May %self% be excused, %target%?" }, { ident: "service", text: "How may %self% be useful for you today, %target%?" },],
                 cursedAppearance: [],
                 savedColors: [],
+                charData: [],
                 nicknames: [],
                 reminders: [],
                 reminderInterval: 60000,
@@ -142,10 +143,10 @@ function CursedStarter() {
                 cursedConfig = { ...cursedConfig, ...oldStorage };
 
                 //Set name immediately
-                let user = cursedConfig.nicknames.filter(c => c.Number == Player.MemberNumber);
+                let user = cursedConfig.charData.filter(c => c.Number == Player.MemberNumber);
                 if (user.length > 0) {
                     if (Player.Name != user[0].Nickname && !user[0].SavedName) {
-                        cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = Player.Name;
+                        cursedConfig.charData.filter(c => c.Number == char.MemberNumber)[0].SavedName = Player.Name;
                     }
                     Player.Name = cursedConfig.hasIntenseVersion && ChatRoomSpace != "LARP" ? user[0].Nickname : user[0].SavedName;
                 }

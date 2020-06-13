@@ -18,7 +18,8 @@ function PublicCommands({
             enforce(sender, 1);
             break;
         case "respectnickname": {
-            forceNickname(sender);
+            forceNickname(sender, parameters);
+            break;
         }
         case "title":
             toggleTitle(sender, 1, parameters);
@@ -28,7 +29,7 @@ function PublicCommands({
             SetNickname([sender, parameters], sender, 1);
             break;
         case "allownickname":
-            DeleteNickname([sender], sender, 5);
+            DeleteNickname([sender], sender, 6);
             break;
         case "capture":
             if (!cursedConfig.hasIntenseVersion) {
