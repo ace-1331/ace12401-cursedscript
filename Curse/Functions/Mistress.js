@@ -208,7 +208,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             SaveColors();
             break;
         case "deletenickname":
-            //Force delete self
             DeleteNickname(parameters, sender, isOwner ? 3 : 2);
             break;
         case "contractions":

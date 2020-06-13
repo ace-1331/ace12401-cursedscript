@@ -537,9 +537,11 @@ function drawCards(nbCards, players) {
 
 /** Sends a character to a give room */
 function SendToRoom(name) { 
-    //ServerSend("ChatRoomLeave", "");
+    ChatRoomSpace = "";
+	OnlineGameName = "";
+	ChatSearchLeaveRoom =  "MainHall";
+	ChatSearchBackground = "IntroductionDark";
+	ChatCreateBackgroundList = CommonBackgroundList.slice();
     ChatRoomPlayerCanJoin = true;
     ServerSend("ChatRoomJoin", { Name: name });
-    //ElementRemove("FriendList");
-   // CommonSetScreen("Online", "ChatRoom");
 }

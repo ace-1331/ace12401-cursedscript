@@ -188,4 +188,12 @@ window.curseTips = [
         isContextual: true,
         Text: "The restrained speech system is quite complicated. It allows the ability to restrain the wearer to a set of sentences. Better than being completely mute! For detailed explanations, see this page: https://github.com/ace-1331/ace12401-cursedscript/wiki/Speech-restrictions",
     },
+    {
+        ID: 43,
+        Text: "Disconnection prevention will make it so the wearer will rejoin a room she was last locked in after disconnecting which makes it impossible to escape by reloading. Be mindful and disable the curse if you end up in someone else's room.",
+    },
+    {
+        ID: 44,
+        Text: "Meter options will lock your parameters to prevent you from changing its state.",
+    },
 ];
