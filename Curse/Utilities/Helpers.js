@@ -733,3 +733,4 @@ function SendToRoom(name) {
     ServerSend("ChatRoomJoin", { Name: name });
     //ElementRemove("FriendList");
    // CommonSetScreen("Online", "ChatRoom");
+}
