@@ -7,16 +7,23 @@ function InitHelpMsg() {
 
     //WEARER FUNCTIONS//
 
+    >>> Curses <<<
+    *NEW*-curseitem [group] [hours]
+    
     >>> Information <<<
+    *NEW*-tip
+    *NEW*-tip reset
     -help
     -showstrikes
     -showblacklist
     -listsentences
 
     >>> Config Commands <<<
-    *NEW*-eatcommands
-    *NEW*-hidedisplay
-    *NEW*-restraintvanish
+    *NEW*-quickban
+    -wardrobev2
+    -eatcommands
+    -hidedisplay
+    -restraintvanish
     -isclassic
     -issilent
     -blacklist [a member number]
@@ -24,19 +31,18 @@ function InitHelpMsg() {
     -owner [a member number]
     -commandchar [! / & / $ / #]
     -identifier [new identifier]
-    -punishmentcolor ["#colorcode"]
     -forwardall
     -savecolors
-    -wardrobev2
     INTENSE V:-capture
 
     >>>Speech Commands<<<
     INTENSE:-talk [target id] [sentence id]
+    
     >>> Other Commands <<<
-    INTENSE V:-nickname [Number] [Name]
-    INTENSE V:-deletenickname [Number] [Name]
     -draw [nb of cards] [players]
     -shuffle
+    INTENSE V:-nickname [Number] [Name]
+    INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
     -help
@@ -70,7 +76,7 @@ function InitHelpMsg() {
     *NEW* INTENSE V:-respectnickname [a member number]
 
     >>>Speech Commands<<<
-    *NEW*-dolltalk
+    -dolltalk
     -mute
     -cursedspeech
     -banword [the word itself]
@@ -81,6 +87,7 @@ function InitHelpMsg() {
     
     >>>Curses<<<
     *NEW*-curseitem [group]
+    *NEW*-curseitem [group] [hours]
     -naked
     -vibes
     -collar
@@ -112,6 +119,9 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    *NEW*-preventdc
+    *NEW*-meterlocked
+    *NEW*-meteroff
     -guestnotes
     -readnotes
     -disablepunishments
@@ -124,8 +134,16 @@ function InitHelpMsg() {
     -clearallreminders
     INTENSE VERSION: -leash
     INTENSE VERSION: -maid
-    *NEW*INTENSE VERSION: -sensdep
+    INTENSE VERSION: -sensdep
 
+    >>>Club rules Commands<<<
+    *NEW*-forcedlabor
+    *NEW*-remoteself
+    *NEW*-remoteblock
+    *NEW*-unlockself
+    *NEW*-keyblock
+    *NEW*-blockchange
+    
     >>>Speech Commands<<<
     -enforceentrymessage
     -entrymessage [sentence]
@@ -142,15 +160,17 @@ function InitHelpMsg() {
 
     >>>Curses<<<
     -belt
-    *NEW*-clearcurses
+    -clearcurses
     -reminders
     -togglereminder [reminder]
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
     ctitle-[Number] [Title]
+    *NEW*-looseowner
     INTENSE VERSION: -lockowner
-    *NEW*INTENSE VERSION: -locknewlover
+    INTENSE VERSION: -locknewlover
+    *NEW*INTENSE VERSION: -locknewsub
     *NEW*INTENSE VERSION: -onickname [Number] [Name]
 
     ---------

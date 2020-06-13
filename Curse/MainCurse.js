@@ -7,10 +7,24 @@ async function CursedCheckUp() {
         setTimeout(CursedCheckUp, 10000);
         return;
     }
-    
+
+    // Pop missed silent chats
+    if (cursedConfig.shouldPopSilent) {
+        popChatSilent();
+    }
+
     //Gets the messages
     let messagesToVerify = [];
+    
+    //Checks settings
+    AdjustSettings();
 
+    // DC Prevention
+    delete cursedConfig.lastChatroom;
+    if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && ChatRoomData && ChatRoomData.Name) {
+        cursedConfig.lastChatroom = ChatRoomData.Name;
+    }
+    
     //Run the script only in chatrooms
     if (CurrentScreen == "ChatRoom") {
         messagesToVerify = document.querySelectorAll('.ChatMessage:not([verified=true]');
@@ -73,10 +87,19 @@ async function CursedCheckUp() {
             //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
             cursedConfig.wasLARPWarned = true;
             cursedConfig.onRestart = true;
+            TryPopTip(28);
         }
 
         //When it should be ran 
         if (ChatRoomSpace != "LARP") {
+
+            //Remove expired curses
+            cursedConfig.cursedAppearance.forEach(({ name, group, dateOfRemoval }) => {
+                if (dateOfRemoval && dateOfRemoval < Date.now()) {
+                    toggleCurseItem({ name, group, forceRemove: true });
+                }
+            });
+
             //Running the normal curse
             if (!cursedConfig.onRestart) {
                 cursedConfig.wasLARPWarned = false;
@@ -112,7 +135,7 @@ async function CursedCheckUp() {
                     }
                 }
             }
-            
+
             //Running the curse on restart for fairness
             if (cursedConfig.onRestart) {
                 let oldLog = [...cursedConfig.chatlog];
@@ -136,6 +159,7 @@ async function CursedCheckUp() {
                     cursedConfig.chatlog = oldLog;
                     cursedConfig.strikes = oldStrikes;
                     popChatSilent("Your current curses have been applied with no punishments.", "System");
+                    TryPopTip(29);
                 }
                 cursedConfig.onRestart = false;
             }
@@ -176,14 +200,15 @@ async function ChatlogProcess() {
 }
 
 /** Function to display reminders. Will not loop if reminders are not enabled */
-async function ReminderProcess() { 
-    if (!cursedConfig.hasReminders) { 
+async function ReminderProcess() {
+    if (!cursedConfig.hasReminders) {
         return;
     }
     if (cursedConfig.isRunning && cursedConfig.reminders.length > 0 && CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP") {
+        TryPopTip(30);
         var reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
         popChatSilent(reminder, "Reminder");
     }
-    cursedConfig.reminderInterval < 60000 ? cursedConfig.reminderInterval = 60000: '';
+    cursedConfig.reminderInterval < 60000 ? cursedConfig.reminderInterval = 60000 : '';
     setTimeout(ReminderProcess, cursedConfig.reminderInterval);
 }

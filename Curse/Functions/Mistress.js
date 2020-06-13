@@ -59,7 +59,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             break;
         case "screws":
         case "cursedscrews":
-            toggleCurseItem({ name: "ScrewClamps", group: "ItemNipplesPiercings" });
+            toggleCurseItem({ name: "ScrewClamps", group: "ItemNipples" });
             break;
         case "cursedspeech":
         case "speech":
@@ -226,12 +226,24 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         case "curseitem":
         case "curseditem":
             if (parameters[0]) {
-                var group = textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1);
-                var currentAsset = InventoryGet(Player, group);
+                let group = textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1);
+                let currentAsset = InventoryGet(Player, group);
+                let dateOfRemoval = null;
+                
+                if (parameters[1] && !isNaN(parameters[1])) { 
+                    // Param is hours and must be higher than 1 minute and lower than 7 days
+                    let requestedTime = parseInt(parameters[1]);
+                    requestedTime *= 3.6e+6;
+                    if (requestedTime < 60000) requestedTime = 60000;
+                    if (requestedTime > 7 * 8.64e+7) requestedTime = 6.048e+8;
+                    dateOfRemoval = Date.now() + requestedTime;
+                }
+                
                 if (
                     toggleCurseItem({
                         name: (currentAsset && currentAsset.Asset.Name) || "",
-                        group: group
+                        group,
+                        dateOfRemoval
                     })
                 ) {
                     sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);

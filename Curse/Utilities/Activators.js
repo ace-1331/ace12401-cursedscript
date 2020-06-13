@@ -1,6 +1,12 @@
 //************************************  Curse Activations ************************************//
 /** Toggles a curse on any given item */
 function procGenericItem(item, group) {
+    //Removes curses on invalid items
+    if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
+        cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+        return;
+    };
+
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
@@ -29,15 +35,16 @@ function procGenericItem(item, group) {
 function procCursedNaked() {
     ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
         .forEach(group => {
-            toggleCurseItem({ name: "", group, forceAdd: true });
+            toggleCurseItem({ name: "", group, forceAdd: true, isSilent: true });
         });
+    SendChat(`The curse arises on ${Player.Name}'s clothes.`);
 }
 
 /** Triggers cursed vibrators */
 function procCursedOrgasm(group) {
     //Turns them to max
     if (
-        InventoryGet(Player,group)
+        InventoryGet(Player, group)
         && Array.isArray(InventoryGet(Player, group).Asset.Effect)
         && InventoryGet(Player, group).Asset.Effect.includes("Egged")
     ) {
@@ -82,8 +89,8 @@ async function checkKneeling(sender) {
  * Toggles a cursed item on/off
  * @returns true if the group does not exist
  */
-function toggleCurseItem({ name, group, forceAdd, forceRemove }) {
-    group = group;
+function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfRemoval }) {
+    TryPopTip(16);
     let txtGroup = (AssetGroup.find(G => G.Name == group) || {}).Description || 'items';
 
     if (group == "na") return true;
@@ -92,12 +99,12 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove }) {
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
 
     if ((!item || item.name != name) && (!forceRemove || forceAdd)) {
-        cursedConfig.cursedAppearance.push({ name, group });
+        cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval });
         SaveColorSlot(group);
         procGenericItem(name, group);
-        SendChat(`The curse arises on ${Player.Name}'s ${txtGroup}.`);
+        isSilent || SendChat(`The curse arises on ${Player.Name}'s ${txtGroup.toLowerCase()}.`);
     } else if (!forceAdd) {
-        SendChat(`The curse on ${Player.Name}'s ${txtGroup} was lifted.`);
+        isSilent || SendChat(`The curse on ${Player.Name}'s ${txtGroup.toLowerCase()} was lifted.`);
         if (cursedConfig.hasRestraintVanish)
             restraintVanish(group);
     }
@@ -106,7 +113,7 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove }) {
 /**
  * Function to convert text parameter to a working item group
  * @param {string} group - the group as it would be typed
- * @param {number} permission - the permission level where (1 clubowner, 2 owners, 3 mistress)
+ * @param {number} permission - the permission level where (3 clubowner, 2 owners, 1 mistress)
  * @returns {string} The item group from AssetGroup
  */
 function textToGroup(group, permission) {
@@ -265,4 +272,63 @@ function textToGroup(group, permission) {
         }
     }
     return 'na';
+}
+
+function AdjustSettings() {
+    //Fixes empty name in case of weird mess up
+    if (cursedConfig.slaveIdentifier == "")
+        cursedConfig.slaveIdentifier = Player.Name;
+
+    //Verifies if a mistress is here
+    if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
+        cursedConfig.mistressIsHere = false;
+        [...cursedConfig.mistresses, ...cursedConfig.owners].forEach(miss =>
+            ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(miss)
+                ? cursedConfig.mistressIsHere = true : ''
+        );
+    }
+
+    //Verifies if an owner is here
+    if (cursedConfig.enabledOnMistress) {
+        cursedConfig.ownerIsHere = false;
+        cursedConfig.owners.forEach(miss =>
+            ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(miss)
+                ? cursedConfig.ownerIsHere = true : ''
+        );
+    }
+
+    // Sens dep char settings
+    if (cursedConfig.hasForcedSensDep && cursedConfig.hasIntenseVersion) {
+        Player.GameplaySettings.SensDepChatLog = "SensDepTotal";
+        // Player.GameplaySettings.BlindDisableExamine = true;
+    }
+
+    // Meter off char settings
+    if (cursedConfig.hasForcedMeterOff && cursedConfig.hasIntenseVersion) {
+        if (Player.ArousalSettings.Active != "NoMeter" || Player.ArousalSettings.Active != "Inactive") {
+            Player.ArousalSettings.Active = "NoMeter";
+        }
+    }
+
+    // Meter locked char settings
+    if (cursedConfig.hasForcedMeterLocked && cursedConfig.hasIntenseVersion) {
+        Player.ArousalSettings.Active = "Automatic";
+    }
+
+    //Making sure all names are up-to-date
+    //Try catch in case the updated player is no longer there (extreme edge case)
+    try {
+        //Save real name, restores if curse is not running
+        ChatRoomCharacter.forEach(char => {
+            let user = cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber);
+            if (user.length > 0) {
+                if (char.Name != user[0].Nickname && !user[0].SavedName) {
+                    cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
+                }
+                let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
+                char.Name = NameToDisplay;
+                char.DisplayName = NameToDisplay;
+            }
+        });
+    } catch { console.error("Curse: failed to update a name") }
 }

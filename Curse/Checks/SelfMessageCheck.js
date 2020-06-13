@@ -20,7 +20,10 @@ function SelfMessageCheck(msg) {
             r = WearerCommands({ command, parameters, sender: Player.MemberNumber }) ? r : true;
             r = PrivateCommands({ command, parameters, sender: Player.MemberNumber }) ? r : true;
         }
-        if (r) return true;
+        if (r) {
+            TryPopTip(23);
+            return true;
+        }
     }
 
     //Should say 
@@ -50,6 +53,7 @@ function SelfMessageCheck(msg) {
         if (!ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")) {
             NotifyOwners("(Tried to speak freely when her speech was restrained.)");
             popChatSilent("Bad girl. You tried to speak freely while your speech is being restrained.");
+            TryPopTip(42);
             cursedConfig.strikes += 5;
             return true;
         }
@@ -73,6 +77,7 @@ function SelfMessageCheck(msg) {
                 goodMatches.push(...msg.matchAll(new RegExp(rn, 'g')))
             );
             if (matches.length > goodMatches.length) {
+                TryPopTip(34);
                 NotifyOwners("(Tried to be disrespectful)");
                 popChatSilent("Respecting " + member.Number + " is required.");
                 cursedConfig.strikes += 7;

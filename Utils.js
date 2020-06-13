@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 29;
+window.currentVersion = 30;
 let AlwaysOn;
 let isLoaded;
 
@@ -23,6 +23,7 @@ async function LoginListener() {
             //AlwaysOn
             if (AlwaysOn == "enabled") {
                 CursedStarter();
+                TryPopTip(31);
             }
         } catch { };
         await new Promise(r => setTimeout(r, 2000));
@@ -38,7 +39,7 @@ function CursedStarter() {
             verifiedAtt.value = "true";
             msg.setAttributeNode(verifiedAtt);
         });
-        
+
         // Just restarts if the curse already exists (prevents dupes)
         if (window.cursedConfigInit && cursedConfig.isRunning == false) {
             //Runs the script
@@ -68,10 +69,14 @@ function CursedStarter() {
                 hasCaptureMode: false,
                 hasReminders: false,
                 hasForcedSensDep: false,
+                isLockedNewSub: false,
                 isLockedNewLover: false,
                 isLockedOwner: false,
                 hasDollTalk: false,
-                
+                hasForcedMeterLocked: false,
+                hasForcedMeterOff: false,
+                hasDCPrevention: false,
+
                 owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 enforced: [],
@@ -89,9 +94,10 @@ function CursedStarter() {
                 sound: "",
                 self: "I",
                 targets: [{ ident: "miss", text: "miss" }, { ident: "mistress", text: "mistress" }],
-                capture: { capturedBy: "", Valid: 0},
+                capture: { capturedBy: "", Valid: 0 },
                 mistressIsHere: false,
                 ownerIsHere: false,
+                seenTips: [],
 
                 slaveIdentifier: Player.Name,
                 commandChar: "#",
@@ -109,13 +115,16 @@ function CursedStarter() {
                 isSilent: false,
                 isClassic: false,
                 isEatingCommands: false,
+                isLooseOwner: false,
                 hasRestraintVanish: false,
                 canLeash: false,
                 hasWardrobeV2: false,
                 hasIntenseVersion: false,
                 wasLARPWarned: false,
                 chatlog: [],
+                savedSilent: [],
                 chatStreak: 0,
+                shouldPopSilent: false,
                 hasForward: false,
                 onRestart: true,
                 hasHiddenDisplay: false,
@@ -124,6 +133,7 @@ function CursedStarter() {
             window.oldStorage = null;
             window.oldVersion = null;
             window.vibratorGroups = ["ItemButt", "ItemFeet", "ItemVulva", "ItemNipples", "ItemVulvaPiercings", "ItemNipplesPiercings", "ItemDevices"];
+            window.brokenVibratingItems = ["MermaidSuit", "AnalHook"];
 
             //Tries to load configs
             try {
@@ -134,7 +144,7 @@ function CursedStarter() {
             //Pull config from log or create
             if (!oldStorage) {
                 SendChat("The curse awakens on " + Player.Name + ".");
-                popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
+                popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
                 try {
                     localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
                 } catch { }
@@ -152,8 +162,9 @@ function CursedStarter() {
                 }
 
                 if (oldVersion > currentVersion) {
-                    alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. Error: V03");
+                    alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.)Error: V03");
                 }
+
                 if (oldVersion != currentVersion) {
                     localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
                     alert("IMPORTANT! Please make sure you refreshed your page after updating.");
@@ -165,10 +176,14 @@ function CursedStarter() {
                     SendChat("The curse follows " + Player.Name + ".");
                     popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
                 }
+
+                if (curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual)) {
+                    popChatSilent("There are unseen tips available. Use '" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip' to see one", "System");
+                }
             }
 
             if (cursedConfig.hasIntenseVersion) {
-                popChatSilent("Intense mode is on (risky).");
+                popChatSilent("Intense mode is on (risky).", "System");
             }
 
             //Resets Strikes when it has been a week
@@ -178,14 +193,26 @@ function CursedStarter() {
                 cursedConfig.strikes = 0;
                 cursedConfig.lastPunishmentAmount = 0;
             }
-            
+
             //Enables the hidden curse item to display who has the curse
             if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
                 AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
                 AssetLoadAll();
                 InventoryAdd(Player, "Curse", "ItemHidden");
             }
-            
+
+            // DC Prevention
+            if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
+                const roomToGoTo = cursedConfig.lastChatroom;
+                delete cursedConfig.lastChatroom;
+                // Timer to let the game load, reducing chances of crashes. Then quits if the room was made by someone else
+                setTimeout(() => {
+                    SendToRoom(roomToGoTo);
+                    NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
+                }, 1500);
+
+            }
+
             //Runs the script
             cursedConfig.isRunning = true;
             cursedConfig.onRestart = true;
@@ -196,7 +223,7 @@ function CursedStarter() {
             ChatlogProcess(); //Chatlog handling
             ReminderProcess(); //Reminders handling
         }
-    } catch (err){ console.error(err) }
+    } catch (err) { console.error(err) }
 }
 
 /** Stops the script */
@@ -214,6 +241,7 @@ function CursedIntenseOn() {
     try {
         if (!cursedConfig.hasIntenseVersion) {
             cursedConfig.hasIntenseVersion = true;
+            TryPopTip(2);
             popChatSilent("Intense mode activated (risky).", "System");
         }
     } catch { }

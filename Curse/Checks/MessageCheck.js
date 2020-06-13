@@ -108,7 +108,7 @@ function AnalyzeMessage(msg) {
             
             // Verifies owner for private commands
             if (isOwner && needWarning) {
-                needWarning = OwnerCommands({ command, parameters, sender, commandCall });
+                needWarning = OwnerCommands({ command, parameters, sender, commandCall, isClubOwner });
             }
 
             //Verify mistress for private commands

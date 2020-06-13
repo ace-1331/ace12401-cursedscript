@@ -24,6 +24,7 @@ function InitAlteredFns() {
     let backupMainHallMaidReleasePlayer = MainHallMaidReleasePlayer;
     MainHallMaidReleasePlayer = function () {
         if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
+            TryPopTip(36);
             MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
             return;
         }
@@ -57,7 +58,7 @@ function InitAlteredFns() {
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP"
         if (isActivated && cursedConfig.hasAntiAFK) {
             NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
-            cursedConfig.strikes += 5;
+            cursedConfig.strikes ++;
         }
         backupAfk();
     }
@@ -71,15 +72,14 @@ function InitAlteredFns() {
     let backupServerAccountBeep = ServerAccountBeep;
     ServerAccountBeep = function (data) {
         var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.canLeash;
+        TryPopTip(37);
 
         backupServerAccountBeep(data);
-
+        
         //Single beep in capture mode
         if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
             popChatGlobal(Player.Name + " was dragged out by her captor.");
-            ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
-            ElementRemove("FriendList");
-            CommonSetScreen("Online", "ChatRoom");
+            SendToRoom(data.ChatRoomName);
             popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
         }
 
@@ -91,10 +91,8 @@ function InitAlteredFns() {
             let beep3 = FriendListBeepLog[beepLogSize - 1];
             if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom") && cursedConfig.owners.includes(data.MemberNumber.toString())) {
                 popChatGlobal(Player.Name + " was leashed out by her owner.");
-                ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
-                ElementRemove("FriendList");
-                CommonSetScreen("Online", "ChatRoom");
-                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by one of your owners. Any messages above this message is from the previous room.", "System");
+                SendToRoom(data.ChatRoomName);
+                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
             }
         }
     }
@@ -106,13 +104,38 @@ function InitAlteredFns() {
         return Player.walkBackup() && (!isActivated || cursedConfig.capture.Valid < Date.now());
     }
     
+    // // Prevent interacting
+    // Player.interactBackup = Player.CanInteract;
+    // Player.CanInteract = function () {
+    //     var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    //     return Player.interactBackup() && (!isActivated || /* */);
+    // }
+    
+    // // Prevent changing
+    // Player.changeBackup = Player.CanChange;
+    // Player.CanChange = function () {
+    //     var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    //     return Player.changeBackup() && (!isActivated || /**/);
+    // }
+    
     // Block new lovers
     let backupChatRoomLovershipOptionIs = ChatRoomLovershipOptionIs;
     ChatRoomLovershipOptionIs = function (Option) {
-        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewLover) { 
+        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewLover) {
+            TryPopTip(38);
             return false;
         }
         return backupChatRoomLovershipOptionIs(Option);
+    }
+    
+    // Block new subs
+    let backupChatRoomOwnershipOptionIs = ChatRoomOwnershipOptionIs;
+    ChatRoomOwnershipOptionIs = function (Option) {
+        if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewSub) { 
+            TryPopTip(39);
+            return false;
+        }
+        return backupChatRoomOwnershipOptionIs(Option);
     }
     
     // Draw character for curse icon
@@ -140,8 +163,14 @@ function InitAlteredFns() {
         if (ChatRoomCharacter.length >= 5) Zoom = 0.5;
         for (var C = 0; C < ChatRoomCharacter.length; C++) {
             if (!DoClick && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
-                if (ChatRoomCharacter[C].MemberNumber != null && ChatRoomCharacter[C].isCursed) {
+                if (
+                    ChatRoomCharacter[C].MemberNumber != null
+                    && Array.isArray(ChatRoomCharacter[C].Inventory)
+                    && ChatRoomCharacter[C].Inventory.filter(A => A.Name == "Curse").length > 0
+                ) {
+                    ChatRoomCharacter[C].isCursed = true;
                     DrawText("C", (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, "White");
+                    TryPopTip(40);
                 }
             }
         }

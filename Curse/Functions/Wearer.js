@@ -51,7 +51,7 @@ function WearerCommands({ command, parameters, sender }) {
             cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
             break;
         case "eatcommand":
-            case "eatcommands":
+        case "eatcommands":
             if (!cursedConfig.isEatingCommands)
                 popChatSilent("Will no longer display whispers containing valid commands.");
             else
@@ -163,8 +163,7 @@ function WearerCommands({ command, parameters, sender }) {
                 popChatSilent("Invalid command character: " + parameters.join(" "));
             break;
         case "punishmentcolor":
-            cursedConfig.punishmentColor = parameters[0];
-            popChatSilent("Your punishment color is now: " + parameters[0]);
+            popChatSilent("No longer needed, use savecolors instead.");
             break;
         case "draw":
             if (parameters.filter(param => isNaN(param)).length == 0) {
@@ -174,14 +173,59 @@ function WearerCommands({ command, parameters, sender }) {
         case "shuffle":
             shuffleDeck();
             break;
+        case "tip":
+        case "tips":
+            if (parameters[0] == "reset") {
+                popChatSilent("You can now see all the tips again.");
+                cursedConfig.seenTips = [];
+            }
+            PopTip();
+            break;
         case "savecolors":
             SaveColors();
+            break;
+        case "quickban":
+            if (ChatRoomData && ChatRoomData.Admin && ChatRoomData.Admin.includes(Player.MemberNumber)) {
+                let BlockedIds = [16780, 16705, 16708, 16440, 16815, 16725, 16618, 16783, 16727, 16930, 17688, 17677, 15102, 7784, 18021, 17675, 18172, 18174, 18214, 18299, 18297, 16087, 18572, 18707, 18333, 16679, ...Player.BlackList];
+                BlockedIds = BlockedIds.filter((ID, i) => BlockedIds.lastIndexOf(ID) === i);
+                BlockedIds.forEach(troll => ServerSend("ChatRoomAdmin", { MemberNumber: troll, Action: "Ban" }));
+                popChatSilent("Chatroom ban list updated.", "System");
+            } else {
+                popChatSilent("Action invalid, you are not an admin.", "System");
+            }
             break;
         case "nickname":
             SetNickname(parameters, sender, 0);
             break;
         case "deletenickname":
             DeleteNickname(parameters, sender, 0);
+            break;
+        case "curseitem":
+        case "curseditem":
+            if (parameters[0] && parameters[1] && !isNaN(parameters[1])) {
+                let group = textToGroup(parameters[0], 1);
+                let currentAsset = InventoryGet(Player, group);
+                let dateOfRemoval = parseInt(parameters[1]);
+
+                // Param is hours and must be higher than 1 minute and lower than 7 days
+                dateOfRemoval *= 3.6e+6;
+                if (dateOfRemoval < 60000) dateOfRemoval = 60000;
+                if (dateOfRemoval > 7 * 8.64e+7) dateOfRemoval = 6.048e+8;
+                dateOfRemoval += Date.now();
+                
+                if (
+                    toggleCurseItem({
+                        name: (currentAsset && currentAsset.Asset.Name) || "",
+                        group,
+                        forceAdd: true,
+                        dateOfRemoval
+                    })
+                ) {
+                    sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);
+                }
+            } else {
+                sendWhisper(sender, "(Invalid arguments. Specify the item group and number of hours the curse should stay active.)");
+            }
             break;
         default:
             //notifies no commands were found

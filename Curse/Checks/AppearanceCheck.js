@@ -21,6 +21,7 @@ function AppearanceCheck() {
         ) {
             SendChat("The cursed collar on " + Player.Name + "'s neck gives her an extreme shock, forcing her to get on her knees.");
             KneelAttempt();
+            TryPopTip(24);
             cursedConfig.strikes++;
         }
 
@@ -31,14 +32,16 @@ function AppearanceCheck() {
         cursedConfig.cursedAppearance.forEach(({ name, group }) => {
             let item = Player.Appearance.filter(el => el.Asset.Group.Name == group && el.Asset.Name == name);
             if (
-                itemIsAllowed(Player, group) && item.length == 0 && name != ""
+                itemIsAllowed(name, group) && item.length == 0 && name != ""
             ) {
                 procGenericItem(name, group);
                 warnAdd++;
                 cursedConfig.strikes += 3;
+                TryPopTip(25);
             } else if (name == "" && itemNeedsRemoving(group)) {
                 InventoryRemove(Player, group);
                 warnRemove++;
+                TryPopTip(26);
             }
         });
         
@@ -64,6 +67,7 @@ function AppearanceCheck() {
                     if (A.Property.Intensity < 3) {
                         SendChat("The curse on " + Player.Name + " brings the vibrators back to their maximum intensity.");
                         procCursedOrgasm(G);
+                        TryPopTip(27);
                         cursedConfig.strikes++;
                     }
                 }

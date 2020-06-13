@@ -1,13 +1,14 @@
 /** Function to trigger commands intended for owners, returns true if no command was executed */
-function OwnerCommands({ command, parameters, sender, commandCall }) {
+function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
+    const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
     switch (command) {
         case "clearcurse":
         case "clearcurses":
             if (cursedConfig.hasRestraintVanish) {
-                cursedConfig.cursedAppearance.forEach(A => { 
-                    if (A.group.indexOf("Item") !== -1) { 
+                cursedConfig.cursedAppearance.forEach(A => {
+                    if (A.group.indexOf("Item") !== -1) {
                         restraintVanish(A.group);
-                    } 
+                    }
                 });
             }
             cursedConfig.cursedAppearance = [];
@@ -56,6 +57,17 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 sendWhisper(sender, "(Wearer is now able to be freed by the rescue maid.)", true);
             cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
             break;
+        case "preventdc":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (!cursedConfig.hasDCPrevention)
+                sendWhisper(sender, "(Wearer can no longer escape rooms by disconnecting.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has DC prevention.)", true);
+            cursedConfig.hasDCPrevention = !cursedConfig.hasDCPrevention;
+            break;
         case "sensdep":
             if (!cursedConfig.hasIntenseVersion) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
@@ -66,6 +78,38 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
             else
                 sendWhisper(sender, "(Wearer no longer has full sens dep settings locked.)", true);
             cursedConfig.hasForcedSensDep = !cursedConfig.hasForcedSensDep;
+            break;
+        case "lockedmeter":
+        case "meterlocked":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (cursedConfig.hasForcedMeterOff) {
+                sendWhisper(sender, "(The curse to force the meter to off has been turned off in favor of this one.)", true);
+                cursedConfig.hasForcedMeterOff = false;
+            }
+            if (!cursedConfig.hasForcedMeterLocked)
+                sendWhisper(sender, "(Wearer now has her arousal meter locked to automatic.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has her arousal meter locked to automatic.)", true)
+            cursedConfig.hasForcedMeterLocked = !cursedConfig.hasForcedMeterLocked;
+            break;
+        case "offmeter":
+        case "meteroff":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (cursedConfig.hasForcedMeterLocked) {
+                sendWhisper(sender, "(The curse to force the meter to locked hass been turned off in favor of this one.)", true);
+                cursedConfig.hasForcedMeterLocked = false;
+            }
+            if (!cursedConfig.hasForcedMeterOff)
+                sendWhisper(sender, "(Wearer now has her arousal meter locked to off.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has her arousal meter locked to off.)", true);
+            cursedConfig.hasForcedMeterOff = !cursedConfig.hasForcedMeterOff;
             break;
         case "disablepunishments":
             if (!cursedConfig.punishmentsDisabled)
@@ -335,6 +379,95 @@ function OwnerCommands({ command, parameters, sender, commandCall }) {
                 }
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");
+            }
+            break;
+        case "blockchange":
+            if (!looseOwnerActive) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockChange", "OwnerRule")) {
+                NotifyOwners(`(Can now change her clothes again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockChange", "OwnerRule");
+            } else {
+                NotifyOwners(`(Can no longer change her clothes as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockChange", "OwnerRule", CurrentTime + 1000000000000);
+            }
+            break;
+        case "keyblock":
+            if (!looseOwnerActive) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockKey", "OwnerRule")) {
+                NotifyOwners(`(Can now change buy keys again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockKey", "OwnerRule");
+                InventoryConfiscateKey();
+            } else {
+                NotifyOwners(`(Can no longer use keys as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockKey", "OwnerRule");
+            }
+            break;
+        case "unlockself":
+            if (!looseOwnerActive) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockOwnerLockSelf", "OwnerRule")) {
+                NotifyOwners(`(Can now unlock locks on her again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockOwnerLockSelf", "OwnerRule");
+            } else {
+                NotifyOwners(`(Can no longer unlock locks on her as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockOwnerLockSelf", "OwnerRule");
+            }
+            break;
+        case "remoteblock":
+            if (!looseOwnerActive) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockRemoteSelf", "OwnerRule")) {
+                NotifyOwners(`(Can now change buy remotes again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockRemoteSelf", "OwnerRule");
+                InventoryConfiscateRemote();
+            } else {
+                NotifyOwners(`(Can no longer use remotes as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockRemoteSelf", "OwnerRule");
+            }
+            break;
+        case "remoteself":
+            if (!looseOwnerActive) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (LogQuery("BlockRemoteSelf", "OwnerRule")) {
+                NotifyOwners(`(Can now use remotes on herself again as requested by her owner (${FetchName(sender)}))`, true);
+                LogDelete("BlockRemoteSelf", "OwnerRule");
+            } else {
+                NotifyOwners(`(Can no longer use remotes on herself as requested by her owner (${FetchName(sender)}))`, true);
+                LogAdd("BlockRemoteSelf", "OwnerRule");
+            }
+            break;
+        case "forcedlabor":
+            if (!looseOwnerActive) {
+                sendWhisper(sender, "(Will only work if the wearer's club owner allows it. (Loose owner is deactivated) )", true);
+                return;
+            }
+            if (Player.CanWalk() && (ReputationCharacterGet(Player, "Maid") > 0) && Player.Effect.filter(E => E.indexOf("Gag") > -1).length == 0) {
+                NotifyOwners(`(Was sent to the maid quarters by (${FetchName(sender)}))`, true);
+                CharacterSetActivePose(Player, null);
+                let D = TextGet("ActionGrabbedToServeDrinksIntro");
+                ServerSend("ChatRoomChat", { Content: "ActionGrabbedToServeDrinks", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
+                ElementRemove("InputChat");
+                ElementRemove("TextAreaChatLog");
+                ServerSend("ChatRoomLeave", "");
+                CommonSetScreen("Room", "MaidQuarters");
+                CharacterSetCurrent(MaidQuartersMaid);
+                MaidQuartersMaid.CurrentDialog = D;
+                MaidQuartersMaid.Stage = "205";
+                MaidQuartersOnlineDrinkFromOwner = true;
+            } else {
+                sendWhisper(sender, 'Cannot send wearer to the maid quarters while being gagged, being unable to walk or if she is not a maid.', true)
             }
             break;
         default:

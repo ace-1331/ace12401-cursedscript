@@ -12,17 +12,35 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
                 SendChat("The curse allows " + Player.Name + " to break her collar.");
             cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
             break;
-            case "locknewlover":
-                if (!cursedConfig.hasIntenseVersion) {
-                    sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-                    return;
-                }
-                if (cursedConfig.isLockedNewLover)
-                    sendWhisper(sender, "Can have new lovers.", true);
-                else
-                    sendWhisper(sender, "Cannot have new lovers.", true);
-                cursedConfig.isLockedNewLover = !cursedConfig.isLockedNewLover;
-                break;
+        case "looseowner":
+            if (!cursedConfig.isLooseOwner)
+                sendWhisper(sender, "(Curse owners are now allowed to use built-in club rules.)", true);
+            else
+                sendWhisper(sender, "(Curse owners are no longer allowed to use built-in club rules.)", true);
+            cursedConfig.isLooseOwner = !cursedConfig.isLooseOwner;
+            break;
+        case "locknewlover":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (cursedConfig.isLockedNewLover)
+                sendWhisper(sender, "Can have new lovers.", true);
+            else
+                sendWhisper(sender, "Cannot have new lovers.", true);
+            cursedConfig.isLockedNewLover = !cursedConfig.isLockedNewLover;
+            break;
+        case "locknewsub":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (cursedConfig.isLockedNewSub)
+                sendWhisper(sender, "Can collar players again.", true);
+            else
+                sendWhisper(sender, "Cannot collar new submissives.", true);
+            cursedConfig.isLockedNewSub = !cursedConfig.isLockedNewSub;
+            break;
             case "ctitle":
                 toggleTitle(sender, 4, parameters);
                 break;

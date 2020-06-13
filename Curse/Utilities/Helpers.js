@@ -3,7 +3,7 @@
 function SaveConfigs() {
     try {
         const dbConfigs = { ...cursedConfig };
-        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned"];
+             const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
         toDelete.forEach(prop => delete dbConfigs[prop]);
         localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
     } catch { }
@@ -52,19 +52,36 @@ function popChatGlobal(actionTxt, isNormalTalk) {
 /** Pop all messages for the wearer to see, will save if player is not in a room */
 function popChatSilent(actionTxt, senderName) {
     //Add to log
-    if (!window.savedSilent) window.savedSilent = [];
-    if (actionTxt) window.savedSilent.push({ actionTxt, senderName });
+    if (actionTxt) cursedConfig.savedSilent.push({ actionTxt, senderName });
 
     //Save in log until player is in a room
     if (CurrentScreen != "ChatRoom") {
+        cursedConfig.shouldPopSilent = true;
         return
     }
+    cursedConfig.shouldPopSilent = false;
 
     //Removes dupes keeps the last order for UX
-    window.savedSilent = window.savedSilent.filter((m, i) => window.savedSilent.lastIndexOf(m) === i);
+    cursedConfig.savedSilent = cursedConfig.savedSilent.filter((m, i) => cursedConfig.savedSilent.lastIndexOf(m) === i);
+
+    // Sort by System/Tip/Curse/Other
+    const compare = (a, b) => {
+        if (a.senderName == "System" && b.senderName !== "System") {
+            return -1;
+        }
+        if (a.senderName == "Tip" && b.senderName !== "Tip") {
+            return -1;
+        }
+        if (a.senderName == "Curse" && b.senderName !== "Curse") {
+            return -1;
+        }
+        return 0;
+    }
+
+    cursedConfig.savedSilent.sort(compare);
 
     //Sends messages
-    window.savedSilent.forEach(silentMsg => {
+    cursedConfig.savedSilent.forEach(silentMsg => {
         //Directly sends to wearer
         var div = document.createElement("div");
         var span = document.createElement("span");
@@ -87,7 +104,9 @@ function popChatSilent(actionTxt, senderName) {
     });
 
     //Clears log
-    window.savedSilent = [];
+    cursedConfig.savedSilent = [];
+
+    TryPopTip(32);
 }
 
 /** Send a whisper to a target */
@@ -99,6 +118,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
     }
 
     if (!isNaN(target)) {
+        TryPopTip(33);
         ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
         if (sendSelf) {
             popChatSilent(msg);
@@ -116,6 +136,29 @@ function SendChat(actionTxt) {
         cursedConfig.chatlog.push(actionTxt);
     } else {
         NotifyOwners(actionTxt, true);
+    }
+}
+
+/** Sends an unseen tip */
+function PopTip() {
+    if (!window.curseTips) return;
+    const showTip = curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual) || {};
+    if (showTip.ID) {
+        popChatSilent(showTip.Text, "Tip");
+        popChatSilent("Send the command again to see another tip.", "Tip");
+        cursedConfig.seenTips.push(showTip.ID);
+    } else {
+        popChatSilent("No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again", "Tip");
+    }
+}
+
+/** Sends a specific tip if it was not seen */
+function TryPopTip(ID) {
+    if (!window.curseTips) return;
+    const showTip = curseTips.find(T => T.ID == ID && !cursedConfig.seenTips.includes(T.ID));
+    if (showTip) {
+        cursedConfig.seenTips.push(showTip.ID);
+        popChatSilent(showTip.Text, "Tip");
     }
 }
 
@@ -308,6 +351,13 @@ function forceNickname(sender, parameters) {
 
 /** Checks if an item can be worn and if it can be but is not, returns true */
 function itemIsAllowed(name, group) {
+    //Removes curses on invalid items
+    if (name && !Asset.find(A => A.Name === name && A.Group.Name === group)) {
+        cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+        return false;
+    }
+
+    // Checks if it can be applied
     if (
         !(
             InventoryGet(Player, group)
@@ -317,6 +367,7 @@ function itemIsAllowed(name, group) {
         && !InventoryOwnerOnlyItem(InventoryGet(Player, group))
         && InventoryAllow(Player, Asset.find(A => A.Name == name && A.Group.Name == group))
     ) {
+        TryPopTip(35);
         return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
     }
     return false;
@@ -340,6 +391,7 @@ function restraintVanish(groups) {
             !InventoryOwnerOnlyItem(InventoryGet(Player, group))
             && !InventoryGroupIsBlocked(Player, group)
         ) {
+            TryPopTip(12);
             InventoryRemove(Player, group);
             cursedConfig.mustRefresh = true;
         }
@@ -351,6 +403,7 @@ function restraintVanish(groups) {
  * Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - Blocked 5 - Remove self block
 */
 function SetNickname(parameters, sender, priority) {
+    TryPopTip(19);
     let shouldSendSelf = sender != Player.MemberNumber;
     if (!cursedConfig.hasIntenseVersion) {
         sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
@@ -477,6 +530,7 @@ function FetchName(number) {
 
 /** Saves the worn colors for later reuse with curses */
 function SaveColors() {
+    TryPopTip(6);
     try {
         Player.Appearance.forEach(item => SaveColorSlot(item.Asset.Group.Name));
         popChatSilent("Your current colors in each item slot has been saved.")
@@ -508,23 +562,23 @@ function InitCleanup() {
                     toggleCurseItem({ name: "PolishedChastityBelt", group: "ItemPelvis", forceAdd: true });
                     break;
                 case "hasCursedLatex":
-                    toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true  });
-                    toggleCurseItem({ name: "SeamlessCatsuit", group: "SuitLower", forceAdd: true  });
-                    toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true  });
-                    toggleCurseItem({ name: "Catsuit", group: "Gloves", forceAdd: true  });
-                    toggleCurseItem({ name: "ThighHighLatexHeels", group: "ItemBoots", forceAdd: true  });
-                    toggleCurseItem({ name: "LatexBallMuzzleGag", group: "ItemMouth", forceAdd: true  });
-                    toggleCurseItem({ name: "LatexPants1", group: "ClothLower", forceAdd: true  });
-                    toggleCurseItem({ name: "BoxTieArmbinder", group: "ItemArms", forceAdd: true  });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "SuitLower", forceAdd: true });
+                    toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true });
+                    toggleCurseItem({ name: "Catsuit", group: "Gloves", forceAdd: true });
+                    toggleCurseItem({ name: "ThighHighLatexHeels", group: "ItemBoots", forceAdd: true });
+                    toggleCurseItem({ name: "LatexBallMuzzleGag", group: "ItemMouth", forceAdd: true });
+                    toggleCurseItem({ name: "LatexPants1", group: "ClothLower", forceAdd: true });
+                    toggleCurseItem({ name: "BoxTieArmbinder", group: "ItemArms", forceAdd: true });
                     break;
                 case "hasCursedBlindfold":
-                    toggleCurseItem({ name: "FullBlindfold", group: "ItemHead", forceAdd: true  });
+                    toggleCurseItem({ name: "FullBlindfold", group: "ItemHead", forceAdd: true });
                     break;
                 case "hasCursedHood":
-                    toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead", forceAdd: true  });
+                    toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead", forceAdd: true });
                     break;
                 case "hasCursedEarplugs":
-                    toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars", forceAdd: true  });
+                    toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars", forceAdd: true });
                     break;
                 case "hasCursedDildogag":
                     toggleCurseItem({ name: "DildoPlugGag", group: "ItemMouth", forceAdd: true });
@@ -533,35 +587,35 @@ function InitCleanup() {
                     toggleCurseItem({ name: "PantyStuffing", group: "ItemMouth", forceAdd: true });
                     break;
                 case "hasCursedGag":
-                    toggleCurseItem({ name: "BallGag", group: "ItemMouth", forceAdd: true  });
+                    toggleCurseItem({ name: "BallGag", group: "ItemMouth", forceAdd: true });
                     break;
                 case "hasCursedMittens":
                     toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", forceAdd: true });
                     break;
                 case "hasCursedPaws":
-                    toggleCurseItem({ name: "PawMittens", group: "ItemHands", forceAdd: true  });
+                    toggleCurseItem({ name: "PawMittens", group: "ItemHands", forceAdd: true });
                     break;
                 case "hasCursedScrews":
-                    toggleCurseItem({ name: "ScrewClamps", group: "ItemNipplesPiercings", forceAdd: true  });
+                    toggleCurseItem({ name: "ScrewClamps", group: "ItemNipplesPiercings", forceAdd: true });
                     break;
                 case "hasCursedPony":
-                    toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true  });
-                    toggleCurseItem({ name: "LeatherLegCuffs", group: "ItemLegs", forceAdd: true  });
+                    toggleCurseItem({ name: "LatexCorset1", group: "ItemTorso", forceAdd: true });
+                    toggleCurseItem({ name: "LeatherLegCuffs", group: "ItemLegs", forceAdd: true });
                     toggleCurseItem({ name: "ArmbinderJacket", group: "ItemArms", forceAdd: true });
-                    toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true  });
-                    toggleCurseItem({ name: "SeamlessCatsuit", group: "SuitLower", forceAdd: true  });
-                    toggleCurseItem({ name: "Catsuit", group: "Gloves", forceAdd: true  });
-                    toggleCurseItem({ name: "PonyBoots", group: "ItemBoots", forceAdd: true  });
-                    toggleCurseItem({ name: "HarnessPonyBits", group: "ItemMouth", forceAdd: true  });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "Suit", forceAdd: true });
+                    toggleCurseItem({ name: "SeamlessCatsuit", group: "SuitLower", forceAdd: true });
+                    toggleCurseItem({ name: "Catsuit", group: "Gloves", forceAdd: true });
+                    toggleCurseItem({ name: "PonyBoots", group: "ItemBoots", forceAdd: true });
+                    toggleCurseItem({ name: "HarnessPonyBits", group: "ItemMouth", forceAdd: true });
                     break;
                 case "hasCursedRopes":
-                    toggleCurseItem({ name: "HempRope", group: "ItemFeet", forceAdd: true  });
-                    toggleCurseItem({ name: "HempRope", group: "ItemLegs", forceAdd: true  });
-                    toggleCurseItem({ name: "HempRope", group: "ItemArms", forceAdd: true  });
+                    toggleCurseItem({ name: "HempRope", group: "ItemFeet", forceAdd: true });
+                    toggleCurseItem({ name: "HempRope", group: "ItemLegs", forceAdd: true });
+                    toggleCurseItem({ name: "HempRope", group: "ItemArms", forceAdd: true });
                     break;
                 case "hasCursedMaid":
-                    toggleCurseItem({ name: "MaidOutfit1", group: "Cloth", forceAdd: true  });
-                    toggleCurseItem({ name: "MaidHairband1", group: "Hat", forceAdd: true  });
+                    toggleCurseItem({ name: "MaidOutfit1", group: "Cloth", forceAdd: true });
+                    toggleCurseItem({ name: "MaidHairband1", group: "Hat", forceAdd: true });
                     break;
                 case "hasCursedNakedness":
                     procCursedNaked();
@@ -627,6 +681,7 @@ function drawCard() {
 
 /** Draws several cards */
 function drawCards(nbCards, players) {
+    TryPopTip(8);
     //If no player was given, just draw X card to the current target
     players = players || [ChatRoomTargetMemberNumber.toString()];
     if (players[0] == null) {
@@ -668,3 +723,12 @@ function CheckEnforceMigration(){
         delete cursedConfig.enforced;
     }
 }
+
+
+/** Sends a character to a give room */
+function SendToRoom(name) { 
+    //ServerSend("ChatRoomLeave", "");
+    ChatRoomPlayerCanJoin = true;
+    ServerSend("ChatRoomJoin", { Name: name });
+    //ElementRemove("FriendList");
+   // CommonSetScreen("Online", "ChatRoom");
