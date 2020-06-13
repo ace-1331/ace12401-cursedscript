@@ -63,16 +63,14 @@ function SelfMessageCheck(msg) {
     //Speech Restrictions
     //Reinforcement
     cursedConfig.charData.forEach(member => {
-        var Name;
-        var requiredName;
         if (member.isEnforced && ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(member.Number)) {
-            Name = member.SavedName;
-            requiredName = member.RespectNickname ? [member.Nickname.toLowerCase()] : member.Titles.map(el => el + " " + Name.toLowerCase());
-            var matches = [...msg
+            let Name = member.SavedName;
+            let requiredName = member.RespectNickname && member.Nickname ? [member.Nickname.toLowerCase()] : member.Titles.map(el => el + " " + Name.toLowerCase());
+            let matches = [...msg
                 .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", 'g'))
             ];
             if (!matches) matches = [];
-            var goodMatches = [];
+            let goodMatches = [];
             requiredName.forEach(rn =>
                 goodMatches.push(...msg.matchAll(new RegExp(rn, 'g')))
             );

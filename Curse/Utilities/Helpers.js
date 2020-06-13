@@ -3,7 +3,7 @@
 function SaveConfigs() {
     try {
         const dbConfigs = { ...cursedConfig };
-             const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
+        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
         toDelete.forEach(prop => delete dbConfigs[prop]);
         localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
     } catch { }
@@ -250,18 +250,18 @@ function enforce(sender, priority, parameters) {
             }
             currentEnforcer.isEnforced = true;
             TryPopTip(34);
-            SendChat(Player.Name + " now has enforcement protocols on " + currentEnforcer.SavedName + (priority >= 2 ? " as requested by her mistress." : "."));            
+            SendChat(Player.Name + " now has enforcement protocols on " + currentEnforcer.SavedName + (priority >= 2 ? " as requested by her mistress." : "."));
             return;
         }    // Don't know enforcee, add her in
         else if (!currentEnforcer) {
             if (newTitle) {
-            newTitle = [newTitle];
+                newTitle = [newTitle];
             }
             else {
                 newTitle = defaults;
             }
-            cursedConfig.charData.push({ Number: enforcee, Nickname: name, NPriority: 0, SavedName: name, isEnforced: true, RespectNickname: false, TPriority: priority, Titles: newTitle });
-            SendChat(name + " now has enforcement protocols on " + cursedConfig.slaveIdentifier + (priority >= 2 ? " as requested by her mistress." : "."));
+            cursedConfig.charData.push({ Number: enforcee, NPriority: 0, isEnforced: true, RespectNickname: false, TPriority: priority, Titles: [newTitle] });
+            SendChat(name + " now has enforcement protocols on " + Player.Name + (priority >= 2 ? " as requested by her mistress." : "."));
             return;
         }
     }
@@ -288,7 +288,7 @@ function toggleTitle(sender, priority, parameters) {
                     titlee.Titles = titlee.Titles.filter(t => t != newTitle);
                     if (titlee.Titles.length == 0)
                         titlee.isEnforced = false;
-                    if(titlee.Nickname == titlee.SavedName) {
+                    if (titlee.Nickname == titlee.SavedName) {
                         let ind = cursedConfig.charData.indexOf(u => u.Number == enforcee);
                         cursedConfig.charData.splice(ind, 1);
                     }
@@ -298,7 +298,7 @@ function toggleTitle(sender, priority, parameters) {
                     //no auth
                     sendWhisper(sender, "The title '" + newTitle + "' for " + titlee.Name + " was given by a higher power and has not been removed.");
                 }   //did or didn't remove - leave
-             }
+            }
             else {
                 //title doesn't exist
                 titlee.Titles.push(newTitle);
@@ -308,44 +308,38 @@ function toggleTitle(sender, priority, parameters) {
                 sendWhisper(sender, "(New title for " + enforcee + " : " + newTitle + " Priority [" + priority + "])", shouldSendSelf);
             }
         }
-        else{
+        else {
             let name = FetchName(enforcee);
             // don't know her, create and add
-            cursedConfig.charData.push({ Number: enforcee, Nickname: name, NPriority: null, SavedName: name, isEnforced: false, RespectNickname: false, TPriority: priority, Titles: newTitle });
+            cursedConfig.charData.push({ Number: enforcee, isEnforced: false, RespectNickname: false, TPriority: priority, Titles: [newTitle] });
             sendWhisper(sender, "(New title for " + name + " : " + newTitle + " Priority [" + priority + "])", shouldSendSelf);
         }
     }
 }
 function forceNickname(sender, parameters) {
-    let shouldSendSelf =  sender != Player.MemberNumber;
+    let shouldSendSelf = sender != Player.MemberNumber;
     let target = (!isNaN(parameters[0]) ? ParseInt(parameters[0]) : sender);
     let respected = cursedConfig.charData.find(e => e.Number == target);
-    if(cursedConfig.hasIntenseVersion){
-        if (respected) {
-            if (respected.Nickname != respected.SavedName) {
-                if (respected.RespectNickname == false) {
-                    respected.isEnforced = true;
-                    respected.RespectNickname = true;
-                    sendWhisper(sender, "From now on " + cursedConfig.slaveIdentifier + " must respect " + respected.Nickname + " by her by her nickname", shouldSendSelf);
-                }
-                else {
-                    respected.RespectNickname = false;
-                    if (respected.Titles.length > 0 && respected.Titles[0] != "") {
-                        sendWhisper(sender, cursedConfig.slaveIdentifier + " is no to longer call " + respected.Titles[0] + " " + respected.SavedName + " by her nickname and  enforcement Protocols have now resumed.", shouldSendSelf);
-                    }
-                    else {
-                        respected.isEnforced = false;
-                        sendWhisper(sender, cursedConfig.slaveIdentifier + " no longer needs to respect " + respected.Nickname + " by her nickname.", shouldSendSelf);
-                    }
+    if (cursedConfig.hasIntenseVersion) {
+        if (respected && respected.Nickname && respected.Nickname != respected.SavedName) {
+            if (!respected.RespectNickname) {
+                respected.isEnforced = true;
+                respected.RespectNickname = true;
+                sendWhisper(sender, "From now on " + cursedConfig.slaveIdentifier + " must respect " + respected.Nickname + " by her by her nickname", shouldSendSelf);
+            } else {
+                respected.RespectNickname = false;
+                if (respected.Titles.length > 0 && respected.Titles[0] != "") {
+                    sendWhisper(sender, cursedConfig.slaveIdentifier + " is no to longer call " + respected.Titles[0] + " " + respected.SavedName + " by her nickname and  enforcement Protocols have now resumed.", shouldSendSelf);
+                } else {
+                    respected.isEnforced = false;
+                    sendWhisper(sender, cursedConfig.slaveIdentifier + " no longer needs to respect " + respected.Nickname + " by her nickname.", shouldSendSelf);
                 }
             }
-            else {
-                sendWhisper(sender, respected.SavedName + " does not have a nickname set yet.");
-            }
+        } else {
+            sendWhisper(sender, respected.SavedName + " does not have a nickname set yet.");
         }
-        else{
-            sendWhisper(sender, cursedConfig.slaveIdentifier + " does not have intense version enabled.");
-        }
+    } else {
+        sendWhisper(sender, cursedConfig.slaveIdentifier + " does not have intense version enabled.");
     }
 }
 
@@ -414,33 +408,33 @@ function SetNickname(parameters, sender, priority) {
         let userNumber = parseInt(parameters[0]);
         parameters.shift();
         let nickname = parameters.join(" ").replace(/[,]/g, ' ') || "";
-        
+
         if (nickname) {
             nickname = nickname[0].toUpperCase() + nickname.slice(1);
             let target = cursedConfig.charData.find(u => u.Number == userNumber);
-            if(target){
-                
+            if (target) {
+
                 if (target.NPriority <= priority || targetNPriority == 6) {
                     target.Nickname = nickname;
                     target.RespectNickname = false;
                 }
-                else{
+                else {
                     sendWhisper(
                         sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
                     );
                     return;
                 }
-                }
-            else{
+            }
+            else {
                 let name = userNumber ? FetchName(userNumber) : sender;
                 cursedConfig.charData.push(
-                { Number: userNumber, Nickname: nickname, NPriority: priority, SavedName: name, isEnforced: false, RespectNickname: false,TPriority:0, Titles:[] }
+                    { Number: userNumber, Nickname: nickname, NPriority: priority, SavedName: name, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
                 );
             }
             sendWhisper(
-                    sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
-                    );
-                
+                sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
+            );
+
         } else {
             sendWhisper(
                 sender, "Requires a nickname.)", shouldSendSelf
@@ -475,23 +469,22 @@ function DeleteNickname(parameters, sender, priority) {
                 //Delete nickname
                 if (oldNickname.Titles.length == 0) {
                     cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
-                }
-                else {
+                } else {
                     oldNickname.Nickname = oldNickname.SavedName;
                 }
 
                 //Block changing if removed self
                 if (priority == 5) {
-                    if(oldNickname){
+                    if (oldNickname) {
                         oldNickname.NPriority = 5;
+                    } else {
+                        cursedConfig.charData.push(
+                            { Number: sender, NPriority: 5, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
+                        );
                     }
-                    else
-                    cursedConfig.charData.push(
-                        { Number: sender, Nickname: oldNickname[0].SavedName, NPriority: 5, SavedName: oldNickname[0].SavedName, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
-                    );
                     sendWhisper(sender, "-->Deleted and blocked nickname for " + FetchName(userNumber), shouldSendSelf);
                 } else if (priority == 6) {
-                    if(oldNickname){
+                    if (oldNickname) {
                         oldNickname.NPriority == 6;
                     }
                     sendWhisper(sender, "-->Allowed nickname for " + FetchName(userNumber), shouldSendSelf);
@@ -523,7 +516,7 @@ function FetchName(number) {
     });
     cursedConfig.charData.forEach(C => {
         if (number == C.Number) {
-            Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) ? C.Nickname : C.SavedName
+            Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) && C.Nickname ? C.Nickname : C.SavedName || Name;
         }
     });
     return Name || "#" + number;
@@ -625,19 +618,19 @@ function InitCleanup() {
         }
     });
 
+    //Merges Enforced and Nicknames 
+    CheckEnforceMigration();
+
     //Clean deprecated props
-    const toDelete = ["hasCursedBunny", "lastWardrobeLock", "cursedItems", ...oldCurses];
+    const toDelete = ["hasCursedBunny", "lastWardrobeLock", "cursedItems", "nicknames", "enforced", ...oldCurses];
     toDelete.forEach(prop => delete cursedConfig[prop]);
 
     //Cleans dupes and bad stuff
     cursedConfig.owners = cursedConfig.owners.filter((m, i) => cursedConfig.owners.indexOf(m) == i && !isNaN(m));
     cursedConfig.mistresses = cursedConfig.mistresses.filter((m, i) => cursedConfig.mistresses.indexOf(m) == i && !isNaN(m));
-    cursedConfig.enforced = cursedConfig.enforced.filter((m, i) => cursedConfig.enforced.indexOf(m) == i && !isNaN(m));
     cursedConfig.blacklist = cursedConfig.blacklist.filter((m, i) => cursedConfig.blacklist.indexOf(m) == i && !isNaN(m));
     cursedConfig.bannedWords = cursedConfig.bannedWords.filter((m, i) => cursedConfig.bannedWords.indexOf(m) == i && !isNaN(m));
 
-    //Merges Enforced and Nicknames 
-    CheckEnforceMigration();
 }
 
 // Card Deck
@@ -698,41 +691,36 @@ function drawCards(nbCards, players) {
             });
         }
     }
-    
+
+}
+function CheckEnforceMigration() {
+    if (cursedConfig.nicknames && cursedConfig.nicknames.length > 0) {
+        cursedConfig.nicknames.forEach(m => {
+            cursedConfig.charData.push({ Number: m.Number, Nickname: m.Nickname, NPriority: m.Priority, SavedName: m.SavedName, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] });
+        });
     }
-function CheckEnforceMigration(){ 
-    if(cursedConfig.enforced || cursedConfig.nicknames){
-        if(cursedConfig.nicknames.length > 0){
-       cursedConfig.nicknames.forEach(m => {
-           cursedConfig.charData.push({Number:m.Number, Nickname:m.Nickname, NPriority:m.Priority, SavedName:m.SavedName, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] });
-       });
-    }
-    if(cursedConfig.enforced.length > 0){
-        cursedConfig.enforced.forEach(num =>{
-           let found = cursedConfig.charData.find(Number == num);
-               if(found){
-                   found.isEnforced = true;
-                   found.Titles = ["miss", "mistress", "goddess", "owner"];
-               }
-               else{
-                   let name = FetchName(num);
-                   cursedConfig.charData.push({Number:num, Nickname:name, NPriority: 0, SavedName:name, isEnforced: true, RespectNickname: false, TPriority: 1, Titles: ["miss","mistress","goddess","owner"] });
-               }
-           });
-       }
-        delete cursedConfig.nicknames;
-        delete cursedConfig.enforced;
+
+    if (cursedConfig.enforced && cursedConfig.enforced.length > 0) {
+        cursedConfig.enforced.forEach(num => {
+            let found = cursedConfig.charData.find(Number == num);
+            if (found) {
+                found.isEnforced = true;
+                found.Titles = ["miss", "mistress", "goddess", "owner"];
+            } else {
+                cursedConfig.charData.push({ Number: num, NPriority: 0, isEnforced: true, RespectNickname: false, TPriority: 1, Titles: ["miss", "mistress", "goddess", "owner"] });
+            }
+        });
     }
 }
 
 
 /** Sends a character to a give room */
-function SendToRoom(name) { 
+function SendToRoom(name) {
     ChatRoomSpace = "";
-	OnlineGameName = "";
-	ChatSearchLeaveRoom =  "MainHall";
-	ChatSearchBackground = "IntroductionDark";
-	ChatCreateBackgroundList = CommonBackgroundList.slice();
+    OnlineGameName = "";
+    ChatSearchLeaveRoom = "MainHall";
+    ChatSearchBackground = "IntroductionDark";
+    ChatCreateBackgroundList = CommonBackgroundList.slice();
     ChatRoomPlayerCanJoin = true;
     ServerSend("ChatRoomJoin", { Name: name });
 }

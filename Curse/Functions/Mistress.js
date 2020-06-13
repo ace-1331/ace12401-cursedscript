@@ -111,8 +111,13 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
             let nickname = parameters.join(" ");
             if (nickname) {
                 sendWhisper(sender, "New nickname for " + FetchName(sender) + " : " + nickname, true);
-                cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != sender);
-                cursedConfig.charData.push({ Number: sender, Nickname: nickname });
+                cursedConfig.charData = cursedConfig.charData.find(u => u.Number != sender);
+                if (cursedConfig.charData) {
+                    cursedConfig.charData.Number = sender;
+                    cursedConfig.charData.Nickname = nickname;
+                } else {
+                    cursedConfig.charData.push({ Number: sender, Nickname: nickname });
+                }
             } else {
                 sendWhisper(sender, "(Invalid arguments.)");
             }
