@@ -175,7 +175,7 @@ function WearerCommands({ command, parameters, sender }) {
             break;
         case "tip":
         case "tips":
-            if (parameters[0] == "reset") { 
+            if (parameters[0] == "reset") {
                 popChatSilent("You can now see all the tips again.");
                 cursedConfig.seenTips = [];
             }
@@ -199,6 +199,33 @@ function WearerCommands({ command, parameters, sender }) {
             break;
         case "deletenickname":
             DeleteNickname(parameters, sender, 0);
+            break;
+        case "curseitem":
+        case "curseditem":
+            if (parameters[0] && parameters[1] && !isNaN(parameters[1])) {
+                let group = textToGroup(parameters[0], 1);
+                let currentAsset = InventoryGet(Player, group);
+                let dateOfRemoval = parseInt(parameters[1]);
+
+                // Param is hours and must be higher than 1 minute and lower than 7 days
+                dateOfRemoval *= 3.6e+6;
+                if (dateOfRemoval < 60000) dateOfRemoval = 60000;
+                if (dateOfRemoval > 7 * 8.64e+7) dateOfRemoval = 6.048e+8;
+                dateOfRemoval += Date.now();
+                
+                if (
+                    toggleCurseItem({
+                        name: (currentAsset && currentAsset.Asset.Name) || "",
+                        group,
+                        forceAdd: true,
+                        dateOfRemoval
+                    })
+                ) {
+                    sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);
+                }
+            } else {
+                sendWhisper(sender, "(Invalid arguments. Specify the item group and number of hours the curse should stay active.)");
+            }
             break;
         default:
             //notifies no commands were found

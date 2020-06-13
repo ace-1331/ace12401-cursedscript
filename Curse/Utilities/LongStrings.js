@@ -7,6 +7,9 @@ function InitHelpMsg() {
 
     //WEARER FUNCTIONS//
 
+    >>> Curses <<<
+    *NEW*-curseitem [group] [hours]
+    
     >>> Information <<<
     *NEW*-tip
     *NEW*-tip reset
@@ -17,6 +20,7 @@ function InitHelpMsg() {
 
     >>> Config Commands <<<
     *NEW*-quickban
+    -wardrobev2
     -eatcommands
     -hidedisplay
     -restraintvanish
@@ -29,16 +33,16 @@ function InitHelpMsg() {
     -identifier [new identifier]
     -forwardall
     -savecolors
-    -wardrobev2
     INTENSE V:-capture
 
     >>>Speech Commands<<<
     INTENSE:-talk [target id] [sentence id]
+    
     >>> Other Commands <<<
-    INTENSE V:-nickname [Number] [Name]
-    INTENSE V:-deletenickname [Number] [Name]
     -draw [nb of cards] [players]
     -shuffle
+    INTENSE V:-nickname [Number] [Name]
+    INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
     -help
@@ -79,6 +83,7 @@ function InitHelpMsg() {
     
     >>>Curses<<<
     *NEW*-curseitem [group]
+    *NEW*-curseitem [group] [hours]
     -naked
     -vibes
     -collar

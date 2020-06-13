@@ -89,7 +89,7 @@ async function checkKneeling(sender) {
  * Toggles a cursed item on/off
  * @returns true if the group does not exist
  */
-function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent }) {
+function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfRemoval }) {
     TryPopTip(16);
     let txtGroup = (AssetGroup.find(G => G.Name == group) || {}).Description || 'items';
 
@@ -99,12 +99,12 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent }) {
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
 
     if ((!item || item.name != name) && (!forceRemove || forceAdd)) {
-        cursedConfig.cursedAppearance.push({ name, group });
+        cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval });
         SaveColorSlot(group);
         procGenericItem(name, group);
-        isSilent && SendChat(`The curse arises on ${Player.Name}'s ${txtGroup.toLowerCase()}.`);
+        isSilent || SendChat(`The curse arises on ${Player.Name}'s ${txtGroup.toLowerCase()}.`);
     } else if (!forceAdd) {
-        isSilent && SendChat(`The curse on ${Player.Name}'s ${txtGroup.toLowerCase()} was lifted.`);
+        isSilent || SendChat(`The curse on ${Player.Name}'s ${txtGroup.toLowerCase()} was lifted.`);
         if (cursedConfig.hasRestraintVanish)
             restraintVanish(group);
     }
@@ -113,7 +113,7 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent }) {
 /**
  * Function to convert text parameter to a working item group
  * @param {string} group - the group as it would be typed
- * @param {number} permission - the permission level where (1 clubowner, 2 owners, 3 mistress)
+ * @param {number} permission - the permission level where (3 clubowner, 2 owners, 1 mistress)
  * @returns {string} The item group from AssetGroup
  */
 function textToGroup(group, permission) {

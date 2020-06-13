@@ -121,7 +121,7 @@ function CurseRoomHasIntense() {
 function CurseRoomTryMittens() {
     cursedConfig.hasCursedMittens = true;
     cursedConfig.genericProcs = [];
-    toggleCurseItem({ name: "LeatherMittens", group: "ItemHands" });
+    toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", dateOfRemoval: Date.now() + 86400000});
     SaveConfigs();
 }
 

@@ -144,7 +144,7 @@ window.curseTips = [
     {
         ID: 33,
         isContextual: true,
-        Text: "The curse just sent a whisper to someone. Most of the times, they are replica of the info you are seeing to keep your mistress/owner informed of changes to your curse. You will not see those whispers. If you would like to see every message for testing purposes, you can use the 'forwardall' command",
+        Text: "The curse just sent a whisper to someone. Most of the time, they are replica of the info you are seeing to keep your mistress/owner informed of changes to your curse. You will not see those whispers. If you would like to see every message for testing purposes, you can use the 'forwardall' command",
     },
     {
         ID: 34,
