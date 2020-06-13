@@ -89,6 +89,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
                 sendWhisper(sender, "(The curse to force the meter to off has been turned off in favor of this one.)", true);
                 cursedConfig.hasForcedMeterOff = false;
             }
+            TryPopTip(44);
             if (!cursedConfig.hasForcedMeterLocked)
                 sendWhisper(sender, "(Wearer now has her arousal meter locked to automatic.)", true);
             else
@@ -105,6 +106,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
                 sendWhisper(sender, "(The curse to force the meter to locked hass been turned off in favor of this one.)", true);
                 cursedConfig.hasForcedMeterLocked = false;
             }
+            TryPopTip(44);
             if (!cursedConfig.hasForcedMeterOff)
                 sendWhisper(sender, "(Wearer now has her arousal meter locked to off.)", true);
             else
