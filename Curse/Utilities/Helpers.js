@@ -249,7 +249,8 @@ function enforce(sender, priority, parameters) {
                 currentEnforcer.Titles.push(defaults);
             }
             currentEnforcer.isEnforced = true;
-            SendChat(Player.Name + " now has enforcement protocols on " + currentEnforcer.SavedName + (priority >= 2 ? " as requested by her mistress." : "."));
+            TryPopTip(34);
+            SendChat(Player.Name + " now has enforcement protocols on " + currentEnforcer.SavedName + (priority >= 2 ? " as requested by her mistress." : "."));            
             return;
         }    // Don't know enforcee, add her in
         else if (!currentEnforcer) {
