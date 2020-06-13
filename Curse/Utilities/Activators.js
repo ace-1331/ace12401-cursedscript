@@ -320,14 +320,16 @@ function AdjustSettings() {
     try {
         //Save real name, restores if curse is not running
         ChatRoomCharacter.forEach(char => {
-            let user = cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber);
-            if (user.length > 0) {
-                if (char.Name != user[0].Nickname && !user[0].SavedName) {
-                    cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
+            let user = cursedConfig.charData.find(c => c.Number == char.MemberNumber);
+            if (user) {
+                if (char.Name != user.Nickname) {
+                    let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user.Nickname : user.SavedName;
+                    char.Name = NameToDisplay;
+                    char.DisplayName = NameToDisplay;
                 }
-                let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
-                char.Name = NameToDisplay;
-                char.DisplayName = NameToDisplay;
+                if(user.Nickname == user.SavedName){
+                    user.RespctNickname = false;
+                }
             }
         });
     } catch { console.error("Curse: failed to update a name") }

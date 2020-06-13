@@ -29,58 +29,6 @@ async function CursedCheckUp() {
     if (CurrentScreen == "ChatRoom") {
         messagesToVerify = document.querySelectorAll('.ChatMessage:not([verified=true]');
         
-        //Fixes empty name in case of weird mess up
-        if (cursedConfig.slaveIdentifier == "")
-            cursedConfig.slaveIdentifier = Player.Name;
-        
-        //Verifies if a mistress is here
-        if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
-            cursedConfig.mistressIsHere = false;
-            [...cursedConfig.mistresses, ...cursedConfig.owners].forEach(miss =>
-                ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(miss)
-                    ? cursedConfig.mistressIsHere = true : ''
-            );
-        }
-
-        //Verifies if an owner is here
-        if (cursedConfig.enabledOnMistress) {
-            cursedConfig.ownerIsHere = false;
-            cursedConfig.owners.forEach(miss =>
-                ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(miss)
-                    ? cursedConfig.ownerIsHere = true : ''
-            );
-        }
-
-        //Checks settings
-        if (cursedConfig.hasForcedSensDep && cursedConfig.hasIntenseVersion) { 
-            Player.GameplaySettings.SensDepChatLog = "SensDepTotal";
-            Player.GameplaySettings.BlindDisableExamine = true;
-        }
-        
-        //Identifies the character wearer the curse
-        ChatRoomCharacter.forEach(char => {
-            char.isCursed = char.Inventory.filter(A => A.Name == "Curse").length > 0;
-        });
-        
-        //Making sure all names are up-to-date
-        //Try catch in case the updated player is no longer there (extreme edge case)
-        try {
-            //Save real name, restores if curse is not running
-            ChatRoomCharacter.forEach(char => {
-                let user = cursedConfig.charData.find(c => c.Number == char.MemberNumber);
-                if (user) {
-                    if (char.Name != user.Nickname) {
-                        let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user.Nickname : user.SavedName;
-                        char.Name = NameToDisplay;
-                        char.DisplayName = NameToDisplay;
-                    }
-                    if(user.Nickname == user.SavedName){
-                        user.RespctNickname = false;
-                    }
-                }
-            });
-        } catch { console.error("Curse: failed to update a name") }
-
         //LARP Warn
         if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
             popChatSilent("LARP Room detected: the curse is inactive in this room", "System");
