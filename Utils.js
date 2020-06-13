@@ -73,6 +73,9 @@ function CursedStarter() {
                 isLockedNewLover: false,
                 isLockedOwner: false,
                 hasDollTalk: false,
+                hasForcedMeterLocked: false,
+                hasForcedMeterOff: false,
+                hasDCPrevention: false,
 
                 owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -160,7 +163,7 @@ function CursedStarter() {
                 if (oldVersion > currentVersion) {
                     alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.)Error: V03");
                 }
-                
+
                 if (oldVersion != currentVersion) {
                     localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
                     alert("IMPORTANT! Please make sure you refreshed your page after updating.");
@@ -172,7 +175,7 @@ function CursedStarter() {
                     SendChat("The curse follows " + Player.Name + ".");
                     popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
                 }
-                
+
                 if (curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual)) {
                     popChatSilent("There are unseen tips available. Use '" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip' to see one", "System");
                 }
@@ -195,6 +198,18 @@ function CursedStarter() {
                 AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
                 AssetLoadAll();
                 InventoryAdd(Player, "Curse", "ItemHidden");
+            }
+
+            // DC Prevention
+            if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
+                const roomToGoTo = cursedConfig.lastChatroom;
+                delete cursedConfig.lastChatroom;
+                // Timer to let the game load, reducing chances of crashes. Then quits if the room was made by someone else
+                setTimeout(() => {
+                    SendToRoom(roomToGoTo);
+                    NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
+                }, 1500);
+
             }
 
             //Runs the script

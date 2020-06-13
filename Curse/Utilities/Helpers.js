@@ -533,3 +533,13 @@ function drawCards(nbCards, players) {
         }
     }
 }
+
+
+/** Sends a character to a give room */
+function SendToRoom(name) { 
+    //ServerSend("ChatRoomLeave", "");
+    ChatRoomPlayerCanJoin = true;
+    ServerSend("ChatRoomJoin", { Name: name });
+    //ElementRemove("FriendList");
+   // CommonSetScreen("Online", "ChatRoom");
+}

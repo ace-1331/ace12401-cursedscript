@@ -13,11 +13,13 @@ function CurseRoomLoad() {
     CurseRoomAce.Name = "Miss Ace";
     CurseRoomAce.LabelColor = "#c0a4ff";
     CurseRoomAce.BlinkFactor = 10;
+    CurseRoomAce.AllowItem = false;
     InventoryWear(CurseRoomAce, "HairBack8", "HairBack", "#c0a4ff");
     InventoryWear(CurseRoomAce, "Large", "BodyUpper", "Asian");
     InventoryWear(CurseRoomAce, "Blush", "Blush", "Default");
     InventoryWear(CurseRoomAce, "Large", "BodyLower", "Asian");
     InventoryWear(CurseRoomAce, "Eyebrows1", "Eyebrows", "Default");
+    InventoryWear(CurseRoomAce, "NecklaceKey", "Necklace", "Default");
     InventoryWear(CurseRoomAce, "Eyes3", "Eyes", "#c0a4ff");
     InventoryWear(CurseRoomAce, "Regular", "Mouth", "#69386F");
     InventoryWear(CurseRoomAce, "Nipples1", "Nipples", "Default");
@@ -35,7 +37,7 @@ function CurseRoomLoad() {
     InventoryWear(CurseRoomAce, "Default", "Hands", "Asian");
     InventoryWear(CurseRoomAce, "ButterflyMask1", "Glasses", "#8215DA");
     InventoryWear(CurseRoomAce, "MistressGloves", "Gloves", "#42116A");
-    InventoryWear(CurseRoomAce, "SlaveCollar", "ItemNeck", "Default");
+    InventoryWear(CurseRoomAce, "HighCollar", "ItemNeck", "Default");
     InventoryWear(CurseRoomAce, "HairFront14", "HairFront", "#c0a4ff");
     InventoryWear(CurseRoomAce, "BunnyEars2", "HairAccessory1", "#2D0E3E");
     InventoryWear(CurseRoomAce, "Band1", "Hat", "#fff7df");

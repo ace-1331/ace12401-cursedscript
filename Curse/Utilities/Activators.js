@@ -2,11 +2,11 @@
 /** Toggles a curse on any given item */
 function procGenericItem(item, group) {
     //Removes curses on invalid items
-    if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) { 
+    if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
         cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
-        return;   
+        return;
     };
-    
+
     //Makes sure the player has the items
     if (!cursedConfig.genericProcs.includes(group)) {
         cursedConfig.genericProcs.push(group);
@@ -44,7 +44,7 @@ function procCursedNaked() {
 function procCursedOrgasm(group) {
     //Turns them to max
     if (
-        InventoryGet(Player,group)
+        InventoryGet(Player, group)
         && Array.isArray(InventoryGet(Player, group).Asset.Effect)
         && InventoryGet(Player, group).Asset.Effect.includes("Egged")
     ) {
@@ -272,4 +272,63 @@ function textToGroup(group, permission) {
         }
     }
     return 'na';
+}
+
+function AdjustSettings() {
+    //Fixes empty name in case of weird mess up
+    if (cursedConfig.slaveIdentifier == "")
+        cursedConfig.slaveIdentifier = Player.Name;
+
+    //Verifies if a mistress is here
+    if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
+        cursedConfig.mistressIsHere = false;
+        [...cursedConfig.mistresses, ...cursedConfig.owners].forEach(miss =>
+            ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(miss)
+                ? cursedConfig.mistressIsHere = true : ''
+        );
+    }
+
+    //Verifies if an owner is here
+    if (cursedConfig.enabledOnMistress) {
+        cursedConfig.ownerIsHere = false;
+        cursedConfig.owners.forEach(miss =>
+            ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(miss)
+                ? cursedConfig.ownerIsHere = true : ''
+        );
+    }
+
+    // Sens dep char settings
+    if (cursedConfig.hasForcedSensDep && cursedConfig.hasIntenseVersion) {
+        Player.GameplaySettings.SensDepChatLog = "SensDepTotal";
+        // Player.GameplaySettings.BlindDisableExamine = true;
+    }
+
+    // Meter off char settings
+    if (cursedConfig.hasForcedMeterOff && cursedConfig.hasIntenseVersion) {
+        if (Player.ArousalSettings.Active != "NoMeter" || Player.ArousalSettings.Active != "Inactive") {
+            Player.ArousalSettings.Active = "NoMeter";
+        }
+    }
+
+    // Meter locked char settings
+    if (cursedConfig.hasForcedMeterLocked && cursedConfig.hasIntenseVersion) {
+        Player.ArousalSettings.Active = "Automatic";
+    }
+
+    //Making sure all names are up-to-date
+    //Try catch in case the updated player is no longer there (extreme edge case)
+    try {
+        //Save real name, restores if curse is not running
+        ChatRoomCharacter.forEach(char => {
+            let user = cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber);
+            if (user.length > 0) {
+                if (char.Name != user[0].Nickname && !user[0].SavedName) {
+                    cursedConfig.nicknames.filter(c => c.Number == char.MemberNumber)[0].SavedName = char.Name;
+                }
+                let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user[0].Nickname : user[0].SavedName;
+                char.Name = NameToDisplay;
+                char.DisplayName = NameToDisplay;
+            }
+        });
+    } catch { console.error("Curse: failed to update a name") }
 }

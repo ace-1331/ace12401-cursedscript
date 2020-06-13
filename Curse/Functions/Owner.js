@@ -57,6 +57,17 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
                 sendWhisper(sender, "(Wearer is now able to be freed by the rescue maid.)", true);
             cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
             break;
+        case "preventdc":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (!cursedConfig.hasDCPrevention)
+                sendWhisper(sender, "(Wearer can no longer escape rooms by disconnecting.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has DC prevention.)", true);
+            cursedConfig.hasDCPrevention = !cursedConfig.hasDCPrevention;
+            break;
         case "sensdep":
             if (!cursedConfig.hasIntenseVersion) {
                 sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
@@ -67,6 +78,38 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
             else
                 sendWhisper(sender, "(Wearer no longer has full sens dep settings locked.)", true);
             cursedConfig.hasForcedSensDep = !cursedConfig.hasForcedSensDep;
+            break;
+        case "lockedmeter":
+        case "meterlocked":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (cursedConfig.hasForcedMeterOff) {
+                sendWhisper(sender, "(The curse to force the meter to off has been turned off in favor of this one.)", true);
+                cursedConfig.hasForcedMeterOff = false;
+            }
+            if (!cursedConfig.hasForcedMeterLocked)
+                sendWhisper(sender, "(Wearer now has her arousal meter locked to automatic.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has her arousal meter locked to automatic.)", true)
+            cursedConfig.hasForcedMeterLocked = !cursedConfig.hasForcedMeterLocked;
+            break;
+        case "offmeter":
+        case "meteroff":
+            if (!cursedConfig.hasIntenseVersion) {
+                sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+                return;
+            }
+            if (cursedConfig.hasForcedMeterLocked) {
+                sendWhisper(sender, "(The curse to force the meter to locked hass been turned off in favor of this one.)", true);
+                cursedConfig.hasForcedMeterLocked = false;
+            }
+            if (!cursedConfig.hasForcedMeterOff)
+                sendWhisper(sender, "(Wearer now has her arousal meter locked to off.)", true);
+            else
+                sendWhisper(sender, "(Wearer no longer has her arousal meter locked to off.)", true);
+            cursedConfig.hasForcedMeterOff = !cursedConfig.hasForcedMeterOff;
             break;
         case "disablepunishments":
             if (!cursedConfig.punishmentsDisabled)

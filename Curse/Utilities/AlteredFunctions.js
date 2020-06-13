@@ -79,10 +79,7 @@ function InitAlteredFns() {
         //Single beep in capture mode
         if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
             popChatGlobal(Player.Name + " was dragged out by her captor.");
-            ServerSend("ChatRoomLeave", "");
-            ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
-            ElementRemove("FriendList");
-            CommonSetScreen("Online", "ChatRoom");
+            SendToRoom(data.ChatRoomName);
             popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
         }
 
@@ -94,11 +91,8 @@ function InitAlteredFns() {
             let beep3 = FriendListBeepLog[beepLogSize - 1];
             if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom") && cursedConfig.owners.includes(data.MemberNumber.toString())) {
                 popChatGlobal(Player.Name + " was leashed out by her owner.");
-                ServerSend("ChatRoomLeave", "");
-                ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
-                ElementRemove("FriendList");
-                CommonSetScreen("Online", "ChatRoom");
-                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by one of your owners. Any messages above this message is from the previous room.", "System");
+                SendToRoom(data.ChatRoomName);
+                popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
             }
         }
     }
@@ -109,6 +103,20 @@ function InitAlteredFns() {
         var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
         return Player.walkBackup() && (!isActivated || cursedConfig.capture.Valid < Date.now());
     }
+    
+    // // Prevent interacting
+    // Player.interactBackup = Player.CanInteract;
+    // Player.CanInteract = function () {
+    //     var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    //     return Player.interactBackup() && (!isActivated || /* */);
+    // }
+    
+    // // Prevent changing
+    // Player.changeBackup = Player.CanChange;
+    // Player.CanChange = function () {
+    //     var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    //     return Player.changeBackup() && (!isActivated || /**/);
+    // }
     
     // Block new lovers
     let backupChatRoomLovershipOptionIs = ChatRoomLovershipOptionIs;

@@ -114,6 +114,9 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    *NEW*-preventdc
+    *NEW*-meterlocked
+    *NEW*-meteroff
     -guestnotes
     -readnotes
     -disablepunishments
