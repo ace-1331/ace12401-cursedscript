@@ -406,40 +406,39 @@ function SetNickname(parameters, sender, priority) {
     let userNumber;
     let nickname;
     [userNumber, nickname] = GetTargetParams(sender, parameters);
- 
-        if (nickname) {
-            nickname = nickname[0].toUpperCase() + nickname.slice(1);
-            let target = cursedConfig.charData.find(u => u.Number == userNumber);
-            if (target) {
-                if (target.NPriority <= priority || target.NPriority == 6) {
-                    if(!target.SavedName){
-                        target.SavedName = FetchName(target.Number);
-                    }
-                    target.Nickname = nickname;
-                    target.NPriority = priority;
+    if (nickname) {
+        nickname = nickname[0].toUpperCase() + nickname.slice(1);
+        let target = cursedConfig.charData.find(u => u.Number == userNumber);
+        if (target) {
+            if (target.NPriority <= priority || target.NPriority == 6) {
+                if (!target.SavedName) {
+                    target.SavedName = FetchName(target.Number);
                 }
-                else {
-                    sendWhisper(
-                        sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
-                    );
-                    return;
-                }
+                target.Nickname = nickname;
+                target.NPriority = priority;
             }
             else {
-                let name = userNumber ? FetchName(userNumber) : sender;
-                cursedConfig.charData.push(
-                    { Number: userNumber, Nickname: nickname, NPriority: priority, SavedName: name, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
+                sendWhisper(
+                    sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
                 );
+                return;
             }
-            sendWhisper(
-                sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
-            );
-
-        } else {
-            sendWhisper(
-                sender, "Requires a nickname.)", shouldSendSelf
+        }
+        else {
+            let name = userNumber ? FetchName(userNumber) : sender;
+            cursedConfig.charData.push(
+                { Number: userNumber, Nickname: nickname, NPriority: priority, SavedName: name, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
             );
         }
+        sendWhisper(
+            sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
+        );
+    }
+    else {
+        sendWhisper(
+            sender, "Requires a nickname.)", shouldSendSelf
+        );
+    }
 }
 
 /** Try to delete an existing nickname */
@@ -454,8 +453,8 @@ function DeleteNickname(parameters, sender, priority) {
             try {
                 ChatRoomCharacter.forEach(char => {
                     if (oldNickname.Number == char.MemberNumber) {
-                        char.Name = oldNickname.SavedName;
-                        cursedConfig.charData.RespectNickname = false;
+                        char.Name = oldNickname.SavedName ? oldNickname.SavedName : FetchName(userNumber);
+                        oldNickname.RespectNickname = false;
                     }
                 });
             } catch (e) { console.error(e, "failed to update a name") }
@@ -464,45 +463,51 @@ function DeleteNickname(parameters, sender, priority) {
             if (oldNickname.Titles.length == 0 && oldNickname.NPriority != 5) {
                 cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
             }
-            else{
+            else {
                 oldNickname.Nickname = undefined;
                 oldNickname.SavedName = undefined;
+            } if (priority != 6) {
+                sendWhisper(sender, "->Deleted nickname for " + FetchName(userNumber), shouldSendSelf);
             }
-                sendWhisper(sender, "-->Deleted nickname for " + FetchName(userNumber), shouldSendSelf);
-                
-                //Block changing if removed self
-                if (priority == 5) {
-                    if (oldNickname) {
-                        oldNickname.NPriority = 5;
-                        oldNickname.Nickname = undefined;
-                        oldNickname.SavedName = undefined;
-                    } else {
-                        cursedConfig.charData.push(
-                            { Number: sender, NPriority: 5, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
-                        );
-                    }
-                    sendWhisper(sender, "-->Blocked nickname for " + FetchName(userNumber), shouldSendSelf);
-                } else if (priority == 6) {
-                    if (oldNickname) {
-                        oldNickname.NPriority = 0;
-                    }
-                    sendWhisper(sender, "-->Allowed nickname for " + FetchName(userNumber), shouldSendSelf);
-                }
-            } else {
-                sendWhisper(
-                    sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
+        }
+        else {
+            sendWhisper(
+                sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
+            );
+            return;
+        }
+    }
+
+    if (sender == userNumber) {
+        //Block changing if removed self
+        if (priority == 5) {
+            if (oldNickname) {
+                oldNickname.NPriority = 5;
+                oldNickname.Nickname = undefined;
+                oldNickname.SavedName = undefined;
+                oldNickname.RespectNickname = false;
+            }
+            else {
+                cursedConfig.charData.push(
+                    { Number: sender, NPriority: 5, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
                 );
             }
-        } else {
-            sendWhisper(
-                sender, "(No nickname set for this character.)"
-            );
+            sendWhisper(sender, "-->Blocked nickname for " + FetchName(userNumber), shouldSendSelf);
+            return;
         }
-    //} else {
+        else if (priority == 6) {
+            if (oldNickname) {
+                oldNickname.NPriority = 0;
+            }
+            sendWhisper(sender, "-->Allowed nickname for " + FetchName(userNumber), shouldSendSelf);
+            return;
+        }
+    }     //Leftover, shouldn't be reached - no name/title, no nicknames nor blocked
+    //else {
     //    sendWhisper(
-    //        sender, "(Invalid arguments.)"
-    //    );
-    //}
+    //        sender, "(No nickname set for this character.)"
+    //        );
+    //    }
 }
 
 /** Tries to get the name of a member number */
