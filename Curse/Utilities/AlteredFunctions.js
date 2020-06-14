@@ -30,6 +30,11 @@ function InitAlteredFns() {
         }
         backupMainHallMaidReleasePlayer();
     }
+    let backupPhotographicPlayerRelease = PhotographicPlayerRelease;
+    PhotographicPlayerRelease = function () { 
+        if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) return;
+        backupPhotographicPlayerRelease();
+    }
 
     //Wearer tap in chat
     let backupChatRoomSendChat = ChatRoomSendChat;
@@ -97,6 +102,13 @@ function InitAlteredFns() {
         }
     }
 
+    // Orgasm Count
+    let activityOrgasmPrepareBackup = ActivityOrgasmPrepare;
+    ActivityOrgasmPrepare = function (C) {
+        if (!isNaN(C.MemberNumber) && C.MemberNumber == Player.MemberNumber) cursedConfig.orgasms++;
+        activityOrgasmPrepareBackup(C);
+    }
+    
     // Prevent leaving a room
     Player.walkBackup = Player.CanWalk;
     Player.CanWalk = function () {

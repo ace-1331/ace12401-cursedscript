@@ -101,6 +101,7 @@ function CursedStarter() {
                 slaveIdentifier: Player.Name,
                 commandChar: "#",
 
+                orgasms: 0,
                 strikes: 0,
                 lastPunishmentAmount: 0,
                 strikeStartTime: Date.now(),

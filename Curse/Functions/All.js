@@ -38,6 +38,9 @@ function AllCommands({
             } catch (e){ console.error("Curse: Error sending notes: RS65", e) }
             sendWhisper(sender, "(Note sent to owner(s).)");
             break;
+        case "orgasmcount":
+            sendWhisper(sender, `(Has had ${cursedConfig.orgasms} orgasm(s) since the last reset.)`);
+            break;
         default:
             // No command found
             return true;

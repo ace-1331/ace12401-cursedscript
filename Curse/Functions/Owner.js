@@ -79,6 +79,10 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
                 sendWhisper(sender, "(Wearer no longer has full sens dep settings locked.)", true);
             cursedConfig.hasForcedSensDep = !cursedConfig.hasForcedSensDep;
             break;
+        case "resetorgasmcount":
+            cursedConfig.orgasms = 0;
+            NotifyOwners(`(Orgasm counter reset.)`, true);
+            break;
         case "lockedmeter":
         case "meterlocked":
             if (!cursedConfig.hasIntenseVersion) {

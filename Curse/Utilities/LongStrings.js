@@ -52,6 +52,7 @@ function InitHelpMsg() {
     -asylumtimeleft
     -readnote
     -sendnote
+    *NEW*-orgasmcount
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
@@ -117,6 +118,7 @@ function InitHelpMsg() {
     *NEW*-preventdc
     *NEW*-meterlocked
     *NEW*-meteroff
+    *NEW*-resetorgasmcount
     -guestnotes
     -readnotes
     -disablepunishments
