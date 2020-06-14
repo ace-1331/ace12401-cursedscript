@@ -14,7 +14,7 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
             break;
         case "looseowner":
             if (!cursedConfig.isLooseOwner)
-                sendWhisper(sender, "(Curse owners are now allowed to use built-in club rules.)", true);
+                sendWhisper(sender, "(Curse owners are now allowed to use built-in club rules. WARNING: These official built-in club rules are not tied to the curse, this means disabling the curse will not disable club rules like confiscating remotes, locks, or blocking wardrobe changes)", true);
             else
                 sendWhisper(sender, "(Curse owners are no longer allowed to use built-in club rules.)", true);
             cursedConfig.isLooseOwner = !cursedConfig.isLooseOwner;

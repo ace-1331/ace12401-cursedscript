@@ -76,7 +76,9 @@ function CursedStarter() {
                 hasForcedMeterLocked: false,
                 hasForcedMeterOff: false,
                 hasDCPrevention: false,
-
+                cannotOrgasm: false,
+                forbidorgasm: false,
+                
                 owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 blacklist: [],
@@ -100,6 +102,7 @@ function CursedStarter() {
                 slaveIdentifier: Player.Name,
                 commandChar: "#",
 
+                orgasms: 0,
                 strikes: 0,
                 lastPunishmentAmount: 0,
                 strikeStartTime: Date.now(),
