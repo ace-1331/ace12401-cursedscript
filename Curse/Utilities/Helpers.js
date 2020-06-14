@@ -200,22 +200,15 @@ function cursedExport() {
 
 /** Add someone to the enforced list */
 function enforce(sender, priority, parameters) {
-    let shouldSendSelf = sender != Player.MemberNumber;
     let enforcee;
-    let defaults = ["miss", "mistress", "goddess", "owner"];
     let newTitle;
-
-    if (parameters && !isNaN(parameters[0]) && priority >= 2) {
-        enforcee = parseInt(parameters[0]);
-        parameters.shift();
-    }
-    else enforcee = sender;
+    [enforcee, newTitle] = GetTargetParams(sender, parameters);
+    
     let name = FetchName(enforcee);
+    let shouldSendSelf = sender != Player.MemberNumber;
+    let defaults = ["miss", "mistress", "goddess", "owner"];
 
-    if (parameters && parameters[0] && parameters[0] != "") {
-        newTitle = parameters.join(" ").replace(/[,]/g, ' ');
-    }
-    if (sender != enforcee && Sender != Player.Number && priority >= 2 || enforcee == sender || sender == Player.Number) {
+    if (sender != enforcee && sender != Player.Number && priority >= 2 || enforcee == sender || sender == Player.Number) {
         // Do we know the enforcee? may already have titles / nickname / be enforced
         let currentEnforcer = cursedConfig.charData.find(e => e.Number == enforcee);
         if (currentEnforcer) {
@@ -234,7 +227,7 @@ function enforce(sender, priority, parameters) {
                         let ind = cursedConfig.charData.indexOf(u => u.Number == currentEnforcer.Number);
                         cursedConfig.charData.splice(ind, 1);
                     }
-                    SendChat(FetchName(currentEnforcer.Number) + " no longer has enforcement protocols on " + Player.Name + (priority >= 2 ? " as requested by her mistress." : "."));
+                    SendChat(Player.Name + " no longer has enforcement protocols on " + name + (priority >= 2 ? " as requested by her mistress." : "."));
                     return;
                 }   //else not enough authority
                 else {
@@ -251,7 +244,7 @@ function enforce(sender, priority, parameters) {
             }
             currentEnforcer.isEnforced = true;
             TryPopTip(34);
-            SendChat(Player.Name + " now has enforcement protocols on " + FetchName(currentEnforcerNumber) + (priority >= 2 ? " as requested by her mistress." : "."));
+            SendChat(Player.Name + " now has enforcement protocols on " + name + (priority >= 2 ? " as requested by her mistress." : "."));
             return;
         }    // Don't know enforcee, add her in
         else if (!currentEnforcer) {
@@ -270,17 +263,15 @@ function enforce(sender, priority, parameters) {
 
 function toggleTitle(sender, priority, parameters) {
     let shouldSendSelf = sender != Player.MemberNumber;
-    let enforcee = (!isNaN(parameters[0]) ? parseInt(parameters.shift()) : sender);
+    let enforcee; 
     let newTitle;
-    let titlee = cursedConfig.charData.find(e => e.Number == enforcee);
-
-    if (parameters[0] && parameters[0] != "") {
-        newTitle = parameters.join(" ").replace(/[,]/g, ' ');
-    }
-    else {
+    [enforcee, newTitle] = GetTargetParams(sender,parameters)
+    if (!newTitle) {
         sendWhisper(sender, "Please provide a title to add or remove.");
         return;
     }
+    let titlee = cursedConfig.charData.find(e => e.Number == enforcee);
+
     if (sender != enforcee && priority >= 2 || enforcee == sender) {
         // Do we know her > check for title ? add : remove
         if (titlee) {
@@ -323,26 +314,31 @@ function forceNickname(sender, parameters) {
     let shouldSendSelf = sender != Player.MemberNumber;
     let target = (!isNaN(parameters[0]) ? parseInt(parameters[0]) : sender);
     let respected = cursedConfig.charData.find(e => e.Number == target);
-    if (cursedConfig.hasIntenseVersion) {
-        if (respected && respected.Nickname && respected.Nickname != respected.SavedName) {
-            if (!respected.RespectNickname) {
-                respected.isEnforced = true;
-                respected.RespectNickname = true;
-                sendWhisper(sender, "From now on " + Player.Name + " must respect " + respected.Nickname + " by her nickname", shouldSendSelf);
-            } else {
-                respected.RespectNickname = false;
-                if (respected.Titles.length > 0 && respected.Titles[0] != "") {
-                    sendWhisper(sender, Player.Name + " no longer needs to call " + FetchName(sender) + " by her nickname and regular protocols have now resumed.", shouldSendSelf);
-                } else {
-                    respected.isEnforced = false;
-                    sendWhisper(sender, Player.Name + " no longer needs to respect " + FetchName(sender) + " by her nickname.", shouldSendSelf);
-                }
-            }
-        } else {
-            sendWhisper(sender, FetchName(sender) + " does not have a nickname set yet.");
+
+    if (!cursedConfig.hasIntenseVersion){
+        sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
+        return;
+    }
+    if (respected && respected.Nickname && respected.Nickname != respected.SavedName) {
+        if (!respected.RespectNickname) {
+            respected.isEnforced = true;
+            respected.RespectNickname = true;
+            sendWhisper(sender, "From now on " + Player.Name + " must respect " + respected.Nickname + " by her nickname", shouldSendSelf);
         }
-    } else {
-        sendWhisper(sender, Player.Name + " does not have intense version enabled.");
+        else{
+            respected.RespectNickname = false;
+
+            if (respected.Titles.length > 0 && respected.Titles[0] != "") {
+                sendWhisper(sender, Player.Name + " no longer needs to call " + FetchName(target) + " by her nickname and regular protocols have now resumed.", shouldSendSelf);
+            }
+            else{
+                respected.isEnforced = false;
+                sendWhisper(sender, Player.Name + " no longer needs to respect " + FetchName(target) + " by her nickname.", shouldSendSelf);
+            }
+        }
+    }
+    else{
+        sendWhisper(sender, FetchName(target) + " does not have a nickname set yet.");
     }
 }
 
@@ -407,11 +403,10 @@ function SetNickname(parameters, sender, priority) {
         sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
         return;
     }
-    if (!isNaN(parameters[0]) && parameters[0] != "") {
-        let userNumber = parseInt(parameters[0]);
-        parameters.shift();
-        let nickname = parameters.join(" ").replace(/[,]/g, ' ') || "";
-
+    let userNumber;
+    let nickname;
+    [userNumber, nickname] = GetTargetParams(sender, parameters);
+ 
         if (nickname) {
             nickname = nickname[0].toUpperCase() + nickname.slice(1);
             let target = cursedConfig.charData.find(u => u.Number == userNumber);
@@ -445,39 +440,34 @@ function SetNickname(parameters, sender, priority) {
                 sender, "Requires a nickname.)", shouldSendSelf
             );
         }
-    } else {
-        sendWhisper(
-            sender, "(Invalid arguments.)", shouldSendSelf
-        );
-    }
 }
 
 /** Try to delete an existing nickname */
 function DeleteNickname(parameters, sender, priority) {
     let shouldSendSelf = sender != Player.MemberNumber;
-    if (!isNaN(parameters[0]) && parameters[0] != "") {
-        let userNumber = parseInt(parameters[0]);
-        parameters.shift();
-        let oldNickname = cursedConfig.charData.find(u => u.Number == userNumber);
-        if (oldNickname) {
-            if (oldNickname.NPriority <= priority || oldNickname.Number == sender) {
-                //Restores name
-                try {
-                    ChatRoomCharacter.forEach(char => {
-                        if (oldNickname.Number == char.MemberNumber) {
-                            char.Name = oldNickname.SavedName;
-                            cursedConfig.charData.RespectNickname = false;
-                        }
-                    });
-                } catch (e) { console.error(e, "failed to update a name") }
+    let userNumber = (!isNaN(parameters[0]) && parameters[0] != "") ? parseInt(parameters[0]) : sender;
+    let oldNickname = cursedConfig.charData.find(u => u.Number == userNumber);
 
-                //Delete nickname
-                if (oldNickname.Titles.length == 0 && oldNickname.NPriority != 5) {
-                    cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
-                } else {
-                    oldNickname.Nickname = undefined;
-                    oldNickname.SavedName = undefined;
-                }
+    if (oldNickname) {
+        if (oldNickname.NPriority <= priority || oldNickname.Number == sender) {
+            //Restores name
+            try {
+                ChatRoomCharacter.forEach(char => {
+                    if (oldNickname.Number == char.MemberNumber) {
+                        char.Name = oldNickname.SavedName;
+                        cursedConfig.charData.RespectNickname = false;
+                    }
+                });
+            } catch (e) { console.error(e, "failed to update a name") }
+
+            //Delete nickname
+            if (oldNickname.Titles.length == 0 && oldNickname.NPriority != 5) {
+                cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
+            }
+            else{
+                oldNickname.Nickname = undefined;
+                oldNickname.SavedName = undefined;
+            }
                 sendWhisper(sender, "-->Deleted nickname for " + FetchName(userNumber), shouldSendSelf);
                 
                 //Block changing if removed self
@@ -508,11 +498,11 @@ function DeleteNickname(parameters, sender, priority) {
                 sender, "(No nickname set for this character.)"
             );
         }
-    } else {
-        sendWhisper(
-            sender, "(Invalid arguments.)"
-        );
-    }
+    //} else {
+    //    sendWhisper(
+    //        sender, "(Invalid arguments.)"
+    //    );
+    //}
 }
 
 /** Tries to get the name of a member number */
@@ -732,4 +722,20 @@ function SendToRoom(name) {
     ChatCreateBackgroundList = CommonBackgroundList.slice();
     ChatRoomPlayerCanJoin = true;
     ServerSend("ChatRoomJoin", { Name: name });
+}
+
+function GetTargetParams(sender, parameters) {
+    let target;
+    let paramString;
+
+    if (parameters && !isNaN(parameters[0])) {
+        target = parseInt(parameters[0]);
+        parameters.shift();
+    }
+    else target = sender;
+    
+    if (parameters && parameters[0] && parameters[0] != "") {
+        paramString = parameters.join(" ").replace(/[,]/g, ' ');
+    }
+    return [target, paramString];
 }
