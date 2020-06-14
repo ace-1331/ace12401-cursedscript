@@ -102,17 +102,39 @@ function InitAlteredFns() {
         }
     }
 
-    // Orgasm Count
+    // Orgasm Block, count and punish
     let activityOrgasmPrepareBackup = ActivityOrgasmPrepare;
     ActivityOrgasmPrepare = function (C) {
-        if (!isNaN(C.MemberNumber) && C.MemberNumber == Player.MemberNumber) cursedConfig.orgasms++;
+        let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
+        if (C.ID == 0 && isActivated) {
+            if (cursedConfig.cannotOrgasm) { 
+                C.ArousalSettings.Progress = 90;
+                return;
+            }
+        }
         activityOrgasmPrepareBackup(C);
     }
+    
+    
+    let backupActivityOrgasmStart = ActivityOrgasmStart;
+    ActivityOrgasmStart = function (C) {
+        let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
+        if (C.ID == 0 && isActivated) {
+            cursedConfig.orgasms++;
+            if (cursedConfig.shouldntOrgasm) { 
+                cursedConfig.strikes += 15;
+                SendChat("The curse on " + Player.Name + " punishes her for orgasming when her owner forbade her.");
+            }
+        }
+        backupActivityOrgasmStart(C);
+    }
+    
+    
     
     // Prevent leaving a room
     Player.walkBackup = Player.CanWalk;
     Player.CanWalk = function () {
-        var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
+        let isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
         return Player.walkBackup() && (!isActivated || cursedConfig.capture.Valid < Date.now());
     }
     

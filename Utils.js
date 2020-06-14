@@ -76,7 +76,9 @@ function CursedStarter() {
                 hasForcedMeterLocked: false,
                 hasForcedMeterOff: false,
                 hasDCPrevention: false,
-
+                cannotOrgasm: false,
+                forbidorgasm: false,
+                
                 owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
                 enforced: [],

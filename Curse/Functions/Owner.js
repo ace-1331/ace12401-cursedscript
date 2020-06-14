@@ -2,6 +2,26 @@
 function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
     const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
     switch (command) {
+        case "blockcum":
+        case "blockcumming":
+        case "blockorgasm":
+        case "blockorgasms":
+            if (!cursedConfig.cannotOrgasm)
+                SendChat("The curse will now prevent " + Player.Name + " from having orgasms.");
+            else
+                SendChat("The curse will no longer  prevent " + Player.Name + " from having orgasms.");
+            cursedConfig.cannotOrgasm = !cursedConfig.cannotOrgasm;
+            break;
+        case "forbidorgasm":
+        case "forbidcum":
+        case "forbidcumming":
+        case "forbidorgasms":
+            if (!cursedConfig.shouldntOrgasm)
+                SendChat("The curse will punish " + Player.Name + " for having orgasms.");
+            else
+                SendChat("The curse will no longer punish " + Player.Name + " for having orgasms.");
+            cursedConfig.shouldntOrgasm = !cursedConfig.shouldntOrgasm;
+            break;
         case "clearcurse":
         case "clearcurses":
             if (cursedConfig.hasRestraintVanish) {

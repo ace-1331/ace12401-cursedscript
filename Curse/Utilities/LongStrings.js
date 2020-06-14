@@ -156,6 +156,8 @@ function InitHelpMsg() {
     INTENSE V: -sound ["oink", "meow", ...]
 
     >>>Curses<<<
+    *NEW*-forbidorgasm
+    *NEW*-blockorgasm
     -belt
     -clearcurses
     -reminders
