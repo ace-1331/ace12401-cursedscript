@@ -57,7 +57,7 @@ function InitHelpMsg() {
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
-     *NEW* INTENSE V: -respectnickname
+    *NEW* INTENSE V: -respectnickname
     INTENSE V:-capture
 
     //MISTRESS FUNCTIONS//
@@ -71,7 +71,7 @@ function InitHelpMsg() {
     -mistress [a member number]
     -public
     -deactivateonpresence
-    *DEPRECATED*-savecolors
+    -savecolors
     INTENSE V:-mnickname [Number] [Name]
     INTENSE V:-deletenickname [Number]
     *NEW* INTENSE V:-respectnickname [a member number]
@@ -170,12 +170,12 @@ function InitHelpMsg() {
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
-    ctitle-[Number] [Title]
+    *NEW*ctitle-[Number] [Title]
     *NEW*-looseowner
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -locknewlover
     *NEW*INTENSE VERSION: -locknewsub
-    *NEW*INTENSE VERSION: -onickname [Number] [Name]
+    INTENSE VERSION: -onickname [Number] [Name]
 
     ---------
     More on various features:

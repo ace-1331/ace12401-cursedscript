@@ -57,14 +57,13 @@ function SelfMessageCheck(msg) {
             cursedConfig.strikes += 5;
             return true;
         }
-        return false;
     }
 
     //Speech Restrictions
     //Reinforcement
     cursedConfig.charData.forEach(member => {
-        if (member.isEnforced && ChatRoomCharacter.map(el => el.MemberNumber.toString()).includes(member.Number)) {
-            let Name = member.SavedName ? member.SavedName : FetchName(member.Number); //make this array to force not nickname
+        if (member.isEnforced && ChatRoomCharacter.map(el => el.MemberNumber).includes(member.Number)) {
+            let Name = member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase(); 
             let requiredName = member.RespectNickname && member.Nickname ? [member.Nickname.toLowerCase()] : member.Titles.map(el => el + " " + (member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase()));
             let matches = [...msg
                 .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", 'g'))
