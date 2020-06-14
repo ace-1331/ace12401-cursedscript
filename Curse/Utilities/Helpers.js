@@ -230,7 +230,7 @@ function enforce(sender, priority, parameters) {
                     if (currentEnforcer.SavedName) {
                         currentEnforcer.RespectNickname = false;
                     }
-                    else{
+                    else if(currentEnforcer.NPriority != 5){
                         let ind = cursedConfig.charData.indexOf(u => u.Number == currentEnforcer.Number);
                         cursedConfig.charData.splice(ind, 1);
                     }
@@ -287,13 +287,14 @@ function toggleTitle(sender, priority, parameters) {
             if (titlee.Titles.includes(newTitle)) {
                 if (priority >= titlee.TPriority) {
                     titlee.Titles = titlee.Titles.filter(t => t != newTitle);
-                    if (titlee.Titles.length == 0)
+                    if (titlee.Titles.length == 0 && !titlee.RespectNickname){
                         titlee.isEnforced = false;
-                    if (titlee.Nickname == titlee.SavedName) {
-                        let ind = cursedConfig.charData.indexOf(u => u.Number == enforcee);
-                        cursedConfig.charData.splice(ind, 1);
+                        if (titlee.NPriority !=5) {
+                            let ind = cursedConfig.charData.indexOf(u => u.Number == enforcee);
+                            cursedConfig.charData.splice(ind, 1);
+                        }
+                        sendWhisper(sender, cursedConfig.slaveIdentifier + " no longer has the title " + newTitle + "."), shouldSendSelf;
                     }
-                    sendWhisper(sender, cursedConfig.slaveIdentifier + " no longer has the title " + newTitle + "."), shouldSendSelf;
                 }
                 else {
                     //no auth
@@ -471,7 +472,7 @@ function DeleteNickname(parameters, sender, priority) {
                 } catch (e) { console.error(e, "failed to update a name") }
 
                 //Delete nickname
-                if (oldNickname.Titles.length == 0) {
+                if (oldNickname.Titles.length == 0 && oldNickname.NPriority != 5) {
                     cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
                 } else {
                     oldNickname.Nickname = undefined;
