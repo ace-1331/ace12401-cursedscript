@@ -1,8 +1,8 @@
 //************************************ LONG STRINGS ************************************//
 /** Initializes all the long strings needed to split them from the rest of the code */
 function InitHelpMsg() {
-    window.helpTxt = `<pre>Your calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
-    ${ChatRoomCharacter.map(el => {return { Name: el.Name, isCursed: el.isCursed }}).filter(n => n.Name == cursedConfig.slaveIdentifier && n.isCursed).length > 1
+  window.helpTxt = `<pre>Your calling ID: ${cursedConfig.commandChar + cursedConfig.slaveIdentifier}
+    ${ChatRoomCharacter.map(el => {return { Name: el.Name, isCursed: el.isCursed };}).filter(n => n.Name == cursedConfig.slaveIdentifier && n.isCursed).length > 1
     ? "WARNING: Potential clash with another character!" : ""}
 
     //WEARER FUNCTIONS//

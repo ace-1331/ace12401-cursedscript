@@ -7,7 +7,7 @@ let isLoaded;
 
 try {
     AlwaysOn = localStorage.getItem("bc-cursed-always-on");
-} catch { }
+} catch (err) { console.log(err) }
 
 LoginListener();
 
@@ -25,7 +25,7 @@ async function LoginListener() {
                 CursedStarter();
                 TryPopTip(31);
             }
-        } catch { };
+        } catch (err) { console.log(err); };
         await new Promise(r => setTimeout(r, 2000));
     }
 }

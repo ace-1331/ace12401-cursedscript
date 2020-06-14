@@ -1,0 +1,19 @@
+{
+  "name": "sass-ace12401",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Utils.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ace-1331/ace12401-cursedscript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ace-1331/ace12401-cursedscript/issues"
+  },
+  "homepage": "https://github.com/ace-1331/ace12401-cursedscript#readme"
+}

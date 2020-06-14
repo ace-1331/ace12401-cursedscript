@@ -6,7 +6,7 @@ function SaveConfigs() {
         const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
         toDelete.forEach(prop => delete dbConfigs[prop]);
         localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
-    } catch { }
+    } catch (err) { console.log(err) }
 }
 
 /** Sends a message to all owners/mistresses in a room */
@@ -526,7 +526,7 @@ function SaveColors() {
     try {
         Player.Appearance.forEach(item => SaveColorSlot(item.Asset.Group.Name));
         popChatSilent("Your current colors in each item slot has been saved.")
-    } catch { popChatSilent("An error occured while trying to save your colors. Error: SC07", "Error") }
+    } catch (err) { popChatSilent("An error occured while trying to save your colors. Error: SC07", "Error") }
 }
 
 function SaveColorSlot(group) {
