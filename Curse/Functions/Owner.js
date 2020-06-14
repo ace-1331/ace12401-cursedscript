@@ -230,7 +230,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
     case "asylum":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time
-        var timeToAdd = 3600000 * parameters[0];
+        let timeToAdd = 3600000 * parameters[0];
         if (timeToAdd > 1000000000000000000000000000000000000) {
           timeToAdd = 999588479404333;
         }
@@ -284,7 +284,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
                 && !cursedConfig.hasSound
       ) {
         //Forces as a global msg, bypass expected "say" and bypass blockchat
-        var oldBlockConfig = cursedConfig.hasFullMuteChat;
+        let oldBlockConfig = cursedConfig.hasFullMuteChat;
         cursedConfig.hasFullMuteChat = false;
 
         popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true).replace(new RegExp("^(" + commandCall + ")", "g"), "");//stop commands
@@ -361,7 +361,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
     case "owner":
       if (parameters[0] && !isNaN(parameters[0])) {
         //Cannot remove real owner
-        var realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
+        let realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
         if (!cursedConfig.owners.includes(parameters[0])) {
           cursedConfig.owners.push(parameters[0]);
           SendChat(
@@ -381,7 +381,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
     case "interval":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time
-        var seconds = Math.round(parameters[0]);
+        let seconds = Math.round(parameters[0]);
         cursedConfig.reminderInterval = 1000 * (seconds >= 60 ? seconds : 60);
         sendWhisper(sender, "Reminders will now be every " + (cursedConfig.reminderInterval / 1000) + " seconds.");
       } else {

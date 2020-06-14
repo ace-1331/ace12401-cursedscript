@@ -3,7 +3,7 @@
  * IMPORTANT: Returns true if character needs refresh when using something else than an activator 
  */
 function AppearanceCheck() {
-  var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+  let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && (
           (cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere)
             || !cursedConfig.enabledOnMistress

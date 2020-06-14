@@ -4,7 +4,7 @@ function InitAlteredFns() {
 
   // Sends a message to the server. (Chatblock)
   ServerSend = function (Message, Data) {
-    var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+    let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP";
     if (Message == "ChatRoomChat" && Data.Type == "Chat" && cursedConfig.hasIntenseVersion && cursedConfig.hasFullMuteChat && isActivated) return;
     ServerSocket.emit(Message, Data);
@@ -39,15 +39,15 @@ function InitAlteredFns() {
   //Wearer tap in chat
   let backupChatRoomSendChat = ChatRoomSendChat;
   ChatRoomSendChat = () => {
-    var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+    let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP";
 
-    var msg = ElementValue("InputChat").trim();
-    var m = msg.toLowerCase().trim();
-    var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
-    var isCommand = m.split("(")[0].indexOf(commandCall) != -1;
+    let msg = ElementValue("InputChat").trim();
+    let m = msg.toLowerCase().trim();
+    let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
+    let isCommand = m.split("(")[0].indexOf(commandCall) != -1;
     if (m != "" && m.indexOf("/") != 0 && (isActivated || isCommand)) {
-      var shouldReturn = SelfMessageCheck(m);
+      let shouldReturn = SelfMessageCheck(m);
       if ((shouldReturn && !cursedConfig.isClassic) || isCommand) {
         document.getElementById("InputChat").value = "";
         return;
@@ -59,7 +59,7 @@ function InitAlteredFns() {
   //Anti AFK
   let backupAfk = AfkTimerSetIsAfk;
   AfkTimerSetIsAfk = () => {
-    var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+    let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
             && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP";
     if (isActivated && cursedConfig.hasAntiAFK) {
       NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
@@ -76,7 +76,7 @@ function InitAlteredFns() {
   // Leashing
   let backupServerAccountBeep = ServerAccountBeep;
   ServerAccountBeep = function (data) {
-    var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.canLeash;
+    let isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.canLeash;
     TryPopTip(37);
 
     backupServerAccountBeep(data);
@@ -177,25 +177,25 @@ function InitAlteredFns() {
   ChatRoomDrawCharacter = function (DoClick) {
     backupChatRoomDrawCharacter(DoClick);
     // Sets the X position
-    var X = 0;
-    var Space = 500;
+    let X = 0;
+    let Space = 500;
     if (ChatRoomCharacter.length == 3) Space = 333;
     if (ChatRoomCharacter.length == 4) Space = 250;
     if (ChatRoomCharacter.length >= 5) Space = 200;
     if (ChatRoomCharacter.length >= 3) X = (Space / -5);
 
     // Sets the Y position
-    var Y = 0;
+    let Y = 0;
     if (ChatRoomCharacter.length == 3) Y = 50;
     if (ChatRoomCharacter.length == 4) Y = 150;
     if (ChatRoomCharacter.length == 5) Y = 250;
 
     // Sets the zoom factor
-    var Zoom = 1;
+    let Zoom = 1;
     if (ChatRoomCharacter.length == 3) Zoom = 0.9;
     if (ChatRoomCharacter.length == 4) Zoom = 0.7;
     if (ChatRoomCharacter.length >= 5) Zoom = 0.5;
-    for (var C = 0; C < ChatRoomCharacter.length; C++) {
+    for (let C = 0; C < ChatRoomCharacter.length; C++) {
       if (!DoClick && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
         if (
           ChatRoomCharacter[C].MemberNumber != null

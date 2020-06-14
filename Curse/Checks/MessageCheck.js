@@ -2,17 +2,17 @@
 /** Function to analyze a chatroom message and parse commands or apply certain rules to it */
 function AnalyzeMessage(msg) {
   // Parse needed data
-  var originalContent = msg.textContent.split("(")[0].trim();
-  var textmsg = originalContent.toLowerCase();
-  var types = msg.classList;
-  var sender = msg.getAttribute("data-sender");
-  var chatroomMembers = ChatRoomCharacter.map(el => el.MemberNumber.toString());
-  var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
-  var isMistress = cursedConfig.mistresses.includes(sender.toString());
-  var isClubOwner = Player.Owner && Player.Ownership && (Player.Ownership.MemberNumber == sender);
-  var isOwner = cursedConfig.owners.includes(sender.toString()) || isClubOwner;
-  var isOnEntry = types.contains("ChatMessageEnterLeave") && sender == Player.MemberNumber;
-  var isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
+  let originalContent = msg.textContent.split("(")[0].trim();
+  let textmsg = originalContent.toLowerCase();
+  let types = msg.classList;
+  let sender = msg.getAttribute("data-sender");
+  let chatroomMembers = ChatRoomCharacter.map(el => el.MemberNumber.toString());
+  let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
+  let isMistress = cursedConfig.mistresses.includes(sender.toString());
+  let isClubOwner = Player.Owner && Player.Ownership && (Player.Ownership.MemberNumber == sender);
+  let isOwner = cursedConfig.owners.includes(sender.toString()) || isClubOwner;
+  let isOnEntry = types.contains("ChatMessageEnterLeave") && sender == Player.MemberNumber;
+  let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress);
 
   //Ignores special types for compatibility or LARP
@@ -73,10 +73,10 @@ function AnalyzeMessage(msg) {
         && Player.BlackList.filter( u => u == sender).length == 0
   ) {
     // Parses the command
-    var command;
-    var parameters;
+    let command;
+    let parameters;
     try {
-      var commandString = textmsg.split(commandCall)[1];
+      let commandString = textmsg.split(commandCall)[1];
       command = commandString.split(" ")[0];
       parameters = commandString.split(" ");
       parameters.shift();//THROWS HERE IF COMMAND IS BAD
@@ -93,7 +93,7 @@ function AnalyzeMessage(msg) {
         return;
       }
 
-      var needWarning = true;
+      let needWarning = true;
             
       /* Will not cascade if a command was already found */
             

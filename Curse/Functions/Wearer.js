@@ -94,7 +94,7 @@ function WearerCommands({ command, parameters, sender }) {
       }
       if (parameters[0] && !isNaN(parameters[0])) {
       //Cannot remove real owner
-        var realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
+        let realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
         if (!cursedConfig.owners.includes(parameters[0])) {
           cursedConfig.owners.push(parameters[0]);
           SendChat(
@@ -158,8 +158,7 @@ function WearerCommands({ command, parameters, sender }) {
       if (["!", "@", "#", "$"].includes(parameters[0])) {
         cursedConfig.commandChar = parameters[0];
         popChatSilent("Your command character was changed to: " + parameters[0]);
-      }
-      else
+      } else
         popChatSilent("Invalid command character: " + parameters.join(" "));
       break;
     case "punishmentcolor":

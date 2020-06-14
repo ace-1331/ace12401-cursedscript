@@ -9,9 +9,9 @@ function SelfMessageCheck(msg) {
   if (msg == "") return false;
 
   //Parse Commands
-  var commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
+  let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
   if (msg.indexOf(commandCall) != -1) {
-    var commandString = msg.split(commandCall)[1];
+    let commandString = msg.split(commandCall)[1];
     command = commandString.split(" ")[0];
     parameters = commandString.split(" ");
     if (parameters.length > 0) {

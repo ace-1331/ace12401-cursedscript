@@ -57,7 +57,7 @@ async function CursedCheckUp() {
           AnalyzeMessage(msg);
 
           // Marks message as verified
-          var verifiedAtt = document.createAttribute("verified");
+          let verifiedAtt = document.createAttribute("verified");
           verifiedAtt.value = "true";
           msg.setAttributeNode(verifiedAtt);
         });
@@ -154,7 +154,7 @@ async function ReminderProcess() {
   }
   if (cursedConfig.isRunning && cursedConfig.reminders.length > 0 && CurrentScreen == "ChatRoom" && ChatRoomSpace != "LARP") {
     TryPopTip(30);
-    var reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
+    let reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
     popChatSilent(reminder, "Reminder");
   }
   cursedConfig.reminderInterval < 60000 ? cursedConfig.reminderInterval = 60000 : "";

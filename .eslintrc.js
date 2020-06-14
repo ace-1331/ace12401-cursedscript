@@ -12,9 +12,11 @@ module.exports = {
         "ecmaVersion": 2018
     },
     "rules": {
+        "no-var": "error",
         "no-case-declarations": "off",
         "no-unused-vars": "off",
         "no-undef": "off",
+        "brace-style": ["error", "1tbs", {"allowSingleLine": true}],
         "indent": [
             "warn",
             2,

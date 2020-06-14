@@ -1,7 +1,7 @@
 "use strict";
-var CurseRoomBackground = "Boudoir";
-var CurseRoomAce = null;
-var CurseRoomHasCurse = typeof cursedConfig != "undefined";
+let CurseRoomBackground = "Boudoir";
+let CurseRoomAce = null;
+let CurseRoomHasCurse = typeof cursedConfig != "undefined";
 // Returns TRUE if the dialog situation is allowed
 
 

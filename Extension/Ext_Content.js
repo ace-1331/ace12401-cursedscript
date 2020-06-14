@@ -2,7 +2,7 @@
 window.addEventListener("load", e => {
 
   function AddScript(scriptFileName) {
-    var script = document.createElement("script");
+    let script = document.createElement("script");
     script.src = chrome.runtime.getURL(scriptFileName);
     return document.head.appendChild(script);
   }

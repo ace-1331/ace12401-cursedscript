@@ -191,7 +191,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "changestrikes":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
-        var strikesToAdd = parseInt(parameters[0]);
+        let strikesToAdd = parseInt(parameters[0]);
         if (strikesToAdd != 0) {
           cursedConfig.strikes += strikesToAdd;
           sendWhisper(sender, `${Player.Name} has had ${Math.abs(strikesToAdd)} strikes ${strikesToAdd > 0 ? "added to" : "subtracted from"} her strike counter.`, true);
