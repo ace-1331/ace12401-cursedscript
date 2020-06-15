@@ -170,7 +170,7 @@ function InitHelpMsg() {
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
-    *NEW*ctitle-[Number] [Title]
+    *NEW*-ctitle [Number] [Title]
     *NEW*-looseowner
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -locknewlover

@@ -1,11 +1,10 @@
 "use strict";
-let CurseRoomBackground = "Boudoir";
-let CurseRoomAce = null;
-let CurseRoomHasCurse = typeof cursedConfig != "undefined";
-// Returns TRUE if the dialog situation is allowed
+/* eslint-disable no-var */
+var CurseRoomBackground = "Boudoir";
+var CurseRoomAce = null;
+var CurseRoomHasCurse = typeof cursedConfig != "undefined";
 
-
-// Loads the club curse room, creates the two slaves
+// Loads the club curse room
 function CurseRoomLoad() {
   CurseRoomBackground = "Boudoir";
   CharacterReset("NPC_Ace", "Female3DCG");
@@ -41,8 +40,8 @@ function CurseRoomLoad() {
   InventoryWear(CurseRoomAce, "HairFront14", "HairFront", "#c0a4ff");
   InventoryWear(CurseRoomAce, "BunnyEars2", "HairAccessory1", "#2D0E3E");
   InventoryWear(CurseRoomAce, "Band1", "Hat", "#fff7df");
-  InventoryLock(Player, "ItemPelvis", "OwnerPadlock", 151);
-  InventoryLock(Player, "ItemBreast", "OwnerPadlock", 151);
+  InventoryLock(CurseRoomAce, "ItemPelvis", "OwnerPadlock", 151);
+  InventoryLock(CurseRoomAce, "ItemBreast", "OwnerPadlock", 151);
   CurseRoomAce.Dialog.push({ Stage: "0", Result: "Welcome to my bunny hole. I see you've found some of my magic." });
   CurseRoomAce.Dialog.push({ Stage: "0", NextStage: "10", Option: "I have found a problem and would like to reset my curse.", Result: "(She stares at you suspiciously.) Are you sure? Resetting is permanent.", Prerequisite: "HasCurse" });
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "I have something I would like to say about the curse.", Result: "I'd love to hear your thoughts, send me a message on discord. Ace___#5558 (She smiles.)" });
@@ -55,16 +54,16 @@ function CurseRoomLoad() {
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "Sorry Miss Ace, I have to go.  (Leave her.)", Function: "DialogLeave()" });
   CurseRoomAce.Dialog.push({ Stage: "10", NextStage: "0", Option: "I have changed my mind.", Result: "(She looks pleased.)" });
   CurseRoomAce.Dialog.push({ Stage: "10", NextStage: "0", Option: "Yes, I want to reset my curse.", Result: "(She looks worried, yet angry as she sets you free.) Alright darling, but I am not responsible for anything if you anger your owner(s).", Function: "CursedReset()" });
-  CurseRoomAce.Dialog.push({Stage: "20", Option: "May I keep those colors, miss?", Result: "Of course, your items will reappear with those colors from now on. (She touches your shoulder and something happens.)", Function: "Colors()"});
-  CurseRoomAce.Dialog.push({Stage: "20", Option: "Do you have more in store, miss?", Result: "(Her eyes glow purple as she answers.) Of course, I have made the curse on you more powerful.", Prerequisite: "!HasIntense()", Function: "IntenseOn()"});
-  CurseRoomAce.Dialog.push({Stage: "20", Option: "Things have been too intense, miss. May I go back to normal mode?", Result: "Of course, I have toned down your curse.", Prerequisite: "HasIntense()", Function: "IntenseOff()"});
+  CurseRoomAce.Dialog.push({ Stage: "20", Option: "May I keep those colors, miss?", Result: "Of course, your items will reappear with those colors from now on. (She touches your shoulder and something happens.)", Function: "Colors()" });
+  CurseRoomAce.Dialog.push({ Stage: "20", Option: "Do you have more in store, miss?", Result: "(Her eyes glow purple as she answers.) Of course, I have made the curse on you more powerful.", Prerequisite: "!HasIntense()", Function: "IntenseOn()" });
+  CurseRoomAce.Dialog.push({ Stage: "20", Option: "Things have been too intense, miss. May I go back to normal mode?", Result: "Of course, I have toned down your curse.", Prerequisite: "HasIntense()", Function: "IntenseOff()" });
   CurseRoomAce.Dialog.push({ Stage: "20", Option: "I'm good for now, miss.", NextStage: "0", Result: "(She nods and wonders if this will get you in trouble.)" });
-    
-  CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her to alter your speech.)", Result: "(Her eyes glow purple.) I am surprised you dared to go this far. You are only able to meow from now on.", Prerequisite: "HasIntense()", Function: "TryMeow()"});
-  CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her for some strange mittens.)", Result: "(Her eyes glow purple as she puts mittens on you.) Alright dear. Don't try to take them off", Function: "TryMittens()"});
-  CurseRoomAce.Dialog.push({Stage: "30", Option: "(Ask her to restrict your speech.)", Result: "(Her eyes glow purple.) My favorite! You can no longer speak in first person.", Function: "TryPerson()"});
+
+  CurseRoomAce.Dialog.push({ Stage: "30", Option: "(Ask her to alter your speech.)", Result: "(Her eyes glow purple.) I am surprised you dared to go this far. You are only able to meow from now on.", Prerequisite: "HasIntense()", Function: "TryMeow()" });
+  CurseRoomAce.Dialog.push({ Stage: "30", Option: "(Ask her for some strange mittens.)", Result: "(Her eyes glow purple as she puts mittens on you.) Alright dear. Don't try to take them off", Function: "TryMittens()" });
+  CurseRoomAce.Dialog.push({ Stage: "30", Option: "(Ask her to restrict your speech.)", Result: "(Her eyes glow purple.) My favorite! You can no longer speak in first person.", Function: "TryPerson()" });
   CurseRoomAce.Dialog.push({ Stage: "30", Option: "I've changed my mind, miss.", NextStage: "0", Result: "(She nods and looks disappointed she could not toy with you.)" });
-  //third person, cursed mittens, if intense have it be a meow
+
   if (Player.CanKneel()) CharacterSetActivePose(Player, "Kneel");
 }
 
@@ -123,7 +122,7 @@ function CurseRoomHasIntense() {
 function CurseRoomTryMittens() {
   cursedConfig.hasCursedMittens = true;
   cursedConfig.genericProcs = [];
-  toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", dateOfRemoval: Date.now() + 86400000});
+  toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", dateOfRemoval: Date.now() + 86400000 });
   SaveConfigs();
 }
 
