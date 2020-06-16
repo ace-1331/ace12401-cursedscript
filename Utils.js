@@ -14,7 +14,7 @@ LoginListener();
 async function LoginListener() {
   while (!isLoaded) {
     try {
-      while (window.CurrentScreen == "Login") {
+      while (window.CurrentScreen == "Login" && !isLoaded) {
         await new Promise(r => setTimeout(r, 2000));
       }
       isLoaded = true;
