@@ -14,7 +14,7 @@ LoginListener();
 async function LoginListener() {
   while (!isLoaded) {
     try {
-      while (CurrentScreen == "Login") {
+      while (window.CurrentScreen == "Login") {
         await new Promise(r => setTimeout(r, 2000));
       }
       isLoaded = true;
@@ -106,7 +106,6 @@ function CursedStarter() {
         strikes: 0,
         lastPunishmentAmount: 0,
         strikeStartTime: Date.now(),
-        punishmentColor: "#222",
         punishmentsDisabled: false,
 
         warned: [],

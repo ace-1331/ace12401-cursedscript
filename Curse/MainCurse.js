@@ -26,7 +26,7 @@ async function CursedCheckUp() {
   }
     
   //Run the script only in chatrooms
-  if (CurrentScreen == "ChatRoom") {
+  if (window.CurrentScreen == "ChatRoom") {
     messagesToVerify = document.querySelectorAll(".ChatMessage:not([verified=true]");
         
     //LARP Warn

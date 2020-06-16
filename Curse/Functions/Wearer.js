@@ -93,7 +93,12 @@ function WearerCommands({ command, parameters, sender }) {
         return;
       }
       if (parameters[0] && !isNaN(parameters[0])) {
-      //Cannot remove real owner
+        if (Player.MemberNumber == parameters[0]) { 
+          popChatSilent("You cannot own yourself.");
+          return;
+        }
+        
+        //Cannot remove real owner
         let realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
         if (!cursedConfig.owners.includes(parameters[0])) {
           cursedConfig.owners.push(parameters[0]);
@@ -118,6 +123,10 @@ function WearerCommands({ command, parameters, sender }) {
         return;
       }
       if (parameters[0] && !isNaN(parameters[0])) {
+        if (Player.MemberNumber == parameters[0]) { 
+          popChatSilent("You cannot be your own mistress.");
+          return;
+        }
         if (!cursedConfig.mistresses.includes(parameters[0])) {
           cursedConfig.mistresses.push(parameters[0]);
           SendChat(

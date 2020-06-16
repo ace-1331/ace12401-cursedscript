@@ -274,11 +274,17 @@ function textToGroup(group, permission) {
   return "na";
 }
 
+/** Keeps desired settings constantly. DO NOT CLOG THIS, LOOPS CONSTANTLY */
 function AdjustSettings() {
   //Fixes empty name in case of weird mess up
   if (cursedConfig.slaveIdentifier == "")
     cursedConfig.slaveIdentifier = Player.Name;
 
+  // Remove self own
+  cursedConfig.mistresses = cursedConfig.mistresses.filter(M => M != Player.MemberNumber);
+  cursedConfig.owners = cursedConfig.owners.filter(M => M != Player.MemberNumber);
+    
+  
   //Verifies if a mistress is here
   if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
     cursedConfig.mistressIsHere = false;
