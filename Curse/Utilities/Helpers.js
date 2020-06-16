@@ -716,16 +716,16 @@ function SendToRoom(name) {
 function GetTargetParams(sender, parameters, priority) {
   let target;
   let paramString;
-    if (parameters && !isNaN(parameters[0])) {
-        if (priority < 2 && sender != Player.Number) {
-          sendWhisper(sender, "Public commands cannot be applied to other members.");
-        } else target = parseInt(parameters[0]);
-        parameters.shift();
-    } else target = sender;
-    if (parameters && parameters[0] && parameters[0] != "") {
-        paramString = parameters.join(" ").replace(/[,]/g, " ");
-    }
-    return [target, paramString];
+  if (parameters && !isNaN(parameters[0])) {
+    if (priority < 2 && sender != Player.Number) {
+      sendWhisper(sender, "Public commands cannot be applied to other members.");
+    } else target = parseInt(parameters[0]);
+    parameters.shift();
+  } else target = sender;
+  if (parameters && parameters[0] && parameters[0] != "") {
+    paramString = parameters.join(" ").replace(/[,]/g, " ");
+  }
+  return [target, paramString];
 }
 
 // Wip - still being blocked out but wanted to get the possible skip auth fix 
