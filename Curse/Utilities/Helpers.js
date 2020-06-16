@@ -143,7 +143,7 @@ function SendChat(actionTxt) {
 function PopTip() {
   if (!window.curseTips) return;
   const showTip = curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual) || {};
-  if (showTip.ID) {
+  if (showTip.ID || showTip.ID == 0) {
     popChatSilent(showTip.Text, "Tip");
     popChatSilent("Send the command again to see another tip.", "Tip");
     cursedConfig.seenTips.push(showTip.ID);
