@@ -205,7 +205,6 @@ function CursedStarter() {
       if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
         const roomToGoTo = cursedConfig.lastChatroom;
         delete cursedConfig.lastChatroom;
-        CommonSetScreen("Online", "ChatSearch");
         SendToRoom(roomToGoTo);
         NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
         TryPopTip(43);

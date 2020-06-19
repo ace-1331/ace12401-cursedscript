@@ -704,6 +704,7 @@ function CheckEnforceMigration() {
 
 /** Sends a character to a give room */
 function SendToRoom(name) {
+  CommonSetScreen("Online", "ChatSearch");
   ChatRoomSpace = "";
   OnlineGameName = "";
   ChatSearchLeaveRoom = "MainHall";
