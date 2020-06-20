@@ -336,4 +336,14 @@ function AdjustSettings() {
       }
     });
   } catch (err) { console.error("Curse: failed to update a name", err); }
+} try {
+    //Save real name, restores if curse is not running
+    ChatRoomCharacter.forEach(char => {
+        let user = cursedConfig.charData.find(c => parseInt(char.MemberNumber) == c.Number);
+        if (!user || !user.SavedName || !user.Nickname) return;
+        let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user.Nickname : user.SavedName;
+        char.Name = NameToDisplay;
+        char.DisplayName = NameToDisplay;
+    });
+} catch (err) { console.error("Curse: failed to update a name", err); }
 }

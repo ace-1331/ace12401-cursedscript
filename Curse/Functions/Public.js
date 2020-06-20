@@ -15,7 +15,7 @@ function PublicCommands({
       KneelAttempt();
       break;
     case "respect":
-      enforce(sender, 1);
+          enforce(sender, 1, parameters);
       break;
     case "respectnickname": {
       forceNickname(sender, parameters);
@@ -26,7 +26,7 @@ function PublicCommands({
       break;
     case "nickname":
     //Force update self
-      SetNickname([sender, parameters], sender, 1);
+      SetNickname(parameters, sender, 1);
       break;
     case "allownickname":
       DeleteNickname([sender], sender, 6);

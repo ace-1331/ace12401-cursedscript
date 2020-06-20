@@ -22,22 +22,22 @@ function PrivateCommands({ command, parameters, sender }) {
     case "showowners":
       sendWhisper(sender, "Owners: #" + cursedConfig.owners.join(" #"));
       break;
-    case "shownicknames": {
-      let report = cursedConfig.charData
-        .filter(n => n.Nickname && n.Nickname != n.SavedName)
-        .map(n => " #" + n.Number + " " + n.Nickname)
-        .join(", ");
-      sendWhisper(sender, "Currently set nicknames:" + report);
-      break;
+      case "shownicknames": {
+          let report = cursedConfig.charData.filter(n => n.Nickname)
+              .map(n => " #" + n.Number + " " + n.Nickname)
+              .join(", ");
+          sendWhisper(sender, "Currently set nicknames:" + report);
+          break;
     }
-    case "showtitles": {
-      let report = "";
-      cursedConfig.charData
-        .filter(t => t.Titles.length > 0)
-        .map(t => "#" + t.Number + " " + t.Titles.join(", "))
-        .join(", ");
-      sendWhisper(sender, "Currently set titles: " + report);
-      break;
+      case "showtitles": {
+          let report =
+              cursedConfig.charData.filter(t => t.Titles.length > 0).map(t => {
+                  let tmpstr = "#" + t.Number + " Titles: " + t.Titles.join(", ");
+                  return tmpstr;
+              }).join(", ");
+          sendWhisper(sender, "Currently set titles: " + report);
+          break;
+      }
     }
     case "speechreport": {
       let tmpstr = [];
