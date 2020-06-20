@@ -828,7 +828,7 @@ function DeleteWithChecks(target, deletable, listname, sender, priority) {
           }
           else {  // For strings and not arrays 
             if (!known[listname])
-            return "not set";
+            return ["not set",];
             
             delete known[listname];
           }
