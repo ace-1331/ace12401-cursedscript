@@ -118,7 +118,7 @@ function AnalyzeMessage(msg) {
             
       // Checks if public has access or mistress can do all
       if ((cursedConfig.hasPublicAccess || isMistress || isOwner) && needWarning) {
-        needWarning = PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress });
+        needWarning = PublicCommands({ command, sender, commandCall, parameters, isClubOwner, isOwner, isMistress });
       }
             
       //Perma commands for all

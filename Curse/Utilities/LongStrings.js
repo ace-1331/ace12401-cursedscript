@@ -42,7 +42,7 @@ function InitHelpMsg() {
     -draw [nb of cards] [players]
     -shuffle
     INTENSE V:-nickname [Number] [Name]
-    INTENSE V:-deletenickname [Number] [Name]
+    INTENSE V:-deletenickname [Number]
 
     //PUBLIC FUNCTIONS//
     -help
@@ -57,7 +57,7 @@ function InitHelpMsg() {
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
-    *NEW* INTENSE V: -respectnickname
+    INTENSE V: -respectnickname
     INTENSE V:-capture
 
     //MISTRESS FUNCTIONS//
@@ -67,14 +67,16 @@ function InitHelpMsg() {
     -showstrikes
     -changestrikes [+/- nb strikes]
     -enforce [a member number] [optional custom title instead of defaults]
-    *NEW*-mtitle [number(optional)] [title to add/rem]
+    -mtitle [number(optional)] [title to add/rem]
+    *NEW*-unlocktitles [number]
     -mistress [a member number]
     -public
     -deactivateonpresence
     -savecolors
     INTENSE V:-mnickname [Number] [Name]
     INTENSE V:-deletenickname [Number]
-    *NEW* INTENSE V:-respectnickname [a member number]
+    INTENSE V:-respectnickname [a member number]
+    *NEW*-unlocknicknames [number]
 
     >>>Speech Commands<<<
     -dolltalk
@@ -116,9 +118,9 @@ function InitHelpMsg() {
     >>>Basic Commands<<<
     -asylum [nb of hours]
     -owner [a member number]
-    *NEW* -otitle [Number] [Title]
+    -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]
-
+    
     >>>Configuration Commands<<<
     *NEW*-resetorgasmcount
     -guestnotes
@@ -126,6 +128,7 @@ function InitHelpMsg() {
     -disablepunishments
     -onlyonpresence
     -restrainplay
+    *NEW* -restraintitles
     -fullpublic
     -afk
     -note
@@ -137,6 +140,7 @@ function InitHelpMsg() {
     *NEW* INTENSE VERSION:-preventdc
     *NEW* INTENSE VERSION:-meterlocked
     *NEW* INTENSE VERSION:-meteroff
+    *NEW* INTENSE V:-restrainnicknames
 
     >>>Club rules Commands<<<
     *NEW*-forcedlabor

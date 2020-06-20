@@ -53,6 +53,20 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Wearer is now able to add/remove mistresses and owners.)", true);
       cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
       break;
+      case "restraintitles":
+        if(!cursedConfig.hasRestrainedTitles)
+        sendWhisper(sender, "(Wearer is now unable to add/remove titles.)");
+        else
+        sendWhisper(sender, "(Wearer is no able to add/remove titles.)");
+        cursedConfig.hasRestrainedTitles = !cursedConfig.hasRestrainedTitles;
+        break;
+        case"restrainnicknames":
+        if(!cursedConfig.hasRestrainedNicknames)
+        sendWhisper(sender, "(Wearer is now unable to add/remove nicknames.)");
+        else
+        sendWhisper(sender, "(Wearer is no able to add/remove nicknames.)");
+        cursedConfig.hasRestrainedNicknames = !cursedConfig.hasRestrainedNicknames;
+        break;
     case "reminders":
       if (!cursedConfig.hasReminders)
         sendWhisper(sender, "(Wearer will now receive reminders.)", true);

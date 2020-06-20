@@ -1,6 +1,6 @@
 /** Function to trigger commands intended for public (can be turned off), returns true if no command was executed */
 function PublicCommands({
-  command, sender, commandCall, parameters, isOwner, isMistress
+  command, sender, commandCall, parameters, isClubOwner, isOwner, isMistress
 }) {
   switch (command) {
     case "punish":
@@ -24,6 +24,15 @@ function PublicCommands({
     case "title":
       toggleTitle(sender, 1, parameters);
       break;
+      case "cleartitles":
+        let priority = isClubOwner ? 4 : isOwner ? 3 : isMistress ? 2 : 1;
+        let target = (!isNaN(parameters[0]) && parameters[0] != "" ) ? parameters[0] : sender
+        let known = cursedConfig.charData.find(t => target == t.Number);
+        if(known && priority >= known.TPriority){
+          known.Titles = [];
+          known.TPriority = 0;
+        }
+        break;
     case "nickname":
     //Force update self
       SetNickname(parameters, sender, 1);

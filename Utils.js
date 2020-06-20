@@ -60,6 +60,8 @@ function CursedStarter() {
         hasFullMuteChat: false,
         hasSound: false,
         hasRestrainedPlay: false,
+        hasRestrainedTitles: false,
+        hasRestrainedNicknames: false,
         hasNoMaid: false,
         hasNoContractions: false,
         hasFullPublic: false,
