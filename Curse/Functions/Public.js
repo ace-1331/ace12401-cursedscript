@@ -31,6 +31,12 @@ function PublicCommands({
         if(known && priority >= known.TPriority){
           known.Titles = [];
           known.TPriority = 0;
+          if(!known.RespectNickname)
+          known.isEnforced = false;
+          sendWhisper(sender, "All titles for " + FetchName(target) + " have been cleared.", true);
+          if (known.Titles.length == 0 && known.NPriority != 5 && !known.Nickname) {
+            cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != target);
+          }
         }
         break;
       }

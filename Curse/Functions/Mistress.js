@@ -97,7 +97,8 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         let titled = cursedConfig.charData.find(m => target == m.Number)
         if (titled && titled.Titles.length > 0){
           if(priority >= titled.TPriority)
-          titled.TPriority = 0; //wearer will be able to change unless blocked         
+          titled.TPriority = 0; //wearer will be able to change unless blocked
+          SendChat(FetchName(target) + "'s nickname for " + Player.Name + " has been unlocked and can be changed by anyone.");
         }
         break;
       }
@@ -222,7 +223,8 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         let nicknamed = cursedConfig.charData.find(m => target == m.Number)
         if (nicknamed && nicknamed.Nickname && nicknamed.Nickname != ""){
           if(priority >= nicknamed.NPriority)
-          nicknamed.NPriority = 0; //wearer will be able to change unless blocked         
+          nicknamed.NPriority = 0; //wearer will be able to change unless blocked
+          SendChat(FetchName(target) + "'s nickname for " + Player.Name + " has been unlocked and can be changed by anyone.");
         }
         break;
       }

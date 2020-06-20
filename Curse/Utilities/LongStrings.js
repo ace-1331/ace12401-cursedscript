@@ -128,7 +128,6 @@ function InitHelpMsg() {
     -disablepunishments
     -onlyonpresence
     -restrainplay
-    *NEW* -restraintitles
     -fullpublic
     -afk
     -note

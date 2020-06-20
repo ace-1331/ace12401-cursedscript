@@ -207,7 +207,7 @@ function enforce(sender, priority, parameters) {
   let currentEnforcer;
   // If not enforced, enforce them
   if (!cursedConfig.charData.some(n => n.Number == enforcee && n.isEnforced)) {
-    newTitle = newTitle ? [newTitle] : defaults;
+    newTitle = (newTitle && newTitle != "") ? [newTitle] : defaults;
     [result, currentEnforcer] = AddWithChecks(enforcee, newTitle, 'Titles', sender, priority);
     switch (result) {
       case "no auth":
@@ -248,10 +248,6 @@ function enforce(sender, priority, parameters) {
 }
 
 function toggleTitle(sender, priority, parameters) {
-  if(sender == Player.MemberNumber && RestrainedTitles){
-    popChatSilent("Permission Denied.  Owner has locked this function.");
-    return;
-  }
   let shouldSendSelf = sender != Player.MemberNumber;
   let [enforcee, newTitle] = GetTargetParams(sender, parameters, priority);
   let titlee;
@@ -403,7 +399,7 @@ function SetNickname(parameters, sender, priority) {
     sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
     return;
   }
-  if(sender == Player.MemberNumber && cursedConfig.hasRestrictedNicknames){
+  if(sender == Player.MemberNumber && cursedConfig.hasRestrainedNicknames){
     popChatSilent("Permission Denied.  Owner has locked this function.");
     return;
   }
