@@ -143,7 +143,7 @@ function SendChat(actionTxt) {
 function PopTip() {
   if (!window.curseTips) return;
   const showTip = curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual) || {};
-  if (showTip.ID) {
+  if (showTip.ID || showTip.ID == 0) {
     popChatSilent(showTip.Text, "Tip");
     popChatSilent("Send the command again to see another tip.", "Tip");
     cursedConfig.seenTips.push(showTip.ID);
@@ -200,7 +200,7 @@ function cursedExport() {
 
 /** Add someone to the enforced list */
 function enforce(sender, priority, parameters) {
-  let [enforcee, newTitle] = GetTargetParams(sender, parameters, priority);
+  let [enforcee, newTitle] = GetTargetParams(sender, parameters);
 
   let name = FetchName(enforcee);
   let shouldSendSelf = sender != Player.MemberNumber;
@@ -259,7 +259,7 @@ function enforce(sender, priority, parameters) {
 
 function toggleTitle(sender, priority, parameters) {
   let shouldSendSelf = sender != Player.MemberNumber;
-  let [enforcee, newTitle] = GetTargetParams(sender, parameters, priority);
+  let [enforcee, newTitle] = GetTargetParams(sender, parameters);
   if (!newTitle) {
     sendWhisper(sender, "Please provide a title to add or remove.");
     return;
@@ -396,7 +396,7 @@ function SetNickname(parameters, sender, priority) {
     sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
     return;
   }
-  let [userNumber, nickname] = GetTargetParams(sender, parameters, priority);
+  let [userNumber, nickname] = GetTargetParams(sender, parameters);
   if (nickname) {
     nickname = nickname[0].toUpperCase() + nickname.slice(1);
     let target = cursedConfig.charData.find(u => u.Number == userNumber);
@@ -608,7 +608,7 @@ function InitCleanup() {
   CheckEnforceMigration();
 
   //Clean deprecated props
-  const toDelete = ["hasCursedBunny", "lastWardrobeLock", "cursedItems", "nicknames", "enforced", ...oldCurses];
+  const toDelete = ["punishmentColor", "hasCursedBunny", "lastWardrobeLock", "cursedItems", "nicknames", "enforced", ...oldCurses];
   toDelete.forEach(prop => delete cursedConfig[prop]);
 
   //Cleans dupes and bad stuff
@@ -704,6 +704,7 @@ function CheckEnforceMigration() {
 
 /** Sends a character to a give room */
 function SendToRoom(name) {
+  CommonSetScreen("Online", "ChatSearch");
   ChatRoomSpace = "";
   OnlineGameName = "";
   ChatSearchLeaveRoom = "MainHall";
@@ -713,48 +714,17 @@ function SendToRoom(name) {
   ServerSend("ChatRoomJoin", { Name: name });
 }
 
-function GetTargetParams(sender, parameters, priority) {
+function GetTargetParams(sender, parameters) {
   let target;
   let paramString;
+
   if (parameters && !isNaN(parameters[0])) {
-    if (priority < 2 && sender != Player.Number) {
-      sendWhisper(sender, "Public commands cannot be applied to other members.");
-    } else target = parseInt(parameters[0]);
+    target = parseInt(parameters[0]);
     parameters.shift();
   } else target = sender;
+
   if (parameters && parameters[0] && parameters[0] != "") {
     paramString = parameters.join(" ").replace(/[,]/g, " ");
   }
   return [target, paramString];
 }
-
-// Wip - still being blocked out but wanted to get the possible skip auth fix 
-//function AddWithAuth(target, insertable, listName, sender, priority, ) {
-//    if (!target) { return "no target"; }
-//    if (!insertable) { return "nothing to add"; }
-
-//    if (Array.isArray(target)) {    // target is a list, not inside an object - add to list
-//        target.concat(insertable);  // for other lists you might want to add to with a check
-//        return "success";
-//    }
-//    if (!listName) { return "no list set"; }
-//    if (!NaN(target)) {
-//        if ((target == sender || priority >= 2) {
-//            let pri = listName.slice(0).toUpperCase() + "Priority";
-//            let known = cursedConfig.charData.find(target);
-//            if (known) {
-//                if (known[pri] == 5) { return "blocked" };
-
-//                if (Array.isArray(known[listName]){      //For lists
-
-//                }
-
-//                else { }             //For strings and not arrays
-//            }
-//            else { }         // thing to add to new target
-//        }
-//        else {
-//            return "No Auth";
-//        }
-//    }
-//}

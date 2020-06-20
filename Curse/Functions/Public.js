@@ -15,7 +15,7 @@ function PublicCommands({
       KneelAttempt();
       break;
     case "respect":
-      enforce(sender, 1, parameters);
+      enforce(sender, 1);
       break;
     case "respectnickname": {
       forceNickname(sender, parameters);

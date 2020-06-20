@@ -14,7 +14,7 @@ LoginListener();
 async function LoginListener() {
   while (!isLoaded) {
     try {
-      while (CurrentScreen == "Login") {
+      while (window.CurrentScreen == "Login" && !isLoaded) {
         await new Promise(r => setTimeout(r, 2000));
       }
       isLoaded = true;
@@ -106,7 +106,6 @@ function CursedStarter() {
         strikes: 0,
         lastPunishmentAmount: 0,
         strikeStartTime: Date.now(),
-        punishmentColor: "#222",
         punishmentsDisabled: false,
 
         warned: [],
@@ -206,7 +205,6 @@ function CursedStarter() {
       if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
         const roomToGoTo = cursedConfig.lastChatroom;
         delete cursedConfig.lastChatroom;
-        CommonSetScreen("Online", "ChatSearch");
         SendToRoom(roomToGoTo);
         NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
         TryPopTip(43);
