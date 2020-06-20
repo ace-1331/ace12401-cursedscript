@@ -336,7 +336,7 @@ function AdjustSettings() {
       }
     });
   } catch (err) { console.error("Curse: failed to update a name", err); }
-} try {
+  try {
     //Save real name, restores if curse is not running
     ChatRoomCharacter.forEach(char => {
         let user = cursedConfig.charData.find(c => parseInt(char.MemberNumber) == c.Number);
@@ -345,5 +345,5 @@ function AdjustSettings() {
         char.Name = NameToDisplay;
         char.DisplayName = NameToDisplay;
     });
-} catch (err) { console.error("Curse: failed to update a name", err); }
+  } catch (err) { console.error("Curse: failed to update a name", err); }
 }

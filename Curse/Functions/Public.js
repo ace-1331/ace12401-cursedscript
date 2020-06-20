@@ -24,7 +24,7 @@ function PublicCommands({
     case "title":
       toggleTitle(sender, 1, parameters);
       break;
-      case "cleartitles":
+      case "cleartitles":{
         let priority = isClubOwner ? 4 : isOwner ? 3 : isMistress ? 2 : 1;
         let target = (!isNaN(parameters[0]) && parameters[0] != "" ) ? parameters[0] : sender
         let known = cursedConfig.charData.find(t => target == t.Number);
@@ -33,6 +33,7 @@ function PublicCommands({
           known.TPriority = 0;
         }
         break;
+      }
     case "nickname":
     //Force update self
       SetNickname(parameters, sender, 1);
