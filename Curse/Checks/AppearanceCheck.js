@@ -40,6 +40,8 @@ function AppearanceCheck() {
         TryPopTip(25);
       } else if (name == "" && itemNeedsRemoving(group)) {
         InventoryRemove(Player, group);
+        cursedConfig.toUpdate.push(group);
+        cursedConfig.mustRefresh = true;
         warnRemove++;
         TryPopTip(26);
       }
