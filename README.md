@@ -15,9 +15,9 @@ Please use the commands in whispers. Reduce spam as much as you can, make sure t
 
 **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-**Last approved on the following versions: R57**
+**Last approved on the following versions: R58**
 
-Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating.
+Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating. Make sure to refresh your club page before using a new version.
 
 ## Running the script as an extension
 1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
@@ -60,6 +60,6 @@ Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: 1.2.1R**
+**Official release: 1.2.2.0**
 
-**THIS PAGE WAS LAST EDITED ON 14-06-2020**
+**THIS PAGE WAS LAST EDITED ON 23-06-2020**
