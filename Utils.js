@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 31;
+window.currentVersion = 32;
 let AlwaysOn;
 let isLoaded;
 
@@ -78,7 +78,8 @@ function CursedStarter() {
         hasDCPrevention: false,
         cannotOrgasm: false,
         forbidorgasm: false,
-                
+        hasBlockedOOC: false,
+        
         owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         blacklist: [],

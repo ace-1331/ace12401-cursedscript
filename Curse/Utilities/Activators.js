@@ -1,5 +1,8 @@
 //************************************  Curse Activations ************************************//
-/** Toggles a curse on any given item */
+/** Toggles a curse on any given item 
+ * @param {string} item - the item name from the asset file
+ * @param {string} group - the item group from the asset file
+*/
 function procGenericItem(item, group) {
   //Removes curses on invalid items
   if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
@@ -31,16 +34,20 @@ function procGenericItem(item, group) {
   }
 }
 
-/** Triggers cursed naked */
-function procCursedNaked() {
+/** Triggers cursed naked 
+ * @param {boolean} isAdd - whether this is to add or remove clothes
+*/
+function procCursedNaked(isAdd) {
   ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
     .forEach(group => {
-      toggleCurseItem({ name: "", group, forceAdd: true, isSilent: true });
+      toggleCurseItem({ name: "", group, [isAdd ? 'forceAdd' : 'forceRemove']: true, isSilent: true });
     });
   SendChat(`The curse arises on ${Player.Name}'s clothes.`);
 }
 
-/** Triggers cursed vibrators */
+/** Triggers cursed vibrators 
+ * @param {string} group - the item group from the asset file for which to trigger max vibes
+*/
 function procCursedOrgasm(group) {
   //Turns them to max
   if (
@@ -59,7 +66,9 @@ function procCursedOrgasm(group) {
   cursedConfig.mustRefresh = true;
 }
 
-/** Async function that will check if a character kneels within 30 seconds */
+/** Async function that will check if a character kneels within 30 seconds 
+ * @param {string} sender - the member for which kneeling is required
+*/
 async function checkKneeling(sender) {
   // Kneel on enforced
   if (ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)) {
@@ -87,6 +96,7 @@ async function checkKneeling(sender) {
 
 /**
  * Toggles a cursed item on/off
+ * @param {{name: string, group: string, forceAdd?: boolean, forceRemove?: boolean, isSilent?: boolean, dateOfRemoval?: number}} - Object containing all optional params
  * @returns true if the group does not exist
  */
 function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfRemoval }) {

@@ -19,7 +19,7 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
-    *NEW*-quickban
+    -quickban
     -wardrobev2
     -eatcommands
     -hidedisplay
@@ -49,6 +49,7 @@ function InitHelpMsg() {
     -respect
     -title [title to add/rem]
     -punish
+    *NEW*-reward
     -edge
     -asylumtimeleft
     -readnote
@@ -57,7 +58,7 @@ function InitHelpMsg() {
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
-    *NEW* INTENSE V: -respectnickname
+    INTENSE V: -respectnickname
     INTENSE V:-capture
 
     //MISTRESS FUNCTIONS//
@@ -67,14 +68,14 @@ function InitHelpMsg() {
     -showstrikes
     -changestrikes [+/- nb strikes]
     -enforce [a member number] [optional custom title instead of defaults]
-    *NEW*-mtitle [number(optional)] [title to add/rem]
+    -mtitle [number(optional)] [title to add/rem]
     -mistress [a member number]
     -public
     -deactivateonpresence
     -savecolors
     INTENSE V:-mnickname [Number] [Name]
     INTENSE V:-deletenickname [Number]
-    *NEW* INTENSE V:-respectnickname [a member number]
+    INTENSE V:-respectnickname [a member number]
 
     >>>Speech Commands<<<
     -dolltalk
@@ -87,8 +88,9 @@ function InitHelpMsg() {
     -contractions
     
     >>>Curses<<<
-    *NEW*-curseitem [group]
-    *NEW*-curseitem [group] [hours]
+    -curseitem [group]
+    -curseitem [group] [hours]
+    *NEW*-clothed
     -naked
     -vibes
     -collar
@@ -117,10 +119,11 @@ function InitHelpMsg() {
     -asylum [nb of hours]
     *NEW* -sendasylum
     -owner [a member number]
-    *NEW* -otitle [Number] [Title]
+    -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    *NEW*-blockooc
     *NEW*-resetorgasmcount
     -guestnotes
     -readnotes
@@ -171,11 +174,11 @@ function InitHelpMsg() {
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
-    *NEW*-ctitle [Number] [Title]
+    -ctitle [Number] [Title]
     *NEW*-looseowner
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -locknewlover
-    *NEW*INTENSE VERSION: -locknewsub
+    INTENSE VERSION: -locknewsub
     INTENSE VERSION: -onickname [Number] [Name]
 
     ---------

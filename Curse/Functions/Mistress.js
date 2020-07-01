@@ -81,7 +81,10 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "cursedclothes":
     case "naked":
-      procCursedNaked();
+      procCursedNaked(true);
+      break;
+    case "clothed":
+      procCursedNaked(false);
       break;
     case "enforce": {
       let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;

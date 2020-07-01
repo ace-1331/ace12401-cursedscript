@@ -9,7 +9,10 @@ function SaveConfigs() {
   } catch (err) { console.log(err); }
 }
 
-/** Sends a message to all owners/mistresses in a room */
+/** Sends a message to all owners/mistresses in a room 
+ * @param {string} msg - The message to send
+ * @param {boolean} [sendSelf] - Should it also be sent to the wearer
+*/
 function NotifyOwners(msg, sendSelf) {
   ChatRoomCharacter.forEach(char => {
     if (
@@ -26,7 +29,10 @@ function NotifyOwners(msg, sendSelf) {
   }
 }
 
-/** Pop a message for everyone to see, will not if player is not in a room */
+/** Pop a message for everyone to see, will not if player is not in a room 
+ * @param {string} actionTxt - The text to be displayed in the action
+ * @param {boolean} [isNormalTalk] - Should it be a normal text message instead?
+*/
 function popChatGlobal(actionTxt, isNormalTalk) {
   if (actionTxt.length > 1000) {
     actionTxt = actionTxt.substring(0, 1000);
@@ -49,7 +55,10 @@ function popChatGlobal(actionTxt, isNormalTalk) {
   }
 }
 
-/** Pop all messages for the wearer to see, will save if player is not in a room */
+/** Pop all messages for the wearer to see, will save if player is not in a room 
+ * @param {string} actionTxt - The text to be displayed in the silent message
+ * @param {string} [senderName] - What is the name to be displayed along with it? Defaults to 'Curse'
+ */
 function popChatSilent(actionTxt, senderName) {
   //Add to log
   if (actionTxt) cursedConfig.savedSilent.push({ actionTxt, senderName });
@@ -109,7 +118,12 @@ function popChatSilent(actionTxt, senderName) {
   TryPopTip(32);
 }
 
-/** Send a whisper to a target */
+/** Send a whisper to a target 
+ * @param {string} target - The member number to send it to
+ * @param {string} msg - The message to send
+ * @param {boolean} [sendSelf] - If the wearer should see it as a silent message
+ * @param {boolean} [forceHide] - If the message should not be forwarded by fowardall
+ */
 function sendWhisper(target, msg, sendSelf, forceHide) {
   if (msg.length > 1000) {
     msg = msg.substring(0, 1000);
@@ -188,7 +202,9 @@ function triggerInPleasure() {
   CharacterSetFacialExpression(Player, "Eyes", "VeryLewd");
 }
 
-/** Import config utility to switch device or save before testing (console only) */
+/** Import config utility to switch device or save before testing (console only) 
+ * @param {Object} curseSaveFile - the previously stringified cursedConfig object
+*/
 function cursedImport(curseSaveFile) {
   cursedConfig = JSON.parse(curseSaveFile);
 }
@@ -517,13 +533,19 @@ function SaveColors() {
   } catch (err) { popChatSilent("An error occured while trying to save your colors. Error: SC07", "Error"); }
 }
 
+/** Saves the worn color of a given slot
+ * @param {string} group - asset group name
+ */
 function SaveColorSlot(group) {
   cursedConfig.savedColors = cursedConfig.savedColors.filter(col => col.Group != group);
   let color = InventoryGet(Player, group) ? InventoryGet(Player, group).Color : "Default";
   cursedConfig.savedColors.push({ Group: group, Color: color });
 }
 
-/** Gets the saved color for a given slot, returns default if there is none */
+/** Gets the saved color for a given slot, returns default if there is none
+ * @param {string} group - asset group name
+ * @returns {string} the color code or "Default"
+ */
 function GetColorSlot(group) {
   return cursedConfig.savedColors.filter(col => col.Group == group)[0] ? cursedConfig.savedColors.filter(col => col.Group == group)[0].Color : "Default";
 }
@@ -598,7 +620,7 @@ function InitCleanup() {
           toggleCurseItem({ name: "MaidHairband1", group: "Hat", forceAdd: true });
           break;
         case "hasCursedNakedness":
-          procCursedNaked();
+          procCursedNaked(true);
           break;
       }
     }
@@ -637,7 +659,9 @@ function shuffle(a) {
   return a;
 }
 
-/** Shuffles a deck of cards */
+/** Shuffles a deck of cards 
+ * @param {boolean} auto - if it was an auto shuffle or manual shuffle
+*/
 function shuffleDeck(auto) {
   cardDeck = [];
   const cardType = ["♥", "♦", "♠", "♣"];
@@ -659,7 +683,10 @@ function drawCard() {
   return cardDeck.pop();
 }
 
-/** Draws several cards */
+/** Draws several cards
+ * @param {number} nbCards - amount of cards to draw per player
+ * @param {string | string[]} players - player(s) to send the cards to
+ */
 function drawCards(nbCards, players) {
   TryPopTip(8);
   //If no player was given, just draw X card to the current target
@@ -679,6 +706,7 @@ function drawCards(nbCards, players) {
   }
 
 }
+
 function CheckEnforceMigration() {
   if (cursedConfig.nicknames && cursedConfig.nicknames.length > 0) {
     cursedConfig.nicknames.forEach(m => {
@@ -702,7 +730,9 @@ function CheckEnforceMigration() {
 }
 
 
-/** Sends a character to a give room */
+/** Sends a character to a give room 
+ * @param {string} ame - Room name
+*/
 function SendToRoom(name) {
   CommonSetScreen("Online", "ChatSearch");
   ChatRoomSpace = "";

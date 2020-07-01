@@ -227,6 +227,13 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         SendChat("The curse on " + Player.Name + " no longer listens to everything the public says.");
       cursedConfig.hasFullPublic = !cursedConfig.hasFullPublic;
       break;
+    case "blockooc":
+      if (!cursedConfig.hasBlockedOOC)
+        NotifyOwners("The curse on " + Player.Name + " will remove gagged OOC.", true);
+      else
+        NotifyOwners("The curse on " + Player.Name + " will remove gagged OOC.", true);
+      cursedConfig.hasBlockedOOC = !cursedConfig.hasBlockedOOC;
+      break;
     case "asylum":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time
