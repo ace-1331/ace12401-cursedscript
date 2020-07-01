@@ -104,6 +104,11 @@ function InitHelpMsg() {
     -panties
     -screws
     -doublegag
+    
+    >>>Configurations<<<
+    *NEW* -loadpresetcurses [name]
+    *NEW* -loadpreset [name]
+    *NEW* -savepreset [name]
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -113,7 +118,8 @@ function InitHelpMsg() {
     -showenforced
     -shownicknames
     -configreport
-
+    *NEW*-listpresets
+    
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     -asylum [nb of hours]

@@ -253,6 +253,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
           LogAdd("Committed", "Asylum", oldLog[0].Value + timeToAdd);
         }
         ServerPlayerLogSync();
+        TryPopTip(45);
       } else {
         sendWhisper(sender, "(Invalid arguments.)");
       }

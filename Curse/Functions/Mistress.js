@@ -1,6 +1,58 @@
 /** Function to trigger commands intended for mistresses, returns true if no command was executed */
 function MistressCommands({ command, sender, parameters, isOwner, isClubOwner }) {
   switch (command) {
+    case 'savepreset':
+      TryPopTip(45);
+      if (parameters[0]) {
+        let filteredPresets = cursedConfig.cursedPresets.filter(P => P.name !== parameters[0]);
+        cursedConfig.cursedPresets = filteredPresets;
+        cursedConfig.cursedPresets.push(
+          { name: parameters[0], cursedItems: [...cursedConfig.cursedAppearance] }
+        );
+        sendWhisper(sender, "Preset Saved: " + parameters[0], true);
+      } else { 
+        sendWhisper(sender, "(Missing argument. [preset name])");
+      }
+      break;
+    case 'loadpreset':
+      TryPopTip(45);
+      if (parameters[0]) {
+        let preset = cursedConfig.cursedPresets.find(P => P.name === parameters[0]);
+        if (preset) { 
+          // Loads the preset + do not apply punishments on the next check
+          cursedConfig.cursedAppearance = [...preset.cursedItems];
+          cursedConfig.onRestart = true;
+          SendChat(`(The curse on ${Player.Name} restores her cursed state (${preset.Name}))`);
+          sendWhisper(sender, "(This feature is to load a frequently used set of cursed items easily instead of spamming the same command over and over again. It is not intended as a 'quick tie' function. Please do not use it as such.)", true);
+        } else { 
+          sendWhisper(sender, "(Preset not found)");
+        }
+      } else { 
+        sendWhisper(sender, "(Missing argument. [preset name])");
+      }
+      break;
+    case 'loadpresetcurse':
+    case 'loadpresetcurses':
+      TryPopTip(45);
+      if (parameters[0]) {
+        let preset = cursedConfig.cursedPresets.find(P => P.name === parameters[0]);
+        if (preset) { 
+          cursedConfig.cursedAppearance = [];
+          preset.cursedItems.forEach(CI => {         
+            let currentAsset = InventoryGet(Player, CI.group);
+            toggleCurseItem(
+              { name: (currentAsset && currentAsset.Asset.Name) || "", group: CI.group, isSilent: true }
+            );
+          });
+          SendChat(`(The curse on ${Player.Name} restores her cursed state (${preset.Name}) )`);
+          sendWhisper(sender, "(This feature is to load a frequently used set of cursed items easily instead of spamming the same command over and over again. It is not intended as a 'quick tie' function. Please do not use it as such.)", true);
+        } else { 
+          sendWhisper(sender, "(Preset not found)");
+        }
+      } else { 
+        sendWhisper(sender, "(Missing argument. [preset name])");
+      }
+      break;
     case "cursereport":
       let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedKneel", "hasCursedSpeech", "hasCursedOrgasm", "isMute", "disaledOnMistress", "enabledOnMistress", "hasEntryMsg", "hasFullMuteChat", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasReminders", "canReceiveNotes", "canLeash"];
       let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ") + ". Cursed item groups: " + cursedConfig.cursedAppearance.join(",");

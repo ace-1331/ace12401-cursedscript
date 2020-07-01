@@ -86,6 +86,7 @@ function CursedStarter() {
         bannedWords: [],
         sentences: [{ ident: "yes", text: "Yes, %target%" }, { ident: "no", text: "No, %target%" }, { ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?" }, { ident: "greetings", text: "Greetings, %target%, it is good to see you." }, { ident: "leave", text: "May %self% be excused, %target%?" }, { ident: "service", text: "How may %self% be useful for you today, %target%?" },],
         cursedAppearance: [],
+        cursedPresets: [],
         savedColors: [],
         charData: [],
         reminders: [],
