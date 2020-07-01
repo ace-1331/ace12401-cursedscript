@@ -234,24 +234,34 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         if (timeToAdd > 1000000000000000000000000000000000000) {
           timeToAdd = 999588479404333;
         }
-        SendChat(Player.Name + " has more time to spend in the asylum.");
+        if (timeToAdd < -1000000000000000000000000000000000000) {
+          timeToAdd = -999588479404333;
+        }
+        SendChat(`${Player.Name} has ${timeToAdd > 0 ? 'more' : 'less'} time to spend in the asylum.`);
         oldLog = Log.filter(el => el.Name == "Committed");
         //Send or Add to existing time
         if (oldLog.length == 0 || oldLog[0].Value < CurrentTime) {
           LogAdd("Committed", "Asylum", CurrentTime + timeToAdd);
-          //Send to asylum and remove items that would be a progression blocker
-          InventoryRemove(Player, "ItemFeet");
-          InventoryRemove(Player, "ItemBoots");
-          ElementRemove("InputChat");
-          ElementRemove("TextAreaChatLog");
-          ServerSend("ChatRoomLeave", "");
-          CommonSetScreen("Room", "AsylumEntrance");
         } else {
           LogAdd("Committed", "Asylum", oldLog[0].Value + timeToAdd);
         }
         ServerPlayerLogSync();
       } else {
         sendWhisper(sender, "(Invalid arguments.)");
+      }
+      break;
+    case 'sendasylum':
+      if (LogQuery("Committed", "Asylum") && LogValue("Committed", "Asylum") > Date.now()) {
+        //Send to asylum and remove items that would be a progression blocker
+        SendChat(`${Player.Name} was sent to the asylum by her owner.`);
+        InventoryRemove(Player, "ItemFeet");
+        InventoryRemove(Player, "ItemBoots");
+        ElementRemove("InputChat");
+        ElementRemove("TextAreaChatLog");
+        ServerSend("ChatRoomLeave", "");
+        CommonSetScreen("Room", "AsylumEntrance");
+      } else { 
+        sendWhisper(sender, 'The wearer has no time left on her asylum timer.', true);
       }
       break;
     case "entrymessage":
@@ -280,8 +290,8 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
     case "forcedsay":
       if (
         cursedConfig.hasIntenseVersion
-                && !cursedConfig.isMute
-                && !cursedConfig.hasSound
+        && !cursedConfig.isMute
+        && !cursedConfig.hasSound
       ) {
         //Forces as a global msg, bypass expected "say" and bypass blockchat
         let oldBlockConfig = cursedConfig.hasFullMuteChat;
@@ -297,9 +307,9 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
     case "say":
       if (
         !cursedConfig.hasFullMuteChat
-                && !cursedConfig.isMute
-                && !cursedConfig.hasSound
-                && cursedConfig.hasIntenseVersion
+        && !cursedConfig.isMute
+        && !cursedConfig.hasSound
+        && cursedConfig.hasIntenseVersion
       ) {
         cursedConfig.say = parameters.join(" ")
           .replace(/^\**/g, "").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), "");//stops emotes & stops commands

@@ -115,6 +115,7 @@ function InitHelpMsg() {
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     -asylum [nb of hours]
+    *NEW* -sendasylum
     -owner [a member number]
     *NEW* -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]
