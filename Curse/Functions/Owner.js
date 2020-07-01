@@ -54,12 +54,12 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
       break;
     case"restrainnicknames":
-        if(!cursedConfig.hasRestrainedNicknames)
+      if(!cursedConfig.hasRestrainedNicknames)
         sendWhisper(sender, "(Wearer is now unable to add/remove nicknames.)", true);
-        else
+      else
         sendWhisper(sender, "(Wearer is now able to add/remove nicknames.)", true);
-        cursedConfig.hasRestrainedNicknames = !cursedConfig.hasRestrainedNicknames;
-        break;
+      cursedConfig.hasRestrainedNicknames = !cursedConfig.hasRestrainedNicknames;
+      break;
     case "reminders":
       if (!cursedConfig.hasReminders)
         sendWhisper(sender, "(Wearer will now receive reminders.)", true);

@@ -24,8 +24,8 @@ function PrivateCommands({ command, parameters, sender }) {
       break;
     case "shownicknames":{
       let report = cursedConfig.charData.filter(n => n.Nickname)
-      .map(n => " #" + n.Number + " " + n.Nickname)
-      .join(", ");
+        .map(n => " #" + n.Number + " " + n.Nickname)
+        .join(", ");
       sendWhisper(sender, "Currently set nicknames:" + report);
       break;
     }

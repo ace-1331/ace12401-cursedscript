@@ -91,17 +91,17 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
     case "mtitle":
       toggleTitle(sender, 2, parameters);
       break;
-      case "unlocktitle":{
-        let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
-        let [target,]=GetTargetParams(sender, parameters, priority)
-        let titled = cursedConfig.charData.find(m => target == m.Number)
-        if (titled && titled.Titles.length > 0){
-          if(priority >= titled.TPriority)
+    case "unlocktitle":{
+      let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
+      let [target,]=GetTargetParams(sender, parameters, priority);
+      let titled = cursedConfig.charData.find(m => target == m.Number);
+      if (titled && titled.Titles.length > 0){
+        if(priority >= titled.TPriority)
           titled.TPriority = 0; //wearer will be able to change unless blocked
-          SendChat(FetchName(target) + "'s nickname for " + Player.Name + " has been unlocked and can be changed by anyone.");
-        }
-        break;
+        SendChat(FetchName(target) + "'s nickname for " + Player.Name + " has been unlocked and can be changed by anyone.");
       }
+      break;
+    }
     case "mistress":
       if (parameters[0] && !isNaN(parameters[0])) {
         if (!cursedConfig.mistresses.includes(parameters[0])) {
@@ -217,17 +217,17 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
     case "mnickname":
       SetNickname(parameters, sender, 2);
       break;
-      case "unlocknickname":{
-        let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
-        let [target,]=GetTargetParams(sender, parameters, priority)
-        let nicknamed = cursedConfig.charData.find(m => target == m.Number)
-        if (nicknamed && nicknamed.Nickname && nicknamed.Nickname != ""){
-          if(priority >= nicknamed.NPriority)
+    case "unlocknickname":{
+      let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
+      let [target,]=GetTargetParams(sender, parameters, priority);
+      let nicknamed = cursedConfig.charData.find(m => target == m.Number);
+      if (nicknamed && nicknamed.Nickname && nicknamed.Nickname != ""){
+        if(priority >= nicknamed.NPriority)
           nicknamed.NPriority = 0; //wearer will be able to change unless blocked
-          SendChat(FetchName(target) + "'s nickname for " + Player.Name + " has been unlocked and can be changed by anyone.");
-        }
-        break;
+        SendChat(FetchName(target) + "'s nickname for " + Player.Name + " has been unlocked and can be changed by anyone.");
       }
+      break;
+    }
     case "savecolors":
       SaveColors();
       break;
