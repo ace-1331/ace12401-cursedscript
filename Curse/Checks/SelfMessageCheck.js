@@ -8,7 +8,7 @@ function SelfMessageCheck(msg) {
   msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
 
   // Gagged OOC
-  if (!ChatRoomTargetMemberNumber && !originalMsg.startsWith("*") && !Player.CanTalk() && originalMsg.includes("(")) { 
+  if (cursedConfig.hasBlockedOOC && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*") && !Player.CanTalk() && originalMsg.includes("(")) { 
       NotifyOwners("(Tried to use OOC while gagged)");
       popChatSilent("WARNING: You are not allowed to use OOC in normal chat messages while gagged.");
       cursedConfig.strikes += 4;
