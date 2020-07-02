@@ -6,7 +6,16 @@ function SelfMessageCheck(msg) {
   //Clears stuff
   originalMsg = msg;
   msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
-  if (msg == "") return false;
+
+  // Gagged OOC
+  if (!ChatRoomTargetMemberNumber && !originalMsg.startsWith("*") && !Player.CanTalk() && originalMsg.includes("(")) { 
+      NotifyOwners("(Tried to use OOC while gagged)");
+      popChatSilent("WARNING: You are not allowed to use OOC in normal chat messages while gagged.");
+      cursedConfig.strikes += 4;
+      r = true;
+  }
+  
+  if (msg == "") return r;
 
   //Parse Commands
   let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
@@ -137,6 +146,6 @@ function SelfMessageCheck(msg) {
       r = true;
     }
   }
-
+  
   return r;
 }

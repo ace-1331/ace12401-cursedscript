@@ -9,6 +9,10 @@ function PublicCommands({
       KneelAttempt();
       cursedConfig.strikes += 2;
       break;
+    case "reward":
+      SendChat(`The curse on ${Player.Name} rewards her as requested by ${FetchName(sender)}.`);
+      cursedConfig.strikes -= 2;
+      break;
     case "edge":
       SendChat(`The curse on ${Player.Name} edges her as requested by ${FetchName(sender)}.`);
       triggerInPleasure();
@@ -67,7 +71,7 @@ function PublicCommands({
         popChatSilent("Capture mode disabled.");
       break;
     default:
-    // No command found
+      // No command found
       return true;
   }
 }

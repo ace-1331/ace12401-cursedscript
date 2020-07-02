@@ -19,7 +19,7 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
-    *NEW*-quickban
+    -quickban
     -wardrobev2
     -eatcommands
     -hidedisplay
@@ -49,6 +49,7 @@ function InitHelpMsg() {
     -respect
     -title [title to add/rem]
     -punish
+    *NEW*-reward
     -edge
     -asylumtimeleft
     -readnote
@@ -89,8 +90,9 @@ function InitHelpMsg() {
     -contractions
     
     >>>Curses<<<
-    *NEW*-curseitem [group]
-    *NEW*-curseitem [group] [hours]
+    -curseitem [group]
+    -curseitem [group] [hours]
+    *NEW*-clothed
     -naked
     -vibes
     -collar
@@ -104,6 +106,11 @@ function InitHelpMsg() {
     -panties
     -screws
     -doublegag
+    
+    >>>Configurations<<<
+    *NEW* -loadpresetcurses [name]
+    *NEW* -loadpreset [name]
+    *NEW* -savepreset [name]
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -113,10 +120,12 @@ function InitHelpMsg() {
     -showenforced
     -shownicknames
     -configreport
-
+    *NEW*-listpresets
+    
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     -asylum [nb of hours]
+    *NEW* -sendasylum
     -owner [a member number]
     -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]
@@ -140,6 +149,7 @@ function InitHelpMsg() {
     *NEW* INTENSE VERSION:-meterlocked
     *NEW* INTENSE VERSION:-meteroff
     *NEW* INTENSE V:-restrainnicknames
+    *NEW* INTENSE VERSION: -blockooc
 
     >>>Club rules Commands<<<
     *NEW*-forcedlabor
@@ -173,11 +183,11 @@ function InitHelpMsg() {
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
-    *NEW*-ctitle [Number] [Title]
+    -ctitle [Number] [Title]
     *NEW*-looseowner
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -locknewlover
-    *NEW*INTENSE VERSION: -locknewsub
+    INTENSE VERSION: -locknewsub
     INTENSE VERSION: -onickname [Number] [Name]
 
     ---------

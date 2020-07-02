@@ -196,4 +196,13 @@ window.curseTips = [
     ID: 44,
     Text: "Meter options will lock your parameters to prevent you from changing its state.",
   },
+  {
+    ID: 45,
+    Text: "You can save and load certain presets for curses. This allows you to save different states and get back into action quicker instead of repeating the same commands over and over again. You can choose to load only the cursed zones to curse the new items (loadpresetcurses), or to curse with the preset items (loadpresetcurse). Each preset is saved with a name and loaded with its given name. There is no limit to the amount of curse presets you can have. To view your current presets: listpresets",
+  },
+  {
+    ID: 46,
+    isContextual: true,
+    Text: "Once time is added to the asylum timer, you are left in the room. To be sent to the asylum on the spot, your curse owner needs to do the 'sendasylum' command.",
+  },
 ];

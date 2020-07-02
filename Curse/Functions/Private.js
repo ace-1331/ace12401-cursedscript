@@ -1,7 +1,17 @@
 /** Function to trigger commands intended for the owners or wearer, returns true if no command was executed */
 function PrivateCommands({ command, parameters, sender }) {
   switch (command) {
-    case "configreport":{
+    case "listpreset":
+    case "listpresets":
+      TryPopTip(45);
+      let presets = cursedConfig.cursedPresets.map(P =>
+        P.name + " [" + P.cursedItems.map(CI =>
+          (AssetGroup.find(G => G.Name == CI.group) || {}).Description || "Unknown Group"
+        ).join(", ") + "]"
+      ).join(", ");
+      sendWhisper(sender, presets);
+      break;
+    case "configreport":
       let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands"];
       let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
       sendWhisper(sender, report);

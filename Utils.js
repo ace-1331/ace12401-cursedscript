@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 31;
+window.currentVersion = 32;
 let AlwaysOn;
 let isLoaded;
 
@@ -14,7 +14,7 @@ LoginListener();
 async function LoginListener() {
   while (!isLoaded) {
     try {
-      while (window.CurrentScreen == "Login" && !isLoaded) {
+      while ((!window.CurrentScreen || window.CurrentScreen == "Login") && !isLoaded) {
         await new Promise(r => setTimeout(r, 2000));
       }
       isLoaded = true;
@@ -79,13 +79,15 @@ function CursedStarter() {
         hasDCPrevention: false,
         cannotOrgasm: false,
         forbidorgasm: false,
-                
+        hasBlockedOOC: false,
+        
         owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         blacklist: [],
         bannedWords: [],
         sentences: [{ ident: "yes", text: "Yes, %target%" }, { ident: "no", text: "No, %target%" }, { ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?" }, { ident: "greetings", text: "Greetings, %target%, it is good to see you." }, { ident: "leave", text: "May %self% be excused, %target%?" }, { ident: "service", text: "How may %self% be useful for you today, %target%?" },],
         cursedAppearance: [],
+        cursedPresets: [],
         savedColors: [],
         charData: [],
         reminders: [],
@@ -145,7 +147,7 @@ function CursedStarter() {
       //Pull config from log or create
       if (!oldStorage) {
         SendChat("The curse awakens on " + Player.Name + ".");
-        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
+        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
         try {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
         } catch (err) { console.log(err); }

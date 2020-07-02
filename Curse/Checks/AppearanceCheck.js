@@ -40,7 +40,10 @@ function AppearanceCheck() {
         TryPopTip(25);
       } else if (name == "" && itemNeedsRemoving(group)) {
         InventoryRemove(Player, group);
+        cursedConfig.toUpdate.push(group);
+        cursedConfig.mustRefresh = true;
         warnRemove++;
+        cursedConfig.strikes += 3;
         TryPopTip(26);
       }
     });
@@ -48,7 +51,7 @@ function AppearanceCheck() {
     if (warnAdd)
       SendChat(`The curse on ${Player.Name} restores her cursed item${warnAdd > 1 ? "s" : ""}.`);
     if (warnRemove)
-      SendChat(`The curse on ${Player.Name} removes unallowed item${warnRemove > 1 ? "s" : ""}.`);
+      SendChat(`The curse on ${Player.Name} removes forbidden item${warnRemove > 1 ? "s" : ""}.`);
 
         
     //Cursed Orgasms
