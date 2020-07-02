@@ -42,7 +42,9 @@ function procCursedNaked(isAdd) {
     .forEach(group => {
       toggleCurseItem({ name: "", group, [isAdd ? 'forceAdd' : 'forceRemove']: true, isSilent: true });
     });
-  SendChat(`The curse arises on ${Player.Name}'s clothes.`);
+  SendChat(
+    `The curse ${isAdd ? 'arises' : ''} on ${Player.Name}'s clothes${!isAdd ? ' was lifted' : ''}.`
+  );
 }
 
 /** Triggers cursed vibrators 

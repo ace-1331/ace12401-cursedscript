@@ -229,9 +229,9 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       break;
     case "blockooc":
       if (!cursedConfig.hasBlockedOOC)
-        NotifyOwners("The curse on " + Player.Name + " will remove gagged OOC.", true);
+        NotifyOwners("The curse on " + Player.Name + " will block gagged OOC.", true);
       else
-        NotifyOwners("The curse on " + Player.Name + " will remove gagged OOC.", true);
+        NotifyOwners("The curse on " + Player.Name + " will no longer block gagged OOC.", true);
       cursedConfig.hasBlockedOOC = !cursedConfig.hasBlockedOOC;
       break;
     case "asylum":

@@ -22,7 +22,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           // Loads the preset + do not apply punishments on the next check
           cursedConfig.cursedAppearance = [...preset.cursedItems];
           cursedConfig.onRestart = true;
-          SendChat(`(The curse on ${Player.Name} restores her cursed state (${preset.Name}))`);
+          SendChat(`The curse on ${Player.Name} restores her cursed state (${preset.name})`);
           sendWhisper(sender, "(This feature is to load a frequently used set of cursed items easily instead of spamming the same command over and over again. It is not intended as a 'quick tie' function. Please do not use it as such.)", true);
         } else { 
           sendWhisper(sender, "(Preset not found)");
@@ -44,7 +44,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
               { name: (currentAsset && currentAsset.Asset.Name) || "", group: CI.group, isSilent: true }
             );
           });
-          SendChat(`(The curse on ${Player.Name} restores her cursed state (${preset.Name}) )`);
+          SendChat(`The curse on ${Player.Name} restores her cursed state (${preset.name})`);
           sendWhisper(sender, "(This feature is to load a frequently used set of cursed items easily instead of spamming the same command over and over again. It is not intended as a 'quick tie' function. Please do not use it as such.)", true);
         } else { 
           sendWhisper(sender, "(Preset not found)");

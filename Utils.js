@@ -14,7 +14,7 @@ LoginListener();
 async function LoginListener() {
   while (!isLoaded) {
     try {
-      while (window.CurrentScreen == "Login" && !isLoaded) {
+      while ((!window.CurrentScreen || window.CurrentScreen == "Login") && !isLoaded) {
         await new Promise(r => setTimeout(r, 2000));
       }
       isLoaded = true;
@@ -146,7 +146,7 @@ function CursedStarter() {
       //Pull config from log or create
       if (!oldStorage) {
         SendChat("The curse awakens on " + Player.Name + ".");
-        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
+        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
         try {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
         } catch (err) { console.log(err); }

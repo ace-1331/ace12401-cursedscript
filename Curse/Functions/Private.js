@@ -4,8 +4,12 @@ function PrivateCommands({ command, parameters, sender }) {
     case "listpreset":
     case "listpresets":
       TryPopTip(45);
-      let report = cursedConfig.cursedPresets.map(P => P.name + " [" + P.cursedItems.map(CI => CI.group).join(", ") + "]").join(", ");
-      sendWhisper(sender, report);
+      let presets = cursedConfig.cursedPresets.map(P =>
+        P.name + " [" + P.cursedItems.map(CI =>
+          (AssetGroup.find(G => G.Name == CI.group) || {}).Description || "Unknown Group"
+        ).join(", ") + "]"
+      ).join(", ");
+      sendWhisper(sender, presets);
       break;
     case "configreport":
       let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands"];

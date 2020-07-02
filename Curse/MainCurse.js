@@ -62,8 +62,8 @@ async function CursedCheckUp() {
           msg.setAttributeNode(verifiedAtt);
         });
 
-        //Runs only if something happened
-        if (messagesToVerify.length > 0) {
+        //Runs only if something happened , If a restart was required by a function, we skip the checks
+        if (messagesToVerify.length > 0 && !cursedConfig.onRestart) {
           // Appearance checks & punishment application outside of LARP
           // Functions return true if something changed, so refresh or procs will notify with var
           if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {

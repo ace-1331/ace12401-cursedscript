@@ -129,7 +129,6 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
-    *NEW*-blockooc
     *NEW*-resetorgasmcount
     -guestnotes
     -readnotes
@@ -147,6 +146,7 @@ function InitHelpMsg() {
     *NEW* INTENSE VERSION:-preventdc
     *NEW* INTENSE VERSION:-meterlocked
     *NEW* INTENSE VERSION:-meteroff
+    *NEW* INTENSE VERSION: -blockooc
 
     >>>Club rules Commands<<<
     *NEW*-forcedlabor
