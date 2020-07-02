@@ -15,7 +15,7 @@ function SelfMessageCheck(msg) {
       r = true;
   }
   
-  if (msg == "") return false;
+  if (msg == "") return r;
 
   //Parse Commands
   let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
