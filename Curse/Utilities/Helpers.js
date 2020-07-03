@@ -753,6 +753,7 @@ function GetTargetParams(sender, parameters, priority) {
   }
   return [parseInt(target), paramString];
 }
+
 //Adds to a list or changes a string with checks in place, if target is a number(strings will dupe without a check) charData will update List and LPriority with auth checks
 //Returns ["success, target object] or ["status message", target obj if required]
 function AddWithChecks(target, insertable, listName, sender, priority, ) {
@@ -761,7 +762,7 @@ function AddWithChecks(target, insertable, listName, sender, priority, ) {
   
   if (Array.isArray(target)) {    // target is a list, not inside an object - add to list
     target.concat(insertable);  // for other lists you might want to add to with a check
-    return "success";
+    return ["success",];
   }
   if (!listName) { return ["no list set",]; }
   // If target is a number, use member number and add to charData with matched priority number
@@ -796,6 +797,7 @@ function AddWithChecks(target, insertable, listName, sender, priority, ) {
     }
   }   // Use here to add anything else with a different way
 }
+
 //Removes a list or changes a string with checks in place, if target is a number charData will update List and LPriority with auth checks
 //Returns ["success, target object] or ["status message", target obj if required] Also has block / allow functions
 function DeleteWithChecks(target, deletable, listname, sender, priority) {
