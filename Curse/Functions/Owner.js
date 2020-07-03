@@ -127,7 +127,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         return;
       }
       if (cursedConfig.hasForcedMeterLocked) {
-        sendWhisper(sender, "(The curse to force the meter to locked hass been turned off in favor of this one.)", true);
+        sendWhisper(sender, "(The curse to force the meter to locked has been turned off in favor of this one.)", true);
         cursedConfig.hasForcedMeterLocked = false;
       }
       TryPopTip(44);
@@ -158,6 +158,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasSound = !cursedConfig.hasSound;
       break;
     case "restrainedspeech":
+    case "restrainspeech":
       if (!cursedConfig.hasIntenseVersion) {
         sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
         return;
@@ -305,7 +306,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         let oldBlockConfig = cursedConfig.hasFullMuteChat;
         cursedConfig.hasFullMuteChat = false;
 
-        popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true).replace(new RegExp("^(" + commandCall + ")", "g"), "");//stop commands
+        popChatGlobal(parameters.join(" ").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), ""), true);//stop commands
 
         cursedConfig.hasFullMuteChat = oldBlockConfig;
       } else {
