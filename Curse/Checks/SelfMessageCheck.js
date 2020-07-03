@@ -8,7 +8,11 @@ function SelfMessageCheck(msg) {
   msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
 
   // Gagged OOC
-  if (cursedConfig.hasBlockedOOC && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*") && !Player.CanTalk() && originalMsg.includes("(")) { 
+  if (
+    cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
+    && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
+    && !Player.CanTalk() && originalMsg.includes("(")
+  ) { 
     NotifyOwners("(Tried to use OOC while gagged)");
     popChatSilent("WARNING: You are not allowed to use OOC in normal chat messages while gagged.");
     cursedConfig.strikes += 4;
@@ -57,7 +61,7 @@ function SelfMessageCheck(msg) {
   //Returns immediately, that way it wont collide with other stuff
   if (
     cursedConfig.hasRestrainedSpeech
-        && cursedConfig.hasIntenseVersion
+    && cursedConfig.hasIntenseVersion
   ) {
     if (!ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")) {
       NotifyOwners("(Tried to speak freely when her speech was restrained.)");
