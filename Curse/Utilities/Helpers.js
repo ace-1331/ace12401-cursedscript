@@ -784,10 +784,11 @@ function AddWithChecks(target, insertable, listName, sender, priority, ) {
             known[listName] = insertable;
         }
         known[pri] = priority;
-        if (!cursedConfig.charData.some(k => k.Number == known.Number)) {
+        if (!cursedConfig.charData.some(k => k.Number == known.Number)) 
           cursedConfig.charData.push(known);
+          
           return ["success", known];
-        }
+        
       } else {
         return ["not enough auth", known];
       }
