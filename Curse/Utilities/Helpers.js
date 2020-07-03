@@ -432,10 +432,10 @@ function SetNickname(parameters, sender, priority) {
       sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give nicknames to others.");
       return;
     case "not enough auth":
-      sendWhisper(sender, Player.Name + "'s nickname for " + target.Name + " was set by a higher power and cannot be changed.");
+      sendWhisper(sender, Player.Name + "'s nickname for " + FetchName(userNumber) + " was set by a higher power and cannot be changed.");
       return;
     case "blocked":
-      sendWhisper(sender, "Permission denied. " + target.Name + " has blocked being given nicknames.");
+      sendWhisper(sender, "Permission denied. " + FetchName(userNumber) + " has blocked being given nicknames.");
       return;
     case "success":
       if (!target.SavedName || target.SavedName == "")
@@ -772,7 +772,7 @@ function AddWithChecks(target, insertable, listName, sender, priority, ) {
       let known = cursedConfig.charData.find(mem => mem.Number == target);
       // don't know them, lets make them first then add
       if (!known) {
-        known = { Number: parseInt(target), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
+        known = {Number: parseInt(target), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
       }
       if (known[pri] == 5) { return ["blocked",]; }
       if (known[pri] <= priority) {
