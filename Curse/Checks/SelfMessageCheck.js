@@ -124,7 +124,7 @@ function SelfMessageCheck(msg) {
   }
 
   //Contractions
-  if (cursedConfig.hasNoContractions && !cursedConfig.hasSound && (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).length != 0) {
+  if (cursedConfig.hasNoContractions && !originalMsg.startsWith("*") && !cursedConfig.hasSound && (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).filter(C => !C.includes("'s")).length != 0 ) {
     NotifyOwners("(Tried to use contractions)");
     popChatSilent("WARNING: You are not allowed to use contractions!");
     cursedConfig.strikes += 2;
@@ -134,7 +134,8 @@ function SelfMessageCheck(msg) {
   //Doll talk
   if (cursedConfig.hasDollTalk && !originalMsg.startsWith("*")) {
     let words = msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").trim().split(" ").filter(w => w);
-    if (words.length > 5) {
+    let whitelist = ["goddess", "mistress"];
+    if (words.filter(w => !whitelist.includes(w)).length > 5) {
       NotifyOwners("(Tried to use too many words (doll talk infraction))");
       popChatSilent("WARNING: You are not allowed to use more than 5 words! (doll talk infraction)");
       cursedConfig.strikes += 2;
