@@ -88,7 +88,7 @@ function AnalyzeMessage(msg) {
       }
 
       //Global warning to prevent spam.
-      if (types.contains("ChatMessageChat")) {
+      if (types.contains("ChatMessageChat") && ChatRoomCharacter.length > 2) {
         sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam.", true);
         return;
       }
