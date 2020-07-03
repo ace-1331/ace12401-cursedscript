@@ -46,6 +46,21 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         SendChat("The curse lets " + Player.Name + " talk again.");
       cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
       break;
+    case "safeword":
+    case "nosafeword":
+      if (window.location.href.includes("R58")) { 
+        sendWhisper(sender, "(This feature is to disable the safeword feature coming in the next version of the club, it will not do anything in this release.)", true);
+      }
+      if (!cursedConfig.hasIntenseVersion) {
+        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+        return;
+      }
+      if (!cursedConfig.hasNoEasyEscape)
+        sendWhisper(sender, "(Wearer is now unable to user her 'safeword'.)", true);
+      else
+        sendWhisper(sender, "(Wearer is now able to user her 'safeword'.)", true);
+      cursedConfig.hasNoEasyEscape = !cursedConfig.hasNoEasyEscape;
+      break;
     case "restrainplay":
       if (!cursedConfig.hasRestrainedPlay)
         sendWhisper(sender, "(Wearer is now unable to add/remove mistresses and owners.)", true);
@@ -66,15 +81,17 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       localStorage.setItem(`bc-cursedNote-${Player.MemberNumber}`, note);
       sendWhisper(sender, note ? "(Note saved.)" : "(Note deleted.)", true);
       break;
+    case "rescue":
+    case "npcrescue":
     case "maid":
       if (!cursedConfig.hasIntenseVersion) {
         sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
         return;
       }
       if (!cursedConfig.hasNoMaid)
-        sendWhisper(sender, "(Wearer is now unable to be freed by the rescue maid.)", true);
+        sendWhisper(sender, "(Wearer is now less likely to be freed by NPCs.)", true);
       else
-        sendWhisper(sender, "(Wearer is now able to be freed by the rescue maid.)", true);
+        sendWhisper(sender, "(Wearer is now able to be freed by NPCs as normal.)", true);
       cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
       break;
     case "preventdc":
@@ -246,8 +263,8 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         NotifyOwners("The curse on " + Player.Name + " will no longer block gagged OOC.", true);
       cursedConfig.hasBlockedOOC = !cursedConfig.hasBlockedOOC;
       break;
-      case "secretorgasm":
-      case "secretorgasms":
+    case "secretorgasm":
+    case "secretorgasms":
       if (!cursedConfig.hasIntenseVersion) {
         sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
         return;
@@ -292,7 +309,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         ElementRemove("TextAreaChatLog");
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumEntrance");
-      } else { 
+      } else {
         sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
       }
       break;

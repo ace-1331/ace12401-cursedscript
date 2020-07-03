@@ -40,10 +40,10 @@ function procGenericItem(item, group) {
 function procCursedNaked(isAdd) {
   ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
     .forEach(group => {
-      toggleCurseItem({ name: "", group, [isAdd ? 'forceAdd' : 'forceRemove']: true, isSilent: true });
+      toggleCurseItem({ name: "", group, [isAdd ? "forceAdd" : "forceRemove"]: true, isSilent: true });
     });
   SendChat(
-    `The curse ${isAdd ? 'arises' : ''} on ${Player.Name}'s clothes${!isAdd ? ' was lifted' : ''}.`
+    `The curse ${isAdd ? "arises" : ""} on ${Player.Name}'s clothes${!isAdd ? " was lifted" : ""}.`
   );
 }
 

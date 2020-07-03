@@ -54,7 +54,7 @@ function InitHelpMsg() {
     -asylumtimeleft
     -readnote
     -sendnote
-    *NEW*-orgasmcount
+    -orgasmcount
     INTENSE V:-nickname [Name]
     INTENSE V:-blocknickname
     INTENSE V:-allownickname
@@ -94,7 +94,7 @@ function InitHelpMsg() {
     -naked
     -vibes
     *NEW*-vibratorintensity [off,max,etc.]
-    -collar
+    -permakneel
     
     -mittens
     -paws
@@ -132,7 +132,7 @@ function InitHelpMsg() {
 
     >>>Configuration Commands<<<
     *NEW*-retype
-    *NEW*-resetorgasmcount
+    -resetorgasmcount
     -guestnotes
     -readnotes
     -disablepunishments
@@ -144,21 +144,22 @@ function InitHelpMsg() {
     -reminderinterval [seconds]
     -clearallreminders
     INTENSE VERSION: -leash
-    INTENSE VERSION: -maid
+    INTENSE VERSION: -norescue
     INTENSE VERSION: -sensdep
-    *NEW* INTENSE VERSION:-preventdc
-    *NEW* INTENSE VERSION:-meterlocked
-    *NEW* INTENSE VERSION:-meteroff
+    INTENSE VERSION:-preventdc
+    INTENSE VERSION:-meterlocked
+    INTENSE VERSION:-meteroff
     *NEW* INTENSE VERSION:-secretorgasm
     *NEW* INTENSE VERSION:-blockooc
+    *NEW* INTENSE VERSION:-nosafeword
 
     >>>Club rules Commands<<<
-    *NEW*-forcedlabor
-    *NEW*-remoteself
-    *NEW*-remoteblock
-    *NEW*-unlockself
-    *NEW*-keyblock
-    *NEW*-blockchange
+    -forcedlabor
+    -remoteself
+    -remoteblock
+    -unlockself
+    -keyblock
+    -blockchange
     
     >>>Speech Commands<<<
     -enforceentrymessage
@@ -175,8 +176,8 @@ function InitHelpMsg() {
     INTENSE V: -sound ["oink", "meow", ...]
 
     >>>Curses<<<
-    *NEW*-forbidorgasm
-    *NEW*-blockorgasm
+    -forbidorgasm
+    -blockorgasm
     -belt
     -clearcurses
     -reminders
@@ -185,7 +186,7 @@ function InitHelpMsg() {
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
     -ctitle [Number] [Title]
-    *NEW*-looseowner
+    -looseowner
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -locknewlover
     INTENSE VERSION: -locknewsub

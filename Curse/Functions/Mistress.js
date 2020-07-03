@@ -1,7 +1,7 @@
 /** Function to trigger commands intended for mistresses, returns true if no command was executed */
 function MistressCommands({ command, sender, parameters, isOwner, isClubOwner }) {
   switch (command) {
-    case 'savepreset':
+    case "savepreset":
       TryPopTip(45);
       if (parameters[0]) {
         let filteredPresets = cursedConfig.cursedPresets.filter(P => P.name !== parameters[0]);
@@ -14,7 +14,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "(Missing argument. [preset name])");
       }
       break;
-    case 'loadpreset':
+    case "loadpreset":
       TryPopTip(45);
       if (parameters[0]) {
         let preset = cursedConfig.cursedPresets.find(P => P.name === parameters[0]);
@@ -31,8 +31,8 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "(Missing argument. [preset name])");
       }
       break;
-    case 'loadpresetcurse':
-    case 'loadpresetcurses':
+    case "loadpresetcurse":
+    case "loadpresetcurses":
       TryPopTip(45);
       if (parameters[0]) {
         let preset = cursedConfig.cursedPresets.find(P => P.name === parameters[0]);
@@ -100,6 +100,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "-->Public access blocked", true);
       cursedConfig.hasPublicAccess = !cursedConfig.hasPublicAccess;
       break;
+    case "permakneel":
     case "collar":
     case "cursedcollar":
       if (!cursedConfig.hasCursedKneel) {
@@ -143,24 +144,24 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           case "max":
           case "maximum":
             cursedConfig.vibratorIntensity = 3;
-            SendChat( Player.Name + "'s vibrators were set to maximum intensity.");
+            SendChat(Player.Name + "'s vibrators were set to maximum intensity.");
             break;
           case "high":
             cursedConfig.vibratorIntensity = 2;
-            SendChat( Player.Name + "'s vibrators were set to high intensity.");
+            SendChat(Player.Name + "'s vibrators were set to high intensity.");
             break;
           case "medium":
           case "normal":
             cursedConfig.vibratorIntensity = 1;
-            SendChat( Player.Name + "'s vibrators were set to medium intensity.");
+            SendChat(Player.Name + "'s vibrators were set to medium intensity.");
             break;
           case "low":
             cursedConfig.vibratorIntensity = 0;
-            SendChat( Player.Name + "'s vibrators were set to low intensity.");
+            SendChat(Player.Name + "'s vibrators were set to low intensity.");
             break;
           case "off":
             cursedConfig.vibratorIntensity = -1;
-            SendChat( Player.Name + "'s vibrators were turned off.");
+            SendChat(Player.Name + "'s vibrators were turned off.");
             break;
           default:
             sendWhisper(sender, "(Invalid command call: please provide a valid speed [off, low, normal, high, max].)");

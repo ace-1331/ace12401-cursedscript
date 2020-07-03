@@ -9,10 +9,10 @@ function SelfMessageCheck(msg) {
 
   // Gagged OOC
   if (cursedConfig.hasBlockedOOC && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*") && !Player.CanTalk() && originalMsg.includes("(")) { 
-      NotifyOwners("(Tried to use OOC while gagged)");
-      popChatSilent("WARNING: You are not allowed to use OOC in normal chat messages while gagged.");
-      cursedConfig.strikes += 4;
-      r = true;
+    NotifyOwners("(Tried to use OOC while gagged)");
+    popChatSilent("WARNING: You are not allowed to use OOC in normal chat messages while gagged.");
+    cursedConfig.strikes += 4;
+    r = true;
   }
   
   if (msg == "") return r;

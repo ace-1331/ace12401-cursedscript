@@ -102,7 +102,7 @@ function popChatSilent(actionTxt, senderName) {
     div.setAttribute("data-time", ChatRoomCurrentTime());
     div.setAttribute("data-sender", Player.MemberNumber);
     div.setAttribute("verifed", "true");
-    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt.replace(/^\(|\)$/g, '') + ")";
+    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt.replace(/^\(|\)$/g, "") + ")";
 
     //Refocus the chat to the bottom
     let Refocus = document.activeElement.id == "InputChat";

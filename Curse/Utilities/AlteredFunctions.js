@@ -26,8 +26,7 @@ function InitAlteredFns() {
     ManagementCannotBeReleasedOnline = function (...rest) { return ((!cursedConfig.isRunning || !cursedConfig.isLockedOwner || !cursedConfig.hasIntenseVersion) && backupManagementCannotBeReleasedOnline(...rest)); };
   }
 
-  // Maid (Maid block)
-
+  // NPC rescues
   if (window.MainHallMaidReleasePlayer) {
     let backupMainHallMaidReleasePlayer = MainHallMaidReleasePlayer;
     MainHallMaidReleasePlayer = function (...rest) {
@@ -47,7 +46,49 @@ function InitAlteredFns() {
       backupPhotographicPlayerRelease(...rest);
     };
   }
-
+  
+  if (window.ManagementAllowReleaseChastity) {
+    let backupManagementAllowReleaseChastity = ManagementAllowReleaseChastity;
+    ManagementAllowReleaseChastity = function (...rest) {
+      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) return false;
+      return backupManagementAllowReleaseChastity(...rest);
+    };
+  }
+  if (window.MainHallMaidShamePlayer) {
+    let backupMainHallMaidShamePlayer = MainHallMaidShamePlayer;
+    MainHallMaidShamePlayer = function (...rest) {
+      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
+        TryPopTip(36);
+        MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "CannotRelease");
+        return;
+      }
+      backupMainHallMaidShamePlayer(...rest);
+    };
+  }
+  
+  if (window.GamblingRun) {
+    let backupGamblingRun = GamblingRun;
+    GamblingRun = function (...rest) {
+      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) { 
+        alert('Gambling Hall is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if she wish to come in. ->Going back to the main hall <-');
+        CommonSetScreen("Room", "MainHall");
+        
+        return;
+      }
+      backupGamblingRun(...rest);
+    };
+  }
+  
+  
+  // Disable safeword:
+  if (window.ChatRoomSafeword) {
+    let backupChatRoomSafeword = ChatRoomSafeword;
+    ChatRoomSafeword = function (...rest) {
+      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoEasyEscape) return;
+      backupChatRoomSafeword(...rest);
+    };
+  }
+  
   //Wearer tap in chat
   if (window.ChatRoomSendChat) {
     let backupChatRoomSendChat = ChatRoomSendChat;
@@ -246,7 +287,7 @@ function InitAlteredFns() {
         return;
       }
       backupDrawArousalMeter(...rest);
-    }
+    };
   }
 }
 
