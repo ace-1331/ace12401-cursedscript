@@ -159,9 +159,9 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       break;
     case "retype":
       if (!cursedConfig.mustRetype)
-        sendWhisper(sender, `(Must retype messages when a speech transgression was detected.)`, true);
+        sendWhisper(sender, "(Must retype messages when a speech transgression was detected.)", true);
       else
-        sendWhisper(sender, `(Must no longer retype messages when a speech transgression was detected.)`, true);
+        sendWhisper(sender, "(Must no longer retype messages when a speech transgression was detected.)", true);
       cursedConfig.mustRetype = !cursedConfig.mustRetype;
       break;
     case "restrainedspeech":
@@ -236,6 +236,10 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasFullPublic = !cursedConfig.hasFullPublic;
       break;
     case "blockooc":
+      if (!cursedConfig.hasIntenseVersion) {
+        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+        return;
+      }
       if (!cursedConfig.hasBlockedOOC)
         NotifyOwners("The curse on " + Player.Name + " will block gagged OOC.", true);
       else
@@ -252,7 +256,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         if (timeToAdd < -1000000000000000000000000000000000000) {
           timeToAdd = -999588479404333;
         }
-        SendChat(`${Player.Name} has ${timeToAdd > 0 ? 'more' : 'less'} time to spend in the asylum.`);
+        SendChat(`${Player.Name} has ${timeToAdd > 0 ? "more" : "less"} time to spend in the asylum.`);
         oldLog = Log.filter(el => el.Name == "Committed");
         //Send or Add to existing time
         if (oldLog.length == 0 || oldLog[0].Value < CurrentTime) {
@@ -266,7 +270,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Invalid arguments.)");
       }
       break;
-    case 'sendasylum':
+    case "sendasylum":
       if (LogQuery("Committed", "Asylum") && LogValue("Committed", "Asylum") > Date.now()) {
         //Send to asylum and remove items that would be a progression blocker
         SendChat(`${Player.Name} was sent to the asylum by her owner.`);
@@ -277,7 +281,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumEntrance");
       } else { 
-        sendWhisper(sender, 'The wearer has no time left on her asylum timer.', true);
+        sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
       }
       break;
     case "entrymessage":
