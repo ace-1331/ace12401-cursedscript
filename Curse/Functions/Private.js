@@ -54,7 +54,7 @@ function PrivateCommands({ command, parameters, sender }) {
       cursedConfig.charData.forEach(el => {
         tmpstr.push(el.Number);
       });
-      sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${tmpstr.join(", #")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}, Doll talk: ${cursedConfig.hasDollTalk}.`);
+      sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${tmpstr.join(", #")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}, Doll talk: ${cursedConfig.hasDollTalk}, OOC while gagged: ${!cursedConfig.hasBlockedOOC},must retype messages: ${cursedConfig.mustRetype}.`);
       break;
     }
     default:
