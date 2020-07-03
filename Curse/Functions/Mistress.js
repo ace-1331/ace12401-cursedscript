@@ -10,7 +10,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           { name: parameters[0], cursedItems: [...cursedConfig.cursedAppearance] }
         );
         sendWhisper(sender, "Preset Saved: " + parameters[0], true);
-      } else { 
+      } else {
         sendWhisper(sender, "(Missing argument. [preset name])");
       }
       break;
@@ -18,16 +18,16 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       TryPopTip(45);
       if (parameters[0]) {
         let preset = cursedConfig.cursedPresets.find(P => P.name === parameters[0]);
-        if (preset) { 
+        if (preset) {
           // Loads the preset + do not apply punishments on the next check
           cursedConfig.cursedAppearance = [...preset.cursedItems];
           cursedConfig.onRestart = true;
           SendChat(`The curse on ${Player.Name} restores her cursed state (${preset.name})`);
           sendWhisper(sender, "(This feature is to load a frequently used set of cursed items easily instead of spamming the same command over and over again. It is not intended as a 'quick tie' function. Please do not use it as such.)", true);
-        } else { 
+        } else {
           sendWhisper(sender, "(Preset not found)");
         }
-      } else { 
+      } else {
         sendWhisper(sender, "(Missing argument. [preset name])");
       }
       break;
@@ -36,9 +36,9 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       TryPopTip(45);
       if (parameters[0]) {
         let preset = cursedConfig.cursedPresets.find(P => P.name === parameters[0]);
-        if (preset) { 
+        if (preset) {
           cursedConfig.cursedAppearance = [];
-          preset.cursedItems.forEach(CI => {         
+          preset.cursedItems.forEach(CI => {
             let currentAsset = InventoryGet(Player, CI.group);
             toggleCurseItem(
               { name: (currentAsset && currentAsset.Asset.Name) || "", group: CI.group, isSilent: true }
@@ -46,10 +46,10 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           });
           SendChat(`The curse on ${Player.Name} restores her cursed state (${preset.name})`);
           sendWhisper(sender, "(This feature is to load a frequently used set of cursed items easily instead of spamming the same command over and over again. It is not intended as a 'quick tie' function. Please do not use it as such.)", true);
-        } else { 
+        } else {
           sendWhisper(sender, "(Preset not found)");
         }
-      } else { 
+      } else {
         sendWhisper(sender, "(Missing argument. [preset name])");
       }
       break;
@@ -123,6 +123,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "cursedorgasms":
     case "vibes":
+      TryPopTip(47);
       if (!cursedConfig.hasCursedOrgasm) {
         SendChat("The curse arises on " + Player.Name + "'s vibrating toys.");
         vibratorGroups.forEach(G => procCursedOrgasm(G));
@@ -134,6 +135,42 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
     case "cursedclothes":
     case "naked":
       procCursedNaked(true);
+      break;
+    case "vibratorintensity":
+      TryPopTip(47);
+      if (parameters[0]) {
+        switch (parameters[0]) {
+          case "max":
+          case "maximum":
+            cursedConfig.vibratorIntensity = 3;
+            SendChat( Player.Name + "'s vibrators were set to maximum intensity.");
+            break;
+          case "high":
+            cursedConfig.vibratorIntensity = 2;
+            SendChat( Player.Name + "'s vibrators were set to high intensity.");
+            break;
+          case "medium":
+          case "normal":
+            cursedConfig.vibratorIntensity = 1;
+            SendChat( Player.Name + "'s vibrators were set to medium intensity.");
+            break;
+          case "low":
+            cursedConfig.vibratorIntensity = 0;
+            SendChat( Player.Name + "'s vibrators were set to low intensity.");
+            break;
+          case "off":
+            cursedConfig.vibratorIntensity = -1;
+            SendChat( Player.Name + "'s vibrators were turned off.");
+            break;
+          default:
+            sendWhisper(sender, "(Invalid command call: please provide a valid speed [off, low, normal, high, max].)");
+            return;
+        }
+        vibratorGroups.forEach(G => procCursedOrgasm(G));
+        NotifyOwners("(Vibrator speed changed.)", true);
+      } else {
+        sendWhisper(sender, "(Invalid command call: please provide the speed [off, low, normal, high, max].)");
+      }
       break;
     case "clothed":
       procCursedNaked(false);
@@ -204,6 +241,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "(Invalid arguments. Make sure you provided on or off.)");
       }
       break;
+    case "blockword":
     case "banword":
       if (parameters[0]) {
         if (!cursedConfig.bannedWords.includes(parameters[0])) {
@@ -291,7 +329,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         let dateOfRemoval = null;
 
         if (parameters[1] && !isNaN(parameters[1])) {
-        // Param is hours and must be higher than 1 minute and lower than 7 days
+          // Param is hours and must be higher than 1 minute and lower than 7 days
           let requestedTime = parseInt(parameters[1]);
           requestedTime *= 3.6e+6;
           if (requestedTime < 60000) requestedTime = 60000;
@@ -313,7 +351,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       }
       break;
     default:
-    // No command found
+      // No command found
       return true;
 
   }

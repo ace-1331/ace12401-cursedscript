@@ -157,6 +157,13 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         SendChat("The curse lets " + Player.Name + " speak normally.");
       cursedConfig.hasSound = !cursedConfig.hasSound;
       break;
+    case "retype":
+      if (!cursedConfig.mustRetype)
+        sendWhisper(sender, `(Must retype messages when a speech transgression was detected.)`, true);
+      else
+        sendWhisper(sender, `(Must no longer retype messages when a speech transgression was detected.)`, true);
+      cursedConfig.mustRetype = !cursedConfig.mustRetype;
+      break;
     case "restrainedspeech":
     case "restrainspeech":
       if (!cursedConfig.hasIntenseVersion) {

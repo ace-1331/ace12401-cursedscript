@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 32;
+window.currentVersion = 33;
 let AlwaysOn;
 let isLoaded;
 
@@ -104,6 +104,7 @@ function CursedStarter() {
         slaveIdentifier: Player.Name,
         commandChar: "#",
 
+        vibratorIntensity: 3,
         orgasms: 0,
         strikes: 0,
         lastPunishmentAmount: 0,
@@ -118,6 +119,7 @@ function CursedStarter() {
         isClassic: false,
         isEatingCommands: false,
         isLooseOwner: false,
+        mustRetype: true,
         hasRestraintVanish: false,
         canLeash: false,
         hasWardrobeV2: false,

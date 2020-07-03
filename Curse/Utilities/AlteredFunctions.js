@@ -49,7 +49,7 @@ function InitAlteredFns() {
     if (m != "" && m.indexOf("/") != 0 && (isActivated || isCommand)) {
       let shouldReturn = SelfMessageCheck(m);
       if ((shouldReturn && !cursedConfig.isClassic) || isCommand) {
-        document.getElementById("InputChat").value = "";
+        if (cursedConfig.mustRetype) document.getElementById("InputChat").value = "";
         return;
       }
     }

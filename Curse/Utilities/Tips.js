@@ -205,4 +205,12 @@ window.curseTips = [
     isContextual: true,
     Text: "Once time is added to the asylum timer, you are left in the room. To be sent to the asylum on the spot, your curse owner needs to do the 'sendasylum' command.",
   },
+  {
+    ID: 47,
+    Text: "Cursed vibrators activated with 'vibes' means the intensity is stuck on a given level. By default, it is the maximum, however the intensity can be changed by the vibratoryintensity command."
+  },
+  {
+    ID: 48,
+    Text: "Your curse owner(s) can change speech restrictions to make it so the message does not disappear when you transgress with the 'retype' command."
+  }
 ];

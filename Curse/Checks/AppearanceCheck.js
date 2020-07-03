@@ -67,8 +67,8 @@ function AppearanceCheck() {
           if (!A.Property) {
             procCursedOrgasm(G);
           }
-          if (A.Property.Intensity < 3) {
-            SendChat("The curse on " + Player.Name + " brings the vibrators back to their maximum intensity.");
+          if (A.Property.Intensity < (cursedConfig.vibratorIntensity || 3)) {
+            SendChat("The curse on " + Player.Name + " brings her vibrators back to their required intensity.");
             procCursedOrgasm(G);
             TryPopTip(27);
             cursedConfig.strikes++;

@@ -93,7 +93,9 @@ function InitHelpMsg() {
     *NEW*-clothed
     -naked
     -vibes
+    *NEW*-vibratorintensity [off,max,etc.]
     -collar
+    
     -mittens
     -paws
     -gag
@@ -129,6 +131,7 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    *NEW*-retype
     *NEW*-resetorgasmcount
     -guestnotes
     -readnotes
