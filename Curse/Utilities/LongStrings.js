@@ -149,7 +149,8 @@ function InitHelpMsg() {
     *NEW* INTENSE VERSION:-preventdc
     *NEW* INTENSE VERSION:-meterlocked
     *NEW* INTENSE VERSION:-meteroff
-    *NEW* INTENSE VERSION: -blockooc
+    *NEW* INTENSE VERSION:-secretorgasm
+    *NEW* INTENSE VERSION:-blockooc
 
     >>>Club rules Commands<<<
     *NEW*-forcedlabor

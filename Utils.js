@@ -79,6 +79,7 @@ function CursedStarter() {
         cannotOrgasm: false,
         forbidorgasm: false,
         hasBlockedOOC: false,
+        hasSecretOrgasm: false,
         
         owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],

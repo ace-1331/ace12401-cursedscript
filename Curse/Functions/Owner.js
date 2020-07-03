@@ -246,6 +246,18 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         NotifyOwners("The curse on " + Player.Name + " will no longer block gagged OOC.", true);
       cursedConfig.hasBlockedOOC = !cursedConfig.hasBlockedOOC;
       break;
+      case "secretorgasm":
+      case "secretorgasms":
+      if (!cursedConfig.hasIntenseVersion) {
+        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+        return;
+      }
+      if (!cursedConfig.hasSecretOrgasm)
+        sendWhisper(sender, "(Wearer's arousal meter will always be hidden.)", true);
+      else
+        sendWhisper(sender, "(Wearer's arousal meter will resume being displayed normally.)", true);
+      cursedConfig.hasSecretOrgasm = !cursedConfig.hasSecretOrgasm;
+      break;
     case "asylum":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time

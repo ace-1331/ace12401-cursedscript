@@ -71,7 +71,9 @@ function popChatSilent(actionTxt, senderName) {
   cursedConfig.shouldPopSilent = false;
 
   //Removes dupes keeps the last order for UX
-  cursedConfig.savedSilent = cursedConfig.savedSilent.filter((m, i) => cursedConfig.savedSilent.lastIndexOf(m) === i);
+  cursedConfig.savedSilent = cursedConfig.savedSilent.filter(
+    (m, i) => cursedConfig.savedSilent.map(M => M.actionTxt).lastIndexOf(m.actionTxt) === i
+  );
 
   // Sort by System/Tip/Curse/Other
   const compare = (a, b) => {
@@ -100,7 +102,7 @@ function popChatSilent(actionTxt, senderName) {
     div.setAttribute("data-time", ChatRoomCurrentTime());
     div.setAttribute("data-sender", Player.MemberNumber);
     div.setAttribute("verifed", "true");
-    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt + ")";
+    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt.replace(/^\(|\)$/g, '') + ")";
 
     //Refocus the chat to the bottom
     let Refocus = document.activeElement.id == "InputChat";
@@ -180,9 +182,8 @@ function TryPopTip(ID) {
 function KneelAttempt() {
   if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
     CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
-    ChatRoomCharacterUpdate(Player);
+    cursedConfig.mustRefresh = true;
   }
-  cursedConfig.mustRefresh = true;
 }
 
 //Common Expression Triggers

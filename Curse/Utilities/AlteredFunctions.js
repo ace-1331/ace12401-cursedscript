@@ -155,7 +155,7 @@ function InitAlteredFns() {
   // Block new lovers
   let backupChatRoomLovershipOptionIs = ChatRoomLovershipOptionIs;
   ChatRoomLovershipOptionIs = function (Option) {
-    if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewLover) {
+    if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.isLockedNewLover) {
       TryPopTip(38);
       return false;
     }
@@ -165,7 +165,7 @@ function InitAlteredFns() {
   // Block new subs
   let backupChatRoomOwnershipOptionIs = ChatRoomOwnershipOptionIs;
   ChatRoomOwnershipOptionIs = function (Option) {
-    if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.isLockedNewSub) { 
+    if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.isLockedNewSub) { 
       TryPopTip(39);
       return false;
     }
@@ -209,6 +209,15 @@ function InitAlteredFns() {
       }
     }
   };
+  
+  // Hide arousal meter
+  let backupDrawArousalMeter = DrawArousalMeter;
+  DrawArousalMeter = function (C, X, Y, Zoom) {
+    if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.hasSecretOrgasm) { 
+      return;
+    }
+    backupDrawArousalMeter(C, X, Y, Zoom);
+  }
 }
 
 /** Altered functions that do *NOT* require cursedConfig */
