@@ -36,10 +36,6 @@ function PublicCommands({
       DeleteNickname([sender], sender, 6);
       break;
     case "capture":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (cursedConfig.hasCaptureMode) {
         if (cursedConfig.capture.Valid < Date.now()) {
           cursedConfig.capture.capturedBy = sender;

@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 33;
+window.currentVersion = 34;
 let AlwaysOn;
 let isLoaded;
 
@@ -81,6 +81,7 @@ function CursedStarter() {
         hasBlockedOOC: false,
         hasSecretOrgasm: false,
         hasNoEasyEscape: false,
+        hasFullLengthMode: false,
         
         owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -92,7 +93,7 @@ function CursedStarter() {
         savedColors: [],
         charData: [],
         reminders: [],
-        reminderInterval: 60000,
+        reminderInterval: 300000,
         entryMsg: "",
         say: "",
         sound: "",
@@ -127,6 +128,9 @@ function CursedStarter() {
         hasWardrobeV2: false,
         hasIntenseVersion: false,
         wasLARPWarned: false,
+        hasFullCurse: false,
+        disabledCommands: [],
+        optinCommands: [{command: 'forcedsay', isEnabled: false}, {command: 'disableblocking', isEnabled: false}],
         chatlog: [],
         savedSilent: [],
         chatStreak: 0,
@@ -168,13 +172,13 @@ function CursedStarter() {
         }
 
         if (oldVersion > currentVersion) {
-          alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.)Error: V03");
+          alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.) Error: V03");
         }
 
         if (oldVersion != currentVersion) {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
           alert("IMPORTANT! Please make sure you refreshed your page after updating.");
-
+          
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
           SendChat("The curse following " + Player.Name + " has changed.");
           popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
@@ -203,8 +207,12 @@ function CursedStarter() {
       //Enables the hidden curse item to display who has the curse
       if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
         AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
+        AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse" + currentVersion, Visible: false, Value: -1 });
         AssetLoadAll();
         InventoryAdd(Player, "Curse", "ItemHidden");
+        InventoryAdd(Player, "Curse" + currentVersion, "ItemHidden");
+        // Always re-enable the version tip to promote staying up to date
+        cursedConfig.seenTips = cursedConfig.seenTips.filter(ST => ST !== 49);
       }
 
       // DC Prevention

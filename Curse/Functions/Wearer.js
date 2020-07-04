@@ -4,6 +4,28 @@
 function WearerCommands({ command, parameters, sender }) {
   let r = false;
   switch (command) {
+    case 'togglecommand':
+      TryPopTip(50);
+      if (!parameters[0]) { 
+        popChatSilent('Invalid command -> specify the command to toggle on/off');
+        return;
+      }
+      const optin = cursedConfig.optinCommands.find(OC => OC.command === parameters[0]);
+      if (optin) { 
+        // When opt-in, we toggle the enabled bool
+        optin.isEnabled = !optin.isEnabled;
+        popChatSilent(`The ${parameters[0]} command was set to ${optin.isEnabled ? 'enabled' : 'disabled'}.`);
+        return;
+      } 
+      // When normal, we add/remove it from the list
+      if (cursedConfig.disabledCommands.includes(parameters[0])) { 
+        cursedConfig.disabledCommands = cursedConfig.disabledCommands.filter(C => C !== parameters[0]);
+        popChatSilent(`The ${parameters[0]} command was removed from your blacklist.`);
+        return
+      }
+      cursedConfig.disabledCommands.push(parameters[0]);
+      popChatSilent(parameters[0] === "ownerhub" ? 'The curse is now in owner hub mode. No one will be able to interact with your curse.' : `The ${parameters[0]} command was blocked.`);
+      break;
     case "restraintvanish":
       if (cursedConfig.hasRestraintVanish)
         popChatSilent("Your curse will no longer remove Items.");
@@ -191,6 +213,13 @@ function WearerCommands({ command, parameters, sender }) {
       break;
     case "savecolors":
       SaveColors();
+      break;
+    case "fullchatlength":
+      if (!cursedConfig.hasFullLengthMode)
+        popChatSilent("You're chat input will now be 5 times bigger.");
+      else
+        popChatSilent("You're chat input will be normal again.");
+      cursedConfig.hasFullLengthMode = !cursedConfig.hasFullLengthMode;
       break;
     case "quickban":
       if (ChatRoomData && ChatRoomData.Admin && ChatRoomData.Admin.includes(Player.MemberNumber)) {

@@ -1,7 +1,6 @@
 /** Function to trigger commands intended for the owners or wearer, returns true if no command was executed */
 function PrivateCommands({ command, parameters, sender }) {
   switch (command) {
-    case "listpreset":
     case "listpresets":
       TryPopTip(45);
       let presets = cursedConfig.cursedPresets.map(P =>

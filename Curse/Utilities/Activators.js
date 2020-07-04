@@ -291,7 +291,7 @@ function AdjustSettings() {
   //Fixes empty name in case of weird mess up
   if (cursedConfig.slaveIdentifier == "")
     cursedConfig.slaveIdentifier = Player.Name;
-
+  
   // Remove self own
   cursedConfig.mistresses = cursedConfig.mistresses.filter(M => M != Player.MemberNumber);
   cursedConfig.owners = cursedConfig.owners.filter(M => M != Player.MemberNumber);

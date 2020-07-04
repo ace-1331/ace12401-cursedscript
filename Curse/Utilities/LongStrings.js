@@ -19,6 +19,7 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
+    *NEW*-togglecommand [command]
     -quickban
     -wardrobev2
     -eatcommands
@@ -45,6 +46,7 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
+    *NEW*-listoffcommands
     -help
     -respect
     -title [title to add/rem]
@@ -151,7 +153,8 @@ function InitHelpMsg() {
     INTENSE VERSION:-meteroff
     *NEW* INTENSE VERSION:-secretorgasm
     *NEW* INTENSE VERSION:-blockooc
-    *NEW* INTENSE VERSION:-nosafeword
+    *NEW* INTENSE VERSION:-safeword
+    *NEW* INTENSE VERSION:-disableblocking
 
     >>>Club rules Commands<<<
     -forcedlabor
@@ -178,10 +181,11 @@ function InitHelpMsg() {
     >>>Curses<<<
     -forbidorgasm
     -blockorgasm
-    -belt
     -clearcurses
     -reminders
     -togglereminder [reminder]
+    
+    -belt
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<

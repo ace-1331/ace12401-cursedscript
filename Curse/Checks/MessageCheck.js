@@ -81,9 +81,8 @@ function AnalyzeMessage(msg) {
       parameters = commandString.split(" ");
       parameters.shift();//THROWS HERE IF COMMAND IS BAD
 
-      //Wearer only command
+      //Quit loop to prevent wearer from doing the rest (can't add self as owner)
       if (sender == Player.MemberNumber) {
-        //Quit loop to prevent wearer from doing the rest (can't add self as owner)
         return;
       }
 
@@ -93,6 +92,10 @@ function AnalyzeMessage(msg) {
         return;
       }
 
+      // Do not allow blacklisted commands
+      //This is opt-in, meaning it cannot run if it was not ok
+      if (!CommandIsActivated(command, sender)) return;
+      
       let needWarning = true;
             
       /* Will not cascade if a command was already found */

@@ -2,10 +2,6 @@
 function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
   switch (command) {
     case "lockowner":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (!cursedConfig.isLockedOwner)
         SendChat("The curse keeps " + Player.Name + " from leaving her owner.");
       else
@@ -20,10 +16,6 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
       cursedConfig.isLooseOwner = !cursedConfig.isLooseOwner;
       break;
     case "locknewlover":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (cursedConfig.isLockedNewLover)
         sendWhisper(sender, "Can have new lovers.", true);
       else
@@ -31,10 +23,6 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
       cursedConfig.isLockedNewLover = !cursedConfig.isLockedNewLover;
       break;
     case "locknewsub":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (cursedConfig.isLockedNewSub)
         sendWhisper(sender, "Can collar players again.", true);
       else

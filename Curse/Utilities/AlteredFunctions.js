@@ -268,11 +268,12 @@ function InitAlteredFns() {
           if (
             ChatRoomCharacter[C].MemberNumber != null
             && Array.isArray(ChatRoomCharacter[C].Inventory)
-            && ChatRoomCharacter[C].Inventory.filter(A => A.Name == "Curse").length > 0
+            && ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse")
           ) {
-            ChatRoomCharacter[C].isCursed = true;
-            DrawText("C", (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, "White");
-            TryPopTip(40);
+            // Asign the C or ?
+            ChatRoomCharacter[C].isCursed = ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
+            ChatRoomCharacter[C].isCursed === "C" ? TryPopTip(40) : TryPopTip(49);
+            DrawText(ChatRoomCharacter[C].isCursed, (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
           }
         }
       }

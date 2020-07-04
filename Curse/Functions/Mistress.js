@@ -31,7 +31,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "(Missing argument. [preset name])");
       }
       break;
-    case "loadpresetcurse":
     case "loadpresetcurses":
       TryPopTip(45);
       if (parameters[0]) {
@@ -59,38 +58,30 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       sendWhisper(sender, report, true);
       break;
     case "earplugs":
-    case "cursedearplugs":
       toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars" });
       break;
-    case "cursedhood":
     case "hood":
       toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead" });
       break;
     case "blindfold":
-    case "cursedblindfold":
       toggleCurseItem({ name: "FullBlindfold", group: "ItemHead" });
       break;
     case "mittens":
-    case "cursedmittens":
       toggleCurseItem({ name: "LeatherMittens", group: "ItemHands" });
       break;
     case "paws":
       toggleCurseItem({ name: "PawMittens", group: "ItemHands" });
       break;
     case "panties":
-    case "cursedpanties":
       toggleCurseItem({ name: "PantyStuffing", group: "ItemMouth" });
       break;
     case "dildogag":
-    case "curseddildogag":
       toggleCurseItem({ name: "DildoPlugGag", group: "ItemMouth" });
       break;
     case "gag":
-    case "cursedgag":
       toggleCurseItem({ name: "BallGag", group: "ItemMouth" });
       break;
     case "doublegag":
-    case "curseddoublegag":
       toggleCurseItem({ name: "DildoGag", group: "ItemMouth" });
       break;
     case "public":
@@ -101,8 +92,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       cursedConfig.hasPublicAccess = !cursedConfig.hasPublicAccess;
       break;
     case "permakneel":
-    case "collar":
-    case "cursedcollar":
       if (!cursedConfig.hasCursedKneel) {
         SendChat("The curse arises on " + Player.Name + "'s collar.");
         KneelAttempt();
@@ -111,18 +100,15 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;
       break;
     case "screws":
-    case "cursedscrews":
       toggleCurseItem({ name: "ScrewClamps", group: "ItemNipples" });
       break;
     case "cursedspeech":
-    case "speech":
       if (!cursedConfig.hasCursedSpeech)
         SendChat("The curse arises on " + Player.Name + "'s mouth.");
       else
         SendChat("The curse on " + Player.Name + "'s mouth vanished.");
       cursedConfig.hasCursedSpeech = !cursedConfig.hasCursedSpeech;
       break;
-    case "cursedorgasms":
     case "vibes":
       TryPopTip(47);
       if (!cursedConfig.hasCursedOrgasm) {
@@ -133,7 +119,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       }
       cursedConfig.hasCursedOrgasm = !cursedConfig.hasCursedOrgasm;
       break;
-    case "cursedclothes":
     case "naked":
       procCursedNaked(true);
       break;
@@ -242,7 +227,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "(Invalid arguments. Make sure you provided on or off.)");
       }
       break;
-    case "blockword":
     case "banword":
       if (parameters[0]) {
         if (!cursedConfig.bannedWords.includes(parameters[0])) {
@@ -323,7 +307,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       cursedConfig.hasNoContractions = !cursedConfig.hasNoContractions;
       break;
     case "curseitem":
-    case "curseditem":
       if (parameters[0]) {
         let group = textToGroup(parameters[0], isClubOwner ? 3 : isOwner ? 2 : 1);
         let currentAsset = InventoryGet(Player, group);

@@ -6,7 +6,10 @@ function SaveConfigs() {
     const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
     toDelete.forEach(prop => delete dbConfigs[prop]);
     localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
-  } catch (err) { console.log(err); }
+  } catch (err) {
+    alert('Your curse configs were not saved. Check the console for errors and report the issue if necessary.');
+    console.log(err);
+  }
 }
 
 /** Sends a message to all owners/mistresses in a room 
@@ -640,6 +643,15 @@ function InitCleanup() {
   cursedConfig.blacklist = cursedConfig.blacklist.filter((m, i) => cursedConfig.blacklist.indexOf(m) == i && !isNaN(m));
   cursedConfig.bannedWords = cursedConfig.bannedWords.filter((m, i) => cursedConfig.bannedWords.indexOf(m) == i && !isNaN(m));
 
+  // Verify all optin commands exist in player object, and removes non-existing commands
+  cursedConfig.optinCommands = cursedConfig.optinCommands.filter(COC =>
+    cursedConfigInit.optinCommands.map(OC => OC.command).includes(COC.command)
+  );
+  cursedConfigInit.optinCommands.forEach(OC => { 
+    if (!cursedConfig.optinCommands.find(COC => OC.command === COC.command)) { 
+      cursedConfig.optinCommands.push(OC);
+    }
+  });
 }
 
 // Card Deck
@@ -758,4 +770,46 @@ function GetTargetParams(sender, parameters) {
     paramString = parameters.join(" ").replace(/[,]/g, " ");
   }
   return [target, paramString];
+}
+
+/** Check if a optin command is enabled 
+ * @param {string} command - Name of the command
+ * @param {string} sender - MemberNumber of the sender
+ * @returns {Boolean} if it is activated or not
+*/
+function CommandIsActivated(command, sender) { 
+  //Intense mode
+  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say"];
+  if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) { 
+    sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+    return;
+  }
+  
+  //When full curse is on, we don't worry about anything
+  if (cursedConfig.hasFullCurse) return true;
+  
+  // Ownerhub
+  if (cursedConfig.disabledCommands.includes('ownerhub')) {
+    sendWhisper(sender, `(The wearer is running the curse in owner mode. This means no one can interact with their curse.)`, true);
+    TryPopTip(50);
+    return false;
+  }
+  
+  // Disabled optins
+  let isOptin = cursedConfig.optinCommands.find(OC => OC.command);
+  if (isOptin && !isOptin.isEnabled) {
+    sendWhisper(sender, `(The opt-in command ${command} is disabled. The wearer needs to turn it on if they wish to.)`, true);
+    popChatSilent(`If you wish to turn on an optin command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}". Opt-in commands are usually more restrictive or troublesome. Think twice before enabling this command.`);
+    TryPopTip(50);
+    return false;
+  }
+  
+  //Blacklist
+  if (cursedConfig.disabledCommands.includes(command)) {
+    sendWhisper(sender, `(The command ${command} is disabled. The wearer needs to remove it from their blacklist if they wish to.)`, true);
+    popChatSilent(`If you wish to re-enable a command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}".`);
+    TryPopTip(50);
+    return false;
+  }
+  return true;
 }

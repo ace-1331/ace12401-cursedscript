@@ -212,5 +212,18 @@ window.curseTips = [
   {
     ID: 48,
     Text: "Your curse owner(s) can change speech restrictions to make it so the message does not disappear when you transgress with the 'retype' command."
-  }
+  },
+  {
+    ID: 49,
+    isContextual: true,
+    Text: "You are seeing a '?' above someone else because they are running a different version of the curse. This means you or them are out of date. Please verify your curse version.",
+  },
+  {
+    ID: 50,
+    Text: "There are opt-in curses which are more intense curses than the average, those curses can impact you directly (OOC) or circumvent standard protocols. Please think about why you are turning them on before doing so, if someone is forcing you to, it might not be the best context.You can also disable any command with the same command (togglecommand). The shortcut 'OwnerHub' will make it so it disables commands from everyone while still being able to use the curse yourself for the wardrobe, nicknames, etc.",
+  },
+  {
+    ID: 51,
+    Text: "There are unlisted commands, can you find them?",
+  },
 ];
