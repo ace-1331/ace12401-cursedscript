@@ -220,15 +220,17 @@ function enforce(sender, priority, parameters) {
   let name = FetchName(enforcee);
   let defaults = ["miss", "mistress", "goddess", "owner"];
   let result;
-  let currentEnforcer;
+
+  if (!(sender == enforcee || priority >= 2 || sender == Player.MemberNumber)){
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give or remove respect protocols for others.");
+    return;
+  }  
+  let currentEnforcer = cursedConfig.charData.find(e => e.Number == enforcee) || { Number: parseInt(enforcee), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
   // If not enforced, enforce them
-  if (!cursedConfig.charData.some(n => n.Number == enforcee && n.isEnforced)) {
+  if (!currentEnforcer.isEnforced) {
     newTitle = (newTitle && newTitle != "") ? [newTitle] : defaults;
-    [result, currentEnforcer] = AddWithChecks(enforcee, newTitle, "Titles", sender, priority);
+    result = AddWithChecks(currentEnforcer, newTitle, "Titles", priority);
     switch (result) {
-      case "no auth":
-        sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give respect protocols to others.");
-        return;
       case "success":
         currentEnforcer.isEnforced = true;
         SendChat(Player.Name + " now has enforcement protocols on " + name + (priority >= 2 ? " as requested by her mistress." : "."));
@@ -239,11 +241,8 @@ function enforce(sender, priority, parameters) {
         return;
     }
   } else {
-    [result, currentEnforcer] = DeleteWithChecks(enforcee, ["miss", "mistress", "goddess", "owner", newTitle], "Titles", sender, priority);
+    result = DeleteWithChecks(currentEnforcer, ["miss", "mistress", "goddess", "owner", newTitle], "Titles", sender, priority);
     switch (result) {
-      case "no auth":
-        sendWhisper(sender, "Permission denied. Only members with at least Mistress status may remove respect protocols from others.");
-        return;
       case "not enough auth":
         sendWhisper(sender, Player.Name + "'s enforcement protocols were given by a higher power and cannot be removed.");
         return;
@@ -266,16 +265,17 @@ function enforce(sender, priority, parameters) {
 function toggleTitle(sender, priority, parameters) {
   let shouldSendSelf = sender != Player.MemberNumber;
   let [enforcee, newTitle] = GetTargetParams(sender, parameters, priority);
-  let titlee;
+  let titlee = cursedConfig.charData.find(e => e.Number == enforcee) || { Number: parseInt(enforcee), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
   let result;
-  if (!cursedConfig.charData.some(n => n.Number == enforcee && n.Titles.includes(newTitle))) {
-    [result, titlee] = AddWithChecks(enforcee, newTitle, "Titles", sender, priority);
+  if (!(sender == enforcee || priority >= 2 || sender == Player.MemberNumber)){
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give or remove titles to others.");
+    return;
+  }
+  if (!titlee.Titles.includes(newTitle)) {
+    result = AddWithChecks(titlee, newTitle, "Titles", priority);
     switch (result) {
       case "nothing to add":
         sendWhisper(sender, "Please provide a title to add or remove.");
-        return;
-      case "no auth":
-        sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give titles to others.");
         return;
       case "not enough auth":
         sendWhisper(sender, Player.Name + " has titles set by a higher power and cannot be changed.");
@@ -289,14 +289,11 @@ function toggleTitle(sender, priority, parameters) {
         return;
     }
   } else {
-    [result, titlee] = DeleteWithChecks(enforcee, newTitle, "Titles", sender, priority);
+    result = DeleteWithChecks(titlee, newTitle, "Titles", sender, priority);
     switch (result) {
       case "nothing to delete":
         //should only be picked up if undefined was somehow in the list
         sendWhisper(sender, "Please provide a title to add or remove.");
-        return;
-      case "no auth":
-        sendWhisper(sender, "Permission denied. Only members with at least Mistress status may remove titles from others.");
         return;
       case "not enough auth":
         sendWhisper(sender, "The title '" + newTitle + "' for " + titlee.Name + " was given by a higher power and has not been removed.");
@@ -317,19 +314,19 @@ function toggleTitle(sender, priority, parameters) {
 
 function forceNickname(sender, parameters) {
   let shouldSendSelf = sender != Player.MemberNumber;
-  if(sender == Player.MemberNumber){
-    popChatSilent("The curse prohibits you from doing changing this.");
-    return;
-  }
-  let target = (!isNaN(parameters[0]) ? parseInt(parameters[0]) : sender);
-  let respected = cursedConfig.charData.find(e => e.Number == target);
-
   if (!cursedConfig.hasIntenseVersion) {
     sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
     return;
   }
-    
-  if (respected && respected.Nickname && respected.Nickname) {
+  if(sender == Player.MemberNumber){
+    popChatSilent("The curse prohibits you from doing changing this.");
+    return;
+  }
+
+  let target = (!isNaN(parameters[0]) ? parseInt(parameters[0]) : sender);
+  let respected = cursedConfig.charData.find(e => e.Number == target);
+
+  if (respected && respected.Nickname) {
     if (!respected.RespectNickname) {
       respected.isEnforced = true;
       respected.RespectNickname = true;
@@ -423,26 +420,28 @@ function SetNickname(parameters, sender, priority) {
     nickname = nickname[0].toUpperCase() + nickname.slice(1);
   let name = FetchName(userNumber);
   
-  let [result, target] = AddWithChecks(userNumber, nickname, "Nickname", sender, priority);
+  if (!(sender == userNumber || priority >= 2 || sender == Player.MemberNumber)){
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give nicknames to others.");
+    return;
+  }
+  let target = cursedConfig.charData.find(e => e.Number == parseInt(userNumber)) || { Number: parseInt(userNumber), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
+
+  let result = AddWithChecks(target, nickname, "Nickname", priority);
   switch (result) {
     case "nothing to add":
       sendWhisper(sender, "Requires a nickname.)", shouldSendSelf);
       return;
-    case "no auth":
-      sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give nicknames to others.");
-      return;
-    case "not enough auth":
-      sendWhisper(sender, Player.Name + "'s nickname for " + FetchName(userNumber) + " was set by a higher power and cannot be changed.");
+      case "not enough auth": //(qol) if target is player, nickname is repeated, should this be changed?
+      sendWhisper(sender, Player.Name + "'s nickname for " + name + " was set by a higher power and cannot be changed.");
       return;
     case "blocked":
-      sendWhisper(sender, "Permission denied. " + FetchName(userNumber) + " has blocked being given nicknames.");
+      sendWhisper(sender, "Permission denied. " + name + " has blocked being given nicknames.");
       return;
     case "success":
       if (!target.SavedName || target.SavedName == "")
         target.SavedName = name;
       sendWhisper(sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf);
       return;
-    //no target, no list, - neither of these should be reached here
     default:
       sendWhisper(sender, "something went wrong or no message was set, the curse remains the same. AddNickname: " + result);
       return;
@@ -453,7 +452,13 @@ function SetNickname(parameters, sender, priority) {
 function DeleteNickname(parameters, sender, priority) {
   let shouldSendSelf = sender != Player.MemberNumber;
   let [userNumber, nickname] = GetTargetParams(sender, parameters, priority);
-  let [result, oldNickname] = DeleteWithChecks(userNumber, nickname, "Nickname", sender, priority);
+  if (!(sender == userNumber || priority >= 2 || sender == Player.MemberNumber)){
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may remove nicknames from others.");
+    return;
+  }
+  let oldNickname = cursedConfig.charData.find(e => e.Number == parseInt(userNumber)) || { Number: parseInt(userNumber), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
+  
+  let result = DeleteWithChecks(oldNickname, nickname, "Nickname", sender, priority);
   switch (result) {
     case "sender only":
       sendWhisper(sender, "Members may only use block / allow functions on themselves.");
@@ -468,10 +473,7 @@ function DeleteNickname(parameters, sender, priority) {
       return;
     case "not known":
     case "not set":
-      sendWhisper(sender, "Error, no nickname set for " + FetchName(userNumber), shouldSendSelf);
-      return;
-    case "no auth":
-      sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give nicknames to others.");
+      sendWhisper(sender, "No nickname set for " + FetchName(userNumber), shouldSendSelf);
       return;
     case "not enough auth":
       sendWhisper(sender, FetchName(userNumber) + "'s nickname was given by a higher power and has not been removed.");
@@ -479,7 +481,7 @@ function DeleteNickname(parameters, sender, priority) {
     case "success":
       sendWhisper(sender, "->Deleted nickname for " + FetchName(userNumber), shouldSendSelf);
       break;
-    //no target, no list, nothing to delete, not known - none of these should be reached here
+    //no target, no list - none of these should be reached here
     default:
       sendWhisper(sender, "something went wrong or no message was set, the curse remains the same. => NicknameDel: " + result);
       return;
@@ -498,6 +500,8 @@ function DeleteNickname(parameters, sender, priority) {
   if (oldNickname.Titles.length == 0 && oldNickname.NPriority != 5) {
     cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
   }
+  if(oldNickname.isEnforced && oldNickname.Titles.length > 0 && oldNickname[0] != "")
+  sendWhisper(sender, Player.Name + "'s regular protocols have now resumed for " + FetchName(userNumber) + ".", shouldSendSelf);
 }
 
 /** Tries to get the name of a member number */
@@ -736,135 +740,102 @@ function SendToRoom(name) {
   ServerSend("ChatRoomJoin", { Name: name });
 }
 // Gets a member number and parameters, returns a target user number or sender number and a string if one was given
-function GetTargetParams(sender, parameters, priority) {
+function GetTargetParams(sender, parameters) {
   let target;
   let paramString;
   if (parameters && !isNaN(parameters[0])) {
-    if (sender == parameters[0] || priority >= 2 || sender == Player.MemberNumber) {
-      target = parseInt(parameters[0]);
-    } else {
-      target = sender;
-      sendWhisper(sender, "Public commands cannot be applied to other members.");
-    }
+    target = parseInt(parameters[0]);
     parameters.shift();
-  } else target = sender;
+  } else {
+    target = sender;
+  }
   if (parameters && parameters[0] && parameters[0] != "") {
     paramString = parameters.join(" ").replace(/[,]/g, " ");
   }
   return [parseInt(target), paramString];
 }
 
-//Adds to a list or changes a string with checks in place, if target is a number(strings will dupe without a check) charData will update List and LPriority with auth checks
-//Returns ["success, target object] or ["status message", target obj if required]
-function AddWithChecks(target, insertable, listName, sender, priority, ) {
-  if (!target) { return ["no target",]; }
-  if (!insertable) { return ["nothing to add",]; }
+// Adds to a list or changes a string and matched priority if priority is high enough, if target is a char,
+// charData will update List and LPriority.  Returns "success or "status message"
+function AddWithChecks(target, insertable, listName, priority, ) {
+  if (!target) { return "no target"; }
+  if (!insertable) { return "nothing to add"; }
+  if (!listName) { return "no list set"; }
+
+  let pri = listName[0].toUpperCase() + "Priority";
+  if (target[pri] && target[pri] == 5) { return "blocked"; }
+  if (target[pri] && target[pri] > priority) {return "not enough auth";}
   
-  if (Array.isArray(target)) {    // target is a list, not inside an object - add to list
-    target.concat(insertable);  // for other lists you might want to add to with a check
-    return ["success",];
-  }
-  if (!listName) { return ["no list set",]; }
-  // If target is a number, use member number and add to charData with matched priority number
-  if (!isNaN(target)) {
-    if (sender == target || priority >= 2 || sender == Player.MemberNumber) {
-      let pri = listName[0].toUpperCase() + "Priority";
-      let known = cursedConfig.charData.find(mem => mem.Number == target);
-      // don't know them, lets make them first then add
-      if (!known) {
-        known = {Number: parseInt(target), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
-      }
-      if (known[pri] == 5) { return ["blocked",]; }
-      if (known[pri] <= priority) {
-        if (Array.isArray(known[listName])) {       // For lists
-          if (!Array.isArray(insertable))
-            insertable = [insertable];
-          known[listName] = known[listName].concat(insertable.filter(el => known[listName].indexOf(el) < 0));     // e.g. Add titles and TPriority
-        } else {                                      // For strings and not arrays
-          if (insertable && insertable != "")
-            known[listName] = insertable;
-        }
-        known[pri] = priority;
-        if (!cursedConfig.charData.some(k => k.Number == known.Number)) 
-          cursedConfig.charData.push(known);
-          
-          return ["success", known];
-        
-      } else {
-        return ["not enough auth", known];
-      }
-    } else {
-      return ["no auth",];
+  // Auth check done, add to target
+  if (Array.isArray(target[listName])) {       // For lists
+      if (!Array.isArray(insertable))          // e.g. Add titles and TPriority
+      insertable = [insertable];
+      target[listName] = target[listName].concat(insertable.filter(el => target[listName].indexOf(el) < 0));   
+    } else{                                    // For strings and not arrays
+      if (insertable && insertable != "")      // e.g. Add Nickname and NPriority
+      target[listName] = insertable;
     }
-  }   // Use here to add anything else with a different way
+    
+    target[pri] = priority;
+    
+    // If target is a member and not in charData, add it in
+    if (target.Number && !cursedConfig.charData.some(c => c.Number == target.Number)) 
+      cursedConfig.charData.push(target);
+    
+    return "success";    
 }
 
 //Removes a list or changes a string with checks in place, if target is a number charData will update List and LPriority with auth checks
 //Returns ["success, target object] or ["status message", target obj if required] Also has block / allow functions
 function DeleteWithChecks(target, deletable, listname, sender, priority) {
-  if (!target) { return ["no target",]; }
-  if (Array.isArray(target)) {         // target is a list, not inside an object - delete directly from a list
-    if (!Array.isArray(deletable))
-      deletable = [deletable];    // doesn't care if string, list or undefined
-    target = target.filter(el => !deletable.includes(el));
-    if (!deletable) { return ["nothing to delete",]; }
-    return ["success",];
-  }
-  if (!listname) { return ["no list set",]; }
-  // If target is a number, use member number and delete from charData with matched priority number
-  if (!isNaN(target)) {
-    if (sender != target && priority >= 5) {
-      return ["sender only",];
-    }
-    if (target == sender || priority >= 2 || sender == Player.MemberNumber) {
-      let pri = listname[0].toUpperCase() + "Priority";
-      let known = cursedConfig.charData.find(mem => mem.Number == target);
-      if (!known) {
-        if (priority == 5) {
-          known = { Number: parseInt(target), NPriority: 0, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] };
-          known[pri] = priority;
-          cursedConfig.charData.push(known);
-          return ["blocked", known];
-        } else {
-          return ["not known",];
-        }
-      } else {  // delete, block , allow functions here
-        if (priority == 6) {
-          known[pri] = 0;
-          return ["allowed", known];
-        }
-        if (priority == 5) {
-          known[pri] = 5;
-          if (Array.isArray(known[listname])) {
-            known[listname] = [];
-          } else {
-            delete known[listname];
-          }
-          return ["blocked", known];
-        }
-        if (known[pri] <= priority) {
-          if (Array.isArray(known[listname])) {   // For Lists 
-            if (!Array.isArray(deletable))
-              deletable = [deletable];        // doesn't care if string, list or undefined
-            known[listname] = known[listname].filter(el => !deletable.includes(el));
-            if (!deletable) {
-              known[pri] = 0;
-              return ["nothing to delete",];
-            }
-          } else {  // For strings and not arrays 
-            if (!known[listname])
-              return ["not set",];
-            
-            delete known[listname];
-          }
-          known[pri] = 0;
-          return ["success", known];
-        } else {
-          return ["not enough auth",];
-        }
+  if (!target) { return "no target"; }
+  if (!listname) { return "no list set"; }
+  if (parseInt(sender) != target.Number && priority >= 5) {return "sender only"; }
+  
+  let pri = listname[0].toUpperCase() + "Priority";
+
+  // Block / Allow functions
+  if (sender == target.Number && priority >= 5){
+    if(priority == 5){
+      if(Array.isArray(target[listname])){
+        target[listname] = [];
+      } else{
+        delete target[listname];
       }
-    } else {
-      return ["no auth",];
+      target[pri] = priority;
+      if(target.Number && !cursedConfig.charData.some(c => c.Number == target.Number))
+      cursedConfig.charData.push(target);
+      return "blocked";
     }
-  }   // Use here to add anything else with a different way 
+    if (priority == 6) {
+      target[pri] = 0;
+      return "allowed";
+    }
+  }
+  // if target is a char, check if known in charData first then check target
+  if(target.Number && !cursedConfig.charData.some(c => c.Number == target.Number)){
+    return "not known";
+  }
+  if(!target[listname] || (target[listname] && target[listname] == [])){
+    return "not set";
+  }
+// check priority and delete
+  if(target[pri] > priority){
+    return "not enough auth";
+  } else{
+    target[pri] = 0;
+    
+    if (Array.isArray(target[listname])) {   // For Lists
+      if (!Array.isArray(deletable))
+        deletable = [deletable];        // doesn't care if string, list or undefined
+      target[listname] = target[listname].filter(el => !deletable.includes(el));
+      
+      if (!deletable) {
+        return "nothing to delete";
+      }
+    } else {  // For strings and not arrays 
+      delete target[listname];
+    }
+    return "success";
+  }
 }

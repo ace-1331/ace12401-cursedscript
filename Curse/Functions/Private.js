@@ -20,7 +20,8 @@ function PrivateCommands({ command, parameters, sender }) {
     case "showenforced":{
       let report =
       cursedConfig.charData.filter(e => e.isEnforced).map(e => {
-        e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
+        let tmpstr = "";
+              e.RespectNickname ? tmpstr += "(#" + e.Number + " Nickname: " + e.Nickname + ")" : tmpstr += "(#" + e.Number + " Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ") + ")";
         return tmpstr;
       }).join(", ");
       sendWhisper(sender, "Enforced list: " + report);
