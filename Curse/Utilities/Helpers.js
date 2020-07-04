@@ -796,7 +796,7 @@ function CommandIsActivated(command, sender) {
   }
   
   // Disabled optins
-  let isOptin = cursedConfig.optinCommands.find(OC => OC.command);
+  let isOptin = cursedConfig.optinCommands.find(OC => OC.command == command);
   if (isOptin && !isOptin.isEnabled) {
     sendWhisper(sender, `(The opt-in command ${command} is disabled. The wearer needs to turn it on if they wish to.)`, true);
     popChatSilent(`If you wish to turn on an optin command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}". Opt-in commands are usually more restrictive or troublesome. Think twice before enabling this command.`);
