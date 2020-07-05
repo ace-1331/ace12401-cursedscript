@@ -813,3 +813,10 @@ function CommandIsActivated(command, sender) {
   }
   return true;
 }
+
+/** Triggers a punishment to be processed (strikes, report, etc.) 
+ * @param {string} ID - The ID of the punishment
+*/
+function TriggerPunishment(ID) { 
+  
+}
