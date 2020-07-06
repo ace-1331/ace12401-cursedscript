@@ -5,15 +5,16 @@
 
 **Chatrooms**: Everything goes! "Curse" whispers are messages only you can see. Commands MUST be whispered
 
-**Outside Chatrooms**: Your messages will be saved until you hop into a room. Curses will not be applied so nothing is restrained outside of rooms
+**Outside Chatrooms**: Your messages will be saved until you hop into a room. Curses will not be applied so nothing is restrained outside of rooms. The only things that might stick are certain settings that are activated such has sensory deprivation or the arousal meter.
 
-**LARP rooms**: none of the curse's function will work inside LARP rooms. EVER.
+**LARP rooms**: none of the curse's function will work inside LARP rooms. EVER. Some settings might still be reapplied, nothing else should work.
 
 ## Modes
 **Normal version**: This version does not contain anything that can restrain your accessibility to certain features. It will also never contain anything that modifies any of the data the club uses. Therefore, it is deemed safe for use as you will always have control if something goes wrong.
 
-**Intense version**: This version contains "riskier" features. These include things that would block certain features like the maids, breaking one's collar, etc. If intense mode is turned off, not even the wearer's owner can do anything about it. I recommend only selecting members you trust as your owners if you are to use this version.
+**Intense version**: This version contains "riskier" features. These include things that would block certain features like the maids, breaking one's collar, etc. It also contains functions that changes your settings. If intense mode is turned off, not even the wearer's owner can do anything about it. I recommend only selecting members you trust as your owners if you are to use this version.
 
+**Owner version**: This version is for owners. It prevents anyone from sending commands, but the wearer can still use the wearer commands and utilities. This means you can set nicknames, view who is wearing the curse, use the wardrobe, etc. It can be turned on/off with the `#name togglecommand OwnerHub` in a chatroom.
 
 ## Permissions
 **In-game blacklist/ghostlist**: anyone in your actual ghost list or blacklist will not be able to interact with your curse. They will also not be able to be given a nickname.
@@ -24,7 +25,7 @@
 
 **Public**: Anyone besides the wearer. This level of access can be disabled by a mistress or an owner. See the page about functions for more details.
 
-**Public (All-time)**: Anyone besides the wearer, active at all time. These are mostly utilities like the help or block nickname commands that always need to be available
+**Public (Fulltime)**: Anyone besides the wearer, active at all times. These are mostly utilities like the help or block nickname commands that always need to be available.
 
 **Mistresses**: They have power over the wearer and can activate various curses. They are one step below owners and have less "configuration" options for the wearer. See the page about functions for more details. An owner can turn mistress functions into public functions.
 
@@ -35,3 +36,11 @@
 **Private**: This level of permission includes the cursed one, aka the one running the script and the curse owners. 
 
 **Wearer**: The cursed one, aka the one running the script. They are restrained to their own few set of commands which are almost all configurations or reports. See the page about functions for more details.
+## Commands
+**Normal**: A command which is always available
+
+**Intense**: A command only available in intense mode
+
+**Blocked**: A command the wearer explicitly blocked with `#name togglecommand [name]`. This allows you to disable undesired commands.
+
+**Opt-in**: A command you need to explicitly turn on with `#name togglecommand [name]` to use. 

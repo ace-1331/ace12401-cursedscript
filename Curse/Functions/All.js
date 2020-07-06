@@ -20,8 +20,8 @@ function AllCommands({
       let timeLeft = oldLog.length > 0 ? oldLog[0].Value - CurrentTime : 0;
       timeLeft /= 3600000;
       SendChat(Player.Name + " has " +
-                (timeLeft < 0 ? "0" : Math.round(timeLeft * 100) / 100) +
-                " hours left in the asylum");
+        (timeLeft < 0 ? "0" : Math.round(timeLeft * 100) / 100) +
+        " hours left in the asylum");
       break;
     case "help":
       sendWhisper(sender, `(To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. 
@@ -47,7 +47,7 @@ function AllCommands({
         notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
         notes.push(FetchName(sender) + " (" + sender + "): " + parameters.join(" "));
         localStorage.setItem(`bc-cursedReviews-${Player.MemberNumber}`, JSON.stringify(notes));
-      } catch (e){ console.error("Curse: Error sending notes: RS65", e); }
+      } catch (e) { console.error("Curse: Error sending notes: RS65", e); }
       sendWhisper(sender, "(Note sent to owner(s).)");
       break;
     case "orgasmcount":
