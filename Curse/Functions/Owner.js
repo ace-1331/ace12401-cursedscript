@@ -2,10 +2,14 @@
 function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
   const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
   switch (command) {
-    case "blockcum":
-    case "blockcumming":
+    case "disableblocking":
+      if (!cursedConfig.hasFullCurse)
+        NotifyOwners("(All commands are now forced on the wearer. Blacklisting commands will have no effect, and all opt-in commands will be enabled. [Old settings saved.])", true);
+      else
+        NotifyOwners("(The curse will act as normal, previous command blacklist and opt-in settings restored.)", true);
+      cursedConfig.hasFullCurse = !cursedConfig.hasFullCurse;
+      break;
     case "blockorgasm":
-    case "blockorgasms":
       if (!cursedConfig.cannotOrgasm)
         SendChat("The curse will now prevent " + Player.Name + " from having orgasms.");
       else
@@ -13,16 +17,12 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.cannotOrgasm = !cursedConfig.cannotOrgasm;
       break;
     case "forbidorgasm":
-    case "forbidcum":
-    case "forbidcumming":
-    case "forbidorgasms":
       if (!cursedConfig.shouldntOrgasm)
         SendChat("The curse will punish " + Player.Name + " for having orgasms.");
       else
         SendChat("The curse will no longer punish " + Player.Name + " for having orgasms.");
       cursedConfig.shouldntOrgasm = !cursedConfig.shouldntOrgasm;
       break;
-    case "clearcurse":
     case "clearcurses":
       if (cursedConfig.hasRestraintVanish) {
         cursedConfig.cursedAppearance.forEach(A => {
@@ -34,17 +34,26 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.cursedAppearance = [];
       SendChat("All curses on " + Player.Name + "'s items have been lifted.");
       break;
+    case "clearpunishments":
+      cursedConfig.transgressions = [];
+      NotifyOwners("(Transgressions report cleared.)");
+      break;
     case "fullmute":
-    case "fullblockchat":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (!cursedConfig.hasFullMuteChat)
         SendChat("The curse fully stops " + Player.Name + " from talking.");
       else
         SendChat("The curse lets " + Player.Name + " talk again.");
       cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
+      break;
+    case "safeword":
+      if (window.location.href.includes("R58")) {
+        sendWhisper(sender, "(This feature is to disable the safeword feature coming in the next version of the club, it will not do anything in this release.)", true);
+      }
+      if (!cursedConfig.hasNoEasyEscape)
+        sendWhisper(sender, "(Wearer is now unable to user her 'safeword'.)", true);
+      else
+        sendWhisper(sender, "(Wearer is now able to user her 'safeword'.)", true);
+      cursedConfig.hasNoEasyEscape = !cursedConfig.hasNoEasyEscape;
       break;
     case "restrainplay":
       if (!cursedConfig.hasRestrainedPlay)
@@ -73,22 +82,14 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       localStorage.setItem(`bc-cursedNote-${Player.MemberNumber}`, note);
       sendWhisper(sender, note ? "(Note saved.)" : "(Note deleted.)", true);
       break;
-    case "maid":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
+    case "norescue":
       if (!cursedConfig.hasNoMaid)
-        sendWhisper(sender, "(Wearer is now unable to be freed by the rescue maid.)", true);
+        sendWhisper(sender, "(Wearer is now less likely to be freed by NPCs.)", true);
       else
-        sendWhisper(sender, "(Wearer is now able to be freed by the rescue maid.)", true);
+        sendWhisper(sender, "(Wearer is now able to be freed by NPCs as normal.)", true);
       cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
       break;
     case "preventdc":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (!cursedConfig.hasDCPrevention)
         sendWhisper(sender, "(Wearer can no longer escape rooms by disconnecting.)", true);
       else
@@ -96,10 +97,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasDCPrevention = !cursedConfig.hasDCPrevention;
       break;
     case "sensdep":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (!cursedConfig.hasForcedSensDep)
         sendWhisper(sender, "(Wearer now has full sens dep settings locked.)", true);
       else
@@ -110,12 +107,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.orgasms = 0;
       NotifyOwners("(Orgasm counter reset.)", true);
       break;
-    case "lockedmeter":
     case "meterlocked":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (cursedConfig.hasForcedMeterOff) {
         sendWhisper(sender, "(The curse to force the meter to off has been turned off in favor of this one.)", true);
         cursedConfig.hasForcedMeterOff = false;
@@ -127,14 +119,9 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Wearer no longer has her arousal meter locked to automatic.)", true);
       cursedConfig.hasForcedMeterLocked = !cursedConfig.hasForcedMeterLocked;
       break;
-    case "offmeter":
     case "meteroff":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (cursedConfig.hasForcedMeterLocked) {
-        sendWhisper(sender, "(The curse to force the meter to locked hass been turned off in favor of this one.)", true);
+        sendWhisper(sender, "(The curse to force the meter to locked has been turned off in favor of this one.)", true);
         cursedConfig.hasForcedMeterLocked = false;
       }
       TryPopTip(44);
@@ -154,19 +141,23 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.punishmentsDisabled = !cursedConfig.punishmentsDisabled;
       break;
     case "enablesound":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (!cursedConfig.hasSound)
         SendChat("The curse alters " + Player.Name + "'s speech.");
       else
         SendChat("The curse lets " + Player.Name + " speak normally.");
       cursedConfig.hasSound = !cursedConfig.hasSound;
       break;
+    case "retype":
+      if (!cursedConfig.mustRetype)
+        sendWhisper(sender, "(Must retype messages when a speech transgression was detected.)", true);
+      else
+        sendWhisper(sender, "(Must no longer retype messages when a speech transgression was detected.)", true);
+      cursedConfig.mustRetype = !cursedConfig.mustRetype;
+      break;
     case "restrainedspeech":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+      if (true) {
+        cursedConfig.hasRestrainedSpeech = false;
+        sendWhisper(sender, "(Disabled for maintenance. Check in a next version.)", true);
         return;
       }
       if (!cursedConfig.hasRestrainedSpeech)
@@ -176,10 +167,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasRestrainedSpeech = !cursedConfig.hasRestrainedSpeech;
       break;
     case "target":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (parameters[0]) {
         cursedConfig.targets = cursedConfig.targets.filter(t => t.ident != parameters[0]);
         const ident = parameters.shift();
@@ -194,10 +181,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Invalid arguments. Specify the target identifier then its attached text like '#name target bunny Miss bun bun' to have the 'bunny' identifier refer to Miss bun bun.)", true);
       break;
     case "self":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       const newSelf = parameters.join(" ").trim();
       if (newSelf) {
         cursedConfig.self = newSelf;
@@ -206,10 +189,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Invalid arguments. Specify the self identifier.)", true);
       break;
     case "sentence":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (parameters[0]) {
         cursedConfig.sentences = cursedConfig.sentences.filter(s => s.ident != parameters[0]);
         const ident = parameters.shift();
@@ -241,6 +220,13 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         NotifyOwners("The curse on " + Player.Name + " will no longer block gagged OOC.", true);
       cursedConfig.hasBlockedOOC = !cursedConfig.hasBlockedOOC;
       break;
+    case "secretorgasm":
+      if (!cursedConfig.hasSecretOrgasm)
+        sendWhisper(sender, "(Wearer's arousal meter will always be hidden.)", true);
+      else
+        sendWhisper(sender, "(Wearer's arousal meter will resume being displayed normally.)", true);
+      cursedConfig.hasSecretOrgasm = !cursedConfig.hasSecretOrgasm;
+      break;
     case "asylum":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time
@@ -251,7 +237,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         if (timeToAdd < -1000000000000000000000000000000000000) {
           timeToAdd = -999588479404333;
         }
-        SendChat(`${Player.Name} has ${timeToAdd > 0 ? 'more' : 'less'} time to spend in the asylum.`);
+        SendChat(`${Player.Name} has ${timeToAdd > 0 ? "more" : "less"} time to spend in the asylum.`);
         oldLog = Log.filter(el => el.Name == "Committed");
         //Send or Add to existing time
         if (oldLog.length == 0 || oldLog[0].Value < CurrentTime) {
@@ -265,7 +251,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Invalid arguments.)");
       }
       break;
-    case 'sendasylum':
+    case "sendasylum":
       if (LogQuery("Committed", "Asylum") && LogValue("Committed", "Asylum") > Date.now()) {
         //Send to asylum and remove items that would be a progression blocker
         SendChat(`${Player.Name} was sent to the asylum by her owner.`);
@@ -275,8 +261,8 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         ElementRemove("TextAreaChatLog");
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumEntrance");
-      } else { 
-        sendWhisper(sender, 'The wearer has no time left on her asylum timer.', true);
+      } else {
+        sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
       }
       break;
     case "entrymessage":
@@ -284,15 +270,10 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       sendWhisper(sender, "New entry message: " + cursedConfig.entryMsg, true);
       break;
     case "sound":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       cursedConfig.sound = parameters[0].replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ");
       sendWhisper(sender, "New sound: " + cursedConfig.sound, true);
       break;
     case "clearwords":
-    case "clearbannedwords":
       cursedConfig.bannedWords = [];
       sendWhisper(sender, "Banned words cleared.", true);
       break;
@@ -304,15 +285,14 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       break;
     case "forcedsay":
       if (
-        cursedConfig.hasIntenseVersion
-        && !cursedConfig.isMute
+        !cursedConfig.isMute
         && !cursedConfig.hasSound
       ) {
         //Forces as a global msg, bypass expected "say" and bypass blockchat
         let oldBlockConfig = cursedConfig.hasFullMuteChat;
         cursedConfig.hasFullMuteChat = false;
 
-        popChatGlobal(parameters.join(" ").replace(/^\/*/g, ""), true).replace(new RegExp("^(" + commandCall + ")", "g"), "");//stop commands
+        popChatGlobal(parameters.join(" ").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), ""), true);//stop commands
 
         cursedConfig.hasFullMuteChat = oldBlockConfig;
       } else {
@@ -324,7 +304,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         !cursedConfig.hasFullMuteChat
         && !cursedConfig.isMute
         && !cursedConfig.hasSound
-        && cursedConfig.hasIntenseVersion
       ) {
         cursedConfig.say = parameters.join(" ")
           .replace(/^\**/g, "").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), "");//stops emotes & stops commands
@@ -334,7 +313,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       }
       break;
     case "belt":
-    case "cursedbelt":
       toggleCurseItem({ name: "PolishedChastityBelt", group: "ItemPelvis" });
       break;
     case "afk":
@@ -403,7 +381,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       }
       break;
     case "reminderinterval":
-    case "interval":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time
         let seconds = Math.round(parameters[0]);
@@ -413,7 +390,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Invalid arguments.)");
       }
       break;
-    case "clearreminders":
     case "clearallreminders":
       cursedConfig.reminders = [];
       sendWhisper(sender, "All reminders cleared.", true);

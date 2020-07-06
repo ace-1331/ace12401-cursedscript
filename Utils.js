@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 32;
+window.currentVersion = 35;
 let AlwaysOn;
 let isLoaded;
 
@@ -80,6 +80,10 @@ function CursedStarter() {
         cannotOrgasm: false,
         forbidorgasm: false,
         hasBlockedOOC: false,
+        hasSecretOrgasm: false,
+        hasNoEasyEscape: false,
+        hasFullLengthMode: false,
+        hasFullBlindMode: false,
         
         owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
         mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
@@ -91,7 +95,7 @@ function CursedStarter() {
         savedColors: [],
         charData: [],
         reminders: [],
-        reminderInterval: 60000,
+        reminderInterval: 300000,
         entryMsg: "",
         say: "",
         sound: "",
@@ -105,11 +109,13 @@ function CursedStarter() {
         slaveIdentifier: Player.Name,
         commandChar: "#",
 
+        vibratorIntensity: 3,
         orgasms: 0,
         strikes: 0,
         lastPunishmentAmount: 0,
         strikeStartTime: Date.now(),
         punishmentsDisabled: false,
+        transgressions: [],
 
         warned: [],
         toUpdate: [],
@@ -119,11 +125,15 @@ function CursedStarter() {
         isClassic: false,
         isEatingCommands: false,
         isLooseOwner: false,
+        mustRetype: true,
         hasRestraintVanish: false,
         canLeash: false,
         hasWardrobeV2: false,
         hasIntenseVersion: false,
         wasLARPWarned: false,
+        hasFullCurse: false,
+        disabledCommands: [],
+        optinCommands: [{command: 'forcedsay', isEnabled: false}, {command: 'disableblocking', isEnabled: false}],
         chatlog: [],
         savedSilent: [],
         chatStreak: 0,
@@ -165,13 +175,13 @@ function CursedStarter() {
         }
 
         if (oldVersion > currentVersion) {
-          alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.)Error: V03");
+          alert("WARNING! Downgrading the curse to an old version is not supported. This may cause issues with your settings. Please reinstall the latest version. (Ignore this message if downgrading was the recommended action to a problem.) Error: V03");
         }
 
         if (oldVersion != currentVersion) {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
           alert("IMPORTANT! Please make sure you refreshed your page after updating.");
-
+          
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
           SendChat("The curse following " + Player.Name + " has changed.");
           popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
@@ -185,38 +195,10 @@ function CursedStarter() {
         }
       }
 
-      if (cursedConfig.hasIntenseVersion) {
-        popChatSilent("Intense mode is on (risky).", "System");
-      }
-
-      //Resets Strikes when it has been a week
-      if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-        popChatSilent("A new week has begun, your strikes have reset. (Might be a good time to check for updates!)", "System");
-        cursedConfig.strikeStartTime = Date.now();
-        cursedConfig.strikes = 0;
-        cursedConfig.lastPunishmentAmount = 0;
-      }
-
-      //Enables the hidden curse item to display who has the curse
-      if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
-        AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
-        AssetLoadAll();
-        InventoryAdd(Player, "Curse", "ItemHidden");
-      }
-
-      // DC Prevention
-      if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
-        const roomToGoTo = cursedConfig.lastChatroom;
-        delete cursedConfig.lastChatroom;
-        SendToRoom(roomToGoTo);
-        NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
-        TryPopTip(43);
-
-      }
-
       //Runs the script
       cursedConfig.isRunning = true;
       cursedConfig.onRestart = true;
+      InitStartup();
       InitHelpMsg();
       InitAlteredFns();
       InitCleanup(); //Cleans up the arrays/migrations

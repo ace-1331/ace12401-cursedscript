@@ -6,7 +6,10 @@ function SaveConfigs() {
     const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
     toDelete.forEach(prop => delete dbConfigs[prop]);
     localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
-  } catch (err) { console.log(err); }
+  } catch (err) {
+    alert('Your curse configs were not saved. Check the console for errors and report the issue if necessary.');
+    console.log(err);
+  }
 }
 
 /** Sends a message to all owners/mistresses in a room 
@@ -71,7 +74,9 @@ function popChatSilent(actionTxt, senderName) {
   cursedConfig.shouldPopSilent = false;
 
   //Removes dupes keeps the last order for UX
-  cursedConfig.savedSilent = cursedConfig.savedSilent.filter((m, i) => cursedConfig.savedSilent.lastIndexOf(m) === i);
+  cursedConfig.savedSilent = cursedConfig.savedSilent.filter(
+    (m, i) => cursedConfig.savedSilent.map(M => M.actionTxt).lastIndexOf(m.actionTxt) === i
+  );
 
   // Sort by System/Tip/Curse/Other
   const compare = (a, b) => {
@@ -100,7 +105,7 @@ function popChatSilent(actionTxt, senderName) {
     div.setAttribute("data-time", ChatRoomCurrentTime());
     div.setAttribute("data-sender", Player.MemberNumber);
     div.setAttribute("verifed", "true");
-    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt + ")";
+    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt.replace(/^\(|\)$/g, "") + ")";
 
     //Refocus the chat to the bottom
     let Refocus = document.activeElement.id == "InputChat";
@@ -136,7 +141,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
     ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
     if (sendSelf) {
       popChatSilent(msg);
-    } else if (cursedConfig.hasForward && !forceHide) {
+    } else if (cursedConfig.hasForward && !forceHide && target != Player.MemberNumber) {
       popChatSilent(msg, "Whisper sent to #" + target);
     }
   }
@@ -180,9 +185,8 @@ function TryPopTip(ID) {
 function KneelAttempt() {
   if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
     CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
-    ChatRoomCharacterUpdate(Player);
+    cursedConfig.mustRefresh = true;
   }
-  cursedConfig.mustRefresh = true;
 }
 
 //Common Expression Triggers
@@ -633,8 +637,17 @@ function InitCleanup() {
   cursedConfig.owners = cursedConfig.owners.filter((m, i) => cursedConfig.owners.indexOf(m) == i && !isNaN(m));
   cursedConfig.mistresses = cursedConfig.mistresses.filter((m, i) => cursedConfig.mistresses.indexOf(m) == i && !isNaN(m));
   cursedConfig.blacklist = cursedConfig.blacklist.filter((m, i) => cursedConfig.blacklist.indexOf(m) == i && !isNaN(m));
-  cursedConfig.bannedWords = cursedConfig.bannedWords.filter((m, i) => cursedConfig.bannedWords.indexOf(m) == i && !isNaN(m));
+  cursedConfig.bannedWords = cursedConfig.bannedWords.filter((m, i) => cursedConfig.bannedWords.indexOf(m) == i);
 
+  // Verify all optin commands exist in player object, and removes non-existing commands
+  cursedConfig.optinCommands = cursedConfig.optinCommands.filter(COC =>
+    cursedConfigInit.optinCommands.map(OC => OC.command).includes(COC.command)
+  );
+  cursedConfigInit.optinCommands.forEach(OC => { 
+    if (!cursedConfig.optinCommands.find(COC => OC.command === COC.command)) { 
+      cursedConfig.optinCommands.push(OC);
+    }
+  });
 }
 
 // Card Deck
@@ -752,7 +765,7 @@ function GetTargetParams(sender, parameters) {
   if (parameters && parameters[0] && parameters[0] != "") {
     paramString = parameters.join(" ").replace(/[,]/g, " ");
   }
-  return [parseInt(target), paramString];
+  return [target, paramString];
 }
 
 // Adds to a list or changes a string and matched priority if priority is high enough, if target is a char,
@@ -838,4 +851,69 @@ function DeleteWithChecks(target, deletable, listname, sender, priority) {
     }
     return "success";
   }
+}
+
+/** Check if a optin command is enabled 
+ * @param {string} command - Name of the command
+ * @param {string} sender - MemberNumber of the sender
+ * @returns {Boolean} if it is activated or not
+*/
+function CommandIsActivated(command, sender) { 
+  //Intense mode
+  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say"];
+  if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) { 
+    sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+    return;
+  }
+  
+  //When full curse is on, we don't worry about anything
+  if (cursedConfig.hasFullCurse) return true;
+  
+  // Ownerhub
+  if (cursedConfig.disabledCommands.includes('ownerhub')) {
+    sendWhisper(sender, `(The wearer is running the curse in owner mode. This means no one can interact with their curse.)`, true);
+    TryPopTip(50);
+    return false;
+  }
+  
+  // Disabled optins
+  let isOptin = cursedConfig.optinCommands.find(OC => OC.command == command);
+  if (isOptin && !isOptin.isEnabled) {
+    sendWhisper(sender, `(The opt-in command ${command} is disabled. The wearer needs to turn it on if they wish to.)`, true);
+    popChatSilent(`If you wish to turn on an optin command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}". Opt-in commands are usually more restrictive or troublesome. Think twice before enabling this command.`);
+    TryPopTip(50);
+    return false;
+  }
+  
+  //Blacklist
+  if (cursedConfig.disabledCommands.includes(command)) {
+    sendWhisper(sender, `(The command ${command} is disabled. The wearer needs to remove it from their blacklist if they wish to.)`, true);
+    popChatSilent(`If you wish to re-enable a command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}".`);
+    TryPopTip(50);
+    return false;
+  }
+  return true;
+}
+
+/** Triggers a punishment to be processed (strikes, report, etc.) 
+ * @param {string} ID - The ID of the punishment
+ * @param {string[]} [options] - Various params for the punishment text 
+*/
+function TriggerPunishment(ID, options) {
+  if (cursedConfig.onRestart) { 
+    return; 
+  }
+  let { Name, Value } = cursedPunishments.find(P => P.ID === ID) || {}; 
+  if (Array.isArray(options)) { 
+    options.forEach((O, Idx) => Name = Name.replace(`%PARAM${Idx}%`, O));
+  }
+  if (!cursedConfig.punishmentsDisabled) { 
+    cursedConfig.strikes += Value;
+  }
+  const existingReport = cursedConfig.transgressions.find(T => T.Name == Name);
+  if (existingReport) { 
+    existingReport.Count++;
+    return;
+  }
+  cursedConfig.transgressions.push({Name, Count: 1});
 }

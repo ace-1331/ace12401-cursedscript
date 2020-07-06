@@ -4,6 +4,28 @@
 function WearerCommands({ command, parameters, sender }) {
   let r = false;
   switch (command) {
+    case 'togglecommand':
+      TryPopTip(50);
+      if (!parameters[0]) { 
+        popChatSilent('Invalid command -> specify the command to toggle on/off');
+        return;
+      }
+      const optin = cursedConfig.optinCommands.find(OC => OC.command === parameters[0]);
+      if (optin) { 
+        // When opt-in, we toggle the enabled bool
+        optin.isEnabled = !optin.isEnabled;
+        popChatSilent(`The ${parameters[0]} command was set to ${optin.isEnabled ? 'enabled' : 'disabled'}.`);
+        return;
+      } 
+      // When normal, we add/remove it from the list
+      if (cursedConfig.disabledCommands.includes(parameters[0])) { 
+        cursedConfig.disabledCommands = cursedConfig.disabledCommands.filter(C => C !== parameters[0]);
+        popChatSilent(`The ${parameters[0]} command was removed from your blacklist.`);
+        return
+      }
+      cursedConfig.disabledCommands.push(parameters[0]);
+      popChatSilent(parameters[0] === "ownerhub" ? 'The curse is now in owner hub mode. No one will be able to interact with your curse.' : `The ${parameters[0]} command was blocked.`);
+      break;
     case "restraintvanish":
       if (cursedConfig.hasRestraintVanish)
         popChatSilent("Your curse will no longer remove Items.");
@@ -24,13 +46,6 @@ function WearerCommands({ command, parameters, sender }) {
       else
         popChatSilent("You will now see who has the curse.");
       cursedConfig.hasHiddenDisplay = !cursedConfig.hasHiddenDisplay;
-      break;
-    case "isclassic":
-      if (!cursedConfig.isClassic)
-        popChatSilent("The curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
-      else
-        popChatSilent("The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
-      cursedConfig.isClassic = !cursedConfig.isClassic;
       break;
     case "capture":
       if (!cursedConfig.hasIntenseVersion) {
@@ -192,9 +207,16 @@ function WearerCommands({ command, parameters, sender }) {
     case "savecolors":
       SaveColors();
       break;
+    case "fullchatlength":
+      if (!cursedConfig.hasFullLengthMode)
+        popChatSilent("You're chat input will now be 5 times bigger.");
+      else
+        popChatSilent("You're chat input will be normal again.");
+      cursedConfig.hasFullLengthMode = !cursedConfig.hasFullLengthMode;
+      break;
     case "quickban":
       if (ChatRoomData && ChatRoomData.Admin && ChatRoomData.Admin.includes(Player.MemberNumber)) {
-        let BlockedIds = [21266, 16815, 16618, 16783, 16727, 17688, 15102, 7784, 17675, 16087, 18333, 16965, 16780, 16704, 19599, 19581, 16679, 16630, 21179, 18174, 20808, 20806, 20392, 17687, 20104, 16651, 19600, 18639, 18021, 18707, 18572, 18297, 18299, 18214, 18172, 17677, 16930, 16725, 16708, 16705, 16440, ...Player.BlackList];
+        let BlockedIds = [21266, 16815, 16618, 16783, 16727, 17688, 15102, 7784, 17675, 16087, 18333, 16965, 16780, 16704, 19599, 19581, 16679, 16630, 21179, 18174, 20808, 20806, 20392, 17687, 20104, 16651, 19600, 18639, 18021, 18707, 18572, 18297, 18299, 18214, 18172, 17677, 16930, 16725, 16708, 16705, 16440, 22236, 22200, 22201, 22202, 22203, 22205, 22207, 22208, ...Player.GhostList, ...Player.BlackList];
         BlockedIds = BlockedIds.filter((ID, i) => BlockedIds.lastIndexOf(ID) === i);
         BlockedIds.forEach(troll => ServerSend("ChatRoomAdmin", { MemberNumber: troll, Action: "Ban" }));
         popChatSilent("Chatroom ban list updated.", "System");

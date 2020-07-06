@@ -81,18 +81,21 @@ function AnalyzeMessage(msg) {
       parameters = commandString.split(" ");
       parameters.shift();//THROWS HERE IF COMMAND IS BAD
 
-      //Wearer only command
+      //Quit loop to prevent wearer from doing the rest (can't add self as owner)
       if (sender == Player.MemberNumber) {
-        //Quit loop to prevent wearer from doing the rest (can't add self as owner)
         return;
       }
 
       //Global warning to prevent spam.
-      if (types.contains("ChatMessageChat")) {
+      if (types.contains("ChatMessageChat") && ChatRoomCharacter.length > 2) {
         sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam.", true);
         return;
       }
 
+      // Do not allow blacklisted commands
+      //This is opt-in, meaning it cannot run if it was not ok
+      if (!CommandIsActivated(command, sender)) return;
+      
       let needWarning = true;
             
       /* Will not cascade if a command was already found */
@@ -141,7 +144,7 @@ function AnalyzeMessage(msg) {
       //Mute
       if (cursedConfig.isMute && textmsg.length != 0 && types.contains("ChatMessageChat")) {
         SendChat(Player.Name + " angers the curse by speaking when she is not allowed to.");
-        cursedConfig.strikes += 5;
+        TriggerPunishment(1);
       }
     }
   }

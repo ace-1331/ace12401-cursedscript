@@ -7,7 +7,7 @@ function PublicCommands({
       SendChat(`The curse on ${Player.Name} punishes her as requested by ${FetchName(sender)}.`);
       triggerInPain();
       KneelAttempt();
-      cursedConfig.strikes += 2;
+      TriggerPunishment(5, [sender]);
       break;
     case "reward":
       SendChat(`The curse on ${Player.Name} rewards her as requested by ${FetchName(sender)}.`);
@@ -52,10 +52,6 @@ function PublicCommands({
       DeleteNickname([sender], sender, 6);
       break;
     case "capture":
-      if (!cursedConfig.hasIntenseVersion) {
-        sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
-        return;
-      }
       if (cursedConfig.hasCaptureMode) {
         if (cursedConfig.capture.Valid < Date.now()) {
           cursedConfig.capture.capturedBy = sender;

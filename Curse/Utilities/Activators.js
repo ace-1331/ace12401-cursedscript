@@ -40,10 +40,10 @@ function procGenericItem(item, group) {
 function procCursedNaked(isAdd) {
   ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
     .forEach(group => {
-      toggleCurseItem({ name: "", group, [isAdd ? 'forceAdd' : 'forceRemove']: true, isSilent: true });
+      toggleCurseItem({ name: "", group, [isAdd ? "forceAdd" : "forceRemove"]: true, isSilent: true });
     });
   SendChat(
-    `The curse ${isAdd ? 'arises' : ''} on ${Player.Name}'s clothes${!isAdd ? ' was lifted' : ''}.`
+    `The curse ${isAdd ? "arises" : ""} on ${Player.Name}'s clothes${!isAdd ? " was lifted" : ""}.`
   );
 }
 
@@ -58,7 +58,7 @@ function procCursedOrgasm(group) {
         && InventoryGet(Player, group).Asset.Effect.includes("Egged")
   ) {
     let property = InventoryGet(Player, group).Property || {};
-    property.Intensity = 3;
+    property.Intensity = cursedConfig.vibratorIntensity || 3;
     if (!property.Effect) property.Effect = [];
     property.Effect = [...property.Effect, "Egged", "Vibrating"];
     property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
@@ -90,7 +90,7 @@ async function checkKneeling(sender) {
         && Player.CanKneel()
   ) {
     SendChat(Player.Name + " angers the curse on her as she forgets to kneel.");
-    cursedConfig.strikes += 5;
+    TriggerPunishment(1);
     KneelAttempt();
   }
 }
@@ -291,7 +291,7 @@ function AdjustSettings() {
   //Fixes empty name in case of weird mess up
   if (cursedConfig.slaveIdentifier == "")
     cursedConfig.slaveIdentifier = Player.Name;
-
+  
   // Remove self own
   cursedConfig.mistresses = cursedConfig.mistresses.filter(M => M != Player.MemberNumber);
   cursedConfig.owners = cursedConfig.owners.filter(M => M != Player.MemberNumber);

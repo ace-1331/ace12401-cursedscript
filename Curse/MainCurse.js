@@ -15,7 +15,7 @@ async function CursedCheckUp() {
 
   //Gets the messages
   let messagesToVerify = [];
-    
+
   //Checks settings
   AdjustSettings();
 
@@ -24,11 +24,11 @@ async function CursedCheckUp() {
   if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && ChatRoomData && ChatRoomData.Name) {
     cursedConfig.lastChatroom = ChatRoomData.Name;
   }
-    
+
   //Run the script only in chatrooms
   if (window.CurrentScreen == "ChatRoom") {
     messagesToVerify = document.querySelectorAll(".ChatMessage:not([verified=true]");
-        
+
     //LARP Warn
     if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
       popChatSilent("LARP Room detected: the curse is inactive in this room", "System");
@@ -36,6 +36,11 @@ async function CursedCheckUp() {
       cursedConfig.wasLARPWarned = true;
       cursedConfig.onRestart = true;
       TryPopTip(28);
+    }
+
+    // Chat input
+    if (document.getElementById('InputChat')) {
+      document.getElementById('InputChat').maxLength = cursedConfig.hasFullLengthMode ? '1000' : '200';
     }
 
     //When it should be ran 
@@ -87,7 +92,6 @@ async function CursedCheckUp() {
       //Running the curse on restart for fairness
       if (cursedConfig.onRestart) {
         let oldLog = [...cursedConfig.chatlog];
-        let oldStrikes = cursedConfig.strikes;
         //Process the required things
         if (AppearanceCheck() || cursedConfig.mustRefresh) {
           //Reloads Char for free
@@ -105,7 +109,6 @@ async function CursedCheckUp() {
           cursedConfig.toUpdate = [];
           //Resumes as normal
           cursedConfig.chatlog = oldLog;
-          cursedConfig.strikes = oldStrikes;
           popChatSilent("Your current curses have been applied with no punishments.", "System");
           TryPopTip(29);
         }
