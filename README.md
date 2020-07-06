@@ -2,9 +2,6 @@
 
 # You are responsible of your own account(s) and acts when using this extension. Use it properly and keep yourself up to date to avoid potential issues with newer versions. 
 
-
-## **WARNING: be careful when using the curse in a beta release/NEW VERSION**
-
 ---
 
 # DOCUMENTATION FOR THE SUBMISSIVES AND SLAVES SCRIPT
@@ -21,11 +18,11 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 
 ## Running the script as an extension
 1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
-2. Navigate to chrome://extensions/
+2. Navigate to `chrome://extensions/`
 3. Enable Developer mode
 4. Remove previous versions of the curse (if applicable).
-5. Click 'Load unpacked' button and browse to the unzipped folder (see the notes below)
-6. Login and click on "wear curse" or come to the bunny hole icon in the main hall to speak to me first!
+5. Click `Load unpacked` button and browse to the unzipped folder (see the notes below)
+6. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first!
 7. Keep yourself up-to-date in the future. Read the news panel and come check github to install the new updates
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
@@ -46,7 +43,7 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 - Some things that will be coming are listed in the repository's wiki. Feel free to send your own suggestions, and report bugs on discord or in the issue tracker of the repo
 - Some more intense features are intentionally hidden behind the intense version, if you wish to use them, do so at your own risk as some may block freedoms completely.
 
-- IMPORTANT NOTE ON PERSISTANCE: even though there are ways to circumvent how data is stored on your character, the public version contains no code that would allow that to spare the servers and respect the "no cheat" policy which the curse currently complies with. To have your configurations persist between sessions, you need to be on the same device/browser. However, there is an import and an export function available to use. Run "cursedExport()" in the console and save the whole string it gives you wherever you want. On the next browser you can use the command "cursedImport("yourgivenstringhere")" to import your configs. This will allow you to carry over your configurations between versions of the club, devices or browsers. This means, clearing your browser storage data will erase your curse data!
+- IMPORTANT NOTE ON PERSISTANCE: To have your configurations persist between sessions, you need to be on the same device/browser. However, there is an import and an export function available to use. Run `cursedExport()` in the console and save the whole string it gives you wherever you want. On the other browser/device you can use the command `cursedImport('yourgivenstringhere')` to import your configs. (The string must be surrounded by `'` not `"`) This will allow you to carry over your configurations between versions of the club, devices or browsers. This also means, clearing your browser data without saving your configurations will erase your curse data!
 
 ### The list of functions and various features is located in the wiki
 https://github.com/ace-1331/ace12401-cursedscript/wiki
@@ -60,6 +57,6 @@ Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: 1.2.2.0**
+**Official release: 1.2.4.0**
 
-**THIS PAGE WAS LAST EDITED ON 23-06-2020**
+**THIS PAGE WAS LAST EDITED ON 06-07-2020**

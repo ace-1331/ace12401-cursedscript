@@ -20,7 +20,6 @@ function InitHelpMsg() {
 
     >>> Config Commands <<<
     *NEW*-togglecommand [command]
-    -quickban
     -wardrobev2
     -eatcommands
     -hidedisplay
@@ -100,17 +99,6 @@ function InitHelpMsg() {
     *NEW*-vibratorintensity [off,max,etc.]
     -permakneel
     
-    -mittens
-    -paws
-    -gag
-    -blindfold
-    -hood
-    -earplugs
-    -dildogag
-    -panties
-    -screws
-    -doublegag
-    
     >>>Configurations<<<
     *NEW* -loadpresetcurses [name]
     *NEW* -loadpreset [name]
@@ -179,11 +167,11 @@ function InitHelpMsg() {
     INTENSE V:-target [id] [target]
     INTENSE V:-sentence [id] [sentence]
     INTENSE V:-listsentences
-    INTENSE V: -forcedsay [sentence]
-    INTENSE V: -say [sentence]
-    INTENSE V: -fullmute
-    INTENSE V: -enablesound
-    INTENSE V: -sound ["oink", "meow", ...]
+    INTENSE V:-forcedsay [sentence]
+    INTENSE V:-say [sentence]
+    INTENSE V:-fullmute
+    INTENSE V:-enablesound
+    INTENSE V:-sound ["oink", "meow", ...]
 
     >>>Curses<<<
     -forbidorgasm
@@ -191,8 +179,6 @@ function InitHelpMsg() {
     -clearcurses
     -reminders
     -togglereminder [reminder]
-    
-    -belt
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
@@ -205,8 +191,10 @@ function InitHelpMsg() {
 
     ---------
     More on various features:
-    https://github.com/ace-1331/
-    ace12401-cursedscript/wiki
+    https://github.com/ace-1331/ace12401-cursedscript/wiki
+    ---------
+    Join us on Discord!
+    https://discord.com/invite/9dtkVFP
     ---------
     Made by ace (12401) - Ace__#5558
     Official release: V${currentVersion}

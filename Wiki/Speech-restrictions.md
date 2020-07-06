@@ -13,6 +13,7 @@
 * Banning use of contractions like "I'll, she'll, won't".
 * Restrained speech: the wearer is unable to speak freely, she is given a set of sentences/targets allowed and can only use those with the *#name talk* command. The given sentences can contain the %target% placeholder to have the target inserted into the sentence. The given sentences can contain the %self% placeholder which will be replaced by the given "self" attribute. By default it is "I", but could be changed to something else to avoid having to rewrite all the sentences. WARNING: a target id and a message id always needs to be specified. Therefore, you will be softlocked/muted if this mode is enabled and you remove all sentences and/or targets.
 * Doll talk: limit words to 6 letters and messages to 5 words maximum.
+* Gagged OOC: this prevents the wearer from being able to use "(" while gag to cheat out of a gag 
 
 **NOTE: speech restrictions do not apply to OOC**
 **Note: see the speechreport command for details about your current speech restrictions**

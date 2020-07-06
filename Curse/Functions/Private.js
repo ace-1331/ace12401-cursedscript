@@ -10,12 +10,11 @@ function PrivateCommands({ command, parameters, sender }) {
       ).join(", ");
       sendWhisper(sender, presets);
       break;
-    case "configreport":{
-      let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands"];
+    case "configreport":
+      let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands", "hasFullLengthMode", "hasFullBlindMode", "hasNoEasyEscape", "hasSecretOrgasm", "hasBlockedOOC", "forbidorgasm", "hasDCPrevention", "hasForcedMeterOff", "hasForcedMeterLocked", "hasDCPrevention"];
       let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
       sendWhisper(sender, report);
       break;
-    }
     case "showenforced": {
       const report =
         cursedConfig.charData.filter(e => e.isEnforced).map(e => {
@@ -32,23 +31,24 @@ function PrivateCommands({ command, parameters, sender }) {
     case "showowners":
       sendWhisper(sender, "Owners: #" + cursedConfig.owners.join(" #"));
       break;
-    case "shownicknames":{
-      let report = cursedConfig.charData.filter(n => n.Nickname)
+    case "shownicknames": {
+      let report = cursedConfig.charData
+        .filter(n => n.Nickname && n.Nickname != n.SavedName)
         .map(n => " #" + n.Number + " " + n.Nickname)
         .join(", ");
       sendWhisper(sender, "Currently set nicknames:" + report);
       break;
     }
-    case "showtitles":{
-      let report =
-      cursedConfig.charData.filter(t => t.Titles.length > 0).map(t => {
-        let tmpstr = "#" + t.Number + " Titles: " + t.Titles.join(", ");
-        return tmpstr;
-      }).join(", ");
+    case "showtitles": {
+      let report = "";
+      cursedConfig.charData
+        .filter(t => t.Titles.length > 0)
+        .map(t => "#" + t.Number + " " + t.Titles.join(", "))
+        .join(", ");
       sendWhisper(sender, "Currently set titles: " + report);
       break;
     }
-    case "speechreport":{
+    case "speechreport": {
       let tmpstr = [];
       cursedConfig.charData.forEach(el => {
         tmpstr.push(el.Number);
@@ -66,7 +66,7 @@ function PrivateCommands({ command, parameters, sender }) {
     case "fullblindfold":
       if (!cursedConfig.hasFullBlindMode) {
         sendWhisper(sender, "(All blindfolds will completely blind the wearer.)");
-        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : '');
+        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
       } else {
         sendWhisper(sender, "(Blindfolds will behave normally.)");
         AssetLoadAll();

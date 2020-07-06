@@ -4,50 +4,13 @@ function PunishmentCheck() {
   let r = false;
   if (difference > 15 && !cursedConfig.punishmentsDisabled) {
     //More restraints per stages, resets every week
-    let stage = cursedConfig.strikes / 15;
-    if (stage >= 5) {
-      //Restraints
-      if (itemIsAllowed("PantyStuffing", "ItemMouth")) {
-        InventoryWear(Player, "PantyStuffing", "ItemMouth", GetColorSlot("ItemMouth"), 15);
-        r = true;
-      }
-      if (itemIsAllowed("HarnessBallGag", "ItemMouth2")) {
-        InventoryWear(Player, "HarnessBallGag", "ItemMouth2", GetColorSlot("ItemMouth2"), 15);
-        r = true;
-      }
-      if (itemIsAllowed("SteelMuzzleGag", "ItemMouth3")) {
-        InventoryWear(Player, "SteelMuzzleGag", "ItemMouth3", GetColorSlot("ItemMouth3"), 15);
-        r = true;
-      }
-    }
-    if (stage >= 4) {
-      //Restraints
-      if (itemIsAllowed("FullBlindfold", "ItemHead")) {
-        InventoryWear(Player, "FullBlindfold", "ItemHead", GetColorSlot("ItemHead"), 15);
-        r = true;
-      }
-    }
-    if (stage >= 3) {
-      //Restraints
-      if (itemIsAllowed("Chains", "ItemArms")) {
-        InventoryWear(Player, "Chains", "ItemArms", GetColorSlot("ItemArms"), 15);
-        r = true;
-      }
-    }
-    if (stage >= 2) {
-      //Restraints
-      if (itemIsAllowed("Chains", "ItemFeet")) {
-        InventoryWear(Player, "Chains", "ItemFeet", GetColorSlot("ItemFeet"), 15);
-        r = true;
-      }
-    }
-    if (stage >= 1) {
-      //Restraints
-      if (itemIsAllowed("Chains", "ItemLegs")) {
-        InventoryWear(Player, "Chains", "ItemLegs", GetColorSlot("ItemLegs"), 15);
-        r = true;
-      }
-    }
+    r = WearPunishment(1, "Chains", "ItemLegs") || r;
+    r = WearPunishment(2, "Chains", "ItemFeet") || r;
+    r = WearPunishment(3, "Chains", "ItemArms") || r;
+    r = WearPunishment(4, "FullBlindfold", "ItemHead") || r;
+    r = WearPunishment(5, "PantyStuffing", "ItemMouth") || r;
+    r = WearPunishment(5, "HarnessBallGag", "ItemMouth2") || r;
+    r = WearPunishment(5, "SteelMuzzleGag", "ItemMouth3") || r;
     if (r) {
       TryPopTip(41);
       SendChat("The curse on " + Player.Name + " punishes her.");
@@ -55,4 +18,21 @@ function PunishmentCheck() {
     cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
   }
   return r;
+}
+
+/** Wears a restraint as part of a punishment 
+ * @param {number} stage - stage required for it to be applied
+ * @param {string} name - Name of the restraint
+ * @param {string} group - Name of the item group
+ * @returns {boolean} If the restraint was applied
+*/
+function WearPunishment(stage, name, group) { 
+  let currentStage = cursedConfig.strikes / 15;
+  if (stage >= currentStage) {
+    if (itemIsAllowed(name, group)) {
+      InventoryWear(Player, name, group, GetColorSlot(group), 15);
+      return true;
+    }
+  }
+  return false;
 }

@@ -12,5 +12,6 @@
 * Toggling whether or not items should vanish when a curse is lifted
 * Toggling whether or not valid commands should be displayed to the wearer
 * Toggling the display of wearers (the "C")
+* Toggling blindfolds to always fully blind the wearer
 
 **Note: see configreport/cursereport commands for details about your configs**

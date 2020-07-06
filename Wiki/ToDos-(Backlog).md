@@ -4,8 +4,10 @@ These are not priority items, but are in the backlog. If you want to contribute 
 
 ## Improvements:
 - **CHECK MSG ON reception INSTEAD**
-- **punishment revamp**
+- **auto punishment revamp**
 - **special config page**
+- **firefox**
+- **doc**
 - **improv capture mode with friendlist beeping**
 
 ## FOR MORE CURSES:
@@ -22,4 +24,3 @@ These are not priority items, but are in the backlog. If you want to contribute 
 ## UTILITIES
 - ADD wearer links (COMM IN WHISPERS/or listen to chat char): double dildo, taken leash, double gags, ropes , chains
 - ADD wearers comm to display whos owner/mistress/blacklisted/enforced, etc
-- ADD produce a report for the owner about the strikes
