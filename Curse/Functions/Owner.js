@@ -148,11 +148,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.mustRetype = !cursedConfig.mustRetype;
       break;
     case "restrainedspeech":
-      ///TEMPORARY///
-      cursedConfig.hasRestrainedSpeech = false;
-      sendWhisper(sender, "(Disabled for maintenance. Check in a next version.)", true);
-      return;
-    
       if (!cursedConfig.hasRestrainedSpeech)
         sendWhisper(sender, "(Wearer can now only speak with the given sentences. There are some default sentences which can be modified at will. Check the wiki page on restrained speech for more info.)", true);
       else

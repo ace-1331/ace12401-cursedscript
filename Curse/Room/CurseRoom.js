@@ -6,7 +6,6 @@ var CurseRoomHasCurse = typeof cursedConfig != "undefined";
 
 // Loads the club curse room
 function CurseRoomLoad() {
-  CurseRoomBackground = "Boudoir";
   CharacterReset("NPC_Ace", "Female3DCG");
   CurseRoomAce = Character["NPC_Ace"];
   CurseRoomAce.Name = "Miss Ace";
@@ -15,19 +14,14 @@ function CurseRoomLoad() {
   CurseRoomAce.AllowItem = false;
   InventoryWear(CurseRoomAce, "HairBack8", "HairBack", "#c0a4ff");
   InventoryWear(CurseRoomAce, "Large", "BodyUpper", "Asian");
-  InventoryWear(CurseRoomAce, "Blush", "Blush", "Default");
   InventoryWear(CurseRoomAce, "Large", "BodyLower", "Asian");
   InventoryWear(CurseRoomAce, "Eyebrows1", "Eyebrows", "Default");
   InventoryWear(CurseRoomAce, "NecklaceKey", "Necklace", "Default");
   InventoryWear(CurseRoomAce, "Eyes3", "Eyes", "#c0a4ff");
   InventoryWear(CurseRoomAce, "Regular", "Mouth", "#69386F");
-  InventoryWear(CurseRoomAce, "Nipples1", "Nipples", "Default");
-  InventoryWear(CurseRoomAce, "Fluids", "Fluids", "Default");
-  InventoryWear(CurseRoomAce, "PussyLight2", "Pussy", "#c0a4ff");
   InventoryWear(CurseRoomAce, "OrnateChastityBelt", "ItemPelvis", "#A941C9");
   InventoryWear(CurseRoomAce, "OrnateChastityBra", "ItemBreast", "#A941C9");
   InventoryWear(CurseRoomAce, "H0940", "Height", "Default");
-  InventoryWear(CurseRoomAce, "WrapPanties1", "Panties", "#A453CE");
   InventoryWear(CurseRoomAce, "BondageBra1", "Bra", "Default");
   InventoryWear(CurseRoomAce, "Stockings4", "Socks", "#58107B");
   InventoryWear(CurseRoomAce, "Heels2", "Shoes", "#3E175E");
@@ -74,7 +68,7 @@ function CurseRoomRun() {
   CurseRoomHasCurse = typeof cursedConfig != "undefined";
   DrawCharacter(Player, 250, 0, 1);
   DrawCharacter(CurseRoomAce, 750, 0, 1);
-  if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+  DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
   DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 }
 

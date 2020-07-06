@@ -166,7 +166,7 @@ function PopTip() {
  * @param {number} ID - ID of the tip
 */
 function TryPopTip(ID) {
-  if (!window.curseTips) return;
+  if (!window.curseTips || !window.cursedConfig) return;
   const showTip = curseTips.find(T => T.ID == ID && !cursedConfig.seenTips.includes(T.ID));
   if (showTip) {
     cursedConfig.seenTips.push(showTip.ID);

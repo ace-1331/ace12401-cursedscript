@@ -1,6 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
+window.currentManifestVersion = "1.2.3.1";
 window.currentVersion = 36;
 let AlwaysOn;
 let isLoaded;
@@ -31,8 +32,18 @@ async function LoginListener() {
 }
 
 /** Starts the script */
-function CursedStarter() {
+function CursedStarterBtn() { 
+  CursedStarter()
+}
+
+async function CursedStarter() {
   try {
+    //Verify if we can start the curse
+    const isNotOk = await CheckVersion();
+    if (isNotOk) { 
+      return;
+    }
+    
     //Cleans the existing chatlog
     document.querySelectorAll(".ChatMessage:not([verified=true]").forEach(msg => {
       let verifiedAtt = document.createAttribute("verified");
@@ -96,7 +107,7 @@ function CursedStarter() {
         if (oldVersion != currentVersion) {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
           alert("IMPORTANT! Please make sure you refreshed your page after updating.");
-          
+
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
           SendChat("The curse following " + Player.Name + " has changed.");
           popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs on discord https://discord.gg/9dtkVFP. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
@@ -165,4 +176,54 @@ function AlwaysOnTurnOn() {
 /** Always on mode to start on load switch off */
 function AlwaysOnTurnOff() {
   localStorage.setItem("bc-cursed-always-on", "disabled");
+}
+
+/** Checks if a version is not under a specific one ("X.X.X.X" format)*/
+function VersionIsEqualOrAbove(v, c) {
+  let isOk = 0;
+  const vParsed = v.split(".");
+  const cParsed = c.split(".");
+  
+  cParsed.forEach((N, Idx) => {
+      if (isOk == 0 && N > (vParsed[Idx] || 0)) {
+          isOk = -1;
+      }
+      if (isOk == 0 && N < (vParsed[Idx] || 0)) {
+          isOk = 1;
+      }
+  });
+
+  return isOk >= 0;
+}
+
+/** Version checking on startup 
+ * @returns {Boolean} If the curse has to be stopped
+*/
+async function CheckVersion() {
+  try {
+    const response = await fetch('https://cors-anywhere.herokuapp.com/https://condescending-pare-1bf422.netlify.app/curseVersion.json');
+    if (response.ok) {
+      const data = await response.json();
+    
+      // When under minimum
+      if (!VersionIsEqualOrAbove(currentManifestVersion, data.minimum)) {
+        CursedStarter = () => {
+          alert('ERROR X80: Cannot start the curse. You are below the required version. Please update it to the latest stable version now if you wish to use it.');
+        };
+        CursedStarter();
+        return true;
+      }
+      // When under stable
+      if (!VersionIsEqualOrAbove(currentManifestVersion, data.stable)) {
+        alert('A new stable release is available. Please update the curse.');
+        return;
+      }
+      // When under beta
+      /*if (!VersionIsEqualOrAbove(currentManifestVersion, data.beta)) {
+        alert("A new beta is available.");
+        return;
+      }*/
+      // When latest or beta, do nothing
+    }
+  } catch (err) { console.log("Could not verify curse version: " + err) }
 }

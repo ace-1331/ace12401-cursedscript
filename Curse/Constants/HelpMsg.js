@@ -8,11 +8,11 @@ function InitHelpMsg() {
     //WEARER FUNCTIONS//
 
     >>> Curses <<<
-    *NEW*-curseitem [group] [hours]
+    -curseitem [group] [hours]
     
     >>> Information <<<
-    *NEW*-tip
-    *NEW*-tip reset
+    -tip
+    -tip reset
     -help
     -showblacklist
     -showstrikes
@@ -125,6 +125,7 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    
     *NEW*-clearpunishments
     *NEW*-retype
     -resetorgasmcount

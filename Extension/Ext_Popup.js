@@ -1,7 +1,15 @@
 
 //Display version
 let CurrentCurseVersion = chrome.runtime.getManifest().version;
-document.getElementById("versionNo").innerHTML = "Last version detected when chrome was started: v" + CurrentCurseVersion;
+
+window.addEventListener("load", () => { 
+  CurrentCurseVersion = chrome.runtime.getManifest().version;
+  const versionTxt = document.getElementById("versionNo");
+  versionTxt.innerHTML = "Current version: " + CurrentCurseVersion;
+});
+
+
+
 
 /** Injects a function as plain code */
 function InjectCode(tabId, func, callback) {
@@ -27,7 +35,7 @@ function buttonListener(id, fn) {
 }
 
 //Start
-buttonListener("btnStart", CursedStarter);
+buttonListener("btnStart", CursedStarterBtn);
 
 //Stop
 buttonListener("btnStop", CursedStopper);
