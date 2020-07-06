@@ -34,6 +34,10 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.cursedAppearance = [];
       SendChat("All curses on " + Player.Name + "'s items have been lifted.");
       break;
+    case "clearpunishments":
+      cursedConfig.transgressions = [];
+      NotifyOwners("(Transgressions report cleared.)");
+      break;
     case "fullmute":
       if (!cursedConfig.hasFullMuteChat)
         SendChat("The curse fully stops " + Player.Name + " from talking.");

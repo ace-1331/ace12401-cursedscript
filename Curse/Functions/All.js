@@ -3,6 +3,13 @@ function AllCommands({
   command, sender, commandCall, parameters
 }) {
   switch (command) {
+    case "showstrikes":
+      sendWhisper(sender, Player.Name + " has accumulated a total of " + cursedConfig.strikes + " strikes.");
+      break;
+    case "transgressions":
+      const transgressionReport = cursedConfig.transgressions.map(T => T.Count + "x " + T.Name).join(", ");
+      sendWhisper(sender, "Transgression(s) to report: " + transgressionReport);
+      break;
     case "listoffcommands":
       TryPopTip(50);
       const offCommands = [...cursedConfig.disabledCommands, ...cursedConfig.optinCommands.filter(OC => !OC.isEnabled)].join(", ");

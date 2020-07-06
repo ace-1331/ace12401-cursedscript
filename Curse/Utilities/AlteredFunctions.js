@@ -119,7 +119,7 @@ function InitAlteredFns() {
         && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP";
       if (isActivated && cursedConfig.hasAntiAFK) {
         NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
-        cursedConfig.strikes++;
+        TriggerPunishment(3);
       }
       backupAfk(...rest);
     };
@@ -183,7 +183,7 @@ function InitAlteredFns() {
       if (rest[0].ID == 0 && isActivated) {
         cursedConfig.orgasms++;
         if (cursedConfig.shouldntOrgasm) {
-          cursedConfig.strikes += 15;
+          TriggerPunishment(4);
           SendChat("The curse on " + Player.Name + " punishes her for orgasming when her owner forbade her.");
         }
       }

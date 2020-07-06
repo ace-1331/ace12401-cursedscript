@@ -14,8 +14,8 @@ function InitHelpMsg() {
     *NEW*-tip
     *NEW*-tip reset
     -help
-    -showstrikes
     -showblacklist
+    -showstrikes
     -listsentences
 
     >>> Config Commands <<<
@@ -25,7 +25,6 @@ function InitHelpMsg() {
     -eatcommands
     -hidedisplay
     -restraintvanish
-    -isclassic
     -issilent
     -blacklist [a member number]
     -mistress [a member number]
@@ -46,6 +45,8 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
+    -showstrikes
+    *NEW*-transgressions
     *NEW*-listoffcommands
     -help
     -respect
@@ -67,7 +68,6 @@ function InitHelpMsg() {
     >>> Basic Commands<<<
     -kneel
     -cursereport
-    -showstrikes
     -changestrikes [+/- nb strikes]
     -enforce [a member number] [optional custom title instead of defaults]
     -mtitle [number(optional)] [title to add/rem]
@@ -124,6 +124,10 @@ function InitHelpMsg() {
     -configreport
     *NEW*-listpresets
     
+    >>> Configurations <<<
+    -isclassic
+    *NEW*-fullblindfold
+    
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     -asylum [nb of hours]
@@ -133,6 +137,7 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    *NEW*-clearpunishments
     *NEW*-retype
     -resetorgasmcount
     -guestnotes

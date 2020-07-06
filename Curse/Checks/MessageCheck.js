@@ -144,7 +144,7 @@ function AnalyzeMessage(msg) {
       //Mute
       if (cursedConfig.isMute && textmsg.length != 0 && types.contains("ChatMessageChat")) {
         SendChat(Player.Name + " angers the curse by speaking when she is not allowed to.");
-        cursedConfig.strikes += 5;
+        TriggerPunishment(1);
       }
     }
   }

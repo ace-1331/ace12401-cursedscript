@@ -39,6 +39,7 @@
                 "Curse/Utilities/Helpers.js",
                 "Curse/Utilities/LongStrings.js",
                 "Curse/Utilities/AlteredFunctions.js",
+                "Curse/Utilities/Startup.js",
                 "Curse/Utilities/Tips.js",
                 "Curse/Utilities/Punishments.js",
                 "Curse/Room/CurseRoom.js",

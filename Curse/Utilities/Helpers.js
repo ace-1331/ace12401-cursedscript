@@ -141,7 +141,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
     ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
     if (sendSelf) {
       popChatSilent(msg);
-    } else if (cursedConfig.hasForward && !forceHide) {
+    } else if (cursedConfig.hasForward && !forceHide && target != Player.MemberNumber) {
       popChatSilent(msg, "Whisper sent to #" + target);
     }
   }
@@ -816,7 +816,23 @@ function CommandIsActivated(command, sender) {
 
 /** Triggers a punishment to be processed (strikes, report, etc.) 
  * @param {string} ID - The ID of the punishment
+ * @param {string[]} [options] - Various params for the punishment text 
 */
-function TriggerPunishment(ID) { 
-  
+function TriggerPunishment(ID, options) {
+  if (cursedConfig.onRestart) { 
+    return; 
+  }
+  let { Name, Value } = cursedPunishments.find(P => P.ID === ID) || {}; 
+  if (Array.isArray(options)) { 
+    options.forEach((O, Idx) => Name = Name.replace(`%PARAM${Idx}%`, O));
+  }
+  if (!cursedConfig.punishmentsDisabled) { 
+    cursedConfig.strikes += Value;
+  }
+  const existingReport = cursedConfig.transgressions.find(T => T.Name == Name);
+  if (existingReport) { 
+    existingReport.Count++;
+    return;
+  }
+  cursedConfig.transgressions.push({Name, Count: 1});
 }

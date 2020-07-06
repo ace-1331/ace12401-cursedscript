@@ -90,7 +90,7 @@ async function checkKneeling(sender) {
         && Player.CanKneel()
   ) {
     SendChat(Player.Name + " angers the curse on her as she forgets to kneel.");
-    cursedConfig.strikes += 5;
+    TriggerPunishment(1);
     KneelAttempt();
   }
 }

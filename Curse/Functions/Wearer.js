@@ -47,13 +47,6 @@ function WearerCommands({ command, parameters, sender }) {
         popChatSilent("You will now see who has the curse.");
       cursedConfig.hasHiddenDisplay = !cursedConfig.hasHiddenDisplay;
       break;
-    case "isclassic":
-      if (!cursedConfig.isClassic)
-        popChatSilent("The curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
-      else
-        popChatSilent("The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
-      cursedConfig.isClassic = !cursedConfig.isClassic;
-      break;
     case "capture":
       if (!cursedConfig.hasIntenseVersion) {
         popChatSilent("(Will only work if intense mode is turned on.)");

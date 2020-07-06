@@ -17,11 +17,11 @@ function PrivateCommands({ command, parameters, sender }) {
       break;
     case "showenforced": {
       const report =
-                cursedConfig.charData.filter(e => e.isEnforced).map(e => {
-                  let tmpstr = "#" + e.Number + ", ";
-                  e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
-                  return tmpstr;
-                }).join(", ");
+        cursedConfig.charData.filter(e => e.isEnforced).map(e => {
+          let tmpstr = "#" + e.Number + ", ";
+          e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
+          return tmpstr;
+        }).join(", ");
       sendWhisper(sender, "Enforced list: " + report);
       break;
     }
@@ -56,8 +56,25 @@ function PrivateCommands({ command, parameters, sender }) {
       sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${tmpstr.join(", #")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}, Doll talk: ${cursedConfig.hasDollTalk}, OOC while gagged: ${!cursedConfig.hasBlockedOOC},must retype messages: ${cursedConfig.mustRetype}.`);
       break;
     }
+    case "isclassic":
+      if (!cursedConfig.isClassic)
+        sendWhisper(sender, "The curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
+      else
+        sendWhisper(sender, "The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
+      cursedConfig.isClassic = !cursedConfig.isClassic;
+      break;
+    case "fullblindfold":
+      if (!cursedConfig.hasFullBlindMode) {
+        sendWhisper(sender, "(All blindfolds will completely blind the wearer.)");
+        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : '');
+      } else {
+        sendWhisper(sender, "(Blindfolds will behave normally.)");
+        AssetLoadAll();
+      }
+      cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;
+      break;
     default:
-    // No command found
+      // No command found
       return true;
   }
 }

@@ -93,10 +93,10 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "permakneel":
       if (!cursedConfig.hasCursedKneel) {
-        SendChat("The curse arises on " + Player.Name + "'s collar.");
+        SendChat("The curse prevents " + Player.Name + " from standing up.");
         KneelAttempt();
       } else
-        SendChat("The curse on " + Player.Name + "'s collar vanished.");
+        SendChat("The curse allows " + Player.Name + " to stand again.");
       cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;
       break;
     case "screws":
@@ -263,9 +263,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "kneel":
       KneelAttempt();
-      break;
-    case "showstrikes":
-      sendWhisper(sender, Player.Name + " has accumulated a total of " + cursedConfig.strikes + " strikes.");
       break;
     case "changestrikes":
       if (!isNaN(parameters[0]) && parameters[0] != "") {
