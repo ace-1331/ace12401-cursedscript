@@ -366,6 +366,8 @@ function AdjustSettings() {
     ChatRoomCharacter.forEach(char => {
       let user = cursedConfig.charData.find(c => c.Number == char.MemberNumber);
       if (!user || !user.SavedName || !user.Nickname) return;
+      if(user.SavedName == "#" + user.Number && user.Nickname != char.Name)
+        user.SavedName = char.name;
       let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user.Nickname : user.SavedName;
       char.Name = NameToDisplay;
       char.DisplayName = NameToDisplay;

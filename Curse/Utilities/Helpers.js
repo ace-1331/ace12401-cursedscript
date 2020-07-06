@@ -248,7 +248,7 @@ function SetNickname(parameters, sender, priority) {
       sendWhisper(sender, "Permission denied. " + name + " has blocked being given nicknames.");
       return;
     case "success":
-      if (!target.SavedName || target.SavedName == "")
+      if (!target.SavedName)
         target.SavedName = name;
       sendWhisper(sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf);
       return;
@@ -300,7 +300,7 @@ function DeleteNickname(parameters, sender, priority) {
   try {
     ChatRoomCharacter.forEach(char => {
       if (oldNickname.Number == char.MemberNumber) {
-        char.Name = oldNickname.SavedName ? oldNickname.SavedName : FetchName(userNumber);
+        char.Name = oldNickname.SavedName && oldNickname.SavedName != "#" + oldNickname.Number ? oldNickname.SavedName : FetchName(userNumber);
         oldNickname.RespectNickname = false;
         delete oldNickname.SavedName;
       }
