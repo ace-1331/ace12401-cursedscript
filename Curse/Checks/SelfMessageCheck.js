@@ -6,11 +6,14 @@ function SelfMessageCheck(msg) {
   //Clears stuff
   originalMsg = msg;
   msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
+  const isWhisper = !!ChatRoomTargetMemberNumber;
+  const isEmote = originalMsg.startsWith("*");
+  const isNormalMsg = !isWhisper && !isEmote;
 
   // Gagged OOC
   if (
     cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
-    && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
+    && isNormalMsg
     && !Player.CanTalk() && originalMsg.includes("(")
   ) { 
     NotifyOwners("(Tried to use OOC while gagged)");
@@ -35,13 +38,15 @@ function SelfMessageCheck(msg) {
     }
     if (r) {
       TryPopTip(23);
+      ChatRoomLastMessage.push(originalMsg);
       return true;
     }
+    popChatSilent("(A command call was detected, but unidentified. Check for typos and verify your version if this was intended. This message will be processed normally.)", "System");
   }
 
   //Should say 
   //Returns immediately, that way it wont collide with other stuff
-  if (cursedConfig.say != "" && !cursedConfig.hasFullMuteChat && !ChatRoomTargetMemberNumber && originalMsg.indexOf("*") != 0) {
+  if (cursedConfig.say != "" && !cursedConfig.hasFullMuteChat && isNormalMsg) {
     if (
       msg != cursedConfig.say.toLowerCase().trim()
             && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
@@ -63,7 +68,7 @@ function SelfMessageCheck(msg) {
     cursedConfig.hasRestrainedSpeech
     && cursedConfig.hasIntenseVersion
   ) {
-    if (!ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")) {
+    if (isNormalMsg) {
       NotifyOwners("(Tried to speak freely when her speech was restrained.)");
       popChatSilent("Bad girl. You tried to speak freely while your speech is being restrained.");
       TryPopTip(42);
@@ -119,7 +124,7 @@ function SelfMessageCheck(msg) {
           .filter(w => {
             return !(new RegExp("^" + cursedConfig.sound.replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, "").split("").map(el => el + "*").join("") + "$", "g")).test(w);
           }).length > 0
-        && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
+        && isNormalMsg
   ) {
     NotifyOwners("(Tried to make unallowed sounds)");
     popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
@@ -128,8 +133,8 @@ function SelfMessageCheck(msg) {
   }
 
   //Contractions
-  if (cursedConfig.hasNoContractions && !originalMsg.startsWith("*") && !cursedConfig.hasSound) {
-    const hasPunishment = false;
+  if (cursedConfig.hasNoContractions && !isEmote && !cursedConfig.hasSound) {
+    let hasPunishment = false;
     (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).filter(C => !C.includes("'s")).forEach(CO => { 
       TriggerPunishment(12, [CO]);
       hasPunishment = true;
@@ -142,11 +147,11 @@ function SelfMessageCheck(msg) {
   }
 
   //Doll talk
-  if (cursedConfig.hasDollTalk && !originalMsg.startsWith("*")) {
-    let words = msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").trim().split(" ").filter(w => w);
-    let whitelist = ["goddess", "mistress"];
-    let size = words.filter(w => !whitelist.includes(w)).length;
-    let longWords = words.filter(w => !whitelist.includes(w) && w.length > 6);
+  if (cursedConfig.hasDollTalk && !isEmote) {
+    const whitelist = ["goddess", "mistress"];
+    const words = msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").trim().split(" ").filter(w => w && !whitelist.includes(w));
+    const size = words.length;
+    const longWords = words.filter(w => w.length > 6);
     if (size > 5) {
       NotifyOwners("(Tried to use too many words (doll talk infraction))");
       popChatSilent("WARNING: You are not allowed to use more than 5 words! (doll talk infraction)");

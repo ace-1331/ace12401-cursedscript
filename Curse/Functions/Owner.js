@@ -148,11 +148,11 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.mustRetype = !cursedConfig.mustRetype;
       break;
     case "restrainedspeech":
-      if (true) {
-        cursedConfig.hasRestrainedSpeech = false;
-        sendWhisper(sender, "(Disabled for maintenance. Check in a next version.)", true);
-        return;
-      }
+      ///TEMPORARY///
+      cursedConfig.hasRestrainedSpeech = false;
+      sendWhisper(sender, "(Disabled for maintenance. Check in a next version.)", true);
+      return;
+    
       if (!cursedConfig.hasRestrainedSpeech)
         sendWhisper(sender, "(Wearer can now only speak with the given sentences. There are some default sentences which can be modified at will. Check the wiki page on restrained speech for more info.)", true);
       else
@@ -224,11 +224,11 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       if (!isNaN(parameters[0]) && parameters[0] != "") {
         //Calculate time
         let timeToAdd = 3600000 * parameters[0];
-        if (timeToAdd > 1000000000000000000000000000000000000) {
-          timeToAdd = 999588479404333;
+        if (timeToAdd > 1e+16) {
+          timeToAdd = 1e+16;
         }
-        if (timeToAdd < -1000000000000000000000000000000000000) {
-          timeToAdd = -999588479404333;
+        if (timeToAdd < -1e+16) {
+          timeToAdd = -1e+16;
         }
         SendChat(`${Player.Name} has ${timeToAdd > 0 ? "more" : "less"} time to spend in the asylum.`);
         oldLog = Log.filter(el => el.Name == "Committed");

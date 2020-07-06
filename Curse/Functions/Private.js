@@ -11,7 +11,7 @@ function PrivateCommands({ command, parameters, sender }) {
       sendWhisper(sender, presets);
       break;
     case "configreport":
-      let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands"];
+      let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands", "hasFullLengthMode", "hasFullBlindMode", "hasNoEasyEscape", "hasSecretOrgasm", "hasBlockedOOC", "forbidorgasm", "hasDCPrevention", "hasForcedMeterOff", "hasForcedMeterLocked", "hasDCPrevention"];
       let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
       sendWhisper(sender, report);
       break;
@@ -66,7 +66,7 @@ function PrivateCommands({ command, parameters, sender }) {
     case "fullblindfold":
       if (!cursedConfig.hasFullBlindMode) {
         sendWhisper(sender, "(All blindfolds will completely blind the wearer.)");
-        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : '');
+        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
       } else {
         sendWhisper(sender, "(Blindfolds will behave normally.)");
         AssetLoadAll();

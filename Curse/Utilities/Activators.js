@@ -11,6 +11,7 @@ function procGenericItem(item, group) {
   }
 
   //Makes sure the player has the items
+  if (!Array.isArray(cursedConfig.genericProcs)) cursedConfig.genericProcs = [];
   if (!cursedConfig.genericProcs.includes(group)) {
     cursedConfig.genericProcs.push(group);
     if (Player.BlockItems.filter(it => it.Name == item && it.Group == group).length !== 0) {
@@ -54,8 +55,8 @@ function procCursedOrgasm(group) {
   //Turns them to max
   if (
     InventoryGet(Player, group)
-        && Array.isArray(InventoryGet(Player, group).Asset.Effect)
-        && InventoryGet(Player, group).Asset.Effect.includes("Egged")
+    && Array.isArray(InventoryGet(Player, group).Asset.Effect)
+    && InventoryGet(Player, group).Asset.Effect.includes("Egged")
   ) {
     let property = InventoryGet(Player, group).Property || {};
     property.Intensity = cursedConfig.vibratorIntensity || 3;
@@ -64,8 +65,8 @@ function procCursedOrgasm(group) {
     property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
     InventoryGet(Player, group).Property = property;
     cursedConfig.toUpdate.push(group);
+    cursedConfig.mustRefresh = true;
   }
-  cursedConfig.mustRefresh = true;
 }
 
 /** Async function that will check if a character kneels within 30 seconds 
@@ -87,7 +88,7 @@ async function checkKneeling(sender) {
   // When timer is over
   if (
     ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)
-        && Player.CanKneel()
+    && Player.CanKneel()
   ) {
     SendChat(Player.Name + " angers the curse on her as she forgets to kneel.");
     TriggerPunishment(1);
@@ -95,6 +96,31 @@ async function checkKneeling(sender) {
   }
 }
 
+
+/** Tries to make the wearer kneel */
+function KneelAttempt() {
+  if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
+    CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
+    cursedConfig.mustRefresh = true;
+  }
+}
+
+//Common Expression Triggers
+function triggerInPain() {
+  CharacterSetFacialExpression(Player, "Blush", "High");
+  CharacterSetFacialExpression(Player, "Eyebrows", "Soft");
+  CharacterSetFacialExpression(Player, "Fluids", "TearsHigh");
+  CharacterSetFacialExpression(Player, "Mouth", "Sad");
+  CharacterSetFacialExpression(Player, "Eyes", "Closed", 5);
+}
+
+function triggerInPleasure() {
+  CharacterSetFacialExpression(Player, "Blush", "High");
+  CharacterSetFacialExpression(Player, "Eyebrows", "Soft");
+  CharacterSetFacialExpression(Player, "Fluids", "DroolMessy");
+  CharacterSetFacialExpression(Player, "Mouth", "Ahegao");
+  CharacterSetFacialExpression(Player, "Eyes", "VeryLewd");
+}
 
 /**
  * Toggles a cursed item on/off
@@ -234,14 +260,14 @@ function textToGroup(group, permission) {
       case "tray":
       case "maidtray":
         return "ItemMisc";
-            /* 
-            Need different implementation
-            case "addon":
-                return "ItemAddon";
-            case "hidden":
-            case "strap":
-            case "straps":
-                return "ItemHidden";*/
+      /* 
+      Need different implementation
+      case "addon":
+          return "ItemAddon";
+      case "hidden":
+      case "strap":
+      case "straps":
+          return "ItemHidden";*/
     }
   }
   if (permission >= 2) {
@@ -268,17 +294,17 @@ function textToGroup(group, permission) {
   }
   if (permission >= 3) {
     switch (group.toLowerCase()) {
-    /*
-            Need different implementation
-            case "height":
-                return "Height";
-            case "bodyupper":
-            case "upperbody":
-                return "BodyUpper";
-            case "bodylower":
-            case "lowerbody":
-                return "BodyLower";
-                */
+      /*
+              Need different implementation
+              case "height":
+                  return "Height";
+              case "bodyupper":
+              case "upperbody":
+                  return "BodyUpper";
+              case "bodylower":
+              case "lowerbody":
+                  return "BodyLower";
+                  */
       case "collar":
         return "ItemNeck";
     }
@@ -291,12 +317,12 @@ function AdjustSettings() {
   //Fixes empty name in case of weird mess up
   if (cursedConfig.slaveIdentifier == "")
     cursedConfig.slaveIdentifier = Player.Name;
-  
+
   // Remove self own
   cursedConfig.mistresses = cursedConfig.mistresses.filter(M => M != Player.MemberNumber);
   cursedConfig.owners = cursedConfig.owners.filter(M => M != Player.MemberNumber);
-    
-  
+
+
   //Verifies if a mistress is here
   if (cursedConfig.disaledOnMistress || cursedConfig.enabledOnMistress) {
     cursedConfig.mistressIsHere = false;
@@ -348,4 +374,27 @@ function AdjustSettings() {
       }
     });
   } catch (err) { console.error("Curse: failed to update a name", err); }
+}
+
+/** Triggers a punishment to be processed (strikes, report, etc.) 
+ * @param {string} ID - The ID of the punishment
+ * @param {string[]} [options] - Various params for the punishment text 
+*/
+function TriggerPunishment(ID, options) {
+  if (cursedConfig.onRestart) {
+    return;
+  }
+  let { Name, Value } = cursedPunishments.find(P => P.ID === ID) || {};
+  if (Array.isArray(options)) {
+    options.forEach((O, Idx) => Name = Name.replace(`%PARAM${Idx}%`, O));
+  }
+  if (!cursedConfig.punishmentsDisabled) {
+    cursedConfig.strikes += Value;
+  }
+  const existingReport = cursedConfig.transgressions.find(T => T.Name == Name);
+  if (existingReport) {
+    existingReport.Count++;
+    return;
+  }
+  cursedConfig.transgressions.push({ Name, Count: 1 });
 }

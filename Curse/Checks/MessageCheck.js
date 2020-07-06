@@ -13,7 +13,7 @@ function AnalyzeMessage(msg) {
   let isOwner = cursedConfig.owners.includes(sender.toString()) || isClubOwner;
   let isOnEntry = types.contains("ChatMessageEnterLeave") && sender == Player.MemberNumber;
   let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
-        && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress);
+    && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress);
 
   //Ignores special types for compatibility or LARP
   if (types.contains("ChatMessageGlobal") || types.contains("ChatMessageLocalMessage")) {
@@ -32,9 +32,9 @@ function AnalyzeMessage(msg) {
 
   // Checks if player should be kneeling
   if (
-    (types.contains("ChatMessageEnterLeave") && cursedConfig.charData.some(u => u.Number == sender && u.isEnforced ) || isOnEntry && chatroomMembers.some( el => cursedConfig.charData.some(u => u.Number == el && u.isEnforced )))
-        && Player.CanKneel() 
-        && (!Player.Pose.includes("Kneel") || !Player.Pose.includes("ForceKneel"))
+    (types.contains("ChatMessageEnterLeave") && cursedConfig.charData.some(u => u.Number == sender && u.isEnforced) || isOnEntry && chatroomMembers.some(el => cursedConfig.charData.some(u => u.Number == el && u.isEnforced)))
+    && Player.CanKneel()
+    && (!Player.Pose.includes("Kneel") || !Player.Pose.includes("ForceKneel"))
   ) {
     checkKneeling(sender);
   }
@@ -42,7 +42,7 @@ function AnalyzeMessage(msg) {
   // Sends intro if the wearer has one
   if (
     isOnEntry && cursedConfig.hasEntryMsg && !cursedConfig.hasFullMuteChat
-        && isActivated && !cursedConfig.isMute && !cursedConfig.hasSound
+    && isActivated && !cursedConfig.isMute && !cursedConfig.hasSound
   ) {
     cursedConfig.say = cursedConfig.entryMsg;
     document.getElementById("InputChat").value = cursedConfig.entryMsg;
@@ -54,7 +54,7 @@ function AnalyzeMessage(msg) {
     if ((cursedConfig.owners.includes(sender) || cursedConfig.mistresses.includes(sender)) && chatroomMembers.includes(sender) && !cursedConfig.warned.includes(sender)) {
       sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");
       cursedConfig.warned.push(sender);
-    } 
+    }
     if (sender == Player.MemberNumber) {
       NotifyOwners("(The curse is active. Command call id: " + commandCall + ")");
       // Pop saved messages while outside of room
@@ -68,9 +68,9 @@ function AnalyzeMessage(msg) {
   // Checks for commands to change settings if able to
   if (
     (types.contains("ChatMessageChat") || types.contains("ChatMessageWhisper"))
-        && textmsg.toLowerCase().indexOf(commandCall.toLowerCase()) != -1
-        && cursedConfig.blacklist.indexOf(sender) == -1
-        && Player.BlackList.filter( u => u == sender).length == 0
+    && textmsg.toLowerCase().indexOf(commandCall.toLowerCase()) != -1
+    && cursedConfig.blacklist.indexOf(sender) == -1
+    && Player.BlackList.filter(u => u == sender).length == 0
   ) {
     // Parses the command
     let command;
@@ -93,22 +93,21 @@ function AnalyzeMessage(msg) {
       }
 
       // Do not allow blacklisted commands
-      //This is opt-in, meaning it cannot run if it was not ok
       if (!CommandIsActivated(command, sender)) return;
-      
+
       let needWarning = true;
-            
+
       /* Will not cascade if a command was already found */
-            
+
       // Verifies club owner commands
       if (isClubOwner && needWarning) {
         needWarning = ClubOwnerCommands({ command, parameters, sender, commandCall });
       }
-            
+
       if (isOwner && needWarning) {
         needWarning = PrivateCommands({ command, parameters, sender });
       }
-            
+
       // Verifies owner for private commands
       if (isOwner && needWarning) {
         needWarning = OwnerCommands({ command, parameters, sender, commandCall, isClubOwner });
@@ -118,24 +117,24 @@ function AnalyzeMessage(msg) {
       if ((isMistress || isOwner || cursedConfig.hasFullPublic) && needWarning) {
         needWarning = MistressCommands({ command, sender, parameters, isOwner, isClubOwner });
       }
-            
+
       // Checks if public has access or mistress can do all
       if ((cursedConfig.hasPublicAccess || isMistress || isOwner) && needWarning) {
         needWarning = PublicCommands({ command, sender, commandCall, parameters, isOwner, isMistress });
       }
-            
+
       //Perma commands for all
       if (needWarning) {
         needWarning = AllCommands({ command, sender, commandCall, parameters });
       }
-            
+
       //Warn an attempt was made but no command was found
       if (needWarning) {
         sendWhisper(sender, `(Invalid command: A command was possibly requested, but no matching command was found. Check for typos , or verify your version number and curse settings. Info about the person who sent the command: Club owner: ${isClubOwner ? "Yes" : "No"}, Curse owner: ${isOwner ? "Yes" : "No"}, Mistress: ${isOwner || isMistress ? "Yes" : "No"}, Public access: ${cursedConfig.hasPublicAccess ? "Yes" : "No"}, Full public access: ${cursedConfig.hasFullPublic ? "Yes" : "No"})`, true);
-      } else if (cursedConfig.isEatingCommands) { 
+      } else if (cursedConfig.isEatingCommands) {
         msg.style.display = "none";
       }
-                
+
     } catch (err) { console.error("Curse: " + err); }
 
   } else if (isActivated) {

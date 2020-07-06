@@ -1,32 +1,37 @@
 
-window.addEventListener("load", e => {
+window.addEventListener("load", () => {
 
   function AddScript(scriptFileName) {
     let script = document.createElement("script");
     script.src = chrome.runtime.getURL(scriptFileName);
     return document.head.appendChild(script);
   }
-    
-  AddScript("Utils.js");
-  AddScript("Curse/MainCurse.js");
-  AddScript("Curse/Checks/SelfMessageCheck.js");
-  AddScript("Curse/Checks/MessageCheck.js");
-  AddScript("Curse/Checks/PunishmentCheck.js");
-  AddScript("Curse/Checks/AppearanceCheck.js");
-  AddScript("Curse/Functions/All.js");
-  AddScript("Curse/Functions/ClubOwner.js");
-  AddScript("Curse/Functions/Private.js");
-  AddScript("Curse/Functions/Owner.js");
-  AddScript("Curse/Functions/Mistress.js");
-  AddScript("Curse/Functions/Public.js");
-  AddScript("Curse/Functions/Wearer.js");
-  AddScript("Curse/Utilities/Activators.js");
-  AddScript("Curse/Utilities/AlteredFunctions.js");
-  AddScript("Curse/Utilities/Helpers.js");
-  AddScript("Curse/Utilities/LongStrings.js");
-  AddScript("Curse/Utilities/Punishments.js");
-  AddScript("Curse/Utilities/Startup.js");
-  AddScript("Curse/Utilities/Tips.js");
-  AddScript("Curse/Room/CurseRoom.js");
-  AddScript("Curse/Room/WardrobeV2.js");
+  
+  const scripts = [
+    "Utils.js",
+    "Curse/MainCurse.js",
+    "Curse/Checks/SelfMessageCheck.js",
+    "Curse/Checks/MessageCheck.js",
+    "Curse/Checks/PunishmentCheck.js",
+    "Curse/Checks/AppearanceCheck.js",
+    "Curse/Functions/All.js",
+    "Curse/Functions/ClubOwner.js",
+    "Curse/Functions/Private.js",
+    "Curse/Functions/Owner.js",
+    "Curse/Functions/Mistress.js",
+    "Curse/Functions/Public.js",
+    "Curse/Functions/Wearer.js",
+    "Curse/Utilities/ChatHandlers.js",
+    "Curse/Utilities/Activators.js",
+    "Curse/Utilities/AlteredFunctions.js",
+    "Curse/Utilities/Helpers.js",
+    "Curse/Utilities/Startup.js",
+    "Curse/Constants/Punishments.js",
+    "Curse/Constants/HelpMsg.js",
+    "Curse/Constants/Tips.js",
+    "Curse/Constants/CursedConfig.js",
+    "Curse/Room/CurseRoom.js",
+    "Curse/Room/WardrobeV2.js"];
+  
+  scripts.forEach(AddScript);
 });

@@ -70,7 +70,7 @@ function InitAlteredFns() {
     let backupGamblingRun = GamblingRun;
     GamblingRun = function (...rest) {
       if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) { 
-        alert('Gambling Hall is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if she wish to come in. ->Going back to the main hall <-');
+        alert("Gambling Hall is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if she wish to come in. ->Going back to the main hall <-");
         CommonSetScreen("Room", "MainHall");
         
         return;

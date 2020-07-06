@@ -1,7 +1,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 35;
+window.currentVersion = 36;
 let AlwaysOn;
 let isLoaded;
 
@@ -47,100 +47,7 @@ function CursedStarter() {
       cursedConfig.onRestart = true;
       popChatSilent("Curse restarted.", "System");
     } else if (!window.cursedConfigInit) {
-      //Base configs
-      window.cursedConfigInit = {
-        hasPublicAccess: true,
-        hasCursedKneel: false,
-        hasCursedSpeech: true,
-        hasCursedOrgasm: false,
-        isMute: false,
-        disaledOnMistress: false,
-        enabledOnMistress: false,
-        hasEntryMsg: false,
-        hasFullMuteChat: false,
-        hasSound: false,
-        hasRestrainedPlay: false,
-        hasNoMaid: false,
-        hasNoContractions: false,
-        hasFullPublic: false,
-        hasAntiAFK: false,
-        hasRestrainedSpeech: false,
-        canReceiveNotes: false,
-        hasCaptureMode: false,
-        hasReminders: false,
-        hasForcedSensDep: false,
-        isLockedNewSub: false,
-        isLockedNewLover: false,
-        isLockedOwner: false,
-        hasDollTalk: false,
-        hasForcedMeterLocked: false,
-        hasForcedMeterOff: false,
-        hasDCPrevention: false,
-        cannotOrgasm: false,
-        forbidorgasm: false,
-        hasBlockedOOC: false,
-        hasSecretOrgasm: false,
-        hasNoEasyEscape: false,
-        hasFullLengthMode: false,
-        hasFullBlindMode: false,
-        
-        owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
-        mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
-        blacklist: [],
-        bannedWords: [],
-        sentences: [{ ident: "yes", text: "Yes, %target%" }, { ident: "no", text: "No, %target%" }, { ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?" }, { ident: "greetings", text: "Greetings, %target%, it is good to see you." }, { ident: "leave", text: "May %self% be excused, %target%?" }, { ident: "service", text: "How may %self% be useful for you today, %target%?" },],
-        cursedAppearance: [],
-        cursedPresets: [],
-        savedColors: [],
-        charData: [],
-        reminders: [],
-        reminderInterval: 300000,
-        entryMsg: "",
-        say: "",
-        sound: "",
-        self: "I",
-        targets: [{ ident: "miss", text: "miss" }, { ident: "mistress", text: "mistress" }],
-        capture: { capturedBy: "", Valid: 0 },
-        mistressIsHere: false,
-        ownerIsHere: false,
-        seenTips: [],
-
-        slaveIdentifier: Player.Name,
-        commandChar: "#",
-
-        vibratorIntensity: 3,
-        orgasms: 0,
-        strikes: 0,
-        lastPunishmentAmount: 0,
-        strikeStartTime: Date.now(),
-        punishmentsDisabled: false,
-        transgressions: [],
-
-        warned: [],
-        toUpdate: [],
-        mustRefresh: false,
-        isRunning: false,
-        isSilent: false,
-        isClassic: false,
-        isEatingCommands: false,
-        isLooseOwner: false,
-        mustRetype: true,
-        hasRestraintVanish: false,
-        canLeash: false,
-        hasWardrobeV2: false,
-        hasIntenseVersion: false,
-        wasLARPWarned: false,
-        hasFullCurse: false,
-        disabledCommands: [],
-        optinCommands: [{command: 'forcedsay', isEnabled: false}, {command: 'disableblocking', isEnabled: false}],
-        chatlog: [],
-        savedSilent: [],
-        chatStreak: 0,
-        shouldPopSilent: false,
-        hasForward: false,
-        onRestart: true,
-        hasHiddenDisplay: false,
-      };
+      InitCursedConfig();
       window.cursedConfig = { ...cursedConfigInit };
       window.oldStorage = null;
       window.oldVersion = null;
@@ -148,15 +55,24 @@ function CursedStarter() {
       window.brokenVibratingItems = ["MermaidSuit", "AnalHook"];
 
       //Tries to load configs
+      let beforeParseStorage = null;
+      let beforeParseVersion = null;
       try {
-        oldStorage = JSON.parse(localStorage.getItem(`bc-cursedConfig-${Player.MemberNumber}`));
-        oldVersion = JSON.parse(localStorage.getItem(`bc-cursedConfig-version-${Player.MemberNumber}`));
-      } catch (err) { console.log(err); }
+        beforeParseStorage = localStorage.getItem(`bc-cursedConfig-${Player.MemberNumber}`);
+        beforeParseVersion = localStorage.getItem(`bc-cursedConfig-version-${Player.MemberNumber}`);
+        oldStorage = JSON.parse(beforeParseStorage);
+        oldVersion = JSON.parse(beforeParseVersion);
+      } catch (err) {
+        console.log(err);
+        alert(`CURSE ERROR: Invalid Configs Detected. Your stored data for #${Player.MemberNumber} could not be parsed and was reset. View the console to recover your flushed data. Error: M08`);
+        console.log(`Flushed data for #${Player.MemberNumber}: ${beforeParseStorage}`);
+        console.warn(`You can fix your data and re-inject it through the console. This is a risky manipulation.`);
+      }
 
       //Pull config from log or create
       if (!oldStorage) {
         SendChat("The curse awakens on " + Player.Name + ".");
-        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
+        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558 or on the discord server.", "System");
         try {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
         } catch (err) { console.log(err); }
@@ -183,7 +99,7 @@ function CursedStarter() {
           
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
           SendChat("The curse following " + Player.Name + " has changed.");
-          popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
+          popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs on discord https://discord.gg/9dtkVFP. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
         } else if (oldVersion == currentVersion) {
           SendChat("The curse follows " + Player.Name + ".");
           popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
@@ -239,7 +155,6 @@ function CursedIntenseOff() {
       popChatSilent("Intense mode deactivated (safe).", "System");
     }
   } catch (err) { console.error(err); }
-
 }
 
 /** Always on mode to start on load switch on */
