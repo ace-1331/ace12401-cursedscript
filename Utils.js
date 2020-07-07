@@ -1,7 +1,8 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentVersion = 34;
+window.currentManifestVersion = "1.2.4.1";
+window.currentVersion = 37;
 let AlwaysOn;
 let isLoaded;
 
@@ -31,8 +32,18 @@ async function LoginListener() {
 }
 
 /** Starts the script */
-function CursedStarter() {
+function CursedStarterBtn() { 
+  CursedStarter()
+}
+
+async function CursedStarter() {
   try {
+    //Verify if we can start the curse
+    const isNotOk = await CheckVersion();
+    if (isNotOk) { 
+      return;
+    }
+    
     //Cleans the existing chatlog
     document.querySelectorAll(".ChatMessage:not([verified=true]").forEach(msg => {
       let verifiedAtt = document.createAttribute("verified");
@@ -47,98 +58,7 @@ function CursedStarter() {
       cursedConfig.onRestart = true;
       popChatSilent("Curse restarted.", "System");
     } else if (!window.cursedConfigInit) {
-      //Base configs
-      window.cursedConfigInit = {
-        hasPublicAccess: true,
-        hasCursedKneel: false,
-        hasCursedSpeech: true,
-        hasCursedOrgasm: false,
-        isMute: false,
-        disaledOnMistress: false,
-        enabledOnMistress: false,
-        hasEntryMsg: false,
-        hasFullMuteChat: false,
-        hasSound: false,
-        hasRestrainedPlay: false,
-        hasNoMaid: false,
-        hasNoContractions: false,
-        hasFullPublic: false,
-        hasAntiAFK: false,
-        hasRestrainedSpeech: false,
-        canReceiveNotes: false,
-        hasCaptureMode: false,
-        hasReminders: false,
-        hasForcedSensDep: false,
-        isLockedNewSub: false,
-        isLockedNewLover: false,
-        isLockedOwner: false,
-        hasDollTalk: false,
-        hasForcedMeterLocked: false,
-        hasForcedMeterOff: false,
-        hasDCPrevention: false,
-        cannotOrgasm: false,
-        forbidorgasm: false,
-        hasBlockedOOC: false,
-        hasSecretOrgasm: false,
-        hasNoEasyEscape: false,
-        hasFullLengthMode: false,
-        
-        owners: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
-        mistresses: Player.Ownership ? [Player.Ownership.MemberNumber.toString()] : [],
-        blacklist: [],
-        bannedWords: [],
-        sentences: [{ ident: "yes", text: "Yes, %target%" }, { ident: "no", text: "No, %target%" }, { ident: "rephrase", text: "May this be rephrased into a yes or no question, %target%?" }, { ident: "greetings", text: "Greetings, %target%, it is good to see you." }, { ident: "leave", text: "May %self% be excused, %target%?" }, { ident: "service", text: "How may %self% be useful for you today, %target%?" },],
-        cursedAppearance: [],
-        cursedPresets: [],
-        savedColors: [],
-        charData: [],
-        reminders: [],
-        reminderInterval: 300000,
-        entryMsg: "",
-        say: "",
-        sound: "",
-        self: "I",
-        targets: [{ ident: "miss", text: "miss" }, { ident: "mistress", text: "mistress" }],
-        capture: { capturedBy: "", Valid: 0 },
-        mistressIsHere: false,
-        ownerIsHere: false,
-        seenTips: [],
-
-        slaveIdentifier: Player.Name,
-        commandChar: "#",
-
-        vibratorIntensity: 3,
-        orgasms: 0,
-        strikes: 0,
-        lastPunishmentAmount: 0,
-        strikeStartTime: Date.now(),
-        punishmentsDisabled: false,
-
-        warned: [],
-        toUpdate: [],
-        mustRefresh: false,
-        isRunning: false,
-        isSilent: false,
-        isClassic: false,
-        isEatingCommands: false,
-        isLooseOwner: false,
-        mustRetype: true,
-        hasRestraintVanish: false,
-        canLeash: false,
-        hasWardrobeV2: false,
-        hasIntenseVersion: false,
-        wasLARPWarned: false,
-        hasFullCurse: false,
-        disabledCommands: [],
-        optinCommands: [{command: 'forcedsay', isEnabled: false}, {command: 'disableblocking', isEnabled: false}],
-        chatlog: [],
-        savedSilent: [],
-        chatStreak: 0,
-        shouldPopSilent: false,
-        hasForward: false,
-        onRestart: true,
-        hasHiddenDisplay: false,
-      };
+      InitCursedConfig();
       window.cursedConfig = { ...cursedConfigInit };
       window.oldStorage = null;
       window.oldVersion = null;
@@ -146,15 +66,24 @@ function CursedStarter() {
       window.brokenVibratingItems = ["MermaidSuit", "AnalHook"];
 
       //Tries to load configs
+      let beforeParseStorage = null;
+      let beforeParseVersion = null;
       try {
-        oldStorage = JSON.parse(localStorage.getItem(`bc-cursedConfig-${Player.MemberNumber}`));
-        oldVersion = JSON.parse(localStorage.getItem(`bc-cursedConfig-version-${Player.MemberNumber}`));
-      } catch (err) { console.log(err); }
+        beforeParseStorage = localStorage.getItem(`bc-cursedConfig-${Player.MemberNumber}`);
+        beforeParseVersion = localStorage.getItem(`bc-cursedConfig-version-${Player.MemberNumber}`);
+        oldStorage = JSON.parse(beforeParseStorage);
+        oldVersion = JSON.parse(beforeParseVersion);
+      } catch (err) {
+        console.log(err);
+        alert(`CURSE ERROR: Invalid Configs Detected. Your stored data for #${Player.MemberNumber} could not be parsed and was reset. View the console to recover your flushed data. Error: M08`);
+        console.log(`Flushed data for #${Player.MemberNumber}: ${beforeParseStorage}`);
+        console.warn(`You can fix your data and re-inject it through the console. This is a risky manipulation.`);
+      }
 
       //Pull config from log or create
       if (!oldStorage) {
         SendChat("The curse awakens on " + Player.Name + ".");
-        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
+        popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558 or on the discord server.", "System");
         try {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
         } catch (err) { console.log(err); }
@@ -178,10 +107,10 @@ function CursedStarter() {
         if (oldVersion != currentVersion) {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
           alert("IMPORTANT! Please make sure you refreshed your page after updating.");
-          
+
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
           SendChat("The curse following " + Player.Name + " has changed.");
-          popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
+          popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs on discord https://discord.gg/9dtkVFP. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
         } else if (oldVersion == currentVersion) {
           SendChat("The curse follows " + Player.Name + ".");
           popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
@@ -192,42 +121,10 @@ function CursedStarter() {
         }
       }
 
-      if (cursedConfig.hasIntenseVersion) {
-        popChatSilent("Intense mode is on (risky).", "System");
-      }
-
-      //Resets Strikes when it has been a week
-      if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-        popChatSilent("A new week has begun, your strikes have reset. (Might be a good time to check for updates!)", "System");
-        cursedConfig.strikeStartTime = Date.now();
-        cursedConfig.strikes = 0;
-        cursedConfig.lastPunishmentAmount = 0;
-      }
-
-      //Enables the hidden curse item to display who has the curse
-      if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
-        AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
-        AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse" + currentVersion, Visible: false, Value: -1 });
-        AssetLoadAll();
-        InventoryAdd(Player, "Curse", "ItemHidden");
-        InventoryAdd(Player, "Curse" + currentVersion, "ItemHidden");
-        // Always re-enable the version tip to promote staying up to date
-        cursedConfig.seenTips = cursedConfig.seenTips.filter(ST => ST !== 49);
-      }
-
-      // DC Prevention
-      if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
-        const roomToGoTo = cursedConfig.lastChatroom;
-        delete cursedConfig.lastChatroom;
-        SendToRoom(roomToGoTo);
-        NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
-        TryPopTip(43);
-
-      }
-
       //Runs the script
       cursedConfig.isRunning = true;
       cursedConfig.onRestart = true;
+      InitStartup();
       InitHelpMsg();
       InitAlteredFns();
       InitCleanup(); //Cleans up the arrays/migrations
@@ -269,7 +166,6 @@ function CursedIntenseOff() {
       popChatSilent("Intense mode deactivated (safe).", "System");
     }
   } catch (err) { console.error(err); }
-
 }
 
 /** Always on mode to start on load switch on */
@@ -280,4 +176,58 @@ function AlwaysOnTurnOn() {
 /** Always on mode to start on load switch off */
 function AlwaysOnTurnOff() {
   localStorage.setItem("bc-cursed-always-on", "disabled");
+}
+
+/** Checks if a version is not under a specific one ("X.X.X.X" format)*/
+function VersionIsEqualOrAbove(v, c) {
+  let isOk = 0;
+  const vParsed = v.split(".");
+  const cParsed = c.split(".");
+  
+  cParsed.forEach((N, Idx) => {
+      if (isOk == 0 && N > (vParsed[Idx] || 0)) {
+          isOk = -1;
+      }
+      if (isOk == 0 && N < (vParsed[Idx] || 0)) {
+          isOk = 1;
+      }
+  });
+
+  return isOk >= 0;
+}
+
+/** Version checking on startup 
+ * @returns {Boolean} If the curse has to be stopped
+*/
+async function CheckVersion(link) {
+  try {
+    const response = await fetch(link || 'https://curse-server.herokuapp.com/versions');
+    if (response.ok) {
+      const data = await response.json();
+    
+      // When under minimum
+      if (!VersionIsEqualOrAbove(currentManifestVersion, data.minimum)) {
+        CursedStarter = () => {
+          alert('ERROR X80: Cannot start the curse. You are below the required version. Please update it to the latest stable version now if you wish to use it.');
+        };
+        CursedStarter();
+        return true;
+      }
+      // When under stable
+      if (!VersionIsEqualOrAbove(currentManifestVersion, data.stable)) {
+        alert('A new stable release is available. Please update the curse.');
+        return;
+      }
+      // When under beta
+      /*if (!VersionIsEqualOrAbove(currentManifestVersion, data.beta)) {
+        alert("A new beta is available.");
+        return;
+      }*/
+      // When latest or beta, do nothing
+    }
+  } catch (err) {
+    //If first origin fails, we try again
+    console.log("Could not verify curse version: " + err);
+    if(!link) CheckVersion("https://cors-anywhere.herokuapp.com/https://condescending-pare-1bf422.netlify.app/curseVersion.json");
+  }
 }

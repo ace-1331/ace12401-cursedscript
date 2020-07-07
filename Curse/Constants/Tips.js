@@ -37,7 +37,7 @@ window.curseTips = [
   },
   {
     ID: 9,
-    Text: "If you would like the speech restrictions rules to send messages containing transgressions, you can use '#name isclassic'. This helps if the main goal is for the curse to keep track of strikes.",
+    Text: "If you would like the speech restrictions rules to send messages containing transgressions, you can use '#name isclassic'. This helps if the main goal is for the curse to keep track of strikes instead of completely blocking bad messages.",
   },
   {
     ID: 10,
@@ -225,5 +225,9 @@ window.curseTips = [
   {
     ID: 51,
     Text: "There are unlisted commands, can you find them?",
+  },
+  {
+    ID: 52,
+    Text: "The curse keeps track of your transgressions, anyone can see them when doing '#name transgressions'."
   },
 ];

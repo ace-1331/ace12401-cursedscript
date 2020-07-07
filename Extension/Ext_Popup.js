@@ -1,7 +1,15 @@
 
 //Display version
 let CurrentCurseVersion = chrome.runtime.getManifest().version;
-document.getElementById("versionNo").innerHTML = "Last version detected when chrome was started: v" + CurrentCurseVersion;
+
+window.addEventListener("load", () => { 
+  CurrentCurseVersion = chrome.runtime.getManifest().version;
+  const versionTxt = document.getElementById("versionNo");
+  versionTxt.innerHTML = "Current version: " + CurrentCurseVersion;
+});
+
+
+
 
 /** Injects a function as plain code */
 function InjectCode(tabId, func, callback) {
@@ -9,7 +17,7 @@ function InjectCode(tabId, func, callback) {
   code = code.slice(code.indexOf("{") + 1, code.length - 2);
   code = "var script = document.createElement(\"script\");" +
         "script.innerHTML = \"" + code + "\";" +
-        "document.body.appendChild(script)";
+        "document.body.appendChild(script);";
   chrome.tabs.executeScript(tabId, { code: code },
     function () {
       if (callback)
@@ -19,7 +27,7 @@ function InjectCode(tabId, func, callback) {
 
 /** Attaches a listener to a button and inserts the function to inject */
 function buttonListener(id, fn) {
-  document.getElementById(id).addEventListener("click", e => {
+  document.getElementById(id).addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       InjectCode(tabs[0].id, fn);
     });
@@ -27,7 +35,7 @@ function buttonListener(id, fn) {
 }
 
 //Start
-buttonListener("btnStart", CursedStarter);
+buttonListener("btnStart", CursedStarterBtn);
 
 //Stop
 buttonListener("btnStop", CursedStopper);

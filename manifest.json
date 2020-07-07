@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "BC - Cursed",
     "description": "Injects the scripts needed to wear the curse",
-    "version": "1.2.4.0",
+    "version": "1.2.4.1",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"
@@ -37,9 +37,13 @@
                 "Curse/Functions/Wearer.js",
                 "Curse/Utilities/Activators.js",
                 "Curse/Utilities/Helpers.js",
-                "Curse/Utilities/LongStrings.js",
                 "Curse/Utilities/AlteredFunctions.js",
-                "Curse/Utilities/Tips.js",
+                "Curse/Utilities/ChatHandlers.js",
+                "Curse/Utilities/Startup.js",
+                "Curse/Constants/HelpMsg.js",
+                "Curse/Constants/Tips.js",
+                "Curse/Constants/Punishments.js",
+                "Curse/Constants/CursedConfig.js",
                 "Curse/Room/CurseRoom.js",
                 "Curse/Room/WardrobeV2.js",
                 "Utils.js",
@@ -51,7 +55,6 @@
         "*"
     ],
     "permissions": [
-        "https://gist.github.com/ace-1331/731ae0bb5508e2a1cc9aee5671b79ab7.js",
         "declarativeContent",
         "activeTab",
         "storage",

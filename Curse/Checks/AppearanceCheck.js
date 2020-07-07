@@ -4,30 +4,28 @@
  */
 function AppearanceCheck() {
   let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
-        && (
-          (cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere)
-            || !cursedConfig.enabledOnMistress
-        );
+    && (
+      (cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere)
+      || !cursedConfig.enabledOnMistress
+    );
   let r = false;
   if (isActivated) {
-    cursedConfig.genericProcs = [];
-
     //Checks if settings are respected
     //Cursed collar
     if (
       cursedConfig.hasCursedKneel
-            && Player.CanKneel()
-            && !Player.Pose.includes("Kneel")
+      && Player.CanKneel()
+      && !Player.Pose.includes("Kneel")
     ) {
       SendChat("The cursed collar on " + Player.Name + "'s neck gives her an extreme shock, forcing her to get on her knees.");
       KneelAttempt();
       TryPopTip(24);
-      cursedConfig.strikes++;
+      TriggerPunishment(0);
     }
 
     let warnAdd = 0;
     let warnRemove = 0;
-        
+
     //Locked appearance (now all curse items)
     cursedConfig.cursedAppearance.forEach(({ name, group }) => {
       let item = Player.Appearance.filter(el => el.Asset.Group.Name == group && el.Asset.Name == name);
@@ -36,24 +34,24 @@ function AppearanceCheck() {
       ) {
         procGenericItem(name, group);
         warnAdd++;
-        cursedConfig.strikes += 3;
+        TriggerPunishment(6, [name, group]);
         TryPopTip(25);
       } else if (name == "" && itemNeedsRemoving(group)) {
         InventoryRemove(Player, group);
         cursedConfig.toUpdate.push(group);
         cursedConfig.mustRefresh = true;
         warnRemove++;
-        cursedConfig.strikes += 3;
+        TriggerPunishment(7, [group]);
         TryPopTip(26);
       }
     });
-        
+
     if (warnAdd)
       SendChat(`The curse on ${Player.Name} restores her cursed item${warnAdd > 1 ? "s" : ""}.`);
     if (warnRemove)
       SendChat(`The curse on ${Player.Name} removes forbidden item${warnRemove > 1 ? "s" : ""}.`);
 
-        
+
     //Cursed Orgasms
     if (cursedConfig.hasCursedOrgasm) {
       // New vibrators will default to max to be fair
@@ -61,20 +59,20 @@ function AppearanceCheck() {
         let A = InventoryGet(Player, G);
         if (
           A && Array.isArray(A.Asset.Effect)
-                    && A.Asset.Effect.includes("Egged")
-                    && !brokenVibratingItems.includes(A.Name)
+          && A.Asset.Effect.includes("Egged")
+          && !brokenVibratingItems.includes(A.Name)
         ) {
           if (!A.Property) {
             procCursedOrgasm(G);
           }
-          if (A.Property.Intensity < (cursedConfig.vibratorIntensity || 3)) {
+          if (A.Property.Intensity != (cursedConfig.vibratorIntensity || 3)) {
             SendChat("The curse on " + Player.Name + " brings her vibrators back to their required intensity.");
             procCursedOrgasm(G);
             TryPopTip(27);
-            cursedConfig.strikes++;
+            TriggerPunishment(8);
           }
         }
-                
+
       });
     }
   }

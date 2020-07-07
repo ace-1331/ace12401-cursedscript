@@ -54,7 +54,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "cursereport":
       let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedKneel", "hasCursedSpeech", "hasCursedOrgasm", "isMute", "disaledOnMistress", "enabledOnMistress", "hasEntryMsg", "hasFullMuteChat", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasReminders", "canReceiveNotes", "canLeash"];
-      let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ") + ". Cursed item groups: " + cursedConfig.cursedAppearance.join(",");
+      let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ") + ". Cursed item groups: " + cursedConfig.cursedAppearance.map(CI => CI.group).join(",");
       sendWhisper(sender, report, true);
       break;
     case "earplugs":
@@ -93,10 +93,10 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "permakneel":
       if (!cursedConfig.hasCursedKneel) {
-        SendChat("The curse arises on " + Player.Name + "'s collar.");
+        SendChat("The curse prevents " + Player.Name + " from standing up.");
         KneelAttempt();
       } else
-        SendChat("The curse on " + Player.Name + "'s collar vanished.");
+        SendChat("The curse allows " + Player.Name + " to stand again.");
       cursedConfig.hasCursedKneel = !cursedConfig.hasCursedKneel;
       break;
     case "screws":
@@ -263,9 +263,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       break;
     case "kneel":
       KneelAttempt();
-      break;
-    case "showstrikes":
-      sendWhisper(sender, Player.Name + " has accumulated a total of " + cursedConfig.strikes + " strikes.");
       break;
     case "changestrikes":
       if (!isNaN(parameters[0]) && parameters[0] != "") {

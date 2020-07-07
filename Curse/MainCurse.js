@@ -19,14 +19,16 @@ async function CursedCheckUp() {
   //Checks settings
   AdjustSettings();
 
-  // DC Prevention
+  // DC Prevention cleanup
   delete cursedConfig.lastChatroom;
-  if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && ChatRoomData && ChatRoomData.Name) {
-    cursedConfig.lastChatroom = ChatRoomData.Name;
-  }
 
   //Run the script only in chatrooms
   if (window.CurrentScreen == "ChatRoom") {
+    // Save the room for DC prevention
+    if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && ChatRoomData && ChatRoomData.Name) {
+      cursedConfig.lastChatroom = ChatRoomData.Name;
+    }
+    
     messagesToVerify = document.querySelectorAll(".ChatMessage:not([verified=true]");
 
     //LARP Warn
@@ -39,8 +41,11 @@ async function CursedCheckUp() {
     }
 
     // Chat input
-    if (document.getElementById('InputChat')) {
-      document.getElementById('InputChat').maxLength = cursedConfig.hasFullLengthMode ? '1000' : '200';
+    if (
+      document.getElementById("InputChat") &&
+      document.getElementById("InputChat").maxLength != cursedConfig.hasFullLengthMode ? 1000 : 200
+    ) {
+      document.getElementById("InputChat").maxLength = cursedConfig.hasFullLengthMode ? "1000" : "200";
     }
 
     //When it should be ran 
@@ -92,7 +97,6 @@ async function CursedCheckUp() {
       //Running the curse on restart for fairness
       if (cursedConfig.onRestart) {
         let oldLog = [...cursedConfig.chatlog];
-        let oldStrikes = cursedConfig.strikes;
         //Process the required things
         if (AppearanceCheck() || cursedConfig.mustRefresh) {
           //Reloads Char for free
@@ -110,7 +114,6 @@ async function CursedCheckUp() {
           cursedConfig.toUpdate = [];
           //Resumes as normal
           cursedConfig.chatlog = oldLog;
-          cursedConfig.strikes = oldStrikes;
           popChatSilent("Your current curses have been applied with no punishments.", "System");
           TryPopTip(29);
         }

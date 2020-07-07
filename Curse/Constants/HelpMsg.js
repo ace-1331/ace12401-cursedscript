@@ -8,24 +8,22 @@ function InitHelpMsg() {
     //WEARER FUNCTIONS//
 
     >>> Curses <<<
-    *NEW*-curseitem [group] [hours]
+    -curseitem [group] [hours]
     
     >>> Information <<<
-    *NEW*-tip
-    *NEW*-tip reset
+    -tip
+    -tip reset
     -help
-    -showstrikes
     -showblacklist
+    -showstrikes
     -listsentences
 
     >>> Config Commands <<<
     *NEW*-togglecommand [command]
-    -quickban
     -wardrobev2
     -eatcommands
     -hidedisplay
     -restraintvanish
-    -isclassic
     -issilent
     -blacklist [a member number]
     -mistress [a member number]
@@ -46,6 +44,8 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
+    -showstrikes
+    *NEW*-transgressions
     *NEW*-listoffcommands
     -help
     -respect
@@ -67,7 +67,6 @@ function InitHelpMsg() {
     >>> Basic Commands<<<
     -kneel
     -cursereport
-    -showstrikes
     -changestrikes [+/- nb strikes]
     -enforce [a member number] [optional custom title instead of defaults]
     -mtitle [number(optional)] [title to add/rem]
@@ -98,17 +97,6 @@ function InitHelpMsg() {
     *NEW*-vibratorintensity [off,max,etc.]
     -permakneel
     
-    -mittens
-    -paws
-    -gag
-    -blindfold
-    -hood
-    -earplugs
-    -dildogag
-    -panties
-    -screws
-    -doublegag
-    
     >>>Configurations<<<
     *NEW* -loadpresetcurses [name]
     *NEW* -loadpreset [name]
@@ -124,6 +112,10 @@ function InitHelpMsg() {
     -configreport
     *NEW*-listpresets
     
+    >>> Configurations <<<
+    -isclassic
+    *NEW*-fullblindfold
+    
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     -asylum [nb of hours]
@@ -133,6 +125,8 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
+    
+    *NEW*-clearpunishments
     *NEW*-retype
     -resetorgasmcount
     -guestnotes
@@ -172,11 +166,11 @@ function InitHelpMsg() {
     INTENSE V:-target [id] [target]
     INTENSE V:-sentence [id] [sentence]
     INTENSE V:-listsentences
-    INTENSE V: -forcedsay [sentence]
-    INTENSE V: -say [sentence]
-    INTENSE V: -fullmute
-    INTENSE V: -enablesound
-    INTENSE V: -sound ["oink", "meow", ...]
+    INTENSE V:-forcedsay [sentence]
+    INTENSE V:-say [sentence]
+    INTENSE V:-fullmute
+    INTENSE V:-enablesound
+    INTENSE V:-sound ["oink", "meow", ...]
 
     >>>Curses<<<
     -forbidorgasm
@@ -184,8 +178,6 @@ function InitHelpMsg() {
     -clearcurses
     -reminders
     -togglereminder [reminder]
-    
-    -belt
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
@@ -198,8 +190,10 @@ function InitHelpMsg() {
 
     ---------
     More on various features:
-    https://github.com/ace-1331/
-    ace12401-cursedscript/wiki
+    https://github.com/ace-1331/ace12401-cursedscript/wiki
+    ---------
+    Join us on Discord!
+    https://discord.com/invite/9dtkVFP
     ---------
     Made by ace (12401) - Ace__#5558
     Official release: V${currentVersion}
