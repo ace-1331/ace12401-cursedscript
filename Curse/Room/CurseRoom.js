@@ -89,8 +89,8 @@ function CurseRoomCursedReset() {
   SaveConfigs();
 }
 
-function CurseRoomCursedStarter() {
-  CursedStarter();
+async function CurseRoomCursedStarter() {
+  await CursedStarter();
   CurseRoomHasCurse = true;
   SaveConfigs();
 }

@@ -199,9 +199,9 @@ function VersionIsEqualOrAbove(v, c) {
 /** Version checking on startup 
  * @returns {Boolean} If the curse has to be stopped
 */
-async function CheckVersion() {
+async function CheckVersion(link) {
   try {
-    const response = await fetch('https://cors-anywhere.herokuapp.com/https://condescending-pare-1bf422.netlify.app/curseVersion.json');
+    const response = await fetch(link || 'https://curse-server.herokuapp.com/versions');
     if (response.ok) {
       const data = await response.json();
     
@@ -225,5 +225,9 @@ async function CheckVersion() {
       }*/
       // When latest or beta, do nothing
     }
-  } catch (err) { console.log("Could not verify curse version: " + err) }
+  } catch (err) {
+    //If first origin fails, we try again
+    console.log("Could not verify curse version: " + err);
+    if(!link) CheckVersion("https://cors-anywhere.herokuapp.com/https://condescending-pare-1bf422.netlify.app/curseVersion.json");
+  }
 }

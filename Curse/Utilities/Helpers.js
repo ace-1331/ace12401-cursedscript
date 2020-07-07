@@ -431,6 +431,11 @@ function drawCards(nbCards, players) {
  * @param {string} ame - Room name
 */
 function SendToRoom(name) {
+  ElementRemove("Friendlist");
+  ElementRemove("InputChat");
+  ElementRemove("TextAreaChatLog");
+  ServerSend("ChatRoomLeave", "");
+  ServerSend("ChatRoomLeave", "");
   CommonSetScreen("Online", "ChatSearch");
   ChatRoomSpace = "";
   OnlineGameName = "";

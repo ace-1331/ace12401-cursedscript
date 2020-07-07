@@ -99,9 +99,9 @@ function InitCleanup() {
         case "hasCursedGag":
           toggleCurseItem({ name: "BallGag", group: "ItemMouth", forceAdd: true });
           break;
-        case "hasCursedMittens":
+       /* case "hasCursedMittens":
           toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", forceAdd: true });
-          break;
+          break;*/
         case "hasCursedPaws":
           toggleCurseItem({ name: "PawMittens", group: "ItemHands", forceAdd: true });
           break;
@@ -129,6 +129,8 @@ function InitCleanup() {
           break;
         case "hasCursedNakedness":
           procCursedNaked(true);
+          break;
+        default:
           break;
       }
     }
