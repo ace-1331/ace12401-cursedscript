@@ -128,6 +128,8 @@ function InitHelpMsg() {
     
     *NEW*-clearpunishments
     *NEW*-retype
+    *NEW*-strictness [low/normal/strict]
+    *NEW*-punishmentrestraint [1-10] [group]
     -resetorgasmcount
     -guestnotes
     -readnotes

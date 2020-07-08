@@ -67,8 +67,18 @@ function InitCursedConfig() {
     orgasms: 0,
     strikes: 0,
     lastPunishmentAmount: 0,
+    strictness: 1,
     strikeStartTime: Date.now(),
     punishmentsDisabled: false,
+    punishmentRestraints: [
+      {stage: 1, name: "Chains", group: "ItemLegs"},
+      {stage: 2, name: "Chains", group: "ItemFeet"},
+      {stage: 3, name: "Chains", group: "ItemArms"},
+      {stage: 4, name: "FullBlindfold", group: "ItemHead"},
+      {stage: 5, name: "PantyStuffing", group: "ItemMouth"},
+      {stage: 6, name: "HarnessBallGag", group: "ItemMouth2"},
+      {stage: 7, name: "SteelMuzzleGag", group: "ItemMouth3"},
+    ],
     transgressions: [],
 
     warned: [],

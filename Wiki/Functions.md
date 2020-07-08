@@ -71,7 +71,7 @@
 - mtitle [respectnickname] //Note: toggle enforced for the nickname
 - **Intense mode**: mnickname [MemberNumber] [Name] //Note: owners have priority over other nicknames
 ### Speech
-- speech //Note: enables the word bans in place
+- cursedspeech //Note: enables the word bans in place
 - banword [the word itself] //Note: Don't forget to enable them first! (See command above)
 - banbegging [on/off]
 - banfirstperson [on/off]
@@ -98,6 +98,8 @@
 - owner [a member number]
 - otitle [Number] [Title]
 ### Configurations
+- **NEW** strictness [low/normal/strict] //Note: tunes the frequency of automatic punishments
+- **NEW** punishmentrestraint [1-10] [group] // Note: attributes a currently worn restraint in the given group to the desired punishment stage (1 to 10). The higher the stage, the more strikes the wearer has. All restraints from the stage and under will be applied once a threshold is reached, resets every week.
 - **NEW** clearpunishments //Note: clears the current list of punishments displayed when doing `#name transgressions`
 - **NEW** retype //Note: the wearer will no longer need to retype the whole message when it contains a transgression
 - resetorgasmcount

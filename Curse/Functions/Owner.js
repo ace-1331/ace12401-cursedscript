@@ -2,6 +2,49 @@
 function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
   const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
   switch (command) {
+    case "punishmentrestraint":
+      if (parameters[0] && parameters[1]) {
+        sendWhisper(sender, "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)", true);
+        return;
+      }
+      if (isNaN(parameters[0]) || !parameters[0] || parameters[0] < 1 || parameters[0] > 10) { 
+        sendWhisper(sender, "(Invalid arguments. Punishment stage must be a number between 1 and 10.)", true);
+        return;
+      }
+      const worn = InventoryGet(Player, textToGroup(parameters[1], isClubOwner ? 3 : 2));
+      if (!worn) { 
+        sendWhisper(sender, "(Invalid arguments. Target group does not contain a restraint.)", true);
+        return;
+      }
+      cursedConfig.punishmentRestraints = cursedConfig.punishmentRestraints(
+        PR => PR.stage != parameters[0]
+      );
+      cursedConfig.punishmentRestraints.push(
+        { stage: parseInt(parameters[0]), name: worn.Asset.Name, group: worn.Asset.Group.Name }
+      );
+      NotifyOwners(`Stage ${parameters[0]} restraint was set to ${parameters[1]} ${worn.Asset.Description}}`, true);
+      break;
+    case "strictness":
+      if (parameters[0]) {
+        switch (parameters[0]) {
+          case "low":
+          case "easy":
+          case "fair":
+            cursedConfig.strictness = 0.5;
+            break;
+          case "normal":
+            cursedConfig.strictness = 1;
+            break;
+          case "strict":
+          case "hard":
+          case "high":
+          case "unfair":
+            cursedConfig.strictness = 1.5;
+            break;
+        }
+      } else
+        sendWhisper(sender, "(Invalid arguments. Specify the strictness level [low/normal/strict].)", true);
+      break;
     case "disableblocking":
       if (!cursedConfig.hasFullCurse)
         NotifyOwners("(All commands are now forced on the wearer. Blacklisting commands will have no effect, and all opt-in commands will be enabled. [Old settings saved.])", true);
@@ -247,6 +290,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         InventoryRemove(Player, "ItemBoots");
         ElementRemove("InputChat");
         ElementRemove("TextAreaChatLog");
+        ElementRemove("FriendList");
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumEntrance");
       } else {
