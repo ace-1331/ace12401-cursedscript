@@ -36,12 +36,14 @@ function CurseRoomLoad() {
   InventoryWear(CurseRoomAce, "Band1", "Hat", "#fff7df");
   InventoryLock(CurseRoomAce, "ItemPelvis", "OwnerPadlock", 151);
   InventoryLock(CurseRoomAce, "ItemBreast", "OwnerPadlock", 151);
+  
+  CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I ask a question, miss?", NextStage: "40", Result: "(She allows you to speak.)" });
   CurseRoomAce.Dialog.push({ Stage: "0", Result: "Welcome to my bunny hole. I see you've found some of my magic." });
   CurseRoomAce.Dialog.push({ Stage: "0", NextStage: "10", Option: "I have found a problem and would like to reset my curse.", Result: "(She stares at you suspiciously.) Are you sure? Resetting is permanent.", Prerequisite: "HasCurse" });
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "I have something I would like to say about the curse.", Result: "I'd love to hear your thoughts, send me a message on discord or join the server. Ace___#5558 (She smiles.)" });
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I get cursed, miss?", Result: "Of course! (She lays a hand on your shoulders, her eyes glow purple and you feel something odd.)", Prerequisite: "!HasCurse", Function: "CursedStarter()" });
-  CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I have some money, miss?", Result: "(She looks furious, you have clearly insulted her.) Not going to happen, sweetheart. This is not meant to be for cheating." });
-  CurseRoomAce.Dialog.push({ Stage: "0", Option: "Is this dangerous, miss?", Result: "This only affects you. Make sure to keep your curse up to date and listen to the directives in the github ReadMe. Running the curse on a non-approved version is done at your own risks." });
+  CurseRoomAce.Dialog.push({ Stage: "40", Option: "May I have some money, miss?", Result: "(She looks furious, you have clearly insulted her.) Not going to happen, sweetheart. This is not meant to be for cheating." });
+  CurseRoomAce.Dialog.push({ Stage: "40", Option: "Is this dangerous, miss?", Result: "This only affects you. Make sure to keep your curse up to date and listen to the directives in the github ReadMe. Running the curse on a non-approved version is done at your own risks." });
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I customize my curse, miss?", NextStage: "20", Result: "Sure, what can I do for you?", Prerequisite: "HasCurse" });
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I have the link again, miss?", Result: "(She ignores how forgetful you are and hands you a note.) github.com/ace-1331/ace12401-cursedscript" });
   CurseRoomAce.Dialog.push({ Stage: "0", Option: "May I have a taste of the curse, miss?", Result: "(She grins.) Of course, I can do many things.", Prerequisite: "HasCurse", NextStage: "30" });
@@ -58,6 +60,7 @@ function CurseRoomLoad() {
   CurseRoomAce.Dialog.push({ Stage: "30", Option: "(Ask her to restrict your speech.)", Result: "(Her eyes glow purple.) My favorite! You can no longer speak in first person.", Function: "TryPerson()" });
   CurseRoomAce.Dialog.push({ Stage: "30", Option: "(Pay your respects.)", Result: "(She grins, appreciative of the respect you show her.)", Prerequisite: "HasIntense()", Function: "TryRespect()" });
   CurseRoomAce.Dialog.push({ Stage: "30", Option: "I've changed my mind, miss.", NextStage: "0", Result: "(She nods and looks disappointed she could not toy with you.)" });
+  CurseRoomAce.Dialog.push({ Stage: "40", Option: "I've changed my mind, miss.", NextStage: "0", Result: "(She nods and wonders what you are hiding from her.)" });
 
   if (Player.CanKneel()) CharacterSetActivePose(Player, "Kneel");
 }
