@@ -178,6 +178,7 @@ function CursePreferenceUnload() {
 function CursePreferenceExit() {
     CursePreferenceUnload();
     cursedConfig = { ...CursePreferenceTemporaryConfig };
+    SaveConfigs();
     CursePreferenceTemporaryConfig = null;
     CurseRoomRun();
     CurrentScreen = "CurseRoom";
