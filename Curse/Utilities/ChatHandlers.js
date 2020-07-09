@@ -156,7 +156,7 @@ function PopTip(isRoom) {
   
   let message = "";
   if (showTip.ID || showTip.ID == 0) {
-    message = showTip.Text + isRoom ? " Click the button again for another tip." : " Send the command again to see another tip.";
+    message = showTip.Text + (isRoom ? " Click the button again for another tip." : " Send the command again to see another tip.");
     cursedConfig.seenTips.push(showTip.ID);
   } else {
     message = "No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again", "Tip";
