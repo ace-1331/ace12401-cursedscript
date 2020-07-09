@@ -218,15 +218,18 @@ async function CursePreferenceImportConfig() {
         const clip = await navigator.clipboard.readText();
         const configs = JSON.parse(LZString.decompressFromUTF16(clip));
         // We need to make sure this is the same version
+        let hasError = false;
         Object.keys(configs).forEach(K => { 
             if (CursePreferenceTemporaryConfig[K] == undefined) { 
                 CursePreferenceErrorMessage = "Wrong config version. Contains: " + K;
                 CursePreferenceErrorMessageTime = Date.now() + 10000;
+                hasError = true;
                 return;
             }
         });
-        
-        CursePreferenceTemporaryConfig = {...CursePreferenceTemporaryConfig, ...configs};
+        if (!hasError) {
+            CursePreferenceTemporaryConfig = { ...CursePreferenceTemporaryConfig, ...configs };
+        }
     } catch (err) { 
         console.log(err)
         CursePreferenceErrorMessage = "Could not import, invalid config string.";
