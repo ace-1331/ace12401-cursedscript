@@ -63,11 +63,11 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.cannotOrgasm = !cursedConfig.cannotOrgasm;
       break;
     case "forbidorgasm":
-      if (!cursedConfig.shouldntOrgasm)
+      if (!cursedConfig.forbidorgasm)
         SendChat("The curse will punish " + Player.Name + " for having orgasms.");
       else
         SendChat("The curse will no longer punish " + Player.Name + " for having orgasms.");
-      cursedConfig.shouldntOrgasm = !cursedConfig.shouldntOrgasm;
+      cursedConfig.forbidorgasm = !cursedConfig.forbidorgasm;
       break;
     case "clearcurses":
       if (cursedConfig.hasRestraintVanish) {

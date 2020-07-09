@@ -97,6 +97,7 @@ async function CursedCheckUp() {
       //Running the curse on restart for fairness
       if (cursedConfig.onRestart) {
         let oldLog = [...cursedConfig.chatlog];
+        let oldTransgressions = [...cursedConfig.transgressions];
         //Process the required things
         if (AppearanceCheck() || cursedConfig.mustRefresh) {
           //Reloads Char for free
@@ -114,6 +115,7 @@ async function CursedCheckUp() {
           cursedConfig.toUpdate = [];
           //Resumes as normal
           cursedConfig.chatlog = oldLog;
+          cursedConfig.transgressions = oldTransgressions;
           popChatSilent("Your current curses have been applied with no punishments.", "System");
           TryPopTip(29);
         }

@@ -140,7 +140,7 @@ function InitCleanup() {
   CheckEnforceMigration();
 
   //Clean deprecated props
-  const toDelete = ["punishmentColor", "hasCursedBunny", "lastWardrobeLock", "cursedItems", "nicknames", "enforced", ...oldCurses];
+  const toDelete = ["punishmentColor", "shouldntOrgasm", "hasCursedBunny", "lastWardrobeLock", "cursedItems", "nicknames", "enforced", ...oldCurses];
   toDelete.forEach(prop => delete cursedConfig[prop]);
 
   //Cleans dupes and bad stuff

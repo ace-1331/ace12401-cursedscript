@@ -182,7 +182,7 @@ function InitAlteredFns() {
       let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
       if (rest[0].ID == 0 && isActivated) {
         cursedConfig.orgasms++;
-        if (cursedConfig.shouldntOrgasm) {
+        if (cursedConfig.forbidorgasm) {
           TriggerPunishment(4);
           SendChat("The curse on " + Player.Name + " punishes her for orgasming when her owner forbade her.");
         }

@@ -73,7 +73,7 @@ window.curseTips = [
   },
   {
     ID: 18,
-    Text: "If you are ever stuck, you can go to the bunny hole in the main all to have your curse reset. You can also go there to turn on intenso mode or to get a taste of some curses.",
+    Text: "If you are ever stuck, you can go to the bunny hole in the main all to have your curse reset. You can also go there to turn on intense mode or to get a taste of some curses. The bunny hole also features a UI to view most of your curse info.",
   },
   {
     ID: 19,

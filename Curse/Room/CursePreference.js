@@ -6,28 +6,40 @@ var CursePreferenceTemporaryConfig = null;
 var CursePreferenceLinkSent = false;
 var CursePreferenceLoaded = false;
 var CursePreferenceMainLoaded = false;
+var CursePreferenceErrorMessage = null;
+var CursePreferenceErrorMessageTime = null;
+var CursePreferenceCurrentTip = "";
 
 //////////////////////////////////////////////////////////////////MAIN
 // Validates updated data
 function CursedConfigValidate() {
     CursePreferenceErrors = [];
-    if (!CursePreferenceTemporaryConfig.slaveIdentifier.trim()) CursePreferenceErrors.push("Identifier");
+    if (!CursePreferenceTemporaryConfig.slaveIdentifier.trim())
+        CursePreferenceErrors.push("Identifier");
+    if (CursePreferenceErrors.length > 0) {
+        CursePreferenceErrorMessage = "Input fields contain errors";
+        CursePreferenceErrorMessageTime = Date.now() + 2000;
+    }
 }
 
 function CursePreferenceLoad() {
     CursePreferenceMainLoaded = true;
-	ElementCreateInput("Identifier");
-	document.getElementById("Identifier").setAttribute("maxLength", 20);
-	document.getElementById("Identifier").setAttribute("autocomplete", "off");
-	ElementValue("Identifier", CursePreferenceTemporaryConfig.slaveIdentifier);
+    ElementCreateInput("Identifier");
+    document.getElementById("Identifier").setAttribute("maxLength", 20);
+    document.getElementById("Identifier").setAttribute("autocomplete", "off");
+    ElementValue("Identifier", CursePreferenceTemporaryConfig.slaveIdentifier);
 }
-    
+
 // Run the preference screen
 function CursePreferenceRun() {
     // Draw Screen title
     DrawText(`- Curse Info Sheet: ${CursePreferenceSubscreen || 'Wearer'} -`, 500, 75, "Black", "Gray");
-    DrawText('[O]: Club owner [CO]: Curse Owner+ [M]: Mistress+.', 500, 125, "Black", "Gray");
-    
+    if (CursePreferenceErrorMessage && CursePreferenceErrorMessageTime > Date.now()) { 
+        DrawText('Error: ' + CursePreferenceErrorMessage, 500, 125, "Red", "Gray");
+    } else {
+        DrawText('[O]: Club owner [CO]: Curse Owner+ [M]: Mistress+.', 500, 125, "Black", "Gray"); CursePreferenceErrorMessage = null;
+    }
+
     // Validate current inputs
     if (!CursePreferenceTemporaryConfig) CursePreferenceTemporaryConfig = { ...cursedConfig };
     CursedConfigValidate();
@@ -36,7 +48,7 @@ function CursePreferenceRun() {
     if (!window.cursedConfig) CursePreferenceSubscreen = "NoCurse";
 
     // If a subscreen is active, draw that instead and unload the main one
-    if (CursePreferenceSubscreen && CursePreferenceMainLoaded)  CursePreferenceUnload();
+    if (CursePreferenceSubscreen && CursePreferenceMainLoaded) CursePreferenceUnload();
     if (CursePreferenceSubscreen == "NoCurse") return CursePreferenceSubscreenNoCurseRun();
     if (CursePreferenceSubscreen == "Lists") return CursePreferenceSubscreenListsRun();
     if (CursePreferenceSubscreen == "Permissions") return CursePreferenceSubscreenPermissionsRun();
@@ -46,7 +58,8 @@ function CursePreferenceRun() {
     if (CursePreferenceSubscreen == "Curses") return CursePreferenceSubscreenCursesRun();
     if (CursePreferenceSubscreen == "Speech") return CursePreferenceSubscreenSpeechRun();
     if (CursePreferenceSubscreen == "Appearance") return CursePreferenceSubscreenAppearanceRun();
-    
+    if (CursePreferenceSubscreen == "Tip") return CursePreferenceSubscreenTipRun();
+
     // Draw the screen icons
     if (CursePreferenceErrors.length == 0) {
         DrawButton(1815, 65, 90, 90, "", "White", "Icons/Exit.png");
@@ -57,25 +70,32 @@ function CursePreferenceRun() {
         DrawButton(1815, 640, 90, 90, "", "White", "Icons/Lock.png");
         DrawButton(1815, 755, 90, 90, "", "White", "Icons/Naked.png");
         DrawButton(1815, 870, 90, 90, "", "White", "Icons/Chat.png");
-        
+
+        DrawButton(1705, 755, 90, 90, "", "White", "Icons/Question.png");
         DrawButton(1705, 870, 90, 90, "", "White", "Icons/ColorPick.png");
     }
 
 
     // MAIN PAGE //
-    
-    
+
+
     // Loads Main inputs if not loaded
     if (!CursePreferenceMainLoaded) CursePreferenceLoad();
-    
+
     // Draw Editable
-	DrawText("Identifier Name:", 250, 255, CursePreferenceErrors.includes("Identifier") ?  "Red" : "Black", "Gray");
-	ElementPosition("Identifier", 650, 250, 500);
-    
+    DrawText("Identifier Name:", 250, 255, CursePreferenceErrors.includes("Identifier") ? "Red" : "Black", "Gray");
+    ElementPosition("Identifier", 650, 250, 500);
+
     // Draw Info
-    DrawText(`Identifier: ${CursePreferenceTemporaryConfig.commandChar + CursePreferenceTemporaryConfig.slaveIdentifier}`, 1350, 100, "Black", "Gray");
-    DrawText(`Version: ${currentManifestVersion}`, 1350, 150, "Black", "Gray");
-    DrawText(`Last Stable: ${cursedVersionData ? cursedVersionData.stable : "Unknown"} - Last Beta: ${cursedVersionData ? cursedVersionData.beta : "Unknown"}`, 1350, 200, "Black", "Gray");
+    DrawText(`Identifier: ${CursePreferenceTemporaryConfig.commandChar + CursePreferenceTemporaryConfig.slaveIdentifier}`, 1350, 80, "Black", "Gray");
+    DrawText(`Version: ${currentManifestVersion}`, 1350, 130, "Black", "Gray");
+    DrawText(`Last Stable: ${cursedVersionData ? cursedVersionData.stable : "Unknown"} - Last Beta: ${cursedVersionData ? cursedVersionData.beta : "Unknown"}`, 1350, 180, "Black", "Gray");
+
+    // Import/Export
+    if (navigator.clipboard) {
+        DrawButton(1170, 215, 180, 65, "Import", "White");
+        DrawButton(1370, 215, 180, 65, "Export", "White");
+    }
 
     // Checkboxes
     MainCanvas.textAlign = "left";
@@ -87,12 +107,12 @@ function CursePreferenceRun() {
     DrawCheckbox(100, 712, 64, 64, "Do not block messages with transgressions", CursePreferenceTemporaryConfig.isClassic);
     DrawCheckbox(100, 792, 64, 64, "Do not display actions in rooms (Not Recommended)", CursePreferenceTemporaryConfig.isSilent);
     DrawCheckbox(100, 872, 64, 64, "Show me all whispers sent by the curse (Not Recommended)", CursePreferenceTemporaryConfig.hasForward);
-    
+
     DrawCheckbox(1100, 312, 64, 64, "Capture mode", CursePreferenceTemporaryConfig.hasCaptureMode);
     DrawCheckbox(1100, 392, 64, 64, "Bigger chat input", CursePreferenceTemporaryConfig.hasFullLengthMode);
-    
+
     MainCanvas.textAlign = "center";
-    
+
     // Sets editable value
     CursePreferenceTemporaryConfig.slaveIdentifier = ElementValue("Identifier");
 }
@@ -110,6 +130,7 @@ function CursePreferenceClick() {
     if (CursePreferenceSubscreen == "Curses") return CursePreferenceSubscreenCursesClick();
     if (CursePreferenceSubscreen == "Speech") return CursePreferenceSubscreenSpeechClick();
     if (CursePreferenceSubscreen == "Appearance") return CursePreferenceSubscreenAppearanceClick();
+    if (CursePreferenceSubscreen == "Tip") return CursePreferenceSubscreenTipClick();
 
     // If the user clicks on "Exit"
     if (CursePreferenceErrors.length == 0) {
@@ -137,7 +158,10 @@ function CursePreferenceClick() {
         if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 870) && (MouseY < 960)) {
             CursePreferenceSubscreen = "Speech";
         }
-        
+
+        if ((MouseX >= 1705) && (MouseX < 1795) && (MouseY >= 755) && (MouseY < 845)) {
+            CursePreferenceSubscreen = "Tip";
+        }
         if ((MouseX >= 1705) && (MouseX < 1795) && (MouseY >= 870) && (MouseY < 960)) {
             CursePreferenceSubscreen = "Appearance";
         }
@@ -161,15 +185,57 @@ function CursePreferenceClick() {
         CursePreferenceTemporaryConfig.isSilent = !CursePreferenceTemporaryConfig.isSilent;
     if (CommonIsClickAt(100, 872, 64, 64))
         CursePreferenceTemporaryConfig.hasForward = !CursePreferenceTemporaryConfig.hasForward;
-    
+
     if (CommonIsClickAt(1100, 312, 64, 64))
         CursePreferenceTemporaryConfig.hasCaptureMode = !CursePreferenceTemporaryConfig.hasCaptureMode;
     if (CommonIsClickAt(1100, 392, 64, 64))
         CursePreferenceTemporaryConfig.hasFullLengthMode = !CursePreferenceTemporaryConfig.hasFullLengthMode;
+
+    // Import/Export
+    if (navigator.clipboard) {
+        if (CommonIsClickAt(1170, 215, 180, 65)) {
+            CursePreferenceImportConfig();
+        }
+        if (CommonIsClickAt(1370, 215, 180, 65)) {
+            CursePreferenceExportConfig();
+        }
+    }
+}
+
+async function CursePreferenceExportConfig() { 
+    try {
+        await navigator.clipboard.writeText(
+            LZString.compressToUTF16(JSON.stringify(CursePreferenceTemporaryConfig))
+        );
+    } catch (err) { 
+        CursePreferenceErrorMessage = "Could not export.";
+        CursePreferenceErrorMessageTime = Date.now() + 10000;
+    }
+}
+
+async function CursePreferenceImportConfig() { 
+    try {
+        const clip = await navigator.clipboard.readText();
+        const configs = JSON.parse(LZString.decompressFromUTF16(clip));
+        // We need to make sure this is the same version
+        Object.keys(configs).forEach(K => { 
+            if (CursePreferenceTemporaryConfig[K] == undefined) { 
+                CursePreferenceErrorMessage = "Wrong config version. Contains: " + K;
+                CursePreferenceErrorMessageTime = Date.now() + 10000;
+                return;
+            }
+        });
+        
+        CursePreferenceTemporaryConfig = {...CursePreferenceTemporaryConfig, ...configs};
+    } catch (err) { 
+        console.log(err)
+        CursePreferenceErrorMessage = "Could not import, invalid config string.";
+        CursePreferenceErrorMessageTime = Date.now() + 10000;
+    }
 }
 
 // When we leave the main screen
-function CursePreferenceUnload() { 
+function CursePreferenceUnload() {
     CursePreferenceMainLoaded = false;
     ElementRemove("Identifier");
 }
@@ -213,22 +279,22 @@ function CursePreferenceSubscreenNoCurseClick() {
 
 //////////////////////////////////////////////////////////////////Lists
 // Redirected to from the main Run function if the player is in the lists settings subscreen
-function CursePreferenceSubscreenListsLoad() { 
+function CursePreferenceSubscreenListsLoad() {
     CursePreferenceLoaded = true;
-	ElementCreateTextArea("Owners");
-	document.getElementById("Owners").setAttribute("maxLength", "1000");
-	document.getElementById("Owners").setAttribute("autocomplete", "off");
-	ElementValue("Owners", CursePreferenceTemporaryConfig.owners.join(","));
-	ElementCreateTextArea("Mistresses");
-	document.getElementById("Mistresses").setAttribute("maxLength", "1000");
-	document.getElementById("Mistresses").setAttribute("autocomplete", "off");
-	ElementValue("Mistresses", CursePreferenceTemporaryConfig.mistresses.join(","));
-	ElementCreateTextArea("Blacklist");
-	document.getElementById("Blacklist").setAttribute("maxLength", "1000");
-	document.getElementById("Blacklist").setAttribute("autocomplete", "off");
+    ElementCreateTextArea("Owners");
+    document.getElementById("Owners").setAttribute("maxLength", "1000");
+    document.getElementById("Owners").setAttribute("autocomplete", "off");
+    ElementValue("Owners", CursePreferenceTemporaryConfig.owners.join(","));
+    ElementCreateTextArea("Mistresses");
+    document.getElementById("Mistresses").setAttribute("maxLength", "1000");
+    document.getElementById("Mistresses").setAttribute("autocomplete", "off");
+    ElementValue("Mistresses", CursePreferenceTemporaryConfig.mistresses.join(","));
+    ElementCreateTextArea("Blacklist");
+    document.getElementById("Blacklist").setAttribute("maxLength", "1000");
+    document.getElementById("Blacklist").setAttribute("autocomplete", "off");
     ElementValue("Blacklist", CursePreferenceTemporaryConfig.blacklist.join(","));
-    
-    if (CursePreferenceTemporaryConfig.hasRestrainedPlay) { 
+
+    if (CursePreferenceTemporaryConfig.hasRestrainedPlay) {
         document.getElementById("Mistresses").setAttribute("disabled", "disabled");
         document.getElementById("Owners").setAttribute("disabled", "disabled");
     }
@@ -237,18 +303,18 @@ function CursePreferenceSubscreenListsLoad() {
 function CursePreferenceSubscreenListsRun() {
     // Load if needed
     if (!CursePreferenceLoaded) CursePreferenceSubscreenListsLoad();
-    
+
     if (CursePreferenceErrors.length == 0)
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    
+
     // Draw lists
-	DrawText("Curse owners:", 350, 200, "Black", "Gray");
+    DrawText("Curse owners:", 350, 200, "Black", "Gray");
     ElementPosition("Owners", 350, 400, 430, 320);
-    
-	DrawText("Mistresses:", 925, 200, "Black", "Gray");
+
+    DrawText("Mistresses:", 925, 200, "Black", "Gray");
     ElementPosition("Mistresses", 925, 400, 430, 320);
-    
-	DrawText("Curse blacklist:", 1500, 200, "Black", "Gray");
+
+    DrawText("Curse blacklist:", 1500, 200, "Black", "Gray");
     ElementPosition("Blacklist", 1500, 400, 430, 320);
 }
 
@@ -260,12 +326,12 @@ function CursePreferenceSubscreenListsClick() {
     }
 }
 
-function CursePreferenceSubscreenListsExit() { 
+function CursePreferenceSubscreenListsExit() {
     // Sets editable value (Can't be erroneous)
     CursePreferenceTemporaryConfig.owners = ConvertStringToStringNumberArray(ElementValue("Owners"));
     CursePreferenceTemporaryConfig.mistresses = ConvertStringToStringNumberArray(ElementValue("Mistresses"));
     CursePreferenceTemporaryConfig.blacklist = ConvertStringToStringNumberArray(ElementValue("Blacklist"));
-    
+
     ElementRemove("Owners");
     ElementRemove("Mistresses");
     ElementRemove("Blacklist");
@@ -276,14 +342,14 @@ function CursePreferenceSubscreenListsExit() {
 
 //////////////////////////////////////////////////////////////////Permissions
 // Redirected to from the main Run function if the player is in the lists settings subscreen
-function CursePreferenceSubscreenPermissionsLoad() { 
+function CursePreferenceSubscreenPermissionsLoad() {
     CursePreferenceLoaded = true;
-	ElementCreateTextArea("BannedCommands");
-	document.getElementById("BannedCommands").setAttribute("maxLength", "1000");
-	document.getElementById("BannedCommands").setAttribute("autocomplete", "off");
+    ElementCreateTextArea("BannedCommands");
+    document.getElementById("BannedCommands").setAttribute("maxLength", "1000");
+    document.getElementById("BannedCommands").setAttribute("autocomplete", "off");
     ElementValue("BannedCommands", CursePreferenceTemporaryConfig.disabledCommands.join(","));
-    
-    if (CursePreferenceTemporaryConfig.hasFullCurse) { 
+
+    if (CursePreferenceTemporaryConfig.hasFullCurse) {
         document.getElementById("BannedCommands").setAttribute("disabled", "disabled");
     }
 }
@@ -291,14 +357,14 @@ function CursePreferenceSubscreenPermissionsLoad() {
 function CursePreferenceSubscreenPermissionsRun() {
     // Load if needed
     if (!CursePreferenceLoaded) CursePreferenceSubscreenPermissionsLoad();
-    
+
     if (CursePreferenceErrors.length == 0)
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    
+
     // Info
-	DrawText("List of blacklisted commands:", 1400, 100, "Black", "Gray");
+    DrawText("List of blacklisted commands:", 1400, 100, "Black", "Gray");
     ElementPosition("BannedCommands", 1400, 300, 430, 320);
-    
+
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 552, 64, 64, "[CO] Allow blacklisting commands", !CursePreferenceTemporaryConfig.hasFullCurse);
@@ -317,10 +383,10 @@ function CursePreferenceSubscreenPermissionsClick() {
     }
 }
 
-function CursePreferenceSubscreenPermissionsExit() { 
+function CursePreferenceSubscreenPermissionsExit() {
     // Sets editable value (Can't be erroneous)
     CursePreferenceTemporaryConfig.disabledCommands = ElementValue("BannedCommands").split(",");
-    
+
     ElementRemove("BannedCommands");
     CursePreferenceSubscreen = "";
     CursePreferenceLoaded = false;
@@ -363,8 +429,8 @@ function CursePreferenceSubscreenOrgasmsClick() {
 function CursePreferenceSubscreenStatusRun() {
     if (CursePreferenceErrors.length == 0)
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    
-    
+
+
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 152, 64, 64, "Alter blinding items to make them fully blind the wearer", CursePreferenceTemporaryConfig.hasFullBlindMode);
@@ -377,14 +443,15 @@ function CursePreferenceSubscreenStatusRun() {
     DrawCheckbox(100, 712, 64, 64, "[O] Prevent the wearer from having new subs", CursePreferenceTemporaryConfig.isLockedNewSub);
     DrawCheckbox(100, 792, 64, 64, "[O] Prevent the wearer from breaking their collar", CursePreferenceTemporaryConfig.isLockedOwner);
     DrawCheckbox(100, 872, 64, 64, "[CO] Disable OOC when gagged", CursePreferenceTemporaryConfig.hasBlockedOOC);
-    
-    
+
+
+    DrawCheckbox(1200, 472, 64, 64, `[CO] Enable reminder (1 every ${(CursePreferenceTemporaryConfig.reminderInterval/60000).toFixed(1)} min.)`, CursePreferenceTemporaryConfig.enabledOnMistress);
     DrawCheckbox(1050, 552, 64, 64, "[CO] Disables the curse when no owner is there", CursePreferenceTemporaryConfig.enabledOnMistress);
     DrawCheckbox(1050, 632, 64, 64, "[M] Disables the curse when with a mistress", CursePreferenceTemporaryConfig.disaledOnMistress);
     DrawCheckbox(1050, 712, 64, 64, "[CO] Can receive public notes", CursePreferenceTemporaryConfig.canReceiveNotes);
     DrawCheckbox(1050, 792, 64, 64, "[CO] Punish on AFK timer triggers", CursePreferenceTemporaryConfig.hasAntiAFK);
     DrawCheckbox(1050, 872, 64, 64, "[CO] Allow safeword", !CursePreferenceTemporaryConfig.hasNoEasyEscape);
-    
+
     MainCanvas.textAlign = "center";
 }
 
@@ -403,18 +470,18 @@ function CursePreferenceSubscreenStatusClick() {
 
 //////////////////////////////////////////////////////////////////Punishments
 // Redirected to from the main Run function if the player is in the lists settings subscreen
-function CursePreferenceSubscreenPunishmentsLoad() { 
+function CursePreferenceSubscreenPunishmentsLoad() {
     CursePreferenceLoaded = true;
-	ElementCreateTextArea("Transgressions");
-	document.getElementById("Transgressions").setAttribute("autocomplete", "off");
-	document.getElementById("Transgressions").setAttribute("disabled", "disabled");
-	ElementValue("Transgressions", CommonConvertArrayToString(CursePreferenceTemporaryConfig.transgressions));
+    ElementCreateTextArea("Transgressions");
+    document.getElementById("Transgressions").setAttribute("autocomplete", "off");
+    document.getElementById("Transgressions").setAttribute("disabled", "disabled");
+    ElementValue("Transgressions", CommonConvertArrayToString(CursePreferenceTemporaryConfig.map(T => T.Count + "x " + T.Name).transgressions));
 }
 
 function CursePreferenceSubscreenPunishmentsRun() {
     // Load if needed
     if (!CursePreferenceLoaded) CursePreferenceSubscreenPunishmentsLoad();
-    
+
     if (CursePreferenceErrors.length == 0)
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
@@ -423,17 +490,17 @@ function CursePreferenceSubscreenPunishmentsRun() {
     DrawText(`Strikes reset on: ${new Date(CursePreferenceTemporaryConfig.strikeStartTime + 6.048e+8).toLocaleString()}`, 750, 280, "Black", "Gray");
     DrawText(`Punishment restraints: `, 750, 350, "Black", "Gray");
 
-    CursePreferenceTemporaryConfig.punishmentRestraints.sort((a,b)=>a.stage-b.stage).forEach((PR, Idx) => {
+    CursePreferenceTemporaryConfig.punishmentRestraints.sort((a, b) => a.stage - b.stage).forEach((PR, Idx) => {
         var A = Asset.find(A => A.Name == PR.name && A.Group.Name == PR.group)
         DrawText(`Stage ${PR.stage}: ${A.Description} (${A.Group.Description})`, 750, 410 + Idx * 60, "Black", "Gray");
     });
 
-	DrawText("Recorded transgressions:", 1450, 350, "Black", "Gray");
+    DrawText("Recorded transgressions:", 1450, 350, "Black", "Gray");
     ElementPosition("Transgressions", 1450, 550, 530, 320);
-    
+
     MainCanvas.textAlign = "left";
     DrawCheckbox(1200, 100, 64, 64, "[CO] Auto punishment", !CursePreferenceTemporaryConfig.punishmentsDisabled);
-	DrawText(`Auto punishment strictness: ${CursePreferenceTemporaryConfig.strictness == 0.5 ? "Easy" : CursePreferenceTemporaryConfig.strictness == 1 ? "Normal" : "Harsh"}`, 1175, 200, "Black", "Gray");
+    DrawText(`Auto punishment strictness: ${CursePreferenceTemporaryConfig.strictness == 0.5 ? "Easy" : CursePreferenceTemporaryConfig.strictness == 1 ? "Normal" : "Harsh"}`, 1175, 200, "Black", "Gray");
     MainCanvas.textAlign = "center";
 }
 
@@ -445,7 +512,7 @@ function CursePreferenceSubscreenPunishmentsClick() {
     }
 }
 
-function CursePreferenceSubscreenPunishmentsExit() { 
+function CursePreferenceSubscreenPunishmentsExit() {
     ElementRemove("Transgressions");
     CursePreferenceSubscreen = "";
     CursePreferenceLoaded = false;
@@ -464,10 +531,10 @@ function CursePreferenceSubscreenCursesRun() {
         DrawText(`${A ? A.Group.Description : (AssetGroup.find(G => G.Name == CA.group) || {}).Description}: ${A ? A.Description : "Forced empty"} ${CA.dateOfRemoval ? `(Expires: ${new Date(CA.dateOfRemoval).toLocaleString()})` : ''}`, 750, 270 + Idx * 50, "Black", "Gray");
     });
 
-    if (CursePreferenceTemporaryConfig.cursedAppearance.length == 0) { 
+    if (CursePreferenceTemporaryConfig.cursedAppearance.length == 0) {
         DrawText("No cursed item active.", 750, 470, "Black", "Gray");
     }
-    
+
     MainCanvas.textAlign = "left";
     DrawCheckbox(1300, 100, 64, 64, "[M] Cursed kneeling", CursePreferenceTemporaryConfig.hasCursedKneel);
     MainCanvas.textAlign = "center";
@@ -484,32 +551,32 @@ function CursePreferenceSubscreenCursesClick() {
 
 //////////////////////////////////////////////////////////////////Speech
 // Redirected to from the main Run function if the player is in the lists settings subscreen
-function CursePreferenceSubscreenSpeechLoad() { 
+function CursePreferenceSubscreenSpeechLoad() {
     CursePreferenceLoaded = true;
-	ElementCreateTextArea("BannedWords");
-	document.getElementById("BannedWords").setAttribute("autocomplete", "off");
-	document.getElementById("BannedWords").setAttribute("disabled", "disabled");
-	ElementValue("BannedWords", CommonConvertArrayToString(CursePreferenceTemporaryConfig.bannedWords));
-	ElementCreateTextArea("EntryMsg");
-	document.getElementById("EntryMsg").setAttribute("autocomplete", "off");
-	document.getElementById("EntryMsg").setAttribute("disabled", "disabled");
-	ElementValue("EntryMsg", CursePreferenceTemporaryConfig.entryMsg);
+    ElementCreateTextArea("BannedWords");
+    document.getElementById("BannedWords").setAttribute("autocomplete", "off");
+    document.getElementById("BannedWords").setAttribute("disabled", "disabled");
+    ElementValue("BannedWords", CommonConvertArrayToString(CursePreferenceTemporaryConfig.bannedWords));
+    ElementCreateTextArea("EntryMsg");
+    document.getElementById("EntryMsg").setAttribute("autocomplete", "off");
+    document.getElementById("EntryMsg").setAttribute("disabled", "disabled");
+    ElementValue("EntryMsg", CursePreferenceTemporaryConfig.entryMsg);
 }
 
 function CursePreferenceSubscreenSpeechRun() {
     // Load if needed
     if (!CursePreferenceLoaded) CursePreferenceSubscreenSpeechLoad();
-    
+
     if (CursePreferenceErrors.length == 0)
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    
+
     // Info
-	DrawText("List of banned words:", 1400, 100, "Black", "Gray");
+    DrawText("List of banned words:", 1400, 100, "Black", "Gray");
     ElementPosition("BannedWords", 1400, 240, 430, 200);
-    
-	DrawText("Introduction message:", 1400, 410, "Black", "Gray");
-	ElementPosition("EntryMsg", 1400, 500, 450, 120);
-    
+
+    DrawText("Introduction message:", 1400, 410, "Black", "Gray");
+    ElementPosition("EntryMsg", 1400, 500, 450, 120);
+
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 312, 64, 64, "[CO] Wearer has an introduction message", CursePreferenceTemporaryConfig.hasEntryMsg);
@@ -531,7 +598,7 @@ function CursePreferenceSubscreenSpeechClick() {
     }
 }
 
-function CursePreferenceSubscreenSpeechExit() { 
+function CursePreferenceSubscreenSpeechExit() {
     ElementRemove("EntryMsg");
     ElementRemove("BannedWords");
     CursePreferenceSubscreen = "";
@@ -542,34 +609,34 @@ function CursePreferenceSubscreenSpeechExit() {
 
 //////////////////////////////////////////////////////////////////Appearance
 // Redirected to from the main Run function if the player is in the lists settings subscreen
-function CursePreferenceSubscreenAppearanceLoad() { 
+function CursePreferenceSubscreenAppearanceLoad() {
     CursePreferenceLoaded = true;
-	ElementCreateTextArea("Presets");
-	document.getElementById("Presets").setAttribute("disabled", "disabled");
-	document.getElementById("Presets").setAttribute("autocomplete", "off");
-	ElementValue("Presets", CursePreferenceTemporaryConfig.cursedPresets.map(P => P.name + " [" + P.cursedItems.map(CI => (AssetGroup.find(G => G.Name == CI.group) || {}).Description || "Unknown Group" ).join(", ") + "]" ).join(", "));
-	ElementCreateTextArea("Colors");
-	document.getElementById("Colors").setAttribute("disabled", "disabled");
-	document.getElementById("Colors").setAttribute("autocomplete", "off");
-	ElementValue("Colors", CursePreferenceTemporaryConfig.savedColors.map(C => (AssetGroup.find(G => G.Name == C.Group) || {}).Description + ": " + C.Color));
-	
+    ElementCreateTextArea("Presets");
+    document.getElementById("Presets").setAttribute("disabled", "disabled");
+    document.getElementById("Presets").setAttribute("autocomplete", "off");
+    ElementValue("Presets", CursePreferenceTemporaryConfig.cursedPresets.map(P => P.name + " [" + P.cursedItems.map(CI => (AssetGroup.find(G => G.Name == CI.group) || {}).Description || "Unknown Group").join(", ") + "]").join(", "));
+    ElementCreateTextArea("Colors");
+    document.getElementById("Colors").setAttribute("disabled", "disabled");
+    document.getElementById("Colors").setAttribute("autocomplete", "off");
+    ElementValue("Colors", CursePreferenceTemporaryConfig.savedColors.map(C => (AssetGroup.find(G => G.Name == C.Group) || {}).Description + ": " + C.Color));
+
 }
 
 function CursePreferenceSubscreenAppearanceRun() {
     // Load if needed
     if (!CursePreferenceLoaded) CursePreferenceSubscreenAppearanceLoad();
-    
+
     if (CursePreferenceErrors.length == 0)
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    
-    
+
+
     // Draw lists
-	DrawText("Registered colors:", 500, 180, "Black", "Gray");
+    DrawText("Registered colors:", 500, 180, "Black", "Gray");
     ElementPosition("Colors", 500, 550, 730, 670);
-    
-	DrawText("Saved presets:", 1375, 180, "Black", "Gray");
+
+    DrawText("Saved presets:", 1375, 180, "Black", "Gray");
     ElementPosition("Presets", 1375, 550, 730, 670);
-    
+
 }
 
 // When the user clicks in the audio lists subscreen
@@ -580,9 +647,63 @@ function CursePreferenceSubscreenAppearanceClick() {
     }
 }
 
-function CursePreferenceSubscreenAppearanceExit() { 
+function CursePreferenceSubscreenAppearanceExit() {
     ElementRemove("Presets");
     ElementRemove("Colors");
+    CursePreferenceSubscreen = "";
+    CursePreferenceLoaded = false;
+}
+
+//////////////////////////////////////////////////////////////////Appearance
+// Redirected to from the main Run function if the player is in the lists settings subscreen
+function CursePreferenceSubscreenTipLoad() {
+    CursePreferenceLoaded = true;
+    ElementCreateTextArea("Tips");
+    document.getElementById("Tips").setAttribute("disabled", "disabled");
+    document.getElementById("Tips").setAttribute("autocomplete", "off");
+    ElementValue("Tips", CursePreferenceCurrentTip);
+}
+
+
+
+function CursePreferenceSubscreenTipRun() {
+    // Load if needed
+    if (!CursePreferenceLoaded) CursePreferenceSubscreenTipLoad();
+
+    if (CursePreferenceErrors.length == 0)
+        DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+
+
+    // Draw lists
+    DrawText("Tip:", 750, 200, "Black", "Gray");
+    DrawButton(920, 160, 180, 65, "Give me a tip", "White");
+    DrawButton(1120, 160, 180, 65, "Reset tips", "White");
+    ElementPosition("Tips", 1000, 580, 730, 670);
+    ElementValue()
+
+}
+
+// When the user clicks in the audio lists subscreen
+function CursePreferenceSubscreenTipClick() {
+    // If the user clicked the exit icon to return to the main screen
+    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+        CursePreferenceSubscreenTipExit();
+    }
+    
+    if ((MouseX >= 920) && (MouseX < 1100) && (MouseY >= 160) && (MouseY < 225)) { 
+        CursePreferenceCurrentTip = PopTip(true);
+        ElementValue("Tips", CursePreferenceCurrentTip);
+    }
+    
+    if ((MouseX >= 1120) && (MouseX < 1300) && (MouseY >= 160) && (MouseY < 225)) { 
+        CursePreferenceTemporaryConfig.seenTips = [];
+        cursedConfig.seenTips = [];
+        ElementValue("Tips", "Tip list reset. You will be able to see all tips again.");
+    }
+}
+
+function CursePreferenceSubscreenTipExit() {
+    ElementRemove("Tips");
     CursePreferenceSubscreen = "";
     CursePreferenceLoaded = false;
 }
