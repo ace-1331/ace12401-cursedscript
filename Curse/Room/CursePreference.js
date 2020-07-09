@@ -448,7 +448,7 @@ function CursePreferenceSubscreenStatusRun() {
     DrawCheckbox(100, 872, 64, 64, "[CO] Disable OOC when gagged", CursePreferenceTemporaryConfig.hasBlockedOOC);
 
 
-    DrawCheckbox(1200, 472, 64, 64, `[CO] Enable reminder (1 every ${(CursePreferenceTemporaryConfig.reminderInterval/60000).toFixed(1)} min.)`, CursePreferenceTemporaryConfig.enabledOnMistress);
+    DrawCheckbox(1200, 472, 64, 64, `[CO] Enable reminder (1 every ${(CursePreferenceTemporaryConfig.reminderInterval/60000).toFixed(1)} min.)`, CursePreferenceTemporaryConfig.hasReminders);
     DrawCheckbox(1050, 552, 64, 64, "[CO] Disables the curse when no owner is there", CursePreferenceTemporaryConfig.enabledOnMistress);
     DrawCheckbox(1050, 632, 64, 64, "[M] Disables the curse when with a mistress", CursePreferenceTemporaryConfig.disaledOnMistress);
     DrawCheckbox(1050, 712, 64, 64, "[CO] Can receive public notes", CursePreferenceTemporaryConfig.canReceiveNotes);
@@ -478,7 +478,7 @@ function CursePreferenceSubscreenPunishmentsLoad() {
     ElementCreateTextArea("Transgressions");
     document.getElementById("Transgressions").setAttribute("autocomplete", "off");
     document.getElementById("Transgressions").setAttribute("disabled", "disabled");
-    ElementValue("Transgressions", CommonConvertArrayToString(CursePreferenceTemporaryConfig.map(T => T.Count + "x " + T.Name).transgressions));
+    ElementValue("Transgressions", CommonConvertArrayToString(CursePreferenceTemporaryConfig.transgressions.map(T => T.Count + "x " + T.Name)));
 }
 
 function CursePreferenceSubscreenPunishmentsRun() {
