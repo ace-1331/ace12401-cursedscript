@@ -63,7 +63,7 @@ function CursePreferenceRun() {
     
     
     // Loads Main inputs if not loaded
-    if (!CursePreferenceLoaded) CursePreferenceLoad();
+    if (!CursePreferenceMainLoaded) CursePreferenceLoad();
     
     // Draw Editable
 	DrawText("Identifier Name:", 250, 255, CursePreferenceErrors.includes("Identifier") ?  "Red" : "Black", "Gray");
