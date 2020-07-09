@@ -502,3 +502,8 @@ function CommandIsActivated(command, sender) {
   }
   return true;
 }
+
+/** Converts a list of numbers split by , into an array of numbers */
+function ConvertStringToStringNumberArray(string) { 
+  return string.split(",").map(s => s.trim()).filter(s => !isNaN(s));
+}

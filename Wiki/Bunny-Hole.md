@@ -4,4 +4,4 @@ In there, you can find information, toggle intense mode, wear the curse for the 
 
 Careful though, if I put a curse on you, you'll have to find someone to turn things around.
 
-I might feature more things in this room depending on where things go. For now, the two main things it adds is the ability to reset the curse and some examples.
+The bunny hole features the curse info page. Next to the exit button, you will notice the settings menu. This UI shows you your current status for **most** curses. I've tried to feature as much as I could in there, but some specific curses remain only viewable through chat commands. This aims to give new users a better view of what's achievable.

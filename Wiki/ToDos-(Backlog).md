@@ -4,8 +4,6 @@ These are not priority items, but are in the backlog. If you want to contribute 
 
 ## Improvements:
 - **CHECK MSG ON reception INSTEAD**
-- **auto punishment revamp**
-- **special config page**
 - **firefox**
 - **doc**
 - **improv capture mode with friendlist beeping**

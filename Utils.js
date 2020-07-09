@@ -196,6 +196,7 @@ function VersionIsEqualOrAbove(v, c) {
   return isOk >= 0;
 }
 
+let cursedVersionData = null;
 /** Version checking on startup 
  * @returns {Boolean} If the curse has to be stopped
 */
@@ -203,10 +204,10 @@ async function CheckVersion(link) {
   try {
     const response = await fetch(link || 'https://curse-server.herokuapp.com/versions');
     if (response.ok) {
-      const data = await response.json();
+      cursedVersionData = await response.json();
     
       // When under minimum
-      if (!VersionIsEqualOrAbove(currentManifestVersion, data.minimum)) {
+      if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
         CursedStarter = () => {
           alert('ERROR X80: Cannot start the curse. You are below the required version. Please update it to the latest stable version now if you wish to use it.');
         };
@@ -214,12 +215,12 @@ async function CheckVersion(link) {
         return true;
       }
       // When under stable
-      if (!VersionIsEqualOrAbove(currentManifestVersion, data.stable)) {
+      if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.stable)) {
         alert('A new stable release is available. Please update the curse.');
         return;
       }
       // When under beta
-      /*if (!VersionIsEqualOrAbove(currentManifestVersion, data.beta)) {
+      /*if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.beta)) {
         alert("A new beta is available.");
         return;
       }*/
