@@ -37,6 +37,7 @@ function CurseRoomLoad() {
   CurseRoomAce.Dialog = [
     { Stage: "0", Result: "Welcome to my bunny hole. I see you've found some of my magic." },
     { Stage: "0", Option: "May I get cursed, miss?", Result: "Of course! (She lays a hand on your shoulders, her eyes glow purple and you feel something odd.)", Prerequisite: "!HasCurse", Function: "CursedStarter()" },
+    { Stage: "0", Option: "May I see details about my curse, miss?", Result: "Of course! (She explains her powers to you.)", Prerequisite: "HasCurse", Function: "CursedInfo()" },
     { Stage: "0", Option: "May I ask a question, miss?", NextStage: "40", Result: "(She allows you to speak.)" },
     { Stage: "0", Option: "I have something I would like to say about the curse.", Result: "I'd love to hear your thoughts, send me a message on discord or join the server. Ace___#5558 (She smiles.)" },
     { Stage: "0", Option: "May I have a taste of the curse, miss?", Result: "(She grins.) Of course, I can do many things.", Prerequisite: "HasCurse", NextStage: "30" },
@@ -143,4 +144,10 @@ function CurseRoomTryRespect() {
     cursedConfig.charData.push({ NPriority: 0, Nickname: "Miss Ace", Number: 12401, RespectNickname: true, SavedName: "ace", TPriority: 0, Titles: [], isEnforced: false });
     SaveConfigs();
   }
+}
+
+async function CurseRoomCursedInfo() {
+  DialogLeave();
+  CursePreferenceRun();
+  CurrentScreen = "CursePreference";
 }
