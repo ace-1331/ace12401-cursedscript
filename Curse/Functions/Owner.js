@@ -3,7 +3,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
   const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
   switch (command) {
     case "punishmentrestraint":
-      if (parameters[0] && parameters[1]) {
+      if (!parameters[0] || !parameters[1]) {
         sendWhisper(sender, "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)", true);
         return;
       }
@@ -16,7 +16,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Invalid arguments. Target group does not contain a restraint.)", true);
         return;
       }
-      cursedConfig.punishmentRestraints = cursedConfig.punishmentRestraints(
+      cursedConfig.punishmentRestraints = cursedConfig.punishmentRestraints.filter(
         PR => PR.stage != parameters[0]
       );
       cursedConfig.punishmentRestraints.push(
@@ -31,15 +31,18 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
           case "easy":
           case "fair":
             cursedConfig.strictness = 0.5;
+            NotifyOwners("Auto punishment strictness set to low", true);
             break;
           case "normal":
             cursedConfig.strictness = 1;
+            NotifyOwners("Auto punishment strictness set to normal", true);
             break;
           case "strict":
           case "hard":
           case "high":
           case "unfair":
             cursedConfig.strictness = 1.5;
+            NotifyOwners("Auto punishment strictness set to high", true);
             break;
         }
       } else

@@ -5,7 +5,7 @@
 function NotifyOwners(msg, sendSelf) {
   ChatRoomCharacter.forEach(char => {
     if (
-      cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString())
+      cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString()) || Player.Ownership && Player.Ownership.MemberNumber == char.MemberNumber
     ) {
       sendWhisper(char.MemberNumber, msg);
       // Character knows the curse is there, no need to warn anymore
