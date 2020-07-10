@@ -22,8 +22,8 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 3. Enable Developer mode
 4. Remove previous versions of the curse (if applicable).
 5. Click `Load unpacked` button and browse to the unzipped folder (see the notes below)
-6. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first!
-7. Keep yourself up-to-date in the future. Read the news panel and come check github to install the new updates
+6. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
+7. Keep yourself up-to-date in the future. Read the news panel, checker the server or the info in the bunny hole to know when to install the new updates
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
 

@@ -10,6 +10,8 @@ function AppearanceCheck() {
     );
   let r = false;
   if (isActivated) {
+    cursedConfig.genericProcs = [];
+    
     //Checks if settings are respected
     //Cursed collar
     if (

@@ -5,7 +5,7 @@
 function NotifyOwners(msg, sendSelf) {
   ChatRoomCharacter.forEach(char => {
     if (
-      cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString())
+      cursedConfig.owners.includes(char.MemberNumber.toString()) || cursedConfig.mistresses.includes(char.MemberNumber.toString()) || Player.Ownership && Player.Ownership.MemberNumber == char.MemberNumber
     ) {
       sendWhisper(char.MemberNumber, msg);
       // Character knows the curse is there, no need to warn anymore
@@ -150,16 +150,22 @@ function SendChat(actionTxt) {
 }
 
 /** Sends an unseen tip */
-function PopTip() {
+function PopTip(isRoom) {
   if (!window.curseTips) return;
   const showTip = curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual) || {};
+  
+  let message = "";
   if (showTip.ID || showTip.ID == 0) {
-    popChatSilent(showTip.Text, "Tip");
-    popChatSilent("Send the command again to see another tip.", "Tip");
+    message = showTip.Text + (isRoom ? " Click the button again for another tip." : " Send the command again to see another tip.");
     cursedConfig.seenTips.push(showTip.ID);
   } else {
-    popChatSilent("No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again", "Tip");
+    message = "No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again", "Tip";
   }
+  
+  if (!isRoom)
+    popChatSilent(message, "Tip");
+  else
+    return message;
 }
 
 /** Sends a specific tip if it was not seen 

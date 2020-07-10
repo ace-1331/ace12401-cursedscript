@@ -14,7 +14,8 @@
 
 **Intense version**: This version contains "riskier" features. These include things that would block certain features like the maids, breaking one's collar, etc. It also contains functions that changes your settings. If intense mode is turned off, not even the wearer's owner can do anything about it. I recommend only selecting members you trust as your owners if you are to use this version.
 
-**Owner version**: This version is for owners. It prevents anyone from sending commands, but the wearer can still use the wearer commands and utilities. This means you can set nicknames, view who is wearing the curse, use the wardrobe, etc. It can be turned on/off with the `#name togglecommand OwnerHub` in a chatroom.
+**Owner version**: This version is for owners. It prevents anyone from sending commands, but the wearer can still use the wearer commands and utilities. This means you can set nicknames, view who is wearing the curse, use the wardrobe, etc. It can be turned on/off with the `#name togglecommand OwnerHub` in a chatroom. **IMPORTANT:** Note that it does not toggle off pre-existing commands. You need to deactivate anything you do not want or reset your curse if you want 
+ no curse enabled along with owner mode.
 
 ## Permissions
 **In-game blacklist/ghostlist**: anyone in your actual ghost list or blacklist will not be able to interact with your curse. They will also not be able to be given a nickname.

@@ -30,8 +30,10 @@ window.addEventListener("load", () => {
     "Curse/Constants/HelpMsg.js",
     "Curse/Constants/Tips.js",
     "Curse/Constants/CursedConfig.js",
+    "Curse/Room/CursePreference.js",
     "Curse/Room/CurseRoom.js",
-    "Curse/Room/WardrobeV2.js"];
+    "Curse/Room/WardrobeV2.js"
+  ];
   
   scripts.forEach(AddScript);
 });
