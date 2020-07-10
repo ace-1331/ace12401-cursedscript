@@ -24,6 +24,7 @@ function PunishmentCheck() {
  * @returns {boolean} If the restraint was applied
 */
 function WearPunishment(stage, name, group) { 
+  const stageFactor = cursedConfig.strictness * 15;
   let currentStage = cursedConfig.strikes / stageFactor;
   if (stage >= currentStage) {
     if (itemIsAllowed(name, group)) {
