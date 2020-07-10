@@ -1163,7 +1163,7 @@ function LoadAppearanceV2Drawing() {
 }
   
 function LoadAppearanceV2Wardrobe() {
-  window.WardrobeSize = 24;
+  window.WardrobeSize = Player.Wardrobe ? Player.Wardrobe.length : 0;
   window.WardrobeLoadData = function WardrobeLoadData(C, Data, LoadAll, AllInventory) {
     const AddAll = LoadAll || C.ID == 0 || C.AccountName.indexOf("Wardrobe-") == 0;
     let expression = {};
