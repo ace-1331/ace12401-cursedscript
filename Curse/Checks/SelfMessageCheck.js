@@ -13,7 +13,6 @@ function SelfMessageCheck(msg) {
   // Gagged OOC
   if (
     cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
-    && isNormalMsg
     && !Player.CanTalk() && (originalMsg.includes("(") || ChatRoomTargetMemberNumber)
   ) { 
     NotifyOwners("(Tried to use OOC while gagged)");
