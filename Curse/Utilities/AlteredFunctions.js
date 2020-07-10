@@ -152,7 +152,7 @@ function InitAlteredFns() {
         let beep1 = FriendListBeepLog[beepLogSize - 3];
         let beep2 = FriendListBeepLog[beepLogSize - 2];
         let beep3 = FriendListBeepLog[beepLogSize - 1];
-        if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom"))) {
+        if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom")) {
           popChatGlobal(Player.Name + " was leashed out by her owner.");
           SendToRoom(data.ChatRoomName);
           popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
