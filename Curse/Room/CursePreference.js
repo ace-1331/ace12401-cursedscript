@@ -134,35 +134,35 @@ function CursePreferenceClick() {
 
     // If the user clicks on "Exit"
     if (CursePreferenceErrors.length == 0) {
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 65) && (MouseY < 155)) CursePreferenceExit();
+        if (CommonIsClickAt(1815, 65, 1905-1815, 155-65)) CursePreferenceExit();
 
         // If the user clicks on the sub setting buttons
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 180) && (MouseY < 270)) {
+        if (CommonIsClickAt(1815, 180, 1905-1815, 270-180)) {
             CursePreferenceSubscreen = "Lists";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 295) && (MouseY < 385)) {
+        if (CommonIsClickAt(1815, 295, 1905-1815, 385-295)) {
             CursePreferenceSubscreen = "Permissions";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 410) && (MouseY < 500)) {
+        if (CommonIsClickAt(1815, 410, 1905-1815, 500-410)) {
             CursePreferenceSubscreen = "Punishments";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 525) && (MouseY < 615)) {
+        if (CommonIsClickAt(1815, 525, 1905-1815, 615-525)) {
             CursePreferenceSubscreen = "Orgasms";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 640) && (MouseY < 730)) {
+        if (CommonIsClickAt(1815, 640, 1905-1815, 730-640)) {
             CursePreferenceSubscreen = "Status";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 755) && (MouseY < 845)) {
+        if (CommonIsClickAt(1815, 755, 1905-1815, 845-755)) {
             CursePreferenceSubscreen = "Curses";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 870) && (MouseY < 960)) {
+        if (CommonIsClickAt(1815, 870, 1905-1815, 960-870)) {
             CursePreferenceSubscreen = "Speech";
         }
 
-        if ((MouseX >= 1705) && (MouseX < 1795) && (MouseY >= 755) && (MouseY < 845)) {
+        if (CommonIsClickAt(1705, 755, 1795-1705, 845-755)) {
             CursePreferenceSubscreen = "Tip";
         }
-        if ((MouseX >= 1705) && (MouseX < 1795) && (MouseY >= 870) && (MouseY < 960)) {
+        if (CommonIsClickAt(1705, 870, 1795-1705, 960-870)) {
             CursePreferenceSubscreen = "Appearance";
         }
     }
@@ -273,7 +273,7 @@ function CursePreferenceSubscreenNoCurseRun() {
 // When the user clicks in the no curse preference subscreen
 function CursePreferenceSubscreenNoCurseClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75)) {
         CursePreferenceExit();
     }
 }
@@ -324,7 +324,7 @@ function CursePreferenceSubscreenListsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenListsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenListsExit();
     }
 }
@@ -381,7 +381,7 @@ function CursePreferenceSubscreenPermissionsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenPermissionsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenPermissionsExit();
     }
 }
@@ -420,7 +420,7 @@ function CursePreferenceSubscreenOrgasmsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenOrgasmsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
 }
@@ -461,7 +461,7 @@ function CursePreferenceSubscreenStatusRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenStatusClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
     // Checkboxes
@@ -510,7 +510,7 @@ function CursePreferenceSubscreenPunishmentsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenPunishmentsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenPunishmentsExit();
     }
 }
@@ -546,7 +546,7 @@ function CursePreferenceSubscreenCursesRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenCursesClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
 }
@@ -596,7 +596,7 @@ function CursePreferenceSubscreenSpeechRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenSpeechClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenSpeechExit();
     }
 }
@@ -645,7 +645,7 @@ function CursePreferenceSubscreenAppearanceRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenAppearanceClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenAppearanceExit();
     }
 }
@@ -689,16 +689,16 @@ function CursePreferenceSubscreenTipRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenTipClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenTipExit();
     }
     
-    if ((MouseX >= 920) && (MouseX < 1100) && (MouseY >= 160) && (MouseY < 225)) { 
+    if (CommonIsClickAt(920, 160, 1100-920, 225-160)) { 
         CursePreferenceCurrentTip = PopTip(true);
         ElementValue("Tips", CursePreferenceCurrentTip);
     }
     
-    if ((MouseX >= 1120) && (MouseX < 1300) && (MouseY >= 160) && (MouseY < 225)) { 
+    if (CommonIsClickAt(1120, 160, 1300-1120, 225-160)) { 
         CursePreferenceTemporaryConfig.seenTips = [];
         cursedConfig.seenTips = [];
         ElementValue("Tips", "Tip list reset. You will be able to see all tips again.");
