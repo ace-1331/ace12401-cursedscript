@@ -59,7 +59,25 @@ function CheckEnforceMigration() {
     });
   }
 }
-
+// Migrates charData to charDataV2
+function charDataToV2() {
+  if (charData) {
+      cursedConfig.charData.forEach(el => {
+          let blocked = ((el.NPriority && el.NPriority == 5) || (el.TPriority && el.TPriority == 5));
+          let newChar = { Number: el.Number, isEnforced: el.isEnforced, isBlocked: blocked };
+          if (el.Titles.length > 0) {
+              let title = el.Titles[el.Titles.length - 1];
+              newChar.Title = title;
+          }
+          if (el.Nickname) {
+              newChar.Nickname = el.Nickname;
+              newChar.SavedName = el.SavedName;
+          }
+          cursedConfig.charDataV2.push(newChar);
+      });
+//      delete cursedConfig.charData;
+  }
+}
 /** Cleans the data on startup */
 function InitCleanup() {
   //Migrate item curses (backward compatibility)
@@ -138,7 +156,7 @@ function InitCleanup() {
 
   //Merges Enforced and Nicknames 
   CheckEnforceMigration();
-
+  charDataToV2();
   //Clean deprecated props
   const toDelete = ["punishmentColor", "shouldntOrgasm", "hasCursedBunny", "lastWardrobeLock", "cursedItems", "nicknames", "enforced", ...oldCurses];
   toDelete.forEach(prop => delete cursedConfig[prop]);

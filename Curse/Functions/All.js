@@ -28,10 +28,16 @@ function AllCommands({
             Commands are called with ${commandCall}, like "${commandCall} respect")`);
       sendWhisper(sender, "(To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions )");
       break;
-    case "blocknickname":
-      //Force delete self
-      DeleteNickname([sender], sender, 5);
-      break;
+      case "blockrename":
+        case "blocknickname":
+        case "blocktitle":
+          BlockRename(sender);
+          break;
+        case "allowrename":
+        case "allownickname":
+        case "allowtitle":
+          AllowRename(sender);
+          break;
     case "readnote":
       let note;
       try {

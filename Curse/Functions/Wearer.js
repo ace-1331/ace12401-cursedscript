@@ -228,9 +228,9 @@ function WearerCommands({ command, parameters, sender }) {
     case "nickname":
       SetNickname(parameters, sender, 0);
       break;
-    case "deletenickname":
-      DeleteNickname(parameters, sender, 0);
-      break;
+      case "settitle":
+        addTitle(sender, false, parameters);
+        break;
     case "curseitem":
     case "curseditem":
       if (parameters[0] && parameters[1] && !isNaN(parameters[1])) {

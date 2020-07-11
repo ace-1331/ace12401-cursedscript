@@ -24,143 +24,113 @@ function cursedExport() {
   return JSON.stringify(cursedConfig);
 }
 
-/** Add someone to the enforced list */
-function enforce(sender, priority, parameters) {
-  let [enforcee, newTitle] = GetTargetParams(sender, parameters);
+/** Enforces / Removes respect protocols */
+function enforce(sender, isMistress, parameters) {
+  let targetNo = (parameters && !isNaN(parameters[0])) ? parameters[0] : sender;
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
 
-  let name = FetchName(enforcee);
-  let shouldSendSelf = sender != Player.MemberNumber;
-  let defaults = ["miss", "mistress", "goddess", "owner"];
-
-  if (sender != enforcee && sender != Player.Number && priority >= 2 || enforcee == sender || sender == Player.Number) {
-    // Do we know the enforcee? may already have titles / nickname / be enforced
-    let currentEnforcer = cursedConfig.charData.find(e => e.Number == enforcee);
-    if (currentEnforcer) {
-      if (currentEnforcer.isEnforced) {       //find auth of enforced titles
-        if (priority >= currentEnforcer.TPriority) {
-          //target enforced amd priority to remove
-          currentEnforcer.isEnforced = false;
-          currentEnforcer.TPriority = 0;
-          //remove titles
-          currentEnforcer.Titles = [];
-          // Unenforce nickname or forget the person
-          if (currentEnforcer.SavedName) {
-            currentEnforcer.RespectNickname = false;
-          } else if (currentEnforcer.NPriority != 5) {
-            let ind = cursedConfig.charData.indexOf(u => u.Number == currentEnforcer.Number);
-            cursedConfig.charData.splice(ind, 1);
-          }
-          SendChat(Player.Name + " no longer has enforcement protocols on " + name + (priority >= 2 ? " as requested by her mistress." : "."));
-          return;
-        } else {
-          //else not enough authority
-          sendWhisper(sender, Player.Name + "'s enforcement protocols were given by a higher power and cannot be removed.", shouldSendSelf);
-          return;
-        }
-      }   //else not enforced, check for titles and add defaults if not
-      // given custom title
-      if (newTitle) {
-        currentEnforcer.Titles.push(newTitle);
-        currentEnforcer.TPriority = priority;
-      } else if (currentEnforcer.Titles.length == 0) {
-        currentEnforcer.Titles.push(...defaults);
-      }
-      currentEnforcer.isEnforced = true;
-      TryPopTip(34);
-      SendChat(Player.Name + " now has enforcement protocols on " + name + (priority >= 2 ? " as requested by her mistress." : "."));
-      return;
-    } else if (!currentEnforcer) {
-      // Don't know enforcee, add her in
-      if (newTitle) {
-        newTitle = [newTitle];
-      } else {
-        newTitle = defaults;
-      }
-      cursedConfig.charData.push({ Number: parseInt(enforcee), NPriority: 0, isEnforced: true, RespectNickname: false, TPriority: priority, Titles: newTitle });
-      SendChat(name + " now has enforcement protocols on " + Player.Name + (priority >= 2 ? " as requested by her mistress." : "."));
-      return;
-    }
-  }
-}
-
-function toggleTitle(sender, priority, parameters) {
-  let shouldSendSelf = sender != Player.MemberNumber;
-  let [enforcee, newTitle] = GetTargetParams(sender, parameters);
-  if (!newTitle) {
-    sendWhisper(sender, "Please provide a title to add or remove.");
+  // Don't know them - do nothing
+  if (!targetChar) {
+    sendWhisper(sender,"No title or nickname set for " + FetchName(targetNo) + " to be respected, please set at least one and try again.");
     return;
   }
-  let titlee = cursedConfig.charData.find(e => e.Number == enforcee);
-
-  if (sender != enforcee && priority >= 2 || enforcee == sender) {
-    // Do we know her > check for title ? add : remove
-    if (titlee) {
-      if (titlee.Titles.includes(newTitle)) {
-        if (priority >= titlee.TPriority) {
-          titlee.Titles = titlee.Titles.filter(t => t != newTitle);
-          if (titlee.Titles.length == 0 && !titlee.RespectNickname) {
-            titlee.isEnforced = false;
-            if (titlee.NPriority != 5) {
-              let ind = cursedConfig.charData.indexOf(u => u.Number == enforcee);
-              cursedConfig.charData.splice(ind, 1);
-            }
-            sendWhisper(sender, cursedConfig.slaveIdentifier + " no longer has the title " + newTitle + "."), shouldSendSelf;
-          }
-        } else {
-          //no auth
-          sendWhisper(sender, "The title '" + newTitle + "' for " + titlee.Name + " was given by a higher power and has not been removed.");
-        }   //did or didn't remove - leave
-      } else {
-        //title doesn't exist
-        titlee.Titles.push(newTitle);
-        if (titlee.TPriority < priority) {
-          titlee.TPriority = priority;
-        }
-        sendWhisper(sender, "(New title for " + enforcee + " : " + newTitle + " Priority [" + priority + "])", shouldSendSelf);
-      }
-    } else {
-      let name = FetchName(enforcee);
-      // don't know her, create and add
-      cursedConfig.charData.push({ Number: parseInt(enforcee), isEnforced: false, RespectNickname: false, TPriority: priority, Titles: [newTitle] });
-      sendWhisper(sender, "(New title for " + name + " : " + newTitle + " Priority [" + priority + "])", shouldSendSelf);
-    }
-  }
-}
-
-function forceNickname(sender, parameters) {
-  let shouldSendSelf = sender != Player.MemberNumber;
-  let target = (!isNaN(parameters[0]) ? parseInt(parameters[0]) : sender);
-  let respected = cursedConfig.charData.find(e => e.Number == target);
-
-  if (!cursedConfig.hasIntenseVersion) {
-    sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
+  if (targetChar.isBlocked) {
+    sendWhisper(sender, FetchName(targetNo) + " cannot be given respect protocols as they have blocked being given names and titles.");
     return;
   }
-    
-  if (respected && respected.Nickname && respected.Nickname != respected.SavedName) {
-    if (!respected.RespectNickname) {
-      respected.isEnforced = true;
-      respected.RespectNickname = true;
-      sendWhisper(sender, "From now on " + Player.Name + " must respect " + respected.Nickname + " by her nickname", shouldSendSelf);
-      return;
-    }
-
-    respected.RespectNickname = false;
-
-    if (respected.Titles.length > 0 && respected.Titles[0] != "") {
-      sendWhisper(sender, Player.Name + " no longer needs to call " + FetchName(target) + " by her nickname and regular protocols have now resumed.", shouldSendSelf);
-      return;
-    }
-        
-    respected.isEnforced = false;
-    sendWhisper(sender, Player.Name + " no longer needs to respect " + FetchName(target) + " by her nickname.", shouldSendSelf);
-    return;
-        
+  // Toggle enforce on/off
+  if (targetChar.isEnforced) {
+    SendChat(Player.Name + " no longer has respect protocols for " + FetchName(targetNo) + (isMistress ? " as requested by her mistress." : "."));
   } else {
-    sendWhisper(sender, FetchName(target) + " does not have a nickname set yet.");
+    TryPopTip(34);
+    SendChat(Player.Name + " now has respect protocols for " + FetchRespectName(targetNo) + (isMistress ? " as requested by her mistress." : "."));
   }
+  targetChar.isEnforced = !targetChar.isEnforced;
+  // removes from charData if blank char
+  if (!targetChar.Nickname && !targetChar.Title && !targetChar.isEnforced && !targetChar.isBlocked) {
+    let ind = cursedConfig.charDataV2.indexOf(u => u.Number == targetNo);
+    cursedConfig.charDataV2.splice(ind, 1);
+  }
+  return;
 }
+/** Gives a member a title */
+function addTitle(sender, isMistress, parameters) {
+  let shouldSendSelf = sender != Player.MemberNumber;
+  let [targetNo, title] = GetTargetParams(sender, parameters);
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
+  
+  // Weaer can only rename if no title set
+  if (sender == Player.MemberNumber && targetChar && targetChar.Title) {
+    popChatSilent(FetchRespectName + " already has a title set.");
+    return;
+  }
+  // Wearer tried to give themself a title (OwnerHub is ok to set own)
+  if (targetNo == Player.MemberNumber && sender == targetNo && !cursedConfig.disabledCommands.includes("ownerhub")) {
+    popChatSilent("You may not set your own title.");
+    return;
+  }
+  // Public tried to give somone else a title
+  if (targetNo != sender && !isMistress && sender != Player.MemberNumber) {
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give titles to others.", shouldSendSelf);
+    return;
+  }
+  if (!title || title == "") {
+    sendWhisper(sender, "Please provide a title to give.", shouldSendSelf);
+    return;
+  }
+  title = title[0].toUpperCase() + title.slice(1);
+// Don't know them - add them
+  if (!targetChar) {
+    targetChar = { Number: parseInt(targetNo), isEnforced: false, isBlocked: false, SavedName: FetchName(targetNo) };
+    cursedConfig.charDataV2.push(targetChar);
+  }
+  if (targetChar.isBlocked) {
+    sendWhisper(sender, FetchName(targetNo) + " has blocked being given names and titles.");
+    return;
+  }
 
+  sendWhisper(sender, "(New title for " + targetNo + " : " + title + ".)", shouldSendSelf);
+  if (!targetChar.SavedName)
+    targetChar.SavedName = FetchName;
+  targetChar.Title = title;
+}
+/** Deletes a members title */
+function deleteTitle(sender, isMistress, parameters) {
+  let shouldSendSelf = sender != Player.MemberNumber;
+  let targetNo = (parameters && !isNaN(parameters[0])) ? parseInt(parameters[0]) : sender;
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
+
+  if (!targetChar || !targetChar.Title) {
+    sendWhisper(sender, FetchName(targetNo) + " does not have a title set.");
+    return;
+  }
+  // Wearer tried to delete a title (OwnerHub is ok to delete own)
+  if (sender == Player.MemberNumber && !(cursedConfig.disabledCommands.includes("ownerhub") && targetNo == Player.MemberNumber)) {
+    popChatSilent("You may not remove titles");
+    return;
+  }
+  // Public tried to remove somone elses title
+  if (targetNo != sender && !isMistress) {
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may remove titles from others.", shouldSendSelf);
+    return;
+  }
+
+  delete targetChar.Title;
+  //Restores name
+  try {
+    ChatRoomCharacter.forEach(char => {
+      if (targetChar.Number == char.MemberNumber) {
+        char.Name = targetChar.Nickname ? targetChar.FetchRespectName(targetNo) : FetchName(targetNo);
+      }
+    });
+  } catch (e) { console.error(e, "failed to update a name"); }
+  // remove blank char from charData
+  if (!targetChar.Nickname && !targetChar.isEnforced && !targetChar.isBlocked) {
+    let ind = cursedConfig.charDataV2.indexOf(u => u.Number == targetNo);
+    cursedConfig.charDataV2.splice(ind, 1);
+  }
+  sendWhisper(sender, FetchName(targetNo) + " no longer has a title for " + Player.Name + " to use.", shouldSendSelf);
+}
 
 /** Checks if an item can be worn and if it can be but is not, returns true */
 function itemIsAllowed(name, group) {
@@ -211,111 +181,104 @@ function restraintVanish(groups) {
   });
 }
 
-/**
- * Nicknames - Set a nickname for someone
- * Priority: 0 - Wearer 1 - Anyone 2 - Mistress 3 - Owner 4 - ClubOwner 5 - Blocked 6 - Remove self block
-*/
-function SetNickname(parameters, sender, priority) {
+///** Sets a Nickname for a member */
+function SetNickname(sender, isMistress, parameters) {
   TryPopTip(19);
   let shouldSendSelf = sender != Player.MemberNumber;
-  if (!cursedConfig.hasIntenseVersion) {
-    sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
+  let [targetNo, nickname] = GetTargetParams(sender, parameters);
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
+
+  // Weaer can only rename if no nickname set
+  if (sender == Player.MemberNumber && targetChar && targetChar.Title) {
+    popChatSilent(FetchRespectName + " already has a nickname set.");
     return;
   }
-  let [userNumber, nickname] = GetTargetParams(sender, parameters);
-  if (nickname) {
-    nickname = nickname[0].toUpperCase() + nickname.slice(1);
-    let target = cursedConfig.charData.find(u => u.Number == userNumber);
-    if (target) {
-      if (target.NPriority <= priority || target.NPriority == 6) {
-        if (!target.SavedName) {
-          target.SavedName = FetchName(target.Number);
-        }
-        target.Nickname = nickname;
-        target.NPriority = priority;
-      } else {
-        sendWhisper(
-          sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
-        );
-        return;
-      }
-    } else {
-      let name = userNumber ? FetchName(userNumber) : sender;
-      cursedConfig.charData.push(
-        { Number: parseInt(userNumber), Nickname: nickname, NPriority: priority, SavedName: name, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
-      );
-    }
-    sendWhisper(
-      sender, "(New nickname for " + userNumber + " : " + nickname + ")", shouldSendSelf
-    );
-  } else {
-    sendWhisper(
-      sender, "Requires a nickname.)", shouldSendSelf
-    );
+  // Wearer tried to give themself a title (OwnerHub is ok to set own)
+  if (targetNo == Player.MemberNumber && sender == targetNo && !cursedConfig.disabledCommands.includes("ownerhub")) {
+    sendWhisper(sender, "You may not set your own nickname.", "Curse");
+    return;
   }
+  if(targetNo != sender && !isMistress) {
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give nicknames to others.", shouldSendSelf);
+    return;
+  }
+  if (!nickname || nickname == "") {
+    sendWhisper(sender, "Please provide a nickname to give.", shouldSendSelf);
+    return;
+  }
+  nickname = nickname[0].toUpperCase() + nickname.slice(1);
+  // Don't know them - add them
+  if (!targetChar) {
+    targetChar = { Number: parseInt(targetNo), isEnforced: false, isBlocked: false, SavedName: FetchName(targetNo) };
+    cursedConfig.charDataV2.push(targetChar);
+  }
+  if (targetChar.isBlocked) {
+    sendWhisper(sender, FetchName(targetNo) + " has blocked being given names and titles.");
+    return;
+  }
+  sendWhisper(sender, "(New nickname for " + targetNo + " : " + nickname + ".", shouldSendSelf);
+  if (!targetChar.SavedName)
+    targetChar.SavedName = FetchName;
+  targetChar.Nickname = nickname;
 }
-
-/** Try to delete an existing nickname */
-function DeleteNickname(parameters, sender, priority) {
+///** Try to delete an existing nickname */
+function DeleteNickname(sender, isMistress, parameters) {
   let shouldSendSelf = sender != Player.MemberNumber;
-  let userNumber = (!isNaN(parameters[0]) && parameters[0] != "") ? parseInt(parameters[0]) : sender;
-  let oldNickname = cursedConfig.charData.find(u => u.Number == userNumber);
+  let targetNo = (parameters && !isNaN(parameters[0])) ? parseInt(parameters[0]) : sender;
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
 
-  if (oldNickname) {
-    if (oldNickname.NPriority <= priority || oldNickname.Number == sender) {
-      //Restores name
-      try {
-        ChatRoomCharacter.forEach(char => {
-          if (oldNickname.Number == char.MemberNumber) {
-            char.Name = oldNickname.SavedName ? oldNickname.SavedName : FetchName(userNumber);
-            oldNickname.RespectNickname = false;
-          }
-        });
-      } catch (e) { console.error(e, "failed to update a name"); }
-
-      //Delete nickname
-      if (oldNickname.Titles.length == 0 && oldNickname.NPriority != 5) {
-        cursedConfig.charData = cursedConfig.charData.filter(u => u.Number != userNumber);
-      } else {
-        oldNickname.Nickname = undefined;
-        oldNickname.SavedName = undefined;
-      } if (priority != 6) {
-        sendWhisper(sender, "->Deleted nickname for " + FetchName(userNumber), shouldSendSelf);
-      }
-      return;
-    } else {
-      sendWhisper(
-        sender, "(Permission denied. The member may have blocked themselves from being nicknamed, or you tried to set the nickname with a permission level lower than what was set previously.)", shouldSendSelf
-      );
-      return;
-    }
+  if (!targetChar || !targetChar.Nickname) {
+    sendWhisper(sender, FetchName(targetNo) + " does not have a nickname set.");
+    return;
+  }
+  // Wearer tried to delete a nickname (OwnerHub is ok to delete own)
+  if (sender == Player.MemberNumber && !(cursedConfig.disabledCommands.includes("ownerhub") && targetNo == Player.MemberNumber)) {
+    popChatSilent("You may not remove nicknames.");
+    return;
+  }
+  // Public tried to remove somone elses nickname
+  if (targetNo != sender && !isMistress) {
+    sendWhisper(sender, "Permission denied. Only members with at least Mistress status may remove nicknames from others.", shouldSendSelf);
+    return;
   }
 
-  if (sender == userNumber) {
-    //Block changing if removed self
-    if (priority == 5) {
-      if (oldNickname) {
-        oldNickname.NPriority = 5;
-        oldNickname.Nickname = undefined;
-        oldNickname.SavedName = undefined;
-        oldNickname.RespectNickname = false;
-      } else {
-        cursedConfig.charData.push(
-          { Number: parseInt(sender), NPriority: 5, isEnforced: false, RespectNickname: false, TPriority: 0, Titles: [] }
-        );
+  delete targetChar.Nickname;
+  //Restores name
+  try {
+    ChatRoomCharacter.forEach(char => {
+      if (targetChar.Number == char.MemberNumber) {
+        char.Name = targetChar.Title ? targetChar.FetchRespectName(targetNo) : FetchName(targetNo);
       }
-      sendWhisper(sender, "-->Blocked nickname for " + FetchName(userNumber), shouldSendSelf);
-      return;
-    } else if (priority == 6) {
-      if (oldNickname) {
-        oldNickname.NPriority = 0;
-      }
-      sendWhisper(sender, "-->Allowed nickname for " + FetchName(userNumber), shouldSendSelf);
-      return;
-    }
+    });
+  } catch (e) { console.error(e, "failed to update a name"); }
+  // remove blank char from charData
+  if (!targetChar.Title && !targetChar.isEnforced && !targetChar.isBlocked) {
+    let ind = cursedConfig.charDataV2.indexOf(u => u.Number == targetNo);
+    cursedConfig.charDataV2.splice(ind, 1);
+  }
+  sendWhisper(sender, Player.Name + " no longer has a nickname for " + FetchName(targetNo) + ".", shouldSendSelf);
+}
+/** Blocks sender from being given titles and nicknames */
+function BlockRename(sender) {
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == sender);
+  if (!targetChar) {
+    targetChar = { Number: parseInt(sender), isEnforced: false, isBlocked: false };
+    cursedConfig.charDataV2.push(targetChar);
   }
 
-  sendWhisper(sender, "Error, no nickname set for " + FetchName(userNumber), shouldSendSelf);
+  delete targetChar.Title;
+  delete targetChar.Nickname;
+  targetChar.isEnforced = false;
+  targetChar.isBlocked = true;
+  sendWhisper(sender, "-->Blocked renaming " + FetchName(sender) + " for " + Player.Name, shouldSendSelf);
+}
+/** Allows titles and nicknames to be given to sender */
+function AllowRename(sender) {
+  let targetChar = cursedConfig.charDataV2.find(e => e.Number == sender);
+  if (targetChar && targetChar.isBlocked)
+    cursedConfig.charDataV2.splice(cursedConfig.charDataV2.indexOf(e => e.Number == targetChar.Number), 1);
+
+  sendWhisper(sender, "-->Allowed renaming for " + FetchName(userNumber), shouldSendSelf);
 }
 
 /** Tries to get the name of a member number */
@@ -333,7 +296,19 @@ function FetchName(number) {
   });
   return Name || "#" + number;
 }
-
+/** Tries to get the respected name from a member number */
+function FetchRespectName(number) {
+  let respectName;
+  let targetChar = cursedConfig.charDataV2.find(C => C.Number == number);
+  if (targetChar) {
+    let name = targetChar.Nickname ? targetChar.Nickname : FetchName(number);
+    respectName = targetChar.Title ? targetChar.Title + " " + name : name;
+  }
+  else {
+    respectName = FetchName(number);
+  }
+    return respectName;
+}
 /** Saves the worn colors for later reuse with curses */
 function SaveColors() {
   TryPopTip(6);
@@ -468,7 +443,7 @@ function GetTargetParams(sender, parameters) {
 */
 function CommandIsActivated(command, sender) { 
   //Intense mode
-  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say"];
+  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say","selftitle","settitle","givetitle","namechange","nickname","rename"];
   if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) { 
     sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
     return;

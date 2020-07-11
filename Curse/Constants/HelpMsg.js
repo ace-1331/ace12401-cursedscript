@@ -40,16 +40,17 @@ function InitHelpMsg() {
     >>> Other Commands <<<
     -draw [nb of cards] [players]
     -shuffle
-    INTENSE V:-nickname [Number] [Name]
-    INTENSE V:-deletenickname [Number] [Name]
-
+    *NEW*-settitle [number][title]
+    INTENSE V:-nickname [Number] [Nickname]
+    
     //PUBLIC FUNCTIONS//
     -showstrikes
     *NEW*-transgressions
     *NEW*-listoffcommands
     -help
-    -respect
-    -title [title to add/rem]
+    *CHANGED*-respect
+    *NEW*-selftitle [title]
+    *NEW*-deletetitle
     -punish
     *NEW*-reward
     -edge
@@ -57,10 +58,10 @@ function InitHelpMsg() {
     -readnote
     -sendnote
     -orgasmcount
-    INTENSE V:-nickname [Name]
-    INTENSE V:-blocknickname
-    INTENSE V:-allownickname
-    INTENSE V: -respectnickname
+    *NEW*INTENSE V:-namechange[nickname]
+    INTENSE V:-deletenickname
+    INTENSE V:-blockrename
+    INTENSE V:-allowrename
     INTENSE V:-capture
 
     //MISTRESS FUNCTIONS//
@@ -69,14 +70,16 @@ function InitHelpMsg() {
     -cursereport
     -changestrikes [+/- nb strikes]
     -enforce [a member number] [optional custom title instead of defaults]
-    -mtitle [number(optional)] [title to add/rem]
+    -settitle [number][title]
+    *NEW*-givetitle [title]
+    -deletetitle [number]
     -mistress [a member number]
     -public
     -deactivateonpresence
     -savecolors
-    INTENSE V:-mnickname [Number] [Name]
+    INTENSE V:-nickname [Number][Nickname]
+    *CHANGED*INTENSE V:-rename [nickname]
     INTENSE V:-deletenickname [Number]
-    INTENSE V:-respectnickname [a member number]
 
     >>>Speech Commands<<<
     -dolltalk
@@ -108,7 +111,6 @@ function InitHelpMsg() {
     -showmistresses
     -showowners
     -showenforced
-    -shownicknames
     -configreport
     *NEW*-listpresets
     
@@ -121,8 +123,6 @@ function InitHelpMsg() {
     -asylum [nb of hours]
     *NEW* -sendasylum
     -owner [a member number]
-    -otitle [Number] [Title]
-    INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
     
@@ -183,12 +183,10 @@ function InitHelpMsg() {
     
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
-    -ctitle [Number] [Title]
     -looseowner
     INTENSE VERSION: -lockowner
     INTENSE VERSION: -locknewlover
     INTENSE VERSION: -locknewsub
-    INTENSE VERSION: -onickname [Number] [Name]
 
     ---------
     More on various features:

@@ -77,11 +77,11 @@ window.curseTips = [
   },
   {
     ID: 19,
-    Text: "There is a nickname system. The nicknames are only displayed on your side, and have priorities depending from whom it was given. For detailed instructions on nicknames: https://github.com/ace-1331/ace12401-cursedscript/wiki/Nicknames",
+    Text: "There is a nickname system. The nicknames are only displayed on your side, and have priorities depending from whom it was given, you can also be forced to call someone by their nickname.  For detailed instructions on nicknames: https://github.com/ace-1331/ace12401-cursedscript/wiki/Nicknames",
   },
   {
     ID: 20,
-    Text: "There are various reports to have more information about your current settings. Things like speechreport, showmistress, showblacklist, showowners, shownicknames, configreport, and so on.. will give you more details about what you are currently required to do in case you forgot about the active curses",
+    Text: "There are various reports to have more information about your current settings. Things like speechreport, showmistress, showblacklist, showowners, showenforced, configreport, and so on.. will give you more details about what you are currently required to do in case you forgot about the active curses",
   },
   {
     ID: 21,

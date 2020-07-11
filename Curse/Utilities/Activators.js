@@ -364,14 +364,19 @@ function AdjustSettings() {
   try {
     //Save real name, restores if curse is not running
     ChatRoomCharacter.forEach(char => {
-      let user = cursedConfig.charData.find(c => c.Number == char.MemberNumber);
-      if (!user || !user.SavedName || !user.Nickname) return;
-      let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? user.Nickname : user.SavedName;
+      let user = cursedConfig.charDataV2.find(c => c.Number == char.MemberNumber);
+      if (!user) return;
+      if(!user.Nickname && !user.Title && user.SavedName && user.SavedName != char.Name && user.SavedName != "#"+ user.Number) { //in case a name was not restored
+        char.Name = user.SavedName;
+        cursedConfig.charDataV2.splice(cursedConfig.charDataV2.indexOf(e => e.Number == user.Number), 1);
+        return;
+      }
+      if (!user.SavedName || user.SavedName == "#" + user.Number) // in case a name isn't saved properly
+        user.SavedName = char.Name;
+      let NameToDisplay = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(char.MemberNumber.toString()) && !Player.BlackList.includes(char.MemberNumber) && !Player.GhostList.includes(char.MemberNumber) ? FetchRespectName(user.Number) : user.SavedName;
+      
       char.Name = NameToDisplay;
       char.DisplayName = NameToDisplay;
-      if (user.Nickname == user.SavedName) {
-        user.RespectNickname = false;
-      }
     });
   } catch (err) { console.error("Curse: failed to update a name", err); }
 }

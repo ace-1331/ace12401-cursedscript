@@ -18,23 +18,21 @@ function PublicCommands({
       triggerInPleasure();
       KneelAttempt();
       break;
-    case "respect":
-      enforce(sender, 1);
-      break;
-    case "respectnickname": {
-      forceNickname(sender, parameters);
-      break;
-    }
-    case "title":
-      toggleTitle(sender, 1, parameters);
-      break;
-    case "nickname":
-      //Force update self
-      SetNickname([sender, parameters], sender, 1);
-      break;
-    case "allownickname":
-      DeleteNickname([sender], sender, 6);
-      break;
+      case "respect":
+        enforce(sender);
+        break;
+      case "selftitle":
+        addTitle(sender, false, [sender, parameters]);
+        break;
+      case "deletetitle": 
+        ((isMistress || isOwner) && parameters.length > 0) ? deleteTitle(sender, true, parameters) : deleteTitle(sender);
+        break;
+      case "namechange":
+        SetNickname(sender, false, [sender, parameters]);
+        break;
+      case "deletenickname": 
+            ((isMistress || isOwner) && parameters.length > 0) ? DeleteNickname(sender, true, parameters) : DeleteNickname(sender);
+        break;
     case "capture":
       if (cursedConfig.hasCaptureMode) {
         if (cursedConfig.capture.Valid < Date.now()) {

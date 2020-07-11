@@ -79,24 +79,25 @@ function SelfMessageCheck(msg) {
 
   //Speech Restrictions
   //Reinforcement
-  cursedConfig.charData.forEach(member => {
+  cursedConfig.charDataV2.forEach(member => {
     if (member.isEnforced && ChatRoomCharacter.map(el => el.MemberNumber).includes(member.Number)) {
-      let Name = member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase(); 
-      let requiredName = member.RespectNickname && member.Nickname ? [member.Nickname.toLowerCase()] : member.Titles.map(el => el + " " + (member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase()));
-      let matches = [...msg
-        .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", "g"))
-      ];
-      if (!matches) matches = [];
-      let goodMatches = [];
-      requiredName.forEach(rn =>
-        goodMatches.push(...msg.matchAll(new RegExp(rn, "g")))
-      );
-      if (matches.length > goodMatches.length) {
-        TryPopTip(34);
-        NotifyOwners("(Tried to be disrespectful)");
-        popChatSilent("Respecting " + member.Number + " is required.");
-        TriggerPunishment(15, [member.Number]);
-        r = true;
+      let Name = member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase();
+      let requiredName = FetchRespectName(member.Number).toLowerCase();
+      if (Name != requiredName) {
+        let matches = [...msg
+            .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", "g"))
+        ];
+        if (!matches) matches = [];
+          let goodMatches = [...msg
+          .matchAll(new RegExp(requiredName, "g"))
+          ];
+        if (matches.length > goodMatches.length) {
+          TryPopTip(34);
+          NotifyOwners("(Tried to be disrespectful)");
+          popChatSilent("Respecting " + member.Number + " is required.");
+          TriggerPunishment(15, [member.Number]);
+          r = true;
+        }
       }
     }
   });

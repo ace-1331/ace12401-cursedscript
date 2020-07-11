@@ -312,12 +312,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.bannedWords = [];
       sendWhisper(sender, "Banned words cleared.", true);
       break;
-    case "otitle":
-      toggleTitle(sender, 3, parameters);
-      break;
-    case "onickname":
-      SetNickname(parameters, sender, 3);
-      break;
     case "forcedsay":
       if (
         !cursedConfig.isMute

@@ -29,12 +29,6 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
         sendWhisper(sender, "Cannot collar new submissives.", true);
       cursedConfig.isLockedNewSub = !cursedConfig.isLockedNewSub;
       break;
-    case "ctitle":
-      toggleTitle(sender, 4, parameters);
-      break;
-    case "cnickname":
-      SetNickname(parameters, sender, 4);
-      break;
     default:
     // No command found
       return true;
