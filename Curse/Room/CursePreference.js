@@ -438,7 +438,7 @@ function CursePreferenceSubscreenStatusRun() {
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 152, 64, 64, "Alter blinding items to make them fully blind the wearer", CursePreferenceTemporaryConfig.hasFullBlindMode);
     DrawCheckbox(100, 232, 64, 64, "[CO] Wearer must retype a message containing transgressions", CursePreferenceTemporaryConfig.mustRetype);
-    DrawCheckbox(100, 312, 64, 64, "[CO] Drag wearer in a room by owners on triple beeps)", CursePreferenceTemporaryConfig.canLeash);
+    DrawCheckbox(100, 312, 64, 64, "[CO] Drag wearer in a room by owners on triple beeps", CursePreferenceTemporaryConfig.canLeash);
     DrawCheckbox(100, 392, 64, 64, "[CO] Disable rescue maids and other NPC release dialogs", CursePreferenceTemporaryConfig.hasNoMaid);
     DrawCheckbox(100, 472, 64, 64, "[CO] Rejoin rooms you are tied in after disconnecting", CursePreferenceTemporaryConfig.hasDCPrevention);
     DrawCheckbox(100, 552, 64, 64, "[CO] Sensory Deprivation locked to total", CursePreferenceTemporaryConfig.hasForcedSensDep);
