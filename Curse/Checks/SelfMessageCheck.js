@@ -5,10 +5,10 @@ function SelfMessageCheck(msg) {
 
   //Clears stuff
   originalMsg = msg;
-  msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
+  msg = msg.trim().replace(/^\**/g, "").replace(/\*$/g, "");
   const isWhisper = !!ChatRoomTargetMemberNumber;
   const isEmote = originalMsg.startsWith("*");
-  const isNormalMsg = !isWhisper && !isEmote;
+  const isNormalMsg = !isEmote;
 
   // Gagged OOC
   if (
