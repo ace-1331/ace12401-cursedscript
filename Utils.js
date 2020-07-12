@@ -82,7 +82,7 @@ async function CursedStarter() {
 
       //Pull config from log or create
       if (!oldStorage) {
-        SendChat("The curse awakens on " + Player.Name + ".");
+        SendChat("An unusually powerful curse awakens on " + Player.Name + ".");
         popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558 or on the discord server.", "System");
         try {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
@@ -109,10 +109,10 @@ async function CursedStarter() {
           alert("IMPORTANT! Please make sure you refreshed your page after updating.");
 
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
-          SendChat("The curse following " + Player.Name + " has changed.");
+          SendChat("The unusually powerful curse following " + Player.Name + " has changed.");
           popChatSilent("You have loaded an updated version of the curse, make sure you have refreshed your page before using this version. Please report any new bugs on discord https://discord.gg/9dtkVFP. This update may have introduced new features, don't forget to use the help command to see the available commands. (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help)", "System");
         } else if (oldVersion == currentVersion) {
-          SendChat("The curse follows " + Player.Name + ".");
+          SendChat("An unusually powerful curse follows " + Player.Name + ".");
           popChatSilent("Have fun~ Please report any issues or bug you encounter to ace (12401) - Ace__#5558.", "System");
         }
 
