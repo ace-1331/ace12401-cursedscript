@@ -32,7 +32,7 @@ function AnalyzeMessage(msg) {
 
   // Checks if player should be kneeling
   if (
-    (types.contains("ChatMessageEnterLeave") && cursedConfig.charData.some(u => u.Number == sender && u.isEnforced) || isOnEntry && chatroomMembers.some(el => cursedConfig.charData.some(u => u.Number == el && u.isEnforced)))
+    (types.contains("ChatMessageEnterLeave") && cursedConfig.charDataV2.some(u => u.Number == sender && u.isEnforced) || isOnEntry && chatroomMembers.some(el => cursedConfig.charDataV2.some(u => u.Number == el && u.isEnforced)))
     && Player.CanKneel()
     && (!Player.Pose.includes("Kneel") || !Player.Pose.includes("ForceKneel"))
   ) {

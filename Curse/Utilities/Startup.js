@@ -61,7 +61,7 @@ function CheckEnforceMigration() {
 }
 // Migrates charData to charDataV2
 function charDataToV2() {
-  if (charData) {
+  if (cursedConfig.charData) {
       cursedConfig.charData.forEach(el => {
           let blocked = ((el.NPriority && el.NPriority == 5) || (el.TPriority && el.TPriority == 5));
           let newChar = { Number: el.Number, isEnforced: el.isEnforced, isBlocked: blocked };

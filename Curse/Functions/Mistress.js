@@ -161,13 +161,11 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
     case "clothed":
       procCursedNaked(false);
       break;
-    case "enforce": {
-      let priority = (isClubOwner) ? 4 : (isOwner) ? 3 : 2;
-      enforce(sender, priority, parameters);
+    case "enforce": 
+      enforce(sender, true, parameters);
       break;
-    }
-    case "mtitle":
-      toggleTitle(sender, 2, parameters);
+    case "settitle":
+      addTitle(sender, true, parameters);
       break;
     case "mistress":
       if (parameters[0] && !isNaN(parameters[0])) {
@@ -187,19 +185,10 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       }
       break;
     case "rename":
-      let nickname = parameters.join(" ");
-      if (nickname) {
-        sendWhisper(sender, "New nickname for " + FetchName(sender) + " : " + nickname, true);
-        cursedConfig.charData = cursedConfig.charData.find(u => u.Number != sender);
-        if (cursedConfig.charData) {
-          cursedConfig.charData.Number = sender;
-          cursedConfig.charData.Nickname = nickname;
-        } else {
-          cursedConfig.charData.push({ Number: sender, Nickname: nickname });
-        }
-      } else {
-        sendWhisper(sender, "(Invalid arguments.)");
-      }
+      SetNickname(sender, true, [Player.MemberNumber, parameters]);
+      break;
+    case "givetitle":
+      addTitle(sender, true, [Player.MemberNumber, parameters]);
       break;
     case "banfirstperson":
       if (parameters[0] == "on") {
@@ -278,8 +267,8 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, "(Invalid arguments.)");
       }
       break;
-    case "mnickname":
-      SetNickname(parameters, sender, 2);
+    case "nickname":
+      SetNickname(sender, true, parameters);
       break;
     case "savecolors":
       SaveColors();

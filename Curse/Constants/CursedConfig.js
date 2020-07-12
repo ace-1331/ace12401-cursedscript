@@ -48,6 +48,7 @@ function InitCursedConfig() {
     cursedPresets: [],
     savedColors: [],
     charData: [],
+    charDataV2: [],
     reminders: [],
     reminderInterval: 300000,
     entryMsg: "",

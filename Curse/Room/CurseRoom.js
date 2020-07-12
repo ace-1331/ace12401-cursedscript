@@ -139,9 +139,9 @@ function CurseRoomTryPerson() {
 }
 
 function CurseRoomTryRespect() {
-  const exists = cursedConfig.charData.find(CD => CD.Number == 12401);
+  const exists = cursedConfig.charDataV2.find(CD => CD.Number == 12401);
   if (!exists) {
-    cursedConfig.charData.push({ NPriority: 0, Nickname: "Miss Ace", Number: 12401, RespectNickname: true, SavedName: "ace", TPriority: 0, Titles: [], isEnforced: false });
+    cursedConfig.charDataV2.push({ NPriority: 0, Nickname: "Miss Ace", Number: 12401, RespectNickname: true, SavedName: "ace", TPriority: 0, Titles: [], isEnforced: false });
     SaveConfigs();
   }
 }

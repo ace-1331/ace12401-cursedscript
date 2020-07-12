@@ -289,7 +289,7 @@ function FetchName(number) {
       Name = C.Name;
     }
   });
-  cursedConfig.charData.forEach(C => {
+  cursedConfig.charDataV2.forEach(C => {
     if (number == C.Number) {
       Name = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && !cursedConfig.blacklist.includes(number) && !Player.BlackList.includes(parseInt(number)) && !Player.GhostList.includes(parseInt(number)) && C.Nickname ? C.Nickname : C.SavedName || Name;
     }

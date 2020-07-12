@@ -92,10 +92,10 @@ async function CursedStarter() {
         cursedConfig = { ...cursedConfig, ...oldStorage };
 
         //Set name immediately
-        let user = cursedConfig.charData.filter(c => c.Number == Player.MemberNumber);
+        let user = cursedConfig.charDataV2.filter(c => c.Number == Player.MemberNumber);
         if (user.length > 0 && user[0].Nickname) {
           if (Player.Name != user[0].Nickname && !user[0].SavedName) {
-            cursedConfig.charData.filter(c => c.Number == Player.MemberNumber)[0].SavedName = Player.Name;
+            cursedConfig.charDataV2.filter(c => c.Number == Player.MemberNumber)[0].SavedName = Player.Name;
           }
           Player.Name = cursedConfig.hasIntenseVersion && ChatRoomSpace != "LARP" ? user[0].Nickname : user[0].SavedName;
         }
