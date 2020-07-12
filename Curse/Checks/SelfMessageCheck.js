@@ -119,9 +119,9 @@ function SelfMessageCheck(msg) {
   if (
     cursedConfig.hasSound
         && cursedConfig.hasIntenseVersion
-        && msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").split(" ")
+        && msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|("(")|(")")|(!)|(\?)/g, " ").split(" ")
           .filter(w => {
-            return !(new RegExp("^" + cursedConfig.sound.replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, "").split("").map(el => el + "*").join("") + "$", "g")).test(w);
+            return !(new RegExp("^" + cursedConfig.sound.replace(/(\.)|(-)|(')|(,)|(~)|("(")|(")")|(!)|(\?)/g, "").split("").map(el => el + "*").join("") + "$", "g")).test(w);
           }).length > 0
         && isNormalMsg
   ) {
