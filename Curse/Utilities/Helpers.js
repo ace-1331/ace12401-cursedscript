@@ -60,7 +60,7 @@ function addTitle(sender, isMistress, parameters) {
   let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
   
   // Weaer can only rename if no title set
-  if (sender == Player.MemberNumber && targetChar && targetChar.Title) {
+  if (sender == Player.MemberNumber && !cursedConfig.disabledCommands.includes("ownerhub") && targetChar && targetChar.Title) {
     popChatSilent(FetchRespectName + " already has a title set.");
     return;
   }
@@ -189,7 +189,7 @@ function SetNickname(sender, isMistress, parameters) {
   let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
 
   // Weaer can only rename if no nickname set
-  if (sender == Player.MemberNumber && targetChar && targetChar.Title) {
+  if (sender == Player.MemberNumber && !cursedConfig.disabledCommands.includes("ownerhub") && targetChar && targetChar.Title) {
     popChatSilent(FetchRespectName + " already has a nickname set.");
     return;
   }

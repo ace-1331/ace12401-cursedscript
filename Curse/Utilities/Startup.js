@@ -75,7 +75,7 @@ function charDataToV2() {
           }
           cursedConfig.charDataV2.push(newChar);
       });
-//      delete cursedConfig.charData;
+      delete cursedConfig.charData;
   }
 }
 /** Cleans the data on startup */

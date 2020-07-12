@@ -228,9 +228,9 @@ function WearerCommands({ command, parameters, sender }) {
     case "nickname":
       SetNickname(parameters, sender, 0);
       break;
-      case "settitle":
-        addTitle(sender, false, parameters);
-        break;
+    case "settitle":
+      addTitle(sender, false, parameters);
+      break;
     case "curseitem":
     case "curseditem":
       if (parameters[0] && parameters[1] && !isNaN(parameters[1])) {
@@ -258,11 +258,26 @@ function WearerCommands({ command, parameters, sender }) {
         sendWhisper(sender, "(Invalid arguments. Specify the item group and number of hours the curse should stay active.)");
       }
       break;
+    // Migration command from charData to charDataV2.  Migration takes the most recent title in the list, in defaults it is "owner"
+    // This will find anyone with "owner" as their title and change it to <parameters>
+    case "changedefaulttitle":{
+       if (parameters && parameters[0] && parameters[0] != "") {
+        let title = parameters.join(" ").replace(/[,]/g, " ");
+      
+        cursedConfig.charDataV2.forEach(e => {
+        if(e.Title == "owner")
+        e.Title = title;
+      })
+      }
+      else
+      popChatSilent("Please give a new default title.");
+    }
+      break;
+  
     default:
     //notifies no commands were found
       r = true;
       break;
-
   }
   return r;
 }
