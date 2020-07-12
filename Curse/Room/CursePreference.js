@@ -416,7 +416,7 @@ function CursePreferenceSubscreenOrgasmsRun() {
     DrawCheckbox(100, 632, 64, 64, `[M] Cursed vibrators (Intensity: ${cursedConfig.vibratorIntensity + 1}/4)`, CursePreferenceTemporaryConfig.hasCursedOrgasm);
     DrawCheckbox(100, 712, 64, 64, "[CO] Arousal meter locked to automatic", CursePreferenceTemporaryConfig.hasForcedMeterLocked);
     DrawCheckbox(100, 792, 64, 64, "[CO] Arousal meter locked to off", CursePreferenceTemporaryConfig.hasForcedMeterOff);
-    DrawCheckbox(100, 872, 64, 64, "[CO] Arousal meter hidden", CursePreferenceTemporaryConfig.hasSecretOrgasm);
+    DrawCheckbox(100, 872, 64, 64, "[CO] Arousal meter hidden from wearer", CursePreferenceTemporaryConfig.hasSecretOrgasm);
     MainCanvas.textAlign = "center";
 }
 
@@ -586,7 +586,7 @@ function CursePreferenceSubscreenSpeechRun() {
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 312, 64, 64, "[CO] Wearer has an introduction message", CursePreferenceTemporaryConfig.hasEntryMsg);
-    DrawCheckbox(100, 392, 64, 64, "[M] Blocked words", CursePreferenceTemporaryConfig.hasCursedSpeech);
+    DrawCheckbox(100, 392, 64, 64, "[M] Blocked words enabled", CursePreferenceTemporaryConfig.hasCursedSpeech);
     DrawCheckbox(100, 472, 64, 64, "[M] Allow contractions", !CursePreferenceTemporaryConfig.hasNoContractions);
     DrawCheckbox(100, 552, 64, 64, "[M] Punish for speaking (Muted)", CursePreferenceTemporaryConfig.isMute);
     DrawCheckbox(100, 632, 64, 64, "[CO] Full mute (Prevents sending normal messages)", CursePreferenceTemporaryConfig.hasFullMuteChat);

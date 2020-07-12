@@ -512,3 +512,8 @@ function ConvertStringToStringNumberArray(string) {
 function DrawCustomBeepText(txt) {
   ServerBeep = { Message: txt, Timer: Date.now() + 10000 }
 }
+
+/** Sends a hidden message object */
+function SendCurseChatMessage(number, txt) { 
+  ServerSend("ChatRoomChat", { Content: "curseinteraction " + txt, Type: "Hidden", Sender: parseInt(number) });
+}
