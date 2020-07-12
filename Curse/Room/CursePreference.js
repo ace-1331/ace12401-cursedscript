@@ -207,6 +207,7 @@ async function CursePreferenceExportConfig() {
         await navigator.clipboard.writeText(
             LZString.compressToUTF16(JSON.stringify(CursePreferenceTemporaryConfig))
         );
+        DrawCustomBeepText("Curse data copied to clipboard!");
     } catch (err) { 
         CursePreferenceErrorMessage = "Could not export.";
         CursePreferenceErrorMessageTime = Date.now() + 10000;
@@ -229,6 +230,7 @@ async function CursePreferenceImportConfig() {
         });
         if (!hasError) {
             CursePreferenceTemporaryConfig = { ...CursePreferenceTemporaryConfig, ...configs };
+            DrawCustomBeepText("Curse data imported from the clipboard!");
         }
     } catch (err) { 
         console.log(err)
@@ -251,6 +253,7 @@ function CursePreferenceExit() {
     CursePreferenceTemporaryConfig = null;
     CurseRoomRun();
     CurrentScreen = "CurseRoom";
+    DrawCustomBeepText("Curse data saved.");
 }
 
 
