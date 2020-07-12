@@ -105,7 +105,7 @@ function SelfMessageCheck(msg) {
     cursedConfig.hasCursedSpeech
   ) {
     let badWords = cursedConfig.bannedWords.filter(word => (
-      msg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
+      msg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(\()|(\))|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
     ));
     if (badWords.length != 0) {
       NotifyOwners(`(Used banned words: ${badWords.join(", ")})`);
@@ -119,9 +119,9 @@ function SelfMessageCheck(msg) {
   if (
     cursedConfig.hasSound
         && cursedConfig.hasIntenseVersion
-        && msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|("(")|(")")|(!)|(\?)/g, " ").split(" ")
+        && msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(\()|(\))(!)|(\?)/g, " ").split(" ")
           .filter(w => {
-            return !(new RegExp("^" + cursedConfig.sound.replace(/(\.)|(-)|(')|(,)|(~)|("(")|(")")|(!)|(\?)/g, "").split("").map(el => el + "*").join("") + "$", "g")).test(w);
+            return !(new RegExp("^" + cursedConfig.sound.replace(/(\.)|(-)|(')|(,)|(~)|(\()|(\))|(!)|(\?)/g, "").split("").map(el => el + "*").join("") + "$", "g")).test(w);
           }).length > 0
         && isNormalMsg
   ) {
@@ -148,7 +148,7 @@ function SelfMessageCheck(msg) {
   //Doll talk
   if (cursedConfig.hasDollTalk && !isEmote) {
     const whitelist = ["goddess", "mistress"];
-    const words = msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(!)|(\?)/g, " ").trim().split(" ").filter(w => w && !whitelist.includes(w));
+    const words = msg.toLowerCase().replace(/(\.)|(-)|(')|(,)|(~)|(\()|(\))|(!)|(\?)/g, " ").trim().split(" ").filter(w => w && !whitelist.includes(w));
     const size = words.length;
     const longWords = words.filter(w => w.length > 6);
     if (size > 5) {
