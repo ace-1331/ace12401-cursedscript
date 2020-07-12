@@ -282,6 +282,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       SetNickname(parameters, sender, 2);
       break;
     case "savecolors":
+      sendWhisper(sender, "(Colors saved.)");
       SaveColors();
       break;
     case "deletenickname":

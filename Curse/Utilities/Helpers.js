@@ -136,7 +136,7 @@ function forceNickname(sender, parameters) {
     sendWhisper(sender, "(Will only work if intense mode is turned on.)", shouldSendSelf);
     return;
   }
-    
+
   if (respected && respected.Nickname && respected.Nickname != respected.SavedName) {
     if (!respected.RespectNickname) {
       respected.isEnforced = true;
@@ -151,11 +151,11 @@ function forceNickname(sender, parameters) {
       sendWhisper(sender, Player.Name + " no longer needs to call " + FetchName(target) + " by her nickname and regular protocols have now resumed.", shouldSendSelf);
       return;
     }
-        
+
     respected.isEnforced = false;
     sendWhisper(sender, Player.Name + " no longer needs to respect " + FetchName(target) + " by her nickname.", shouldSendSelf);
     return;
-        
+
   } else {
     sendWhisper(sender, FetchName(target) + " does not have a nickname set yet.");
   }
@@ -174,11 +174,11 @@ function itemIsAllowed(name, group) {
   if (
     !(
       InventoryGet(Player, group)
-            && InventoryGet(Player, group).Asset
-            && InventoryGet(Player, group).Asset.Name == name
+      && InventoryGet(Player, group).Asset
+      && InventoryGet(Player, group).Asset.Name == name
     ) && !InventoryGroupIsBlocked(Player, group)
-        && !InventoryOwnerOnlyItem(InventoryGet(Player, group))
-        && InventoryAllow(Player, Asset.find(A => A.Name == name && A.Group.Name == group))
+    && !InventoryOwnerOnlyItem(InventoryGet(Player, group))
+    && InventoryAllow(Player, Asset.find(A => A.Name == name && A.Group.Name == group))
   ) {
     TryPopTip(35);
     return Player.BlockItems.filter(it => it.Name == name && it.Group == group).length == 0;
@@ -189,8 +189,8 @@ function itemIsAllowed(name, group) {
 /** Checks if an item can be removed, if it can it will return true */
 function itemNeedsRemoving(group) {
   return InventoryGet(Player, group)
-        && !InventoryGroupIsBlocked(Player, group)
-        && !InventoryOwnerOnlyItem(InventoryGet(Player, group));
+    && !InventoryGroupIsBlocked(Player, group)
+    && !InventoryOwnerOnlyItem(InventoryGet(Player, group));
 }
 
 /** 
@@ -202,7 +202,7 @@ function restraintVanish(groups) {
   groups.forEach(group => {
     if (
       !InventoryOwnerOnlyItem(InventoryGet(Player, group))
-            && !InventoryGroupIsBlocked(Player, group)
+      && !InventoryGroupIsBlocked(Player, group)
     ) {
       TryPopTip(12);
       InventoryRemove(Player, group);
@@ -466,24 +466,24 @@ function GetTargetParams(sender, parameters) {
  * @param {string} sender - MemberNumber of the sender
  * @returns {Boolean} if it is activated or not
 */
-function CommandIsActivated(command, sender) { 
+function CommandIsActivated(command, sender) {
   //Intense mode
   let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say"];
-  if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) { 
+  if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) {
     sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
     return;
   }
-  
+
   //When full curse is on, we don't worry about anything
   if (cursedConfig.hasFullCurse) return true;
-  
+
   // Ownerhub
   if (cursedConfig.disabledCommands.includes("ownerhub")) {
     sendWhisper(sender, "(The wearer is running the curse in owner mode. This means no one can interact with their curse.)", true);
     TryPopTip(50);
     return false;
   }
-  
+
   // Disabled optins
   let isOptin = cursedConfig.optinCommands.find(OC => OC.command == command);
   if (isOptin && !isOptin.isEnabled) {
@@ -492,7 +492,7 @@ function CommandIsActivated(command, sender) {
     TryPopTip(50);
     return false;
   }
-  
+
   //Blacklist
   if (cursedConfig.disabledCommands.includes(command)) {
     sendWhisper(sender, `(The command ${command} is disabled. The wearer needs to remove it from their blacklist if they wish to.)`, true);
@@ -504,6 +504,16 @@ function CommandIsActivated(command, sender) {
 }
 
 /** Converts a list of numbers split by , into an array of numbers */
-function ConvertStringToStringNumberArray(string) { 
+function ConvertStringToStringNumberArray(string) {
   return string.split(",").map(s => s.trim()).filter(s => !isNaN(s));
+}
+
+/** Draws a beep text */
+function DrawCustomBeepText(txt) {
+  ServerBeep = { Message: txt, Timer: Date.now() + 10000 }
+}
+
+/** Sends a hidden message object */
+function SendCurseChatMessage(number, txt) { 
+  ServerSend("ChatRoomChat", { Content: "curseinteraction " + txt, Type: "Hidden", Sender: parseInt(number) });
 }

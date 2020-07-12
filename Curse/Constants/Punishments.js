@@ -51,12 +51,12 @@ window.cursedPunishments = [
   },
   {
     ID: 10,
-    Name: "doll talk, long word (%PARAM0%)",
+    Name: "doll talk long word (%PARAM0%)",
     Value: 2,
   },
   {
     ID: 11,
-    Name: "doll talk, too many words",
+    Name: "doll talk too many words",
     Value: 2,
   },
   {

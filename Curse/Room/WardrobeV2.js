@@ -468,22 +468,22 @@ function LoadAppearanceV2() {
         }
       }
   
-    if ((MouseX >= 1183) && (MouseX < 1273) && (MouseY >= 25) && (MouseY < 115)) AppearanceRunUndo();
-    if ((MouseX >= 1300) && (MouseX < 1390) && (MouseY >= 25) && (MouseY < 115) && (C.ID == 0) && C.AllowItem && !LogQuery("Wardrobe", "PrivateRoom")) CharacterAppearanceSetDefault(C);
-    if ((MouseX >= 1300) && (MouseX < 1390) && (MouseY >= 25) && (MouseY < 115) && (C.ID == 0) && C.AllowItem && LogQuery("Wardrobe", "PrivateRoom")) { CharacterAppearanceWardrobeLoad(C); }
-    if ((MouseX >= 1417) && (MouseX < 1507) && (MouseY >= 25) && (MouseY < 115) && (C.ID == 0) && C.AllowItem) {
+    if (CommonIsClickAt(1183, 25, 1273-1183, 115-25)) AppearanceRunUndo();
+    if (CommonIsClickAt(1300, 25, 1390-1300, 115-25) && (C.ID == 0) && C.AllowItem && !LogQuery("Wardrobe", "PrivateRoom")) CharacterAppearanceSetDefault(C);
+    if (CommonIsClickAt(1300, 25, 1390-1300, 115-25) && (C.ID == 0) && C.AllowItem && LogQuery("Wardrobe", "PrivateRoom")) { CharacterAppearanceWardrobeLoad(C); }
+    if (CommonIsClickAt(1417, 25, 1507-1417, 115-25) && (C.ID == 0) && C.AllowItem) {
       const Undo = AppearanceTempWardrobe[AppearanceTempWardrobe.length] = WardrobeSaveData(C);
       AppearanceUndo.push(() => { WardrobeLoadData(C, Undo); AppearanceTempWardrobe.pop(); });
       CharacterAppearanceFullRandom(C);
     }
-    if ((MouseX >= 1417) && (MouseX < 1507) && (MouseY >= 25) && (MouseY < 115) && (C.ID != 0) && C.AllowItem && LogQuery("Wardrobe", "PrivateRoom")) CharacterAppearanceWardrobeLoad(C);
-    if ((MouseX >= 1534) && (MouseX < 1624) && (MouseY >= 25) && (MouseY < 115) && C.AllowItem) { AppearanceAssets.filter(A => A.CanStrip() && !A.Group.KeepNaked).forEach(A => A.Strip()); }
-    if ((MouseX >= 1651) && (MouseX < 1741) && (MouseY >= 25) && (MouseY < 115)) {
+    if (CommonIsClickAt(1417, 25, 1507-1417, 115-25) && (C.ID != 0) && C.AllowItem && LogQuery("Wardrobe", "PrivateRoom")) CharacterAppearanceWardrobeLoad(C);
+    if (CommonIsClickAt(1534, 25, 1624-1534, 115-25) && C.AllowItem) { AppearanceAssets.filter(A => A.CanStrip() && !A.Group.KeepNaked).forEach(A => A.Strip()); }
+    if (CommonIsClickAt(1651, 25, 1741-1651, 115-25)) {
       CharacterAppearanceOffset += AppearanceNumPerPage;
       if (CharacterAppearanceOffset >= AppearanceAssets.length) CharacterAppearanceOffset = 0;
     }
-    if ((MouseX >= 1768) && (MouseX < 1858) && (MouseY >= 25) && (MouseY < 115)) { C.FocusGroup = null; CharacterAppearanceExit(C); }
-    if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && C.AllowItem) { C.FocusGroup = null; CharacterAppearanceReady(C); }
+    if (CommonIsClickAt(1768, 25, 1858-1768, 115-25)) { C.FocusGroup = null; CharacterAppearanceExit(C); }
+    if (CommonIsClickAt(1885, 25, 1975-1885, 115-25) && C.AllowItem) { C.FocusGroup = null; CharacterAppearanceReady(C); }
   }
   
   function AppearanceItemsRun() {
@@ -534,35 +534,35 @@ function LoadAppearanceV2() {
       }
     };
   
-    if ((MouseX >= 1250) && (MouseX < 1600) && (MouseY >= 145) && (MouseY < 975))
+    if (CommonIsClickAt(1250, 145, 1600-1250, 975-145))
       for (let A = AppearanceItemsOffset; A * 2 < AppearanceItem.Assets.length && A * 2 < AppearanceItemsOffset * 2 + AppearanceNumPerPage; A++)
         if ((MouseY >= 145 + (A - AppearanceItemsOffset) * AppearanceOffset) && (MouseY <= 145 + AppearanceHeight + (A - AppearanceItemsOffset) * AppearanceOffset)) {
           Click(AppearanceItem.Assets[A * 2]);
           break;
         }
   
-    if ((MouseX >= 1630) && (MouseX < 1980) && (MouseY >= 145) && (MouseY < 975))
+    if (CommonIsClickAt(1630, 145, 1980-1630, 975-145))
       for (let A = AppearanceItemsOffset; A * 2 + 1 < AppearanceItem.Assets.length && A * 2 + 1 < AppearanceItemsOffset * 2 + AppearanceNumPerPage; A++)
         if ((MouseY >= 145 + (A - AppearanceItemsOffset) * AppearanceOffset) && (MouseY <= 145 + AppearanceHeight + (A - AppearanceItemsOffset) * AppearanceOffset)) {
           Click(AppearanceItem.Assets[A * 2 + 1]);
           break;
         }
   
-    if ((MouseX >= 1417) && (MouseX < 1507) && (MouseY >= 25) && (MouseY < 115) && C.ID == 0 && !AppearanceBlockMode) AppearanceItem.ChangeBlockMode();
+    if (CommonIsClickAt(1417, 25, 1507-1417, 115-25) && C.ID == 0 && !AppearanceBlockMode) AppearanceItem.ChangeBlockMode();
   
-    if ((MouseX >= 1651) && (MouseX < 1741) && (MouseY >= 25) && (MouseY < 115) && AppearanceItem.CanStrip()) AppearanceItem.Strip(false);
+    if (CommonIsClickAt(1651, 25, 1741-1651, 115-25) && AppearanceItem.CanStrip()) AppearanceItem.Strip(false);
   
-    if ((MouseX >= 1534) && (MouseX < 1624) && (MouseY >= 25) && (MouseY < 115) && AppearanceItem.Assets.length > AppearanceNumPerPage) {
+    if (CommonIsClickAt(1534, 25, 1624-1534, 115-25) && AppearanceItem.Assets.length > AppearanceNumPerPage) {
       AppearanceItemsOffset += AppearanceNumPerPage / 2;
       if (AppearanceItemsOffset * 2 + 1 >= AppearanceItem.Assets.length) AppearanceItemsOffset = 0;
     }
   
-    if ((MouseX >= 1768) && (MouseX < 1858) && (MouseY >= 25) && (MouseY < 115) && !AppearanceBlockMode) {
+    if (CommonIsClickAt(1768, 25, 1858-1768, 115-25) && !AppearanceBlockMode) {
       AppearanceSetZone();
       AppearanceExit();
     }
   
-    if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) {
+    if (CommonIsClickAt(1885, 25, 1975-1885, 115-25)) {
       if (AppearanceBlockMode) {
         AppearanceItem.ChangeBlockMode();
         return;
@@ -709,7 +709,7 @@ function LoadAppearanceV2() {
       return;
     }
     // Can set a color manually from the text field
-    if ((MouseX >= 1610) && (MouseX < 1675) && (MouseY >= 37) && (MouseY < 102))
+    if (CommonIsClickAt(1610, 37, 1675-1610, 102-37))
       if (CommonIsColor(ElementValue("InputColor") || ElementValue("InputColor") == AppearanceItem.Group.ColorSchema[0]))
         AppearanceItem.SetColor(ElementValue("InputColor"));
   
@@ -760,11 +760,11 @@ function LoadAppearanceV2() {
       ColorPickerInitialHSV = null;
     }
   
-    if ((MouseX >= 1768) && (MouseX < 1858) && (MouseY >= 25) && (MouseY < 115)) {
+    if (CommonIsClickAt(1768, 25, 1858-1768, 115-25)) {
       AppearanceExit();
     }
   
-    if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) {
+    if (CommonIsClickAt(1885, 25, 1975-1885, 115-25)) {
       AppearanceColorUndo = false;
       AppearanceExit();
     }
@@ -799,11 +799,11 @@ function LoadAppearanceV2() {
   
   async function AppearanceWardrobeClick() {
     const C = CharacterAppearanceSelection;
-    if ((MouseX >= 1651) && (MouseX < 1741) && (MouseY >= 25) && (MouseY < 115)) {
+    if (CommonIsClickAt(1651, 25, 1741-1651, 115-25)) {
       AppearanceWardrobeOffset += 6;
       if (AppearanceWardrobeOffset >= WardrobeSize) AppearanceWardrobeOffset = 0;
     }
-    if ((MouseX >= 1300) && (MouseX < 1800) && (MouseY >= 430) && (MouseY < 970))
+    if (CommonIsClickAt(1300, 430, 1800-1300, 970-430))
       for (let W = AppearanceWardrobeOffset; W < WardrobeSize && W < AppearanceWardrobeOffset + 6; W++)
         if ((MouseY >= 430 + (W - AppearanceWardrobeOffset) * 95) && (MouseY <= 495 + (W - AppearanceWardrobeOffset) * 95)) {
           if (AppearanceWardrobeShouldUndo) {
@@ -832,7 +832,7 @@ function LoadAppearanceV2() {
       }
     }
   
-    if ((MouseX >= 1820) && (MouseX < 1975) && (MouseY >= 430) && (MouseY < 970))
+    if (CommonIsClickAt(1820, 430, 1975-1820, 970-430))
       for (let W = AppearanceWardrobeOffset; W < WardrobeSize && W < AppearanceWardrobeOffset + 6; W++)
         if ((MouseY >= 430 + (W - AppearanceWardrobeOffset) * 95) && (MouseY <= 495 + (W - AppearanceWardrobeOffset) * 95)) {
           WardrobeFastSave(C, W);
@@ -846,11 +846,11 @@ function LoadAppearanceV2() {
           }
         }
   
-    if ((MouseX >= 1300) && (MouseX < 1390) && (MouseY >= 25) && (MouseY < 115) && !AppearanceWardrobeShouldUndo) { AppearanceRunUndo(); AppearanceWardrobeShouldUndo = true; }
-    if ((MouseX >= 1417) && (MouseX < 1507) && (MouseY >= 25) && (MouseY < 115)) { AppearanceMode = ""; ElementRemove("InputWardrobeName"); }
-    if ((MouseX >= 1534) && (MouseX < 1624) && (MouseY >= 25) && (MouseY < 115)) { AppearanceAssets.filter(A => A.CanStrip() && !A.Group.KeepNaked).forEach(A => A.Strip()); }
-    if ((MouseX >= 1768) && (MouseX < 1858) && (MouseY >= 25) && (MouseY < 115)) { C.FocusGroup = null; CharacterAppearanceExit(C); }
-    if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) { C.FocusGroup = null; CharacterAppearanceReady(C); }
+    if (CommonIsClickAt(1300, 25, 1390-1300, 115-25) && !AppearanceWardrobeShouldUndo) { AppearanceRunUndo(); AppearanceWardrobeShouldUndo = true; }
+    if (CommonIsClickAt(1417, 25, 1507-1417, 115-25)) { AppearanceMode = ""; ElementRemove("InputWardrobeName"); }
+    if (CommonIsClickAt(1534, 25, 1624-1534, 115-25)) { AppearanceAssets.filter(A => A.CanStrip() && !A.Group.KeepNaked).forEach(A => A.Strip()); }
+    if (CommonIsClickAt(1768, 25, 1858-1768, 115-25)) { C.FocusGroup = null; CharacterAppearanceExit(C); }
+    if (CommonIsClickAt(1885, 25, 1975-1885, 115-25)) { C.FocusGroup = null; CharacterAppearanceReady(C); }
   }
   
   function ExtraColorGet(color, i) {
@@ -1163,7 +1163,7 @@ function LoadAppearanceV2Drawing() {
 }
   
 function LoadAppearanceV2Wardrobe() {
-  window.WardrobeSize = 12;
+  window.WardrobeSize = 24;
   window.WardrobeLoadData = function WardrobeLoadData(C, Data, LoadAll, AllInventory) {
     const AddAll = LoadAll || C.ID == 0 || C.AccountName.indexOf("Wardrobe-") == 0;
     let expression = {};

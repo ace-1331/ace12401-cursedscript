@@ -134,35 +134,35 @@ function CursePreferenceClick() {
 
     // If the user clicks on "Exit"
     if (CursePreferenceErrors.length == 0) {
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 65) && (MouseY < 155)) CursePreferenceExit();
+        if (CommonIsClickAt(1815, 65, 1905-1815, 155-65)) CursePreferenceExit();
 
         // If the user clicks on the sub setting buttons
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 180) && (MouseY < 270)) {
+        if (CommonIsClickAt(1815, 180, 1905-1815, 270-180)) {
             CursePreferenceSubscreen = "Lists";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 295) && (MouseY < 385)) {
+        if (CommonIsClickAt(1815, 295, 1905-1815, 385-295)) {
             CursePreferenceSubscreen = "Permissions";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 410) && (MouseY < 500)) {
+        if (CommonIsClickAt(1815, 410, 1905-1815, 500-410)) {
             CursePreferenceSubscreen = "Punishments";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 525) && (MouseY < 615)) {
+        if (CommonIsClickAt(1815, 525, 1905-1815, 615-525)) {
             CursePreferenceSubscreen = "Orgasms";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 640) && (MouseY < 730)) {
+        if (CommonIsClickAt(1815, 640, 1905-1815, 730-640)) {
             CursePreferenceSubscreen = "Status";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 755) && (MouseY < 845)) {
+        if (CommonIsClickAt(1815, 755, 1905-1815, 845-755)) {
             CursePreferenceSubscreen = "Curses";
         }
-        if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 870) && (MouseY < 960)) {
+        if (CommonIsClickAt(1815, 870, 1905-1815, 960-870)) {
             CursePreferenceSubscreen = "Speech";
         }
 
-        if ((MouseX >= 1705) && (MouseX < 1795) && (MouseY >= 755) && (MouseY < 845)) {
+        if (CommonIsClickAt(1705, 755, 1795-1705, 845-755)) {
             CursePreferenceSubscreen = "Tip";
         }
-        if ((MouseX >= 1705) && (MouseX < 1795) && (MouseY >= 870) && (MouseY < 960)) {
+        if (CommonIsClickAt(1705, 870, 1795-1705, 960-870)) {
             CursePreferenceSubscreen = "Appearance";
         }
     }
@@ -207,6 +207,7 @@ async function CursePreferenceExportConfig() {
         await navigator.clipboard.writeText(
             LZString.compressToUTF16(JSON.stringify(CursePreferenceTemporaryConfig))
         );
+        DrawCustomBeepText("Curse data copied to clipboard!");
     } catch (err) { 
         CursePreferenceErrorMessage = "Could not export.";
         CursePreferenceErrorMessageTime = Date.now() + 10000;
@@ -229,6 +230,7 @@ async function CursePreferenceImportConfig() {
         });
         if (!hasError) {
             CursePreferenceTemporaryConfig = { ...CursePreferenceTemporaryConfig, ...configs };
+            DrawCustomBeepText("Curse data imported from the clipboard!");
         }
     } catch (err) { 
         console.log(err)
@@ -251,6 +253,7 @@ function CursePreferenceExit() {
     CursePreferenceTemporaryConfig = null;
     CurseRoomRun();
     CurrentScreen = "CurseRoom";
+    DrawCustomBeepText("Curse data saved.");
 }
 
 
@@ -273,7 +276,7 @@ function CursePreferenceSubscreenNoCurseRun() {
 // When the user clicks in the no curse preference subscreen
 function CursePreferenceSubscreenNoCurseClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75)) {
         CursePreferenceExit();
     }
 }
@@ -324,7 +327,7 @@ function CursePreferenceSubscreenListsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenListsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenListsExit();
     }
 }
@@ -381,7 +384,7 @@ function CursePreferenceSubscreenPermissionsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenPermissionsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenPermissionsExit();
     }
 }
@@ -413,14 +416,14 @@ function CursePreferenceSubscreenOrgasmsRun() {
     DrawCheckbox(100, 632, 64, 64, `[M] Cursed vibrators (Intensity: ${cursedConfig.vibratorIntensity + 1}/4)`, CursePreferenceTemporaryConfig.hasCursedOrgasm);
     DrawCheckbox(100, 712, 64, 64, "[CO] Arousal meter locked to automatic", CursePreferenceTemporaryConfig.hasForcedMeterLocked);
     DrawCheckbox(100, 792, 64, 64, "[CO] Arousal meter locked to off", CursePreferenceTemporaryConfig.hasForcedMeterOff);
-    DrawCheckbox(100, 872, 64, 64, "[CO] Arousal meter hidden", CursePreferenceTemporaryConfig.hasSecretOrgasm);
+    DrawCheckbox(100, 872, 64, 64, "[CO] Arousal meter hidden from wearer", CursePreferenceTemporaryConfig.hasSecretOrgasm);
     MainCanvas.textAlign = "center";
 }
 
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenOrgasmsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
 }
@@ -438,7 +441,7 @@ function CursePreferenceSubscreenStatusRun() {
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 152, 64, 64, "Alter blinding items to make them fully blind the wearer", CursePreferenceTemporaryConfig.hasFullBlindMode);
     DrawCheckbox(100, 232, 64, 64, "[CO] Wearer must retype a message containing transgressions", CursePreferenceTemporaryConfig.mustRetype);
-    DrawCheckbox(100, 312, 64, 64, "[CO] Drag wearer in a room by owners on triple beeps)", CursePreferenceTemporaryConfig.canLeash);
+    DrawCheckbox(100, 312, 64, 64, "[CO] Drag wearer in a room by owners on triple beeps", CursePreferenceTemporaryConfig.canLeash);
     DrawCheckbox(100, 392, 64, 64, "[CO] Disable rescue maids and other NPC release dialogs", CursePreferenceTemporaryConfig.hasNoMaid);
     DrawCheckbox(100, 472, 64, 64, "[CO] Rejoin rooms you are tied in after disconnecting", CursePreferenceTemporaryConfig.hasDCPrevention);
     DrawCheckbox(100, 552, 64, 64, "[CO] Sensory Deprivation locked to total", CursePreferenceTemporaryConfig.hasForcedSensDep);
@@ -461,7 +464,7 @@ function CursePreferenceSubscreenStatusRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenStatusClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
     // Checkboxes
@@ -510,7 +513,7 @@ function CursePreferenceSubscreenPunishmentsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenPunishmentsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenPunishmentsExit();
     }
 }
@@ -546,7 +549,7 @@ function CursePreferenceSubscreenCursesRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenCursesClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
 }
@@ -583,7 +586,7 @@ function CursePreferenceSubscreenSpeechRun() {
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 312, 64, 64, "[CO] Wearer has an introduction message", CursePreferenceTemporaryConfig.hasEntryMsg);
-    DrawCheckbox(100, 392, 64, 64, "[M] Blocked words", CursePreferenceTemporaryConfig.hasCursedSpeech);
+    DrawCheckbox(100, 392, 64, 64, "[M] Blocked words enabled", CursePreferenceTemporaryConfig.hasCursedSpeech);
     DrawCheckbox(100, 472, 64, 64, "[M] Allow contractions", !CursePreferenceTemporaryConfig.hasNoContractions);
     DrawCheckbox(100, 552, 64, 64, "[M] Punish for speaking (Muted)", CursePreferenceTemporaryConfig.isMute);
     DrawCheckbox(100, 632, 64, 64, "[CO] Full mute (Prevents sending normal messages)", CursePreferenceTemporaryConfig.hasFullMuteChat);
@@ -596,7 +599,7 @@ function CursePreferenceSubscreenSpeechRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenSpeechClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenSpeechExit();
     }
 }
@@ -645,7 +648,7 @@ function CursePreferenceSubscreenAppearanceRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenAppearanceClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenAppearanceExit();
     }
 }
@@ -689,16 +692,16 @@ function CursePreferenceSubscreenTipRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenTipClick() {
     // If the user clicked the exit icon to return to the main screen
-    if ((MouseX >= 1815) && (MouseX < 1905) && (MouseY >= 75) && (MouseY < 165) && (CursePreferenceErrors.length == 0)) {
+    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenTipExit();
     }
     
-    if ((MouseX >= 920) && (MouseX < 1100) && (MouseY >= 160) && (MouseY < 225)) { 
+    if (CommonIsClickAt(920, 160, 1100-920, 225-160)) { 
         CursePreferenceCurrentTip = PopTip(true);
         ElementValue("Tips", CursePreferenceCurrentTip);
     }
     
-    if ((MouseX >= 1120) && (MouseX < 1300) && (MouseY >= 160) && (MouseY < 225)) { 
+    if (CommonIsClickAt(1120, 160, 1300-1120, 225-160)) { 
         CursePreferenceTemporaryConfig.seenTips = [];
         cursedConfig.seenTips = [];
         ElementValue("Tips", "Tip list reset. You will be able to see all tips again.");
