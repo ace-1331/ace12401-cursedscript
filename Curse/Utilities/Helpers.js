@@ -120,7 +120,7 @@ function deleteTitle(sender, isMistress, parameters) {
   try {
     ChatRoomCharacter.forEach(char => {
       if (targetChar.Number == char.MemberNumber) {
-        char.Name = targetChar.Nickname ? targetChar.FetchRespectName(targetNo) : FetchName(targetNo);
+        char.Name = targetChar.Nickname ? FetchRespectName(targetNo) : FetchName(targetNo);
       }
     });
   } catch (e) { console.error(e, "failed to update a name"); }
@@ -247,7 +247,7 @@ function DeleteNickname(sender, isMistress, parameters) {
   try {
     ChatRoomCharacter.forEach(char => {
       if (targetChar.Number == char.MemberNumber) {
-        char.Name = targetChar.Title ? targetChar.FetchRespectName(targetNo) : FetchName(targetNo);
+        char.Name = targetChar.Title ? FetchRespectName(targetNo) : FetchName(targetNo);
       }
     });
   } catch (e) { console.error(e, "failed to update a name"); }
@@ -270,7 +270,7 @@ function BlockRename(sender) {
   delete targetChar.Nickname;
   targetChar.isEnforced = false;
   targetChar.isBlocked = true;
-  sendWhisper(sender, "-->Blocked renaming " + FetchName(sender) + " for " + Player.Name, shouldSendSelf);
+  sendWhisper(sender, "-->Blocked renaming " + FetchName(sender) + " for " + Player.Name, true);
 }
 /** Allows titles and nicknames to be given to sender */
 function AllowRename(sender) {
@@ -278,7 +278,7 @@ function AllowRename(sender) {
   if (targetChar && targetChar.isBlocked)
     cursedConfig.charDataV2.splice(cursedConfig.charDataV2.indexOf(e => e.Number == targetChar.Number), 1);
 
-  sendWhisper(sender, "-->Allowed renaming for " + FetchName(userNumber), shouldSendSelf);
+  sendWhisper(sender, "-->Allowed renaming for " + FetchName(sender), true);
 }
 
 /** Tries to get the name of a member number */

@@ -273,13 +273,6 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
     case "savecolors":
       SaveColors();
       break;
-    case "deletenickname":
-      DeleteNickname(parameters, sender, isOwner ? 3 : 2);
-      break;
-    case "respectnickname": {
-      forceNickname(sender, parameters);
-      break;
-    }
     case "contractions":
       if (!cursedConfig.hasNoContractions) {
         sendWhisper(sender, "-->Can no longer use contractions.", true);
