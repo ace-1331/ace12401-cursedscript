@@ -1,27 +1,16 @@
-# Nickname 
-The nickname functionality may appear to be complex at first, but it is quite intuitive once the commands are understood.
+Nicknames and Titles
+While you wear the curse, other people in the club may give you, themselves or anyone else a nickname and / or a title, when this happens it will be displayed on your screen and appear in chat and actions. Nicknames and titles only appear on your screen, not everyone else’s.
 
-Nicknames are names the wearer will see on their screen. The actions will also reflect the name they see.
+Who can do what will depend on how you have the curse set up but it’s pretty simple overall and works like this:
 
-At the core, anyone can send a command to block themselves from being given a nickname. Otherwise, anyone can give themselves a nickname for the wearer to see. The priority goes as follows: wearer (0), public (1), mistress (2), owner(3), club owner (4), blocked (5).  The wearer, their mistresses and owners can give any member number a nickname, however, the priority level indicates who can delete or change it. However, anyone has top priority over their own name excluding the wearer.
+Anyone except the wearer can set, remove titles / nicknames from themselves or block having their name changed altogether
 
-Note: blacklisted member numbers cannot have their nickname displayed.
+Owners and Mistress’ can change how you see other member’s names too, including your own.
 
-In other words, here are all the use cases:
+Subs with the curse cannot change their own title or nickname but can give them to anyone that doesn’t already have one yet, they cannot change someone’s title/nickname or delete them either.
 
-- If an owner sets a nickname for #12401 with the command "onickname", only another owner can change/delete it or #12401 themselves.
+If you use the OwnerHub mode, other people cannot touch you but you can still give titles and nicknames to anyone, including yourself.
 
-- If an owner sets a nickname for #12401 with the command "mnickname", mistresses, owners and #12401 can change/delete it.
+Respect / Enforced
 
-- If a mistress sets a nickname for #12401 with the command "mnickname", mistresses, owners and #12401 can change it.
-
-- If #12401 sets their own nickname with the command "nickname", #12401 , mistress and owners can change/delete it
-
-- If the wearer sets a nickname for #12401 with the command "nickname", the wearer, mistresses, owners and #12401 can change/delete it
-
-- If #12401 blocks their nickname with the command "blocknickname", no one but themselves can allow their name to be given a nickname again with the command "allownickname"
-
-# Enforced system:
-The enforced system now functions in a similar way than the nickname system. You can toggle new titles for a given member number which allows for custom titles other than miss/mistress. You can also toggle respect on the nickname to prevent cases where the nickname contains a title to cause issues. 
-
-This makes it possible to have Player X be enforced as Mistress X only and player Y to be enforced as Slave Y for example
+Last bit to note is that you can be given respect protocols for a member, this means must kneel when that person is in the same room and instead of calling someone by their usual name, you must call them by their nickname and use their title if they have one, this is the name you can see in the chatroom where their name used to be.  If you want to see a list of everyone who has enforced respect protocols then you can use the report command #name showenforced
