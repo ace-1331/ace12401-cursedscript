@@ -91,7 +91,7 @@ function addTitle(sender, isMistress, parameters) {
 
   sendWhisper(sender, "(New title for " + targetNo + " : " + title + ".)", shouldSendSelf);
   if (!targetChar.SavedName)
-    targetChar.SavedName = FetchName;
+    targetChar.SavedName = FetchName(targetNo);
   targetChar.Title = title;
 }
 /** Deletes a members title */
@@ -190,7 +190,7 @@ function SetNickname(sender, isMistress, parameters) {
 
   // Weaer can only rename if no nickname set
   if (sender == Player.MemberNumber && !cursedConfig.disabledCommands.includes("ownerhub") && targetChar && targetChar.Title) {
-    popChatSilent(FetchRespectName + " already has a nickname set.");
+    popChatSilent(FetchRespectName(targetNo) + " already has a nickname set.");
     return;
   }
   // Wearer tried to give themself a title (OwnerHub is ok to set own)
@@ -198,7 +198,7 @@ function SetNickname(sender, isMistress, parameters) {
     sendWhisper(sender, "You may not set your own nickname.", "Curse");
     return;
   }
-  if(targetNo != sender && !isMistress) {
+  if(targetNo != sender && !isMistress && sender != Player.MemberNumber) {
     sendWhisper(sender, "Permission denied. Only members with at least Mistress status may give nicknames to others.", shouldSendSelf);
     return;
   }
@@ -265,9 +265,19 @@ function BlockRename(sender) {
     targetChar = { Number: parseInt(sender), isEnforced: false, isBlocked: false };
     cursedConfig.charDataV2.push(targetChar);
   }
-
   delete targetChar.Title;
   delete targetChar.Nickname;
+
+  //Restores name
+  try {
+    ChatRoomCharacter.forEach(char => {
+      if (targetChar.Number == char.MemberNumber) {
+        char.Name = targetChar.Title ? FetchRespectName(sender) : FetchName(sender);
+      }
+    });
+  } catch (e) { console.error(e, "failed to update a name"); }
+
+  delete targetChar.SavedName;
   targetChar.isEnforced = false;
   targetChar.isBlocked = true;
   sendWhisper(sender, "-->Blocked renaming " + FetchName(sender) + " for " + Player.Name, true);

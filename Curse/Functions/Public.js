@@ -25,13 +25,13 @@ function PublicCommands({
         addTitle(sender, false, [sender, parameters]);
         break;
       case "deletetitle": 
-        ((isMistress || isOwner) && parameters.length > 0) ? deleteTitle(sender, true, parameters) : deleteTitle(sender);
+        ((isMistress || isOwner || cursedConfig.hasFullPublic) && parameters.length > 0) ? deleteTitle(sender, true, parameters) : deleteTitle(sender);
         break;
       case "namechange":
         SetNickname(sender, false, [sender, parameters]);
         break;
       case "deletenickname": 
-            ((isMistress || isOwner) && parameters.length > 0) ? DeleteNickname(sender, true, parameters) : DeleteNickname(sender);
+            ((isMistress || isOwner || cursedConfig.hasFullPublic) && parameters.length > 0) ? DeleteNickname(sender, true, parameters) : DeleteNickname(sender);
         break;
     case "capture":
       if (cursedConfig.hasCaptureMode) {

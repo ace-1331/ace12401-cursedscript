@@ -226,7 +226,7 @@ function WearerCommands({ command, parameters, sender }) {
       }
       break;
     case "nickname":
-      SetNickname(parameters, sender, 0);
+      SetNickname(sender, false, parameters);
       break;
     case "settitle":
       addTitle(sender, false, parameters);
