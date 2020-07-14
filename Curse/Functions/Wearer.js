@@ -210,9 +210,9 @@ function WearerCommands({ command, parameters, sender }) {
       break;
     case "fullchatlength":
       if (!cursedConfig.hasFullLengthMode)
-        popChatSilent("You're chat input will now be 5 times bigger.");
+        popChatSilent("You're chat input will now be 5 times bigger. (1000 chars long)");
       else
-        popChatSilent("You're chat input will be normal again.");
+        popChatSilent("You're chat input will be normal again. (200 chars long)");
       cursedConfig.hasFullLengthMode = !cursedConfig.hasFullLengthMode;
       break;
     case "quickban":

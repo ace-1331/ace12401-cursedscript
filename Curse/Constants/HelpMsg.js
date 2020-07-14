@@ -101,6 +101,7 @@ function InitHelpMsg() {
     *NEW* -loadpresetcurses [name]
     *NEW* -loadpreset [name]
     *NEW* -savepreset [name]
+    *NEW* -deafimmune [number]
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -125,7 +126,8 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
-    
+    *NEW*-triggerword [phrase]
+    *NEW*-triggerduration [minutes]
     *NEW*-clearpunishments
     *NEW*-retype
     *NEW*-strictness [low/normal/strict]

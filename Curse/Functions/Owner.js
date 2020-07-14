@@ -2,6 +2,21 @@
 function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
   const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
   switch (command) {
+    case "triggerword":
+      cursedConfig.triggerWord.word = parameters.join("").trim();
+      if (parameters.join("").trim())
+        NotifyOwners("Wearer's trigger word was set to: " + parameters.join(""), true);
+      else
+        NotifyOwners("Wearer's trigger word was removed.", true);
+      break;
+    case "triggerduration":
+      if (!parameters[0] || isNaN(parameters[0])) {
+        sendWhisper(sender, "(Invalid arguments. Please provide the number of minutes the effects of the trigger word should last for.)", true);
+        return;
+      }
+      cursedConfig.triggerWord.triggerDuration = parseInt(parameters[0]) * 60000;
+      NotifyOwners("Wearer's trigger word effects duration changed to: " + cursedConfig.triggerWord.triggerDuration + " minutes", true);
+      break;
     case "punishmentrestraint":
       if (!parameters[0] || !parameters[1]) {
         sendWhisper(sender, "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)", true);

@@ -89,6 +89,7 @@
 - **NEW** loadpresetcurses [name] //Note: toggles on the cursed *groups* from the preset to the currently worn items
 - **NEW** loadpreset [name] //Note: toggles on the cursed **items** from the preset
 - **NEW** savepreset [name] //Note: saves the current item curses as a preset
+- **NEW** deafimmune [number] //Note: allows the member number's speech to circumvent deafening effects
 ## OWNER FUNCTIONS
 ### Basic
 - note //Note: this attaches a note anyone can read to the wearer
@@ -98,6 +99,8 @@
 - owner [a member number]
 - otitle [Number] [Title]
 ### Configurations
+- **NEW** triggerword [phrase] //Note: changes the trigger word. No given param will delete the existing one
+- **NEW** triggerduration [minutes] //Note: the number of minutes the effects of a trigger word last
 - **NEW** strictness [low/normal/strict] //Note: tunes the frequency of automatic punishments
 - **NEW** punishmentrestraint [1-10] [group] // Note: attributes a currently worn restraint in the given group to the desired punishment stage (1 to 10). The higher the stage, the more strikes the wearer has. All restraints from the stage and under will be applied once a threshold is reached, resets every week.
 - **NEW** clearpunishments //Note: clears the current list of punishments displayed when doing `#name transgressions`

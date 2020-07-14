@@ -46,7 +46,7 @@ function InitAlteredFns() {
       backupPhotographicPlayerRelease(...rest);
     };
   }
-  
+
   if (window.ManagementAllowReleaseChastity) {
     let backupManagementAllowReleaseChastity = ManagementAllowReleaseChastity;
     ManagementAllowReleaseChastity = function (...rest) {
@@ -65,14 +65,14 @@ function InitAlteredFns() {
       backupMainHallMaidShamePlayer(...rest);
     };
   }
-  
+
   if (window.GamblingRun) {
     let backupGamblingRun = GamblingRun;
     GamblingRun = function (...rest) {
-      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) { 
+      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
         alert("Gambling Hall is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if you wish to come in. ->Going back to the main hall <-");
         CommonSetScreen("Room", "MainHall");
-        
+
         return;
       }
       backupGamblingRun(...rest);
@@ -81,17 +81,17 @@ function InitAlteredFns() {
   if (window.NurseryRun) {
     let backupNurseryRun = NurseryRun;
     NurseryRun = function (...rest) {
-      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) { 
+      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
         alert("The nursery is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if you wish to come in. ->Going back to the main hall <-");
         CommonSetScreen("Room", "MainHall");
-        
+
         return;
       }
       backupNurseryRun(...rest);
     };
   }
-  
-  
+
+
   // Disable safeword:
   if (window.ChatRoomSafeword) {
     let backupChatRoomSafeword = ChatRoomSafeword;
@@ -100,7 +100,7 @@ function InitAlteredFns() {
       backupChatRoomSafeword(...rest);
     };
   }
-  
+
   //Wearer tap in chat
   if (window.ChatRoomSendChat) {
     let backupChatRoomSendChat = ChatRoomSendChat;
@@ -208,24 +208,27 @@ function InitAlteredFns() {
   if (Player.CanWalk) {
     Player.walkBackup = Player.CanWalk;
     Player.CanWalk = function (...rest) {
-      let isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasCaptureMode;
-      return Player.walkBackup(...rest) && (!isActivated || cursedConfig.capture.Valid < Date.now());
+      let isActivated =  cursedConfig.isRunning && ChatRoomSpace != "LARP";
+      let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
+      return Player.walkBackup(...rest) && (!(isActivated && cursedConfig.hasIntenseVersion && cursedConfig.hasCaptureMode) || cursedConfig.capture.Valid < Date.now()) && (!isActivated || !isTriggered);
     };
   }
 
-  // // Prevent interacting
-  // Player.interactBackup = Player.CanInteract;
-  // Player.CanInteract = function () {
-  //     var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP";
-  //     return Player.interactBackup() && (!isActivated || /* */);
-  // }
+  // Prevent interacting
+  Player.interactBackup = Player.CanInteract;
+  Player.CanInteract = function () {
+    let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
+    return Player.interactBackup() && (!isActivated || !isTriggered);
+  }
 
-  // // Prevent changing
-  // Player.changeBackup = Player.CanChange;
-  // Player.CanChange = function () {
-  //     var isActivated = cursedConfig.hasIntenseVersion && cursedConfig.isRunning && ChatRoomSpace != "LARP";
-  //     return Player.changeBackup() && (!isActivated || /**/);
-  // }
+  // Prevent changing
+  Player.changeBackup = Player.CanChange;
+  Player.CanChange = function () {
+    let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
+    return Player.changeBackup() && (!isActivated || !isTriggered);
+  }
 
   // Block new lovers
   if (window.ChatRoomLovershipOptionIs) {
@@ -276,7 +279,7 @@ function InitAlteredFns() {
       if (ChatRoomCharacter.length == 4) Zoom = 0.7;
       if (ChatRoomCharacter.length >= 5) Zoom = 0.5;
       for (let C = 0; C < ChatRoomCharacter.length; C++) {
-        if (!rest[0] && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
+        if (rest[0] && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
           if (
             ChatRoomCharacter[C].MemberNumber != null
             && Array.isArray(ChatRoomCharacter[C].Inventory)
@@ -302,6 +305,23 @@ function InitAlteredFns() {
       backupDrawArousalMeter(...rest);
     };
   }
+
+  // DeafImmune
+  if (window.SpeechGarble) {
+    let backupSpeechGarble = SpeechGarble;
+    SpeechGarble = function (...rest) {
+      Player.backupDefLevel = Player.GetDeafLevel;
+
+      if (cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.deafImmune.find(MN => rest[0].MemberNumber == MN)) {
+        Player.GetDeafLevel = () => 0;
+      }
+      var garbledSpeech = backupSpeechGarble(...rest);
+
+      Player.GetDeafLevel = Player.backupDefLevel;
+      return garbledSpeech;
+    };
+  }
+
 }
 
 /** Altered functions that do *NOT* require cursedConfig */
@@ -318,7 +338,7 @@ function InitBasedFns() {
   if (window.MainHallClick) {
     let backupMainHallClick = MainHallClick;
     MainHallClick = (...rest) => {
-      if (CommonIsClickAt(45, 665, 135-45, 755-665)) {
+      if (CommonIsClickAt(45, 665, 135 - 45, 755 - 665)) {
         CurseRoomAce = null;
         CurseRoomRun();
         CurrentScreen = "CurseRoom";
