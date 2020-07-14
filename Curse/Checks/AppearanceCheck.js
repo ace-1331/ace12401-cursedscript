@@ -19,7 +19,7 @@ function AppearanceCheck() {
       && Player.CanKneel()
       && !Player.Pose.includes("Kneel")
     ) {
-      SendChat("The cursed collar on " + Player.Name + "'s neck gives her an extreme shock, forcing her to get on her knees.");
+      SendChat("The curse on " + Player.Name + "'s forces her back down to her knees.");
       KneelAttempt();
       TryPopTip(24);
       TriggerPunishment(0);

@@ -235,6 +235,8 @@ function textToGroup(group, permission) {
         return "ItemHands";
       case "gag":
       case "mouth":
+      case "gag1":
+      case "mouth1":
         return "ItemMouth";
       case "mouth2":
       case "gag2":

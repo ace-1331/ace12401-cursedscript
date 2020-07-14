@@ -481,7 +481,7 @@ function CursePreferenceSubscreenPunishmentsLoad() {
     ElementCreateTextArea("Transgressions");
     document.getElementById("Transgressions").setAttribute("autocomplete", "off");
     document.getElementById("Transgressions").setAttribute("disabled", "disabled");
-    ElementValue("Transgressions", CommonConvertArrayToString(CursePreferenceTemporaryConfig.transgressions.map(T => T.Count + "x " + T.Name)));
+    ElementValue("Transgressions", CursePreferenceTemporaryConfig.transgressions.map(T => T.Count + "x " + T.Name).join(","));
 }
 
 function CursePreferenceSubscreenPunishmentsRun() {
@@ -562,7 +562,7 @@ function CursePreferenceSubscreenSpeechLoad() {
     ElementCreateTextArea("BannedWords");
     document.getElementById("BannedWords").setAttribute("autocomplete", "off");
     document.getElementById("BannedWords").setAttribute("disabled", "disabled");
-    ElementValue("BannedWords", CommonConvertArrayToString(CursePreferenceTemporaryConfig.bannedWords));
+    ElementValue("BannedWords", CursePreferenceTemporaryConfig.bannedWords.join(","));
     ElementCreateTextArea("EntryMsg");
     document.getElementById("EntryMsg").setAttribute("autocomplete", "off");
     document.getElementById("EntryMsg").setAttribute("disabled", "disabled");
