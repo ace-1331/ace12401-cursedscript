@@ -278,7 +278,6 @@ function BlockRename(sender) {
   } catch (e) { console.error(e, "failed to update a name"); }
 
   delete targetChar.SavedName;
-  targetChar.isEnforced = false;
   targetChar.isBlocked = true;
   sendWhisper(sender, "-->Blocked renaming " + FetchName(sender) + " for " + Player.Name, true);
 }
@@ -286,6 +285,8 @@ function BlockRename(sender) {
 function AllowRename(sender) {
   let targetChar = cursedConfig.charDataV2.find(e => e.Number == sender);
   if (targetChar && targetChar.isBlocked)
+    targetChar.isBlocked = false;
+  if(!targetChar.isEnforced)
     cursedConfig.charDataV2.splice(cursedConfig.charDataV2.indexOf(e => e.Number == targetChar.Number), 1);
 
   sendWhisper(sender, "-->Allowed renaming for " + FetchName(sender), true);
