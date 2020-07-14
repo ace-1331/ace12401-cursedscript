@@ -368,7 +368,10 @@ function AdjustSettings() {
       if (!user) return;
       if(!user.Nickname && !user.Title && user.SavedName && user.SavedName != char.Name && user.SavedName != "#"+ user.Number) { //in case a name was not restored
         char.Name = user.SavedName;
+        if(!user.isEnforced && !user.isBlocked)
         cursedConfig.charDataV2.splice(cursedConfig.charDataV2.indexOf(e => e.Number == user.Number), 1);
+        else
+        delete user.SavedName;
         return;
       }
       if (!user.SavedName || user.SavedName == "#" + user.Number) // in case a name isn't saved properly

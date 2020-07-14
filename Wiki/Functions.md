@@ -34,8 +34,10 @@
 ### Other
 - draw [nb of cards] [players] //Note: cards will be drawn in turns, not all at once for each player
 - shuffle
-- **Intense mode**: nickname [MemberNumber] [Name] //Note: owners have priority over other nicknames
-- **Intense mode**: deletenickname [MemberNumber]
+- settitle [MemberNumber] [title] // gives someone a title if they don't have one
+- deletetitle //Note: Only if OwnerHub is on
+- deletenickname [MemberNumber] //Note: Only if OwnerHub is turned on
+- **Intense mode**: nickname [MemberNumber] [Name] gives someone a nickname if they don't have one
 
 ## PUBLIC (AND HIGHER PERMISSION LEVELS)
 - showstrikes //Note: lists the accumulated strikes by the auto-punish system
@@ -43,6 +45,9 @@
 - **NEW:** listoffcommands //Note: shows the blacklisted commands
 - orgasmcount
 - respect
+- selftitle [title]
+- deletetitle
+- deletenickname
 - punish //Note: adds strikes
 - **NEW** reward //Note: removes strikes
 - edge
@@ -50,10 +55,10 @@
 - help
 - readnote
 - sendnote //Note: attaches a note to the wearer so the owners can read them
-- **Intense mode**: nickname [Name] //Note: anyone can change their name back if they dislike what was given to them
-- **Intense mode**: blocknickname //Note: when you delete your own nickname, it blocks anyone from changing it again unless you allow it with the function down under
-- **Intense mode**: allownickname
-- **Intense mode**: respectnickname
+
+- **Intense mode**: namechange [Name] //Note: anyone can change their name back if they dislike what was given to them
+- **Intense mode**: blockrename //Note: when you delete your own nickname, it blocks anyone from changing it again unless you allow it with the function down under
+- **Intense mode**: allowrename
 - **Intense mode**: capture //Note: captures the wearer if capture mode is on
 
 ## MISTRESS (AND HIGHER PERMISSION LEVELS)
@@ -67,9 +72,10 @@
 - enforce [a member number]
 - public //Note: disables the public from using public functions
 - deactivateonpresence [on/off] //Note: lifts all restrictions to allow for normal play while your mistress is there
-- mtitle [number(optional)] [title to add/remove] //Note: adds a custom title for the given number in the list
-- mtitle [respectnickname] //Note: toggle enforced for the nickname
-- **Intense mode**: mnickname [MemberNumber] [Name] //Note: owners have priority over other nicknames
+- settitle [number] [title] //Note: gives other members a title for the wearer to see
+- givetitle [title] //Note: gives the cursed one a title
+- **Intense mode**: nickname [MemberNumber] [Name] Gives other members a nickname for the wearer to see
+- **Intense mode**: rename [Nickname] renames the cursed one
 ### Speech
 - cursedspeech //Note: enables the word bans in place
 - banword [the word itself] //Note: Don't forget to enable them first! (See command above)
@@ -92,11 +98,9 @@
 ## OWNER FUNCTIONS
 ### Basic
 - note //Note: this attaches a note anyone can read to the wearer
-- **Intense mode**: onickname [MemberNumber] [Name] //Note: owners have priority over other nicknames
 - asylum [nb of hours] //Note: can be decimal or negative
 - **NEW** sendasylum //Note: if the patient has time left on her timer, you can send her to the asylum entrance this way
 - owner [a member number]
-- otitle [Number] [Title]
 ### Configurations
 - **NEW** strictness [low/normal/strict] //Note: tunes the frequency of automatic punishments
 - **NEW** punishmentrestraint [1-10] [group] // Note: attributes a currently worn restraint in the given group to the desired punishment stage (1 to 10). The higher the stage, the more strikes the wearer has. All restraints from the stage and under will be applied once a threshold is reached, resets every week.
@@ -156,7 +160,8 @@
 - showmistresses
 - showowners
 - showenforced
-- shownicknames
+- shownicknames // show titles/nicknames are the same
+- showtitles // show titles/nicknames are the same
 - configreport
 - **NEW** listpresets
 ### Configurations
@@ -164,7 +169,6 @@
 - **NEW** fullblindfold //Note: Turns all blindfolds into fully blinding blindfolds
 ## CLUB OWNER FUNCTIONS
 ### Configurations
-- ctitle [Number] [Title]
 - looseowner //Note: Enables access to built-in club rules for curse owners
 - Intense mode: locknewsub //Note: prevents the wearer from collaring new subs
 - **Intense mode**: lockowner  //Note: disables the ability to break a trial/collar

@@ -29,9 +29,9 @@ function enforce(sender, isMistress, parameters) {
   let targetNo = (parameters && !isNaN(parameters[0])) ? parameters[0] : sender;
   let targetChar = cursedConfig.charDataV2.find(e => e.Number == targetNo);
 
-  // Don't know them - do nothing
+  // Don't know them - add them
   if (!targetChar) {
-    sendWhisper(sender,"No title or nickname set for " + FetchName(targetNo) + " to be respected, please set at least one and try again.");
+    targetChar = {Number:targetNo, isEnforced: false, isBlocked: false};
     return;
   }
   if (targetChar.isBlocked) {

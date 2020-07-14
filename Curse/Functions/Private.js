@@ -30,6 +30,15 @@ function PrivateCommands({ command, parameters, sender }) {
       case "showowners":
         sendWhisper(sender, "Owners: #" + cursedConfig.owners.join(" #"));
         break;
+      case "shownicknames":
+      case "showtitles": {
+          let report = cursedConfig.charDataV2
+            .filter(n => n.SavedName)
+            .map(n => " #" + n.Number + " " + FetchRespectName(n.Number))
+            .join(", ");
+          sendWhisper(sender, "Currently set nicknames:" + report);
+          break;
+      }
       case "speechreport": {
         let tmpstr = [];
         cursedConfig.charDataV2.forEach(el => {
