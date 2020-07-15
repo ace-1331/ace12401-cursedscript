@@ -244,6 +244,10 @@ function textToGroup(group, permission) {
       case "mouth3":
       case "gag3":
         return "ItemMouth3";
+      case "hood":
+        return "ItemHood";
+      case "nose":
+        return "ItemNose";
       case "head":
         return "ItemHead";
       case "ear":
