@@ -15,8 +15,6 @@ These are not priority items, but are in the backlog. If you want to contribute 
 - ADD reflect items mode
 - ADD forced words
 - ADD locked to rooms
-- ADD trigger word
-- ADD singled-out deaf mode
 - ADD pacifist mode
 
 ## UTILITIES

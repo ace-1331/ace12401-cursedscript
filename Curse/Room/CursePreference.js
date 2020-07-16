@@ -567,6 +567,14 @@ function CursePreferenceSubscreenSpeechLoad() {
     document.getElementById("EntryMsg").setAttribute("autocomplete", "off");
     document.getElementById("EntryMsg").setAttribute("disabled", "disabled");
     ElementValue("EntryMsg", CursePreferenceTemporaryConfig.entryMsg);
+    ElementCreateTextArea("DeafImmune");
+    document.getElementById("DeafImmune").setAttribute("autocomplete", "off");
+    document.getElementById("DeafImmune").setAttribute("disabled", "disabled");
+    ElementValue("DeafImmune", CursePreferenceTemporaryConfig.deafImmune.join(","));
+    ElementCreateTextArea("TriggerWord");
+    document.getElementById("TriggerWord").setAttribute("autocomplete", "off");
+    document.getElementById("TriggerWord").setAttribute("disabled", "disabled");
+    ElementValue("TriggerWord", "Trigger: " + (CursePreferenceTemporaryConfig.triggerWord.word || "No trigger word set.") + " Duration: " +  (CursePreferenceTemporaryConfig.triggerWord.triggerDuration/60000) + " minutes");
 }
 
 function CursePreferenceSubscreenSpeechRun() {
@@ -577,12 +585,18 @@ function CursePreferenceSubscreenSpeechRun() {
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
     // Info
-    DrawText("List of banned words:", 1400, 100, "Black", "Gray");
-    ElementPosition("BannedWords", 1400, 240, 430, 200);
+    DrawText("List of banned words:", 1400, 90, "Black", "Gray");
+    ElementPosition("BannedWords", 1400, 180, 650, 120);
 
-    DrawText("Introduction message:", 1400, 410, "Black", "Gray");
-    ElementPosition("EntryMsg", 1400, 500, 450, 120);
+    DrawText("Introduction message:", 1400, 290, "Black", "Gray");
+    ElementPosition("EntryMsg", 1400, 350, 650, 60);
 
+    DrawText("Trigger word/phrase:", 1400, 430, "Black", "Gray");
+    ElementPosition("TriggerWord", 1400, 490, 650, 60);
+    
+    DrawText("Users who's voice will not be deafened:", 1400, 570, "Black", "Gray");
+    ElementPosition("DeafImmune", 1400, 620, 650, 60);
+    
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 312, 64, 64, "[CO] Wearer has an introduction message", CursePreferenceTemporaryConfig.hasEntryMsg);
@@ -607,6 +621,8 @@ function CursePreferenceSubscreenSpeechClick() {
 function CursePreferenceSubscreenSpeechExit() {
     ElementRemove("EntryMsg");
     ElementRemove("BannedWords");
+    ElementRemove("DeafImmune");
+    ElementRemove("TriggerWord");
     CursePreferenceSubscreen = "";
     CursePreferenceLoaded = false;
 }

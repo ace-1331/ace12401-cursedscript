@@ -8,6 +8,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         NotifyOwners("Wearer's trigger word was set to: " + parameters.join(""), true);
       else
         NotifyOwners("Wearer's trigger word was removed.", true);
+      TryPopTip(54);
       break;
     case "triggerduration":
       if (!parameters[0] || isNaN(parameters[0])) {
