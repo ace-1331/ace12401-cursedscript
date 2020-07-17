@@ -146,5 +146,26 @@ function AnalyzeMessage(msg) {
         TriggerPunishment(1);
       }
     }
+    
+    let words = (textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []);
+    if (
+      !!cursedConfig.triggerWord.word &&
+      words.includes(cursedConfig.triggerWord.word)
+    ) { 
+      let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
+      if (words.includes("unfreeze")) { 
+        if (isTriggered) {
+          SendChat(Player.Name + " unfreezes as her trigger word is said once more.");
+        } 
+        cursedConfig.triggerWord.lastTrigger = 0;
+      } else {
+        if (!isTriggered) {
+          SendChat(Player.Name + " freezes as her trigger word is said.");
+        } else {
+          popChatSilent("Freeze timer reset.");
+        }
+        cursedConfig.triggerWord.lastTrigger = Date.now();
+      }
+    }
   }
 }

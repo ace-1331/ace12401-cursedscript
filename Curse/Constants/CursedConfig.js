@@ -60,6 +60,8 @@ function InitCursedConfig() {
     mistressIsHere: false,
     ownerIsHere: false,
     seenTips: [],
+    deafImmune: [],
+    triggerWord: {word: "", lastTrigger: 0, triggerDuration: 300000},
 
     slaveIdentifier: Player.Name,
     commandChar: "#",
