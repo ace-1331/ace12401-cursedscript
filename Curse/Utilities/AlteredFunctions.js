@@ -285,10 +285,12 @@ function InitAlteredFns() {
             && Array.isArray(ChatRoomCharacter[C].Inventory)
             && ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse")
           ) {
+            C > 4 ? console.log("drew c") : '';
             // Asign the C or ?
             ChatRoomCharacter[C].isCursed = ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
             ChatRoomCharacter[C].isCursed === "C" ? TryPopTip(40) : TryPopTip(49);
-            DrawText(ChatRoomCharacter[C].isCursed, (C % 5) * Space + X + 250 * Zoom, 25 + Y + Math.floor(C / 5) * 1000, ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
+            //DrawText(ChatRoomCharacter[C].isCursed, (C % 5) * Space + X + 250 * Zoom, (25 + Y) + (Math.floor(C / 5) * 1000), ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
+            DrawText(ChatRoomCharacter[C].isCursed, (C % 5) * Space + X + 250 * Zoom, Y + Math.floor(C / 5) * 500 + 25, ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
           }
         }
       }
