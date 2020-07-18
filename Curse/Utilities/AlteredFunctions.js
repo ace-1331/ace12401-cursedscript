@@ -279,7 +279,7 @@ function InitAlteredFns() {
       if (ChatRoomCharacter.length == 4) Zoom = 0.7;
       if (ChatRoomCharacter.length >= 5) Zoom = 0.5;
       for (let C = 0; C < ChatRoomCharacter.length; C++) {
-        if (rest[0] && !cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
+        if (!cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
           if (
             ChatRoomCharacter[C].MemberNumber != null
             && Array.isArray(ChatRoomCharacter[C].Inventory)
