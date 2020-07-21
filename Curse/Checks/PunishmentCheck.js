@@ -1,12 +1,23 @@
 /** Function to check if a punishment must be applied, returns true if one has been applied, works in severity stages. More can be added, items can be changed, etc. */
 function PunishmentCheck() { 
+  // We check if a restraint is invalid
+  for (i = cursedConfig.punishmentRestraints.length - 1; i >= 0; i--) { 
+    if (!Asset.find(A => A.Name === cursedConfig.punishmentRestraints[i].name && A.Group.Name === cursedConfig.punishmentRestraints[i].group)) { 
+      delete cursedConfig.punishmentRestraints[i];
+      popChatSilent("An invalid punishment restraint was found and removed, this might be caused by a new version of the club if an item was removed or moved to another group.", "System");
+    }
+  }
+  
+  cursedConfig.punishmentRestraints = cursedConfig.punishmentRestraints.filter(PR => PR);
+  
+  // Check if we need to punish
   const difference = cursedConfig.strikes - cursedConfig.lastPunishmentAmount;
   const stageFactor = cursedConfig.strictness * 15;
   let r = false;
   if (difference > stageFactor && !cursedConfig.punishmentsDisabled) {
     //More restraints per stages, resets every week
     cursedConfig.punishmentRestraints.forEach(PR => { 
-      r = WearPunishment(PR.stage, PR.name, PR.group) || r;
+        r = WearPunishment(PR.stage, PR.name, PR.group) || r;
     });
     if (r) {
       TryPopTip(41);

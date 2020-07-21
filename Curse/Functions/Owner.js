@@ -108,9 +108,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasFullMuteChat = !cursedConfig.hasFullMuteChat;
       break;
     case "safeword":
-      if (window.location.href.includes("R58")) {
-        sendWhisper(sender, "(This feature is to disable the safeword feature coming in the next version of the club, it will not do anything in this release.)", true);
-      }
       if (!cursedConfig.hasNoEasyEscape)
         sendWhisper(sender, "(Wearer is now unable to user her 'safeword'.)", true);
       else

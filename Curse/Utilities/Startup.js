@@ -85,7 +85,7 @@ function InitCleanup() {
           toggleCurseItem({ name: "FullBlindfold", group: "ItemHead", forceAdd: true });
           break;
         case "hasCursedHood":
-          toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead", forceAdd: true });
+          popChatSilent("Your cursed hood was not reapplied while migrating to a newer version, use curseitem command to reapply it.", "System");
           break;
         case "hasCursedEarplugs":
           toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars", forceAdd: true });

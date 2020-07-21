@@ -61,7 +61,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars" });
       break;
     case "hood":
-      toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead" });
+      sendWhisper(sender, "Command deprecated in favor of curseitem.", true)
       break;
     case "blindfold":
       toggleCurseItem({ name: "FullBlindfold", group: "ItemHead" });

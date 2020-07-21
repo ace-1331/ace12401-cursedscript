@@ -7,6 +7,7 @@ function procGenericItem(item, group) {
   //Removes curses on invalid items
   if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
+    popChatSilent("An invalid curse was found and removed, this might be caused by a new version of the club if an item was removed or moved to another group.", "System");
     return;
   }
 
@@ -245,10 +246,13 @@ function textToGroup(group, permission) {
       case "gag3":
         return "ItemMouth3";
       case "hood":
+      case "hoods":
         return "ItemHood";
       case "nose":
         return "ItemNose";
       case "head":
+      case "eye":
+      case "eyes":
         return "ItemHead";
       case "ear":
       case "ears":
