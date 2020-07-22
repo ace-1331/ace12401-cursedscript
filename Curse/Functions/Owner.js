@@ -16,7 +16,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         return;
       }
       cursedConfig.triggerWord.triggerDuration = parseInt(parameters[0]) * 60000;
-      NotifyOwners("Wearer's trigger word effects duration changed to: " + cursedConfig.triggerWord.triggerDuration + " minutes", true);
+      NotifyOwners("Wearer's trigger word effects duration changed to: " + (cursedConfig.triggerWord.triggerDuration / 60000)+ " minutes", true);
       break;
     case "punishmentrestraint":
       if (!parameters[0] || !parameters[1]) {
