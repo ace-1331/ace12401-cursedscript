@@ -123,7 +123,7 @@ async function CursedCheckUp() {
       }
     }
   }
-
+  
   // Saves if needed, strip not required data
   if (messagesToVerify.length > 0) {
     SaveConfigs();

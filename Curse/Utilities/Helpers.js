@@ -3,8 +3,16 @@
 function SaveConfigs() {
   try {
     const dbConfigs = { ...cursedConfig };
-    const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
+    const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent", "transgressionsWarning"];
     toDelete.forEach(prop => delete dbConfigs[prop]);
+    
+    // Cleans up transgressions
+    if (cursedConfig.transgressions.length > 100) { 
+      cursedConfig.transgressions.splice(0, cursedConfig.transgressions.length - 100);
+      cursedConfig.transgressionsWarning && popChatSilent("ERROR T100: you have accumulated too many transgressions. Please have your curse owner clear your transgressions list to make room for new ones (cleartrangressions command). Your oldest transgressions on your record will now be deleted one by one", "System");
+      cursedConfig.transgressionsWarning = true;
+    }
+    
     localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
   } catch (err) {
     alert("Your curse configs were not saved. Check the console for errors and report the issue if necessary.");
