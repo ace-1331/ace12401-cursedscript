@@ -285,7 +285,6 @@ function InitAlteredFns() {
             && Array.isArray(ChatRoomCharacter[C].Inventory)
             && ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse")
           ) {
-            C > 4 ? console.log("drew c") : '';
             // Asign the C or ?
             ChatRoomCharacter[C].isCursed = ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
             ChatRoomCharacter[C].isCursed === "C" ? TryPopTip(40) : TryPopTip(49);

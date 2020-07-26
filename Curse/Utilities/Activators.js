@@ -60,7 +60,7 @@ function procCursedOrgasm(group) {
     && InventoryGet(Player, group).Asset.Effect.includes("Egged")
   ) {
     let property = InventoryGet(Player, group).Property || {};
-    property.Intensity = cursedConfig.vibratorIntensity || 3;
+    property.Intensity = (cursedConfig.vibratorIntensity != null ? cursedConfig.vibratorIntensity : 3);
     if (!property.Effect) property.Effect = [];
     property.Effect = [...property.Effect, "Egged", "Vibrating"];
     property.Effect = property.Effect.filter((e, i) => property.Effect.indexOf(e) === i);
@@ -190,6 +190,8 @@ function textToGroup(group, permission) {
         return "Shoes";
       case "hat":
         return "Hat";
+        case "mask":
+          return "Mask";
       case "gloves":
         return "Gloves";
       case "glasses":
