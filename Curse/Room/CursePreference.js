@@ -41,8 +41,10 @@ function CursePreferenceRun() {
     }
 
     // Validate current inputs
-    if (!CursePreferenceTemporaryConfig) CursePreferenceTemporaryConfig = { ...cursedConfig };
-    CursedConfigValidate();
+    if (window.cursedConfig) {
+        if (!CursePreferenceTemporaryConfig) CursePreferenceTemporaryConfig = { ...cursedConfig };
+        CursedConfigValidate();
+    }
 
     // If the user is not cursed, draw not cursed
     if (!window.cursedConfig) CursePreferenceSubscreen = "NoCurse";
