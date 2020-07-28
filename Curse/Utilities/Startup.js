@@ -5,7 +5,7 @@ function InitStartup() {
   
   //Resets Strikes when it has been a week
   if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-      popChatSilent("A new week has begun, your automatic strike counter has been reset. (Might be a good time to check for updates!)", "System");
+      popChatSilent("A new week has begun, your automatic strike counter has been reset.", "System");
       cursedConfig.strikeStartTime = Date.now();
       cursedConfig.strikes = 0;
       cursedConfig.lastPunishmentAmount = 0;

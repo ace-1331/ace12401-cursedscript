@@ -370,7 +370,12 @@ function AdjustSettings() {
   if (cursedConfig.hasForcedMeterLocked && cursedConfig.hasIntenseVersion) {
     Player.ArousalSettings.Active = "Automatic";
   }
-
+  
+  // Safeword off
+  if (cursedConfig.hasNoEasyEscape && cursedConfig.hasIntenseVersion) {
+    Player.GameplaySettings.EnableSafeword = false;
+  }
+  
   //Making sure all names are up-to-date
   //Try catch in case the updated player is no longer there (extreme edge case)
   try {
@@ -388,7 +393,8 @@ function AdjustSettings() {
   } catch (err) { console.error("Curse: failed to update a name", err); }
 }
 
-/** Triggers a punishment to be processed (strikes, report, etc.) 
+/** 
+ * Triggers a punishment to be processed (strikes, report, etc.) 
  * @param {string} ID - The ID of the punishment
  * @param {string[]} [options] - Various params for the punishment text 
 */

@@ -91,16 +91,6 @@ function InitAlteredFns() {
     };
   }
 
-
-  // Disable safeword:
-  if (window.ChatRoomSafeword) {
-    let backupChatRoomSafeword = ChatRoomSafeword;
-    ChatRoomSafeword = function (...rest) {
-      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoEasyEscape) return;
-      backupChatRoomSafeword(...rest);
-    };
-  }
-
   //Wearer tap in chat
   if (window.ChatRoomSendChat) {
     let backupChatRoomSendChat = ChatRoomSendChat;

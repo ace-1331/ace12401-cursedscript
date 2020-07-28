@@ -43,9 +43,10 @@ async function CursedCheckUp() {
     // Chat input
     if (
       document.getElementById("InputChat") &&
-      document.getElementById("InputChat").maxLength != cursedConfig.hasFullLengthMode ? 1000 : 200
+      cursedConfig.hasFullLengthMode &&
+      document.getElementById("InputChat").maxLength != 1000
     ) {
-      document.getElementById("InputChat").maxLength = cursedConfig.hasFullLengthMode ? "1000" : "200";
+      document.getElementById("InputChat").maxLength ="1000";
     }
 
     //When it should be ran 
@@ -83,7 +84,7 @@ async function CursedCheckUp() {
             /*let before = cursedConfig.toUpdate.length;
                         cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
                         if (before - cursedConfig.toUpdate.length > 0) {
-                            popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01");
+                            popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01", "Error");
                         }
                         cursedConfig.toUpdate.forEach(group => {
                             ChatRoomCharacterItemUpdate(Player, group);
@@ -106,7 +107,7 @@ async function CursedCheckUp() {
           /*let before = cursedConfig.toUpdate.length;
                     cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
                     if (before - cursedConfig.toUpdate.length > 0) {
-                        popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01");
+                        popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01", "Error");
                     }
                     cursedConfig.toUpdate.forEach(group => {
                         ChatRoomCharacterItemUpdate(Player, group);

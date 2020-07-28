@@ -50,6 +50,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
             NotifyOwners("Auto punishment strictness set to low", true);
             break;
           case "normal":
+          case "medium":
             cursedConfig.strictness = 1;
             NotifyOwners("Auto punishment strictness set to normal", true);
             break;
