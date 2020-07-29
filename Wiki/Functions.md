@@ -15,7 +15,7 @@
 - showblacklist
 - listsentences
 ### Configurations
-- **NEW:** language [en/fr] //Note: Sets the language to be used for the member number requesting it
+- **NEW:** language [en/fr/ru] //Note: Sets the language to be used for the member number requesting it
 - **NEW:** togglecommand [command] //Note: disable a command others can trigger (will not alter its current state)
 - eatcommands //Note: messages containing valid commands will not be shown in the wearer's chatlog
 - restraintvanish //Note: will make the curse remove restraints when item curses are disabled
@@ -39,7 +39,7 @@
 - **Intense mode**: deletenickname [MemberNumber]
 
 ## PUBLIC (AND HIGHER PERMISSION LEVELS)
-- **NEW:** language [en/fr] //Note: Sets the language to be used for the member number requesting it
+- **NEW:** language [en/fr/ru] //Note: Sets the language to be used for the member number requesting it
 - showstrikes //Note: lists the accumulated strikes by the auto-punish system
 - transgressions //Note: shows the current transgressions since last reset
 - **NEW:** listoffcommands //Note: shows the blacklisted commands

@@ -7,6 +7,9 @@ function SetDictionary(language) {
         case "FR":
             _.setTranslation({ ...cursedEN, ...cursedFR });
             break;
+        case "RU":
+            _.setTranslation({ ...cursedRU, ...cursedFR });
+            break;
         default:
             _.setTranslation(cursedEN);
             break;
@@ -32,9 +35,19 @@ function DictionaryRequest(MemberNumber, lang) {
 }
 
 /** 
- * Gets a requested tag from the dictionary 
+ * Gets a requested tag object from the dictionary 
  * @param {object} txt - The Tag/Param object
  */
 function CT(txt) { 
-    return _(txt.Tag, ...(txt.Param || []));
+    return _(txt.Tag, ...(txt.Param || [])).replace("%PLAYER%", Player.Name);
+}
+
+/**
+ * Gets a requested text from the dictionary 
+ * @param {number} mn - Member number getting this text
+ * @param {object} txt - The Tag/Param object
+ */
+function GT(mn, txt) { 
+    SetMemberDictionary(mn);
+    return CT(txt);
 }

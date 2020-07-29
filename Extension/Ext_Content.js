@@ -25,6 +25,7 @@ window.addEventListener("load", () => {
     "Curse/Checks/AppearanceCheck.js",
     "Curse/Dictionary/Translate.js",
     "Curse/Dictionary/TranslateHelpers.js",
+    "Curse/Dictionary/RU.js",
     "Curse/Dictionary/EN.js",
     "Curse/Dictionary/FR.js",
     "Curse/Functions/All.js",

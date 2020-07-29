@@ -56,13 +56,14 @@ function AllCommands({
     case "language":
       TryPopTip(55);
       switch (parameters[0]) { 
+        case "ru":
         case "en":
         case "fr":
           DictionaryRequest(sender, parameters[0].toUpperCase());
           sendWhisper(sender, `(Dictionary set to ${parameters[0].toUpperCase()}.)`);
           break;
         default:
-          sendWhisper(sender, `(Invalid language. Currently only "fr" and "en" are available. Anyone can contribute to add more!)`);
+          sendWhisper(sender, `(Invalid language. Currently only "fr", "ru" and "en" are available. Anyone can contribute to add more!)`);
           break;
       }
       break;

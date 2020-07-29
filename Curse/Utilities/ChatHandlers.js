@@ -34,12 +34,21 @@ function popChatGlobal(actionTxt, isNormalTalk) {
     if (isNormalTalk) {
       ServerSend("ChatRoomChat", { Content: actionTxt, Type: "Chat" });
     } else {
+      var msgFR = actionTxt;
+      var msgEN = actionTxt;
+      if (typeof actionTxt == "object") { 
+        _.setTranslation({ ...cursedEN, ...cursedFR });
+        msgFR = CT(actionTxt);
+        _.setTranslation(cursedEN);
+        msgEN = CT(actionTxt);
+      }
+      
       ServerSend("ChatRoomChat", {
         Content: "Beep", Type: "Action", Dictionary: [
           { Tag: "Beep", Text: "msg" },
           { Tag: "Biep", Text: "msg" },
-          { Tag: "Sonner", Text: "msg" },
-          { Tag: "msg", Text: actionTxt }]
+          { Tag: "Sonner", Text: msgFR },
+          { Tag: "msg", Text: msgEN }]
       });
     }
   }
@@ -89,13 +98,12 @@ function popChatSilent(actionTxt, senderName) {
     let div = document.createElement("div");
     let span = document.createElement("span");
     span.setAttribute("class", "ChatMessageName");
-    span.innerHTML = _(silentMsg.senderName) + ": ";
+    span.innerHTML = GT(Player.MemberNumber, { Tag: silentMsg.senderName })+ ": ";
     div.setAttribute("class", "ChatMessage ChatMessageWhisper");
     div.setAttribute("data-time", ChatRoomCurrentTime());
     div.setAttribute("data-sender", Player.MemberNumber);
     div.setAttribute("verifed", "true");
-    SetMemberDictionary(Player.MemberNumber);
-    div.innerHTML = span.outerHTML + "(" + (typeof silentMsg.actionTxt !== "object" ? silentMsg.actionTxt : CT(silentMsg.actionTxt)).replace(/^\(|\)$/g, "") + ")";
+    div.innerHTML = span.outerHTML + "(" + (typeof silentMsg.actionTxt !== "object" ? silentMsg.actionTxt : GT(Player.MemberNumber, silentMsg.actionTxt)).replace(/^\(|\)$/g, "") + ")";
 
     //Refocus the chat to the bottom
     let Refocus = document.activeElement.id == "InputChat";
@@ -134,7 +142,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
     if (sendSelf) {
       popChatSilent(msg);
     } else if (cursedConfig.hasForward && !forceHide && target != Player.MemberNumber) {
-      popChatSilent(msg, CT({Tag: "WhisperSent", Param: [target]}));
+      popChatSilent(msg, CT({Tag: "WhisperSent", Param: [FetchName(target)]}));
     }
   }
 }

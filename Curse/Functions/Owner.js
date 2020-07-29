@@ -3,7 +3,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
   const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
   switch (command) {
     case "triggerword":
-      cursedConfig.triggerWord.word = parameters.join("").trim();
+      cursedConfig.triggerWord.word = parameters.join(" ").trim();
       if (parameters.join("").trim())
         NotifyOwners("Wearer's trigger word was set to: " + parameters.join(""), true);
       else

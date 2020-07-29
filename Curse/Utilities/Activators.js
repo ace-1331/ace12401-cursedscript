@@ -23,12 +23,24 @@ function procGenericItem(item, group) {
       InventoryWear(Player, item, group, GetColorSlot(group));
       cursedConfig.toUpdate.push(group);
       cursedConfig.mustRefresh = true;
-      popChatSilent(`${(Asset.find(A => A.Name == item) || {}).Description} was restored. (${(AssetGroup.find(G => G.Name == group) || {}).Description})`);
+      popChatSilent({
+        Tag: "RestoredItem",
+        Param: [
+          (Asset.find(A => A.Name == item) || {}).Description,
+          (AssetGroup.find(G => G.Name == group) || {}).Description
+        ]
+      });
     } else if (item == "" && itemNeedsRemoving(group)) {
       InventoryRemove(Player, group);
       cursedConfig.toUpdate.push(group);
       cursedConfig.mustRefresh = true;
-      popChatSilent(`${(Asset.find(A => A.Name == item) || {}).Description} was removed. (${(AssetGroup.find(G => G.Name == group) || {}).Description})`);
+      popChatSilent({
+        Tag: "RemovedItem",
+        Param: [
+          (Asset.find(A => A.Name == item) || {}).Description,
+          (AssetGroup.find(G => G.Name == group) || {}).Description
+        ]
+      });
     }
   } else {
     popChatSilent({ Tag: "Error P04" }, "Error");
@@ -44,9 +56,7 @@ function procCursedNaked(isAdd) {
     .forEach(group => {
       toggleCurseItem({ name: "", group, [isAdd ? "forceAdd" : "forceRemove"]: true, isSilent: true });
     });
-  SendChat(
-    `The curse ${isAdd ? "arises" : ""} on ${Player.Name}'s clothes${!isAdd ? " was lifted" : ""}.`
-  );
+  SendChat({ Tag: (isAdd ? "ClothesArise" : "ClothesLift") });
 }
 
 /** Triggers cursed vibrators 
@@ -91,7 +101,7 @@ async function checkKneeling(sender) {
     ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)
     && Player.CanKneel()
   ) {
-    SendChat(Player.Name + " angers the curse on her as she forgets to kneel.");
+    SendChat({ Tag: "KneelAnger" });
     TriggerPunishment(1);
     KneelAttempt();
   }
@@ -141,9 +151,9 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfR
     cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval });
     SaveColorSlot(group);
     procGenericItem(name, group);
-    isSilent || SendChat(`The curse arises on ${Player.Name}'s ${txtGroup.toLowerCase()}.`);
+    isSilent || SendChat({ Tag: "CurseArise", Param: [txtGroup.toLowerCase()] });
   } else if (!forceAdd) {
-    isSilent || SendChat(`The curse on ${Player.Name}'s ${txtGroup.toLowerCase()} was lifted.`);
+    isSilent || SendChat({ Tag: "CurseLift", Param: [txtGroup.toLowerCase()] });
     if (cursedConfig.hasRestraintVanish)
       restraintVanish(group);
   }

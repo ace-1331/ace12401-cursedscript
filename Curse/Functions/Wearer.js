@@ -261,12 +261,13 @@ function WearerCommands({ command, parameters, sender }) {
     case "language":
       switch (parameters[0]) { 
         case "en":
+        case "ru":
         case "fr":
           DictionaryRequest(sender, parameters[0].toUpperCase());
           popChatSilent(`(Dictionary set to ${parameters[0].toUpperCase()}.)`, "System");
           break;
         default:
-          popChatSilent(`(Invalid language. Currently only "fr" and "en" are available. Anyone can contribute to add more!)`, "System");
+          popChatSilent(`(Invalid language. Currently only "ru", "fr" and "en" are available. Anyone can contribute to add more!)`, "System");
           break;
       }
       break;
