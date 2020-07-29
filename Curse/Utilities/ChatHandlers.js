@@ -27,7 +27,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
   if (actionTxt.length > 1000) {
     actionTxt = actionTxt.substring(0, 1000);
     cursedConfig.hadOverflowMsg = true;
-    popChatSilent("(The curse tried to send a message longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: C01)", "Error");
+    popChatSilent({Tag: "Error: C01"}, "Error");
   }
 
   if (CurrentScreen == "ChatRoom" && actionTxt != "") {
@@ -47,7 +47,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
 
 
 /** Pop all messages for the wearer to see, will save if player is not in a room 
- * @param {string} actionTxt - The text to be displayed in the silent message
+ * @param {string|object} actionTxt - The text to be displayed in the silent message
  * @param {string} [senderName] - What is the name to be displayed along with it? Defaults to 'Curse'
  */
 function popChatSilent(actionTxt, senderName) {
@@ -63,7 +63,7 @@ function popChatSilent(actionTxt, senderName) {
 
   //Removes dupes keeps the last order for UX
   cursedConfig.savedSilent = cursedConfig.savedSilent.filter(
-    (m, i) => cursedConfig.savedSilent.map(M => M.actionTxt).lastIndexOf(m.actionTxt) === i
+    (m, i) => cursedConfig.savedSilent.map(M => typeof M.actionTxt == "object" ? M.actionTxt.Tag : M.actionTxt).lastIndexOf(typeof m.actionTxt == "object" ? m.actionTxt.Tag : m.actionTxt) === i
   );
 
   // Sort by System/Tip/Curse/Other
@@ -85,15 +85,17 @@ function popChatSilent(actionTxt, senderName) {
   //Sends messages
   cursedConfig.savedSilent.forEach(silentMsg => {
     //Directly sends to wearer
+    if (!silentMsg.senderName) silentMsg.senderName = "Curse";
     let div = document.createElement("div");
     let span = document.createElement("span");
     span.setAttribute("class", "ChatMessageName");
-    span.innerHTML = (silentMsg.senderName || "Curse") + ": ";
+    span.innerHTML = _(silentMsg.senderName) + ": ";
     div.setAttribute("class", "ChatMessage ChatMessageWhisper");
     div.setAttribute("data-time", ChatRoomCurrentTime());
     div.setAttribute("data-sender", Player.MemberNumber);
     div.setAttribute("verifed", "true");
-    div.innerHTML = span.outerHTML + "(" + silentMsg.actionTxt.replace(/^\(|\)$/g, "") + ")";
+    SetMemberDictionary(Player.MemberNumber);
+    div.innerHTML = span.outerHTML + "(" + (typeof silentMsg.actionTxt !== "object" ? silentMsg.actionTxt : CT(silentMsg.actionTxt)).replace(/^\(|\)$/g, "") + ")";
 
     //Refocus the chat to the bottom
     let Refocus = document.activeElement.id == "InputChat";
@@ -114,7 +116,7 @@ function popChatSilent(actionTxt, senderName) {
 
 /** Send a whisper to a target 
  * @param {string} target - The member number to send it to
- * @param {string} msg - The message to send
+ * @param {string|object} msg - The message to send
  * @param {boolean} [sendSelf] - If the wearer should see it as a silent message
  * @param {boolean} [forceHide] - If the message should not be forwarded by fowardall
  */
@@ -122,16 +124,17 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
   if (msg.length > 1000) {
     msg = msg.substring(0, 1000);
     cursedConfig.hadOverflowMsg = true;
-    popChatSilent("(The curse tried to send a whisper longer than 1000 characters which the server cannot handle. Please watch your configurations to prevent this from happening. The message was trimmed. Error: W02)", "Error");
+    popChatSilent({Tag: "Error: W02"}, "Error");
   }
 
   if (!isNaN(target)) {
     TryPopTip(33);
-    ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: parseInt(target) });
+    SetMemberDictionary(target);
+    ServerSend("ChatRoomChat", { Content: (typeof msg !== "object" ? msg : CT(msg)), Type: "Whisper", Target: parseInt(target) });
     if (sendSelf) {
       popChatSilent(msg);
     } else if (cursedConfig.hasForward && !forceHide && target != Player.MemberNumber) {
-      popChatSilent(msg, "Whisper sent to #" + target);
+      popChatSilent(msg, CT({Tag: "WhisperSent", Param: [target]}));
     }
   }
 }

@@ -15,6 +15,7 @@
 - showblacklist
 - listsentences
 ### Configurations
+- **NEW:** language [en/fr] //Note: Sets the language to be used for the member number requesting it
 - **NEW:** togglecommand [command] //Note: disable a command others can trigger (will not alter its current state)
 - eatcommands //Note: messages containing valid commands will not be shown in the wearer's chatlog
 - restraintvanish //Note: will make the curse remove restraints when item curses are disabled
@@ -38,8 +39,9 @@
 - **Intense mode**: deletenickname [MemberNumber]
 
 ## PUBLIC (AND HIGHER PERMISSION LEVELS)
+- **NEW:** language [en/fr] //Note: Sets the language to be used for the member number requesting it
 - showstrikes //Note: lists the accumulated strikes by the auto-punish system
-- **NEW:** transgressions //Note: shows the current transgressions since last reset
+- transgressions //Note: shows the current transgressions since last reset
 - **NEW:** listoffcommands //Note: shows the blacklisted commands
 - orgasmcount
 - respect
@@ -81,28 +83,28 @@
 - curseitem [group] //Note: curse any item of a given group (see the wiki page on the topic for the list of groups)
 - curseitem [group] [nb of hours] //Note: Curses a group for a given time (1 minute to 7 days)
 - naked
-- **NEW** clothed //Note: toggles off all clothing curses to reverse the naked command
+- clothed //Note: toggles off all clothing curses to reverse the naked command
 - vibes
-- **NEW:** vibratorintensity [off,max,etc.] //Note: sets the cursed intensity of the cursed vibrators (defaults to max like before)
+- vibratorintensity [off,max,etc.] //Note: sets the cursed intensity of the cursed vibrators (defaults to max like before)
 - permakneel
 ### Configurations
-- **NEW** loadpresetcurses [name] //Note: toggles on the cursed *groups* from the preset to the currently worn items
-- **NEW** loadpreset [name] //Note: toggles on the cursed **items** from the preset
-- **NEW** savepreset [name] //Note: saves the current item curses as a preset
+- loadpresetcurses [name] //Note: toggles on the cursed *groups* from the preset to the currently worn items
+- loadpreset [name] //Note: toggles on the cursed **items** from the preset
+- savepreset [name] //Note: saves the current item curses as a preset
 - **NEW** deafimmune [number] //Note: allows the member number's speech to circumvent deafening effects
 ## OWNER FUNCTIONS
 ### Basic
 - note //Note: this attaches a note anyone can read to the wearer
 - **Intense mode**: onickname [MemberNumber] [Name] //Note: owners have priority over other nicknames
 - asylum [nb of hours] //Note: can be decimal or negative
-- **NEW** sendasylum //Note: if the patient has time left on her timer, you can send her to the asylum entrance this way
+- sendasylum //Note: if the patient has time left on her timer, you can send her to the asylum entrance this way
 - owner [a member number]
 - otitle [Number] [Title]
 ### Configurations
 - **NEW** triggerword [phrase] //Note: changes the trigger word. No given param will delete the existing one
 - **NEW** triggerduration [minutes] //Note: the number of minutes the effects of a trigger word last
-- **NEW** strictness [low/normal/strict] //Note: tunes the frequency of automatic punishments
-- **NEW** punishmentrestraint [1-10] [group] // Note: attributes a currently worn restraint in the given group to the desired punishment stage (1 to 10). The higher the stage, the more strikes the wearer has. All restraints from the stage and under will be applied once a threshold is reached, resets every week.
+- strictness [low/normal/strict] //Note: tunes the frequency of automatic punishments
+- punishmentrestraint [1-10] [group] // Note: attributes a currently worn restraint in the given group to the desired punishment stage (1 to 10). The higher the stage, the more strikes the wearer has. All restraints from the stage and under will be applied once a threshold is reached, resets every week.
 - **NEW** clearpunishments //Note: clears the current list of punishments displayed when doing `#name transgressions`
 - **NEW** retype //Note: the wearer will no longer need to retype the whole message when it contains a transgression
 - resetorgasmcount
@@ -161,10 +163,10 @@
 - showenforced
 - shownicknames
 - configreport
-- **NEW** listpresets
+- listpresets
 ### Configurations
 - isclassic //Note: The curse will send messages containing transgressions along with the punishment
-- **NEW** fullblindfold //Note: Turns all blindfolds into fully blinding blindfolds
+- fullblindfold //Note: Turns all blindfolds into fully blinding blindfolds
 ## CLUB OWNER FUNCTIONS
 ### Configurations
 - ctitle [Number] [Title]

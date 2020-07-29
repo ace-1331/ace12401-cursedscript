@@ -33,7 +33,7 @@ async function CursedCheckUp() {
 
     //LARP Warn
     if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
-      popChatSilent("LARP Room detected: the curse is inactive in this room", "System");
+      popChatSilent({ Tag: "LarpWarn" }, "System");
       //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
       cursedConfig.wasLARPWarned = true;
       cursedConfig.onRestart = true;
@@ -117,7 +117,7 @@ async function CursedCheckUp() {
           //Resumes as normal
           cursedConfig.chatlog = oldLog;
           cursedConfig.transgressions = oldTransgressions;
-          popChatSilent("Your current curses have been applied with no punishments.", "System");
+          popChatSilent({ Tag: "OnRestart" }, "System");
           TryPopTip(29);
         }
         cursedConfig.onRestart = false;
@@ -153,7 +153,7 @@ async function ChatlogProcess() {
   if (cursedConfig.chatStreak > 5 || purged > 3) {
     cursedConfig.isRunning = false;
     cursedConfig.chatlog = [];
-    popChatSilent("ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord", "Error");
+    popChatSilent({ Tag: "ERROR S011" }, "Error");
   }
   setTimeout(ChatlogProcess, 500);
 }

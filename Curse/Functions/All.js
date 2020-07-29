@@ -53,6 +53,19 @@ function AllCommands({
     case "orgasmcount":
       sendWhisper(sender, `(Has had ${cursedConfig.orgasms} orgasm(s) since the last reset.)`);
       break;
+    case "language":
+      TryPopTip(55);
+      switch (parameters[0]) { 
+        case "en":
+        case "fr":
+          DictionaryRequest(sender, parameters[0].toUpperCase());
+          sendWhisper(sender, `(Dictionary set to ${parameters[0].toUpperCase()}.)`);
+          break;
+        default:
+          sendWhisper(sender, `(Invalid language. Currently only "fr" and "en" are available. Anyone can contribute to add more!)`);
+          break;
+      }
+      break;
     default:
       // No command found
       return true;

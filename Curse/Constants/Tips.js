@@ -239,4 +239,8 @@ window.curseTips = [
     isContextual: true,
     Text: "When someone says your trigger word, you will be unable to leave the room, interact with anyone or change your close to the set amount of time. Having your trigger word said again will reset the timer. If someone says it again as well as 'unfreeze' in the same sentence, it will remove the trigger effect."
   },
+  {
+    ID: 55,
+    Text: "You and anyone you know who interacts with your curse can have their prefered language set with the command #name language."
+  },
 ];

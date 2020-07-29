@@ -104,6 +104,7 @@ function InitCursedConfig() {
     ],
     chatlog: [],
     savedSilent: [],
+    translation: [],
     chatStreak: 0,
     shouldPopSilent: false,
     hasForward: false,

@@ -7,7 +7,7 @@ function procGenericItem(item, group) {
   //Removes curses on invalid items
   if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
-    popChatSilent("An invalid curse was found and removed, this might be caused by a new version of the club if an item was removed or moved to another group.", "System");
+    popChatSilent({ Tag: "InvalidCurse" }, "System");
     return;
   }
 
@@ -16,7 +16,7 @@ function procGenericItem(item, group) {
   if (!cursedConfig.genericProcs.includes(group)) {
     cursedConfig.genericProcs.push(group);
     if (Player.BlockItems.filter(it => it.Name == item && it.Group == group).length !== 0) {
-      popChatSilent("An attempt was made to activate the curse on a group for which the item is blocked, the curse on the related group has been lifted. Unblock the following item if you want to curse it: " + item + " " + group, "System");
+      popChatSilent({ Tag: "BlockedCurse", Param: [item, group] }, "System");
       cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
     }
     if (item != "" && itemIsAllowed(item, group)) {
@@ -31,7 +31,7 @@ function procGenericItem(item, group) {
       popChatSilent(`${(Asset.find(A => A.Name == item) || {}).Description} was removed. (${(AssetGroup.find(G => G.Name == group) || {}).Description})`);
     }
   } else {
-    popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)", "Error");
+    popChatSilent({ Tag: "Error P04" }, "Error");
     cursedConfig.isRunning = false;
   }
 }
@@ -77,7 +77,7 @@ async function checkKneeling(sender) {
   // Kneel on enforced
   if (ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)) {
     let startDate = Date.now();
-    popChatSilent("Reminder: You must be on your knees when you first see someone in this room.(Someone is enforced)", "System");
+    popChatSilent({ Tag: "WarnEnforce" }, "System");
     while (Date.now() < startDate + 30000) {
       if (Player.Pose.includes("Kneel") || Player.Pose.includes("ForceKneel")) {
         return;
