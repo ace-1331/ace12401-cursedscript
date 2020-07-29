@@ -17,6 +17,7 @@ Please use the commands in whispers. Reduce spam as much as you can, make sure t
 Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating. Make sure to refresh your club page before using a new version.
 
 ## Running the script as an extension
+### Chrome
 1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
 2. Navigate to `chrome://extensions/`
 3. Enable Developer mode
@@ -24,6 +25,14 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 5. Click `Load unpacked` button and browse to the unzipped folder (see the notes below)
 6. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
 7. Keep yourself up-to-date in the future. Read the news panel, checker the server or the info in the bunny hole to know when to install the new updates
+
+### Firefox
+1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+2. Navigate to `about:debugging#/runtime/this-firefox`
+3. Click on `Load temporary add-on`. **You will have to repeat this step every time you load Firefox**
+4. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
+5. Keep yourself up-to-date in the future. Read the news panel, checker the server or the info in the bunny hole to know when to install the new updates
+
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
 
