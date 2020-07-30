@@ -1,11 +1,11 @@
 function InitStartup() {
   if (cursedConfig.hasIntenseVersion) {
-    popChatSilent("Intense mode is on (risky).", "System");
+    popChatSilent({ Tag: "IntenseOn" }, "System");
   }
   
   //Resets Strikes when it has been a week
   if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-      popChatSilent("A new week has begun, your automatic strike counter has been reset. (Might be a good time to check for updates!)", "System");
+      popChatSilent({ Tag: "WeeklyReset" }, "System");
       cursedConfig.strikeStartTime = Date.now();
       cursedConfig.strikes = 0;
       cursedConfig.lastPunishmentAmount = 0;
@@ -32,7 +32,7 @@ function InitStartup() {
     const roomToGoTo = cursedConfig.lastChatroom;
     delete cursedConfig.lastChatroom;
     SendToRoom(roomToGoTo);
-    NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
+    NotifyOwners({ Tag: "DCPreventionOn" }, true);
     TryPopTip(43);
 
   }
@@ -85,7 +85,7 @@ function InitCleanup() {
           toggleCurseItem({ name: "FullBlindfold", group: "ItemHead", forceAdd: true });
           break;
         case "hasCursedHood":
-          popChatSilent("Your cursed hood was not reapplied while migrating to a newer version, use curseitem command to reapply it.", "System");
+          popChatSilent({ Tag: "HoodMigration" }, "System");
           break;
         case "hasCursedEarplugs":
           toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars", forceAdd: true });

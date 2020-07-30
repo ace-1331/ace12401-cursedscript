@@ -3,30 +3,30 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
   switch (command) {
     case "lockowner":
       if (!cursedConfig.isLockedOwner)
-        SendChat("The curse keeps " + Player.Name + " from leaving her owner.");
+        SendChat({ Tag: "LockOwnerOff" });
       else
-        SendChat("The curse allows " + Player.Name + " to break her collar.");
+        SendChat({ Tag: "LooseOwnerOn" });
       cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
       break;
     case "looseowner":
       if (!cursedConfig.isLooseOwner)
-        sendWhisper(sender, "(Curse owners are now allowed to use built-in club rules. WARNING: These official built-in club rules are not tied to the curse, this means disabling the curse will not disable club rules like confiscating remotes, locks, or blocking wardrobe changes)", true);
+        sendWhisper(sender, { Tag: "LooseOwnerOn" }, true);
       else
-        sendWhisper(sender, "(Curse owners are no longer allowed to use built-in club rules.)", true);
+        sendWhisper(sender, { Tag: "LooseOwnerOff" }, true);
       cursedConfig.isLooseOwner = !cursedConfig.isLooseOwner;
       break;
     case "locknewlover":
       if (cursedConfig.isLockedNewLover)
-        sendWhisper(sender, "Can have new lovers.", true);
+        sendWhisper(sender, { Tag: "LockLoverOff" }, true);
       else
-        sendWhisper(sender, "Cannot have new lovers.", true);
+        sendWhisper(sender, { Tag: "LockLoverOn" }, true);
       cursedConfig.isLockedNewLover = !cursedConfig.isLockedNewLover;
       break;
     case "locknewsub":
       if (cursedConfig.isLockedNewSub)
-        sendWhisper(sender, "Can collar players again.", true);
+        sendWhisper(sender, { Tag: "LockSubOff" }, true);
       else
-        sendWhisper(sender, "Cannot collar new submissives.", true);
+        sendWhisper(sender, { Tag: "LockSubOn" }, true);
       cursedConfig.isLockedNewSub = !cursedConfig.isLockedNewSub;
       break;
     case "ctitle":

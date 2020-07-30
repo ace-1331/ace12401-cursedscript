@@ -56,7 +56,7 @@ function AppearanceCheck() {
 
     //Cursed Orgasms
     if (cursedConfig.hasCursedOrgasm) {
-      // New vibrators will default to max to be fair
+      // Each group that contains a vibrating item is checked
       vibratorGroups.forEach(G => {
         let A = InventoryGet(Player, G);
         if (
@@ -64,6 +64,7 @@ function AppearanceCheck() {
           && A.Asset.Effect.includes("Egged")
           && !brokenVibratingItems.includes(A.Name)
         ) {
+          // New vibrators will default to max to be fair
           if (!A.Property) {
             procCursedOrgasm(G);
           }

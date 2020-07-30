@@ -70,7 +70,7 @@ function InitAlteredFns() {
     let backupGamblingRun = GamblingRun;
     GamblingRun = function (...rest) {
       if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
-        alert("Gambling Hall is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if you wish to come in. ->Going back to the main hall <-");
+        alert(GT(Player.MemberNumber, {Tag: "NoRescueGambling"}));
         CommonSetScreen("Room", "MainHall");
 
         return;
@@ -82,22 +82,12 @@ function InitAlteredFns() {
     let backupNurseryRun = NurseryRun;
     NurseryRun = function (...rest) {
       if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoMaid) {
-        alert("The nursery is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if you wish to come in. ->Going back to the main hall <-");
+        alert(GT(Player.MemberNumber, {Tag: "NoRescueNursery"}));
         CommonSetScreen("Room", "MainHall");
 
         return;
       }
       backupNurseryRun(...rest);
-    };
-  }
-
-
-  // Disable safeword:
-  if (window.ChatRoomSafeword) {
-    let backupChatRoomSafeword = ChatRoomSafeword;
-    ChatRoomSafeword = function (...rest) {
-      if (cursedConfig.isRunning && cursedConfig.hasIntenseVersion && cursedConfig.hasNoEasyEscape) return;
-      backupChatRoomSafeword(...rest);
     };
   }
 
@@ -130,7 +120,7 @@ function InitAlteredFns() {
       let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
         && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress) && cursedConfig.isRunning && ChatRoomSpace != "LARP";
       if (isActivated && cursedConfig.hasAntiAFK) {
-        NotifyOwners("(Was AFK for more than 5 minutes and got punished accordingly.)", true);
+        NotifyOwners({ Tag: "AFKTimerTrigger" }, true);
         TriggerPunishment(3);
       }
       backupAfk(...rest);
@@ -153,9 +143,9 @@ function InitAlteredFns() {
 
       //Single beep in capture mode
       if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
-        popChatGlobal(Player.Name + " was dragged out by her captor.");
+        popChatGlobal({ Tag: "DraggedOutAction"});
         SendToRoom(data.ChatRoomName);
-        popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
+        popChatSilent({ Tag: "DraggedOutWearerCapture", Param: [data.ChatRoomName] });
       }
 
       //Triple beep quickly to send to the beep room
@@ -165,9 +155,9 @@ function InitAlteredFns() {
         let beep2 = FriendListBeepLog[beepLogSize - 2];
         let beep3 = FriendListBeepLog[beepLogSize - 1];
         if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom") && cursedConfig.owners.includes(data.MemberNumber.toString())) {
-          popChatGlobal(Player.Name + " was leashed out by her owner.");
+          popChatGlobal({ Tag: "LeashAction"});
           SendToRoom(data.ChatRoomName);
-          popChatSilent("You have been sent to the room " + data.ChatRoomName + " by your captor, the messages above this one are from the previous room.", "System");
+          popChatSilent({ Tag: "LeashWearer", Param: [data.ChatRoomName] });
         }
       }
     };
@@ -196,7 +186,7 @@ function InitAlteredFns() {
         cursedConfig.orgasms++;
         if (cursedConfig.forbidorgasm) {
           TriggerPunishment(4);
-          SendChat("The curse on " + Player.Name + " punishes her for orgasming when her owner forbade her.");
+          SendChat({ Tag: "PunishOrgasm" });
         }
       }
       backupActivityOrgasmStart(...rest);

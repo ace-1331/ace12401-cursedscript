@@ -7,7 +7,7 @@ function procGenericItem(item, group) {
   //Removes curses on invalid items
   if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
-    popChatSilent("An invalid curse was found and removed, this might be caused by a new version of the club if an item was removed or moved to another group.", "System");
+    popChatSilent({ Tag: "InvalidCurse" }, "System");
     return;
   }
 
@@ -16,22 +16,34 @@ function procGenericItem(item, group) {
   if (!cursedConfig.genericProcs.includes(group)) {
     cursedConfig.genericProcs.push(group);
     if (Player.BlockItems.filter(it => it.Name == item && it.Group == group).length !== 0) {
-      popChatSilent("An attempt was made to activate the curse on a group for which the item is blocked, the curse on the related group has been lifted. Unblock the following item if you want to curse it: " + item + " " + group, "System");
+      popChatSilent({ Tag: "BlockedCurse", Param: [item, group] }, "System");
       cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
     }
     if (item != "" && itemIsAllowed(item, group)) {
       InventoryWear(Player, item, group, GetColorSlot(group));
       cursedConfig.toUpdate.push(group);
       cursedConfig.mustRefresh = true;
-      popChatSilent(`${(Asset.find(A => A.Name == item) || {}).Description} was restored. (${(AssetGroup.find(G => G.Name == group) || {}).Description})`);
+      popChatSilent({
+        Tag: "RestoredItem",
+        Param: [
+          (Asset.find(A => A.Name == item) || {}).Description,
+          (AssetGroup.find(G => G.Name == group) || {}).Description
+        ]
+      });
     } else if (item == "" && itemNeedsRemoving(group)) {
       InventoryRemove(Player, group);
       cursedConfig.toUpdate.push(group);
       cursedConfig.mustRefresh = true;
-      popChatSilent(`${(Asset.find(A => A.Name == item) || {}).Description} was removed. (${(AssetGroup.find(G => G.Name == group) || {}).Description})`);
+      popChatSilent({
+        Tag: "RemovedItem",
+        Param: [
+          (Asset.find(A => A.Name == item) || {}).Description,
+          (AssetGroup.find(G => G.Name == group) || {}).Description
+        ]
+      });
     }
   } else {
-    popChatSilent("Error P04: The curse was deactivated because it tried to apply more than one curse to the same group. Please report this issues and how it happened. Adjust your settings accordingly to prevent this error. (Please disable conflicting curses)", "Error");
+    popChatSilent({ Tag: "Error P04" }, "Error");
     cursedConfig.isRunning = false;
   }
 }
@@ -44,9 +56,7 @@ function procCursedNaked(isAdd) {
     .forEach(group => {
       toggleCurseItem({ name: "", group, [isAdd ? "forceAdd" : "forceRemove"]: true, isSilent: true });
     });
-  SendChat(
-    `The curse ${isAdd ? "arises" : ""} on ${Player.Name}'s clothes${!isAdd ? " was lifted" : ""}.`
-  );
+  SendChat({ Tag: (isAdd ? "ClothesArise" : "ClothesLift") });
 }
 
 /** Triggers cursed vibrators 
@@ -77,7 +87,7 @@ async function checkKneeling(sender) {
   // Kneel on enforced
   if (ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)) {
     let startDate = Date.now();
-    popChatSilent("Reminder: You must be on your knees when you first see someone in this room.(Someone is enforced)", "System");
+    popChatSilent({ Tag: "WarnEnforce" }, "System");
     while (Date.now() < startDate + 30000) {
       if (Player.Pose.includes("Kneel") || Player.Pose.includes("ForceKneel")) {
         return;
@@ -91,7 +101,7 @@ async function checkKneeling(sender) {
     ChatRoomCharacter.map(char => char.MemberNumber.toString()).includes(sender)
     && Player.CanKneel()
   ) {
-    SendChat(Player.Name + " angers the curse on her as she forgets to kneel.");
+    SendChat({ Tag: "KneelAnger" });
     TriggerPunishment(1);
     KneelAttempt();
   }
@@ -141,9 +151,9 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfR
     cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval });
     SaveColorSlot(group);
     procGenericItem(name, group);
-    isSilent || SendChat(`The curse arises on ${Player.Name}'s ${txtGroup.toLowerCase()}.`);
+    isSilent || SendChat({ Tag: "CurseArise", Param: [txtGroup.toLowerCase()] });
   } else if (!forceAdd) {
-    isSilent || SendChat(`The curse on ${Player.Name}'s ${txtGroup.toLowerCase()} was lifted.`);
+    isSilent || SendChat({ Tag: "CurseLift", Param: [txtGroup.toLowerCase()] });
     if (cursedConfig.hasRestraintVanish)
       restraintVanish(group);
   }
@@ -370,7 +380,12 @@ function AdjustSettings() {
   if (cursedConfig.hasForcedMeterLocked && cursedConfig.hasIntenseVersion) {
     Player.ArousalSettings.Active = "Automatic";
   }
-
+  
+  // Safeword off
+  if (cursedConfig.hasNoEasyEscape && cursedConfig.hasIntenseVersion) {
+    Player.GameplaySettings.EnableSafeword = false;
+  }
+  
   //Making sure all names are up-to-date
   //Try catch in case the updated player is no longer there (extreme edge case)
   try {
@@ -388,7 +403,8 @@ function AdjustSettings() {
   } catch (err) { console.error("Curse: failed to update a name", err); }
 }
 
-/** Triggers a punishment to be processed (strikes, report, etc.) 
+/** 
+ * Triggers a punishment to be processed (strikes, report, etc.) 
  * @param {string} ID - The ID of the punishment
  * @param {string[]} [options] - Various params for the punishment text 
 */
