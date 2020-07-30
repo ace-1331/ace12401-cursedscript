@@ -24,14 +24,14 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 4. Remove previous versions of the curse (if applicable).
 5. Click `Load unpacked` button and browse to the unzipped folder (see the notes below)
 6. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
-7. Keep yourself up-to-date in the future. Read the news panel, checker the server or the info in the bunny hole to know when to install the new updates
+7. Keep yourself up-to-date in the future. Read the news panel, check the discord server or the info in the bunny hole to know when to install the new updates
 
 ### Firefox
 1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
 2. Navigate to `about:debugging#/runtime/this-firefox`
-3. Click on `Load temporary add-on`. **You will have to repeat this step every time you load Firefox**
+3. Click on `Load temporary add-on`. **You will have to repeat this step every time you restart Firefox**
 4. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
-5. Keep yourself up-to-date in the future. Read the news panel, checker the server or the info in the bunny hole to know when to install the new updates
+5. Keep yourself up-to-date in the future. Read the news panel, check the discord server or the info in the bunny hole to know when to install the new updates
 
 
 - You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
@@ -61,7 +61,7 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
-Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username
+Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
