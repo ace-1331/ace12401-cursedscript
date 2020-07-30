@@ -194,7 +194,7 @@ function CursePreferenceClick() {
     if (MouseIn(1100, 392, 64, 64))
         CursePreferenceTemporaryConfig.hasFullLengthMode = !CursePreferenceTemporaryConfig.hasFullLengthMode;
     if (MouseIn(1100, 472, 64, 64))
-        CursePreferenceTemporaryConfig.hasFullLengthMode = !CursePreferenceTemporaryConfig.hasFullLengthMode;
+        CursePreferenceTemporaryConfig.hideHelp = !CursePreferenceTemporaryConfig.hideHelp;
 
     // Import/Export
     if (navigator.clipboard) {
