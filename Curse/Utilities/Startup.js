@@ -27,6 +27,11 @@ function InitStartup() {
     Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
   }
     
+  // Help message
+  if (cursedConfig.hideHelp) { 
+    ChatRoomHelpSeen = true;
+  }
+  
   // DC Prevention
   if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
     const roomToGoTo = cursedConfig.lastChatroom;

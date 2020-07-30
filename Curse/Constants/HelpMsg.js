@@ -19,6 +19,7 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
+    *NEW*-hidehelp
     *NEW*-language [en/fr/ru]
     *NEW*-togglecommand [command]
     -wardrobev2

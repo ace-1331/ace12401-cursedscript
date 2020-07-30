@@ -329,7 +329,7 @@ function InitBasedFns() {
   if (window.MainHallClick) {
     let backupMainHallClick = MainHallClick;
     MainHallClick = (...rest) => {
-      if (CommonIsClickAt(45, 665, 135 - 45, 755 - 665)) {
+      if (MouseIn(45, 665, 135 - 45, 755 - 665)) {
         CurseRoomAce = null;
         CurseRoomRun();
         CurrentScreen = "CurseRoom";

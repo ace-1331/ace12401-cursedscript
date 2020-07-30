@@ -6,19 +6,19 @@ function WearerCommands({ command, parameters, sender }) {
   switch (command) {
     case "togglecommand":
       TryPopTip(50);
-      if (!parameters[0]) { 
+      if (!parameters[0]) {
         popChatSilent("Invalid command -> specify the command to toggle on/off");
         return;
       }
       const optin = cursedConfig.optinCommands.find(OC => OC.command === parameters[0]);
-      if (optin) { 
+      if (optin) {
         // When opt-in, we toggle the enabled bool
         optin.isEnabled = !optin.isEnabled;
         popChatSilent(`The ${parameters[0]} command was set to ${optin.isEnabled ? "enabled" : "disabled"}.`);
         return;
-      } 
+      }
       // When normal, we add/remove it from the list
-      if (cursedConfig.disabledCommands.includes(parameters[0])) { 
+      if (cursedConfig.disabledCommands.includes(parameters[0])) {
         cursedConfig.disabledCommands = cursedConfig.disabledCommands.filter(C => C !== parameters[0]);
         popChatSilent(`The ${parameters[0]} command was removed from your blacklist.`);
         return;
@@ -32,6 +32,13 @@ function WearerCommands({ command, parameters, sender }) {
       else
         popChatSilent("Your curse will remove Items.");
       cursedConfig.hasRestraintVanish = !cursedConfig.hasRestraintVanish;
+      break;
+    case "hidehelp":
+      if (cursedConfig.hideHelp)
+        popChatSilent("You will see the help message on every login again.");
+      else
+        popChatSilent("You will no longer see the help message on login.");
+      cursedConfig.hideHelp = !cursedConfig.hideHelp;
       break;
     case "forwardall":
       if (!cursedConfig.hasForward)
@@ -109,11 +116,11 @@ function WearerCommands({ command, parameters, sender }) {
         return;
       }
       if (parameters[0] && !isNaN(parameters[0])) {
-        if (Player.MemberNumber == parameters[0]) { 
+        if (Player.MemberNumber == parameters[0]) {
           popChatSilent("You cannot own yourself.");
           return;
         }
-        
+
         //Cannot remove real owner
         let realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
         if (!cursedConfig.owners.includes(parameters[0])) {
@@ -139,7 +146,7 @@ function WearerCommands({ command, parameters, sender }) {
         return;
       }
       if (parameters[0] && !isNaN(parameters[0])) {
-        if (Player.MemberNumber == parameters[0]) { 
+        if (Player.MemberNumber == parameters[0]) {
           popChatSilent("You cannot be your own mistress.");
           return;
         }
@@ -243,7 +250,7 @@ function WearerCommands({ command, parameters, sender }) {
         if (dateOfRemoval < 60000) dateOfRemoval = 60000;
         if (dateOfRemoval > 7 * 8.64e+7) dateOfRemoval = 6.048e+8;
         dateOfRemoval += Date.now();
-                
+
         if (
           toggleCurseItem({
             name: (currentAsset && currentAsset.Asset.Name) || "",
@@ -259,7 +266,7 @@ function WearerCommands({ command, parameters, sender }) {
       }
       break;
     case "language":
-      switch (parameters[0]) { 
+      switch (parameters[0]) {
         case "en":
         case "ru":
         case "fr":
@@ -272,7 +279,7 @@ function WearerCommands({ command, parameters, sender }) {
       }
       break;
     default:
-    //notifies no commands were found
+      //notifies no commands were found
       r = true;
       break;
 

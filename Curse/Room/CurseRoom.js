@@ -77,13 +77,13 @@ function CurseRoomRun() {
 
 // When the user clicks in the curse room
 function CurseRoomClick() {
-  if (CommonIsClickAt(250, 0, 750-250, 1000-0)) CharacterSetCurrent(Player);
-  if (CommonIsClickAt(750, 0, 1250-750, 1000-0)) {
+  if (MouseIn(250, 0, 750-250, 1000-0)) CharacterSetCurrent(Player);
+  if (MouseIn(750, 0, 1250-750, 1000-0)) {
     CharacterSetCurrent(CurseRoomAce);
   }
-  if (CommonIsClickAt(1885, 25, 1975-1885, 115-25)) CommonSetScreen("Room", "MainHall");
-  if (CommonIsClickAt(1885, 145, 1975-1885, 235-145)) InformationSheetLoadCharacter(Player);
-  if (CommonIsClickAt(1885, 265, 1975-1885, 355-265)) {  
+  if (MouseIn(1885, 25, 1975-1885, 115-25)) CommonSetScreen("Room", "MainHall");
+  if (MouseIn(1885, 145, 1975-1885, 235-145)) InformationSheetLoadCharacter(Player);
+  if (MouseIn(1885, 265, 1975-1885, 355-265)) {  
     CursePreferenceRun();
     CurrentScreen = "CursePreference";
   }

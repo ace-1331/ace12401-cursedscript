@@ -95,6 +95,7 @@ function InitCursedConfig() {
     hasRestraintVanish: false,
     canLeash: false,
     hasWardrobeV2: false,
+    hideHelp: false,
     hasIntenseVersion: false,
     wasLARPWarned: false,
     hasFullCurse: false,
