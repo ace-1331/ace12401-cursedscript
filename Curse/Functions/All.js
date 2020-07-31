@@ -4,29 +4,26 @@ function AllCommands({
 }) {
   switch (command) {
     case "showstrikes":
-      sendWhisper(sender, Player.Name + " has accumulated a total of " + cursedConfig.strikes + " strikes.");
+      sendWhisper(sender, { Tag: "AllShowStrikes", Param: [cursedConfig.strikes] });
       break;
     case "transgressions":
       const transgressionReport = cursedConfig.transgressions.map(T => T.Count + "x " + T.Name).join(", ");
-      sendWhisper(sender, "Transgression(s) to report: " + transgressionReport);
+      sendWhisper(sender, { Tag: "AllShowTransgressions", Param: [transgressionReport] });
       break;
     case "listoffcommands":
       TryPopTip(50);
       const offCommands = [...cursedConfig.disabledCommands, ...cursedConfig.optinCommands.filter(OC => !OC.isEnabled)].join(", ");
-      sendWhisper(sender, "The following commands are disabled: " + offCommands);
+      sendWhisper(sender, { Tag: "AllShowlistoffcommands", Param: [offCommands] });
       break;
     case "asylumtimeleft":
       let oldLog = Log.filter(el => el.Name == "Committed");
       let timeLeft = oldLog.length > 0 ? oldLog[0].Value - CurrentTime : 0;
       timeLeft /= 3600000;
-      SendChat(Player.Name + " has " +
-        (timeLeft < 0 ? "0" : Math.round(timeLeft * 100) / 100) +
-        " hours left in the asylum");
+      SendChat({ Tag: "asylumtimeleft", Param: [(timeLeft < 0 ? "0" : Math.round(timeLeft * 100) / 100)] });
       break;
     case "help":
-      sendWhisper(sender, `(To use the curse on me, ask me about the commands... there are more available depending on your permissions [blacklist, public, mistress, owner]. 
-            Commands are called with ${commandCall}, like "${commandCall} respect")`);
-      sendWhisper(sender, "(To learn all the commands or use it for yourself, check out this repository: https://github.com/ace-1331/ace12401-cursedscript/wiki/Functions )");
+      sendWhisper(sender, { Tag: "OtherWhisperHelpMessage1", Param: [commandCall, commandCall] });
+      sendWhisper(sender, { Tag: "OtherWhisperHelpMessage2" });
       break;
     case "blocknickname":
       //Force delete self
@@ -38,7 +35,7 @@ function AllCommands({
         note = localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`);
       } catch (err) { console.error("Curse: Error reading note: RN05"); }
       if (note) {
-        sendWhisper(sender, "(A note is attached to her from her owner: " + localStorage.getItem(`bc-cursedNote-${Player.MemberNumber}`) + ")");
+        sendWhisper(sender, { Tag: "AllReadOwnerNote", Param: [note] });
       }
       break;
     case "sendnote":
@@ -48,10 +45,24 @@ function AllCommands({
         notes.push(FetchName(sender) + " (" + sender + "): " + parameters.join(" "));
         localStorage.setItem(`bc-cursedReviews-${Player.MemberNumber}`, JSON.stringify(notes));
       } catch (e) { console.error("Curse: Error sending notes: RS65", e); }
-      sendWhisper(sender, "(Note sent to owner(s).)");
+      sendWhisper(sender, { Tag: "AllNoteSent" });
       break;
     case "orgasmcount":
-      sendWhisper(sender, `(Has had ${cursedConfig.orgasms} orgasm(s) since the last reset.)`);
+      sendWhisper(sender, { Tag: "AllReadOrgasmCount", Param: [cursedConfig.orgasms] });
+      break;
+    case "language":
+      TryPopTip(55);
+      switch (parameters[0]) { 
+        case "ru":
+        case "en":
+        case "fr":
+          DictionaryRequest(sender, parameters[0].toUpperCase());
+          sendWhisper(sender, { Tag: "AllSetDictionary", Param: [parameters[0].toUpperCase()] });
+          break;
+        default:
+          sendWhisper(sender, { Tag: "AllInvalidLanguage" });
+          break;
+      }
       break;
     default:
       // No command found

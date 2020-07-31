@@ -1,11 +1,11 @@
 function InitStartup() {
   if (cursedConfig.hasIntenseVersion) {
-    popChatSilent("Intense mode is on (risky).", "System");
+    popChatSilent({ Tag: "IntenseOn" }, "System");
   }
   
   //Resets Strikes when it has been a week
   if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-      popChatSilent("A new week has begun, your automatic strike counter has been reset. (Might be a good time to check for updates!)", "System");
+      popChatSilent({ Tag: "WeeklyReset" }, "System");
       cursedConfig.strikeStartTime = Date.now();
       cursedConfig.strikes = 0;
       cursedConfig.lastPunishmentAmount = 0;
@@ -27,12 +27,17 @@ function InitStartup() {
     Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
   }
     
+  // Help message
+  if (cursedConfig.hideHelp) { 
+    ChatRoomHelpSeen = true;
+  }
+  
   // DC Prevention
   if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
     const roomToGoTo = cursedConfig.lastChatroom;
     delete cursedConfig.lastChatroom;
     SendToRoom(roomToGoTo);
-    NotifyOwners("DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.", true);
+    NotifyOwners({ Tag: "DCPreventionOn" }, true);
     TryPopTip(43);
 
   }
@@ -85,7 +90,7 @@ function InitCleanup() {
           toggleCurseItem({ name: "FullBlindfold", group: "ItemHead", forceAdd: true });
           break;
         case "hasCursedHood":
-          toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead", forceAdd: true });
+          popChatSilent({ Tag: "HoodMigration" }, "System");
           break;
         case "hasCursedEarplugs":
           toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars", forceAdd: true });

@@ -12,24 +12,40 @@ Please use the commands in whispers. Reduce spam as much as you can, make sure t
 
 **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-**Last approved on the following versions: R58**
+**Last approved on the following versions: R59**
 
 Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating. Make sure to refresh your club page before using a new version.
 
 ## Running the script as an extension
+- You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
+
+- This extension will work on any other Chromium-based browsers that support dev extensions. 
+
+### PC
+### Chrome
 1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
 2. Navigate to `chrome://extensions/`
 3. Enable Developer mode
 4. Remove previous versions of the curse (if applicable).
 5. Click `Load unpacked` button and browse to the unzipped folder (see the notes below)
-6. Login and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
-7. Keep yourself up-to-date in the future. Read the news panel, checker the server or the info in the bunny hole to know when to install the new updates
+6. Login to BC and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
+7. Keep yourself up-to-date in the future. Read the news panel, check the discord server or the info in the bunny hole to know when to install the new updates
 
-- You may get an error while loading the unpacked extension saying the manifest is missing or broken. This means the manifest.json file was in the wrong format after decompression/cloning. Please open the file in notepad and save it again to save it with the proper encoding.
+### Firefox
+1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+2. Navigate to `about:debugging#/runtime/this-firefox`
+3. Click on `Load temporary add-on`. **You will have to repeat this step every time you restart Firefox**
+4. Login to BC and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
+5. Keep yourself up-to-date in the future. Read the news panel, check the discord server or the info in the bunny hole to know when to install the new updates
 
-- This extension will work on other Chromium-based browsers that support dev extensions. So it will work on mobile browsers like Yandex or Kiwi. (Use Total Commander file app to fix the manifest bug)
-
-- IMPORTANT NOTE ON RUNNING THE SCRIPT: make sure you are on a validated version of the game and I urge you to use it carefully. Do not cause any grief, spam, etc. Disable it when it is inappropriate. If there seems to be negativity around it, I will not keep it open for the public.
+### MOBILE (Tested on Android only)
+1. Download the **.crx** file at the bottom of the patch notes in the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+2. Download the Kiwi browser if you do not have it installed
+3. Navigate to `chrome://extensions/`
+4. Enable Developer mode
+5. Click on `load` then select the `.crx` file you downloaded
+6. Login to BC and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there. Note that the extension is located at the bottom of your browser menu (the `...` icon on the top left)
+7. Keep yourself up-to-date in the future. Read the news panel, check the discord server or the info in the bunny hole to know when to install the new updates
 
 ## Useful information
 - ALL COMMANDS ARE PREFIXED WITH THE COMMAND CHARACTER AND THE SLAVE IDENTIFIER, BY DEFAULT IT IS # AND YOUR NAME (IE. #ace help or #ace showowners)
@@ -52,7 +68,7 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
-Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username
+Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**

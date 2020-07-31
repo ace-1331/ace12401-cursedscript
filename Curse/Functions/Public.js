@@ -4,17 +4,17 @@ function PublicCommands({
 }) {
   switch (command) {
     case "punish":
-      SendChat(`The curse on ${Player.Name} punishes her as requested by ${FetchName(sender)}.`);
+      SendChat({ Tag: "PublicPunish", Param: [FetchName(sender)] });
       triggerInPain();
       KneelAttempt();
       TriggerPunishment(5, [sender]);
       break;
     case "reward":
-      SendChat(`The curse on ${Player.Name} rewards her as requested by ${FetchName(sender)}.`);
+      SendChat({ Tag: "PublicReward", Param: [FetchName(sender)] });
       cursedConfig.strikes -= 2;
       break;
     case "edge":
-      SendChat(`The curse on ${Player.Name} edges her as requested by ${FetchName(sender)}.`);
+      SendChat({ Tag: "PublicEdge", Param: [FetchName(sender)] });
       triggerInPleasure();
       KneelAttempt();
       break;
@@ -40,15 +40,15 @@ function PublicCommands({
         if (cursedConfig.capture.Valid < Date.now()) {
           cursedConfig.capture.capturedBy = sender;
           cursedConfig.capture.Valid = Date.now() + 300000;
-          SendChat(Player.Name + " was captured by " + FetchName(sender));
-          sendWhisper(sender, "For the next 5 minutes, the wearer is unable to leave a room and can be brought into any given room by beeping them.", true);
+          SendChat({ Tag: "PublicCaptureAction", Param: [FetchName(sender)] });
+          sendWhisper(sender, { Tag: "PublicCaptureWhisper" }, true);
         } else if (cursedConfig.capture.capturedBy !== sender) {
-          sendWhisper(sender, "Someone else has captured the wearer in the past 5 minutes, try again later.", true);
+          sendWhisper(sender, { Tag: "PublicCaptureSomeoneElse" }, true);
         } else {
-          sendWhisper(sender, "You have already captured the wearer.", true);
+          sendWhisper(sender, { Tag: "PublicCaptureAlready" }, true);
         }
       } else
-        popChatSilent("Capture mode disabled.");
+        popChatSilent({ Tag: "PublicCaptureDisabled" });
       break;
     default:
       // No command found

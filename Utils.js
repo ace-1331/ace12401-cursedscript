@@ -1,8 +1,8 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentManifestVersion = "1.2.4.5";
-window.currentVersion = 41;
+window.currentManifestVersion = "1.2.6.0";
+window.currentVersion = 45;
 let AlwaysOn;
 let isLoaded;
 
@@ -33,7 +33,7 @@ async function LoginListener() {
 
 /** Starts the script */
 function CursedStarterBtn() { 
-  CursedStarter()
+  CursedStarter();
 }
 
 async function CursedStarter() {
@@ -56,6 +56,8 @@ async function CursedStarter() {
       //Runs the script
       cursedConfig.isRunning = true;
       cursedConfig.onRestart = true;
+      InventoryAdd(Player, "Curse", "ItemHidden");
+      InventoryAdd(Player, "Curse" + currentVersion, "ItemHidden");
       popChatSilent("Curse restarted.", "System");
     } else if (!window.cursedConfigInit) {
       InitCursedConfig();
@@ -140,6 +142,8 @@ function CursedStopper() {
   try {
     if (cursedConfig.isRunning) {
       cursedConfig.isRunning = false;
+      InventoryDelete(Player, "Curse", "ItemHidden");
+      InventoryDelete(Player, "Curse" + currentVersion, "ItemHidden");
       popChatSilent("Curse stopped", "System");
     }
   } catch (err) { console.error(err); }

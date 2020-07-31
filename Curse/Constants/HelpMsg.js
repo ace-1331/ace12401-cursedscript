@@ -19,6 +19,8 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
+    *NEW*-hidehelp
+    *NEW*-language [en/fr/ru]
     *NEW*-togglecommand [command]
     -wardrobev2
     -eatcommands
@@ -44,14 +46,15 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
+    *NEW*-language [en/fr/ru]
     -showstrikes
-    *NEW*-transgressions
+    -transgressions
     *NEW*-listoffcommands
     -help
     -respect
     -title [title to add/rem]
     -punish
-    *NEW*-reward
+    -reward
     -edge
     -asylumtimeleft
     -readnote
@@ -91,16 +94,17 @@ function InitHelpMsg() {
     >>>Curses<<<
     -curseitem [group]
     -curseitem [group] [hours]
-    *NEW*-clothed
+    -clothed
     -naked
     -vibes
-    *NEW*-vibratorintensity [off,max,etc.]
+    -vibratorintensity [off,max,etc.]
     -permakneel
     
     >>>Configurations<<<
-    *NEW* -loadpresetcurses [name]
-    *NEW* -loadpreset [name]
-    *NEW* -savepreset [name]
+    -loadpresetcurses [name]
+    -loadpreset [name]
+    -savepreset [name]
+    *NEW* -deafimmune [number]
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -119,13 +123,14 @@ function InitHelpMsg() {
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     -asylum [nb of hours]
-    *NEW* -sendasylum
+    -sendasylum
     -owner [a member number]
     -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
-    
+    *NEW*-triggerword [phrase]
+    *NEW*-triggerduration [minutes]
     *NEW*-clearpunishments
     *NEW*-retype
     *NEW*-strictness [low/normal/strict]
@@ -147,8 +152,8 @@ function InitHelpMsg() {
     INTENSE VERSION:-preventdc
     INTENSE VERSION:-meterlocked
     INTENSE VERSION:-meteroff
-    *NEW* INTENSE VERSION:-secretorgasm
-    *NEW* INTENSE VERSION:-blockooc
+    INTENSE VERSION:-secretorgasm
+    INTENSE VERSION:-blockooc
     *NEW* INTENSE VERSION:-safeword
     *NEW* INTENSE VERSION:-disableblocking
 

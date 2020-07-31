@@ -3,11 +3,19 @@
 function SaveConfigs() {
   try {
     const dbConfigs = { ...cursedConfig };
-    const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent"];
+    const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent", "transgressionsWarning"];
     toDelete.forEach(prop => delete dbConfigs[prop]);
+    
+    // Cleans up transgressions
+    if (cursedConfig.transgressions.length > 100) { 
+      cursedConfig.transgressions.splice(0, cursedConfig.transgressions.length - 100);
+      cursedConfig.transgressionsWarning && popChatSilent({ Tag: "ERRORT100" }, "System");
+      cursedConfig.transgressionsWarning = true;
+    }
+    
     localStorage.setItem(`bc-cursedConfig-${Player.MemberNumber}`, JSON.stringify(dbConfigs));
   } catch (err) {
-    alert("Your curse configs were not saved. Check the console for errors and report the issue if necessary.");
+    alert(GT(Player.MemberNumber, { Tag: "NotSaved" }));
     console.log(err);
   }
 }
@@ -339,8 +347,8 @@ function SaveColors() {
   TryPopTip(6);
   try {
     Player.Appearance.forEach(item => SaveColorSlot(item.Asset.Group.Name));
-    popChatSilent("Your current colors in each item slot has been saved.");
-  } catch (err) { popChatSilent("An error occured while trying to save your colors. Error: SC07", "Error"); }
+    popChatSilent({ Tag: "SaveColorDone" });
+  } catch (err) { popChatSilent({ Tag: "ErrorSC07" }, "Error"); }
 }
 
 /** Saves the worn color of a given slot
@@ -393,7 +401,7 @@ function shuffleDeck(auto) {
   shuffle(cardDeck);
   shuffle(cardDeck);
   shuffle(cardDeck);
-  popChatGlobal("The deck was shuffled because it was " + (auto ? "empty." : "requested by the dealer."));
+  popChatGlobal({ Tag: auto ? "DeckShuffledAuto" : "DeckShuffledRequest"});
 }
 
 /** Draws a card from the deck */
@@ -415,11 +423,11 @@ function drawCards(nbCards, players) {
     for (let i = 0; i < nbCards; i++) {
       drawnCards.push(drawCard());
     }
-    popChatGlobal("You drew the following cards: " + drawnCards.join(" "));
+    popChatGlobal({ Tag: "DeckDrawnGlobal", Param: [drawnCards.join(" ")] });
   } else {
     for (let i = 0; i < nbCards; i++) {
       players.forEach(p => {
-        sendWhisper(p, "(The following card was drawn: " + drawCard() + ")", true);
+        sendWhisper(p, { Tag: "DeckDrawnWhisper", Param: [drawCard()] }, true);
       });
     }
   }
@@ -431,10 +439,9 @@ function drawCards(nbCards, players) {
  * @param {string} ame - Room name
 */
 function SendToRoom(name) {
-  ElementRemove("Friendlist");
+  ElementRemove("FriendList");
   ElementRemove("InputChat");
   ElementRemove("TextAreaChatLog");
-  ServerSend("ChatRoomLeave", "");
   ServerSend("ChatRoomLeave", "");
   CommonSetScreen("Online", "ChatSearch");
   ChatRoomSpace = "";
@@ -470,7 +477,7 @@ function CommandIsActivated(command, sender) {
   //Intense mode
   let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say"];
   if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) {
-    sendWhisper(sender, "(Will only work if intense mode is turned on.)", true);
+    sendWhisper(sender, { Tag: "NeedIntenseOn" }, true);
     return;
   }
 
@@ -479,7 +486,7 @@ function CommandIsActivated(command, sender) {
 
   // Ownerhub
   if (cursedConfig.disabledCommands.includes("ownerhub")) {
-    sendWhisper(sender, "(The wearer is running the curse in owner mode. This means no one can interact with their curse.)", true);
+    sendWhisper(sender, { Tag: "OwnerModeOn" }, true);
     TryPopTip(50);
     return false;
   }
@@ -487,16 +494,16 @@ function CommandIsActivated(command, sender) {
   // Disabled optins
   let isOptin = cursedConfig.optinCommands.find(OC => OC.command == command);
   if (isOptin && !isOptin.isEnabled) {
-    sendWhisper(sender, `(The opt-in command ${command} is disabled. The wearer needs to turn it on if they wish to.)`, true);
-    popChatSilent(`If you wish to turn on an optin command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}". Opt-in commands are usually more restrictive or troublesome. Think twice before enabling this command.`);
+    sendWhisper(sender, { Tag: "WarnOptinOff", Param: [command] }, true);
+    popChatSilent({ Tag: "WarnOptinWearer", Param: [cursedConfig.commandChar + cursedConfig.slaveIdentifier, command] });
     TryPopTip(50);
     return false;
   }
 
   //Blacklist
   if (cursedConfig.disabledCommands.includes(command)) {
-    sendWhisper(sender, `(The command ${command} is disabled. The wearer needs to remove it from their blacklist if they wish to.)`, true);
-    popChatSilent(`If you wish to re-enable a command, you need to do "${cursedConfig.commandChar + cursedConfig.slaveIdentifier} togglecommand ${command}".`);
+    sendWhisper(sender, { Tag: "WarnBlacklist", Param: [command] }, true);
+    popChatSilent({ Tag: "WarnBlacklistWearer", Param: [cursedConfig.commandChar + cursedConfig.slaveIdentifier, command] });
     TryPopTip(50);
     return false;
   }
@@ -516,4 +523,17 @@ function DrawCustomBeepText(txt) {
 /** Sends a hidden message object */
 function SendCurseChatMessage(number, txt) { 
   ServerSend("ChatRoomChat", { Content: "curseinteraction " + txt, Type: "Hidden", Sender: parseInt(number) });
+}
+
+/// THIS IS A POLYFILL FOR R59 ///
+/**
+ * Check if the mouse position is within the boundaries of a given zone (Useful for UI components)
+ * @param {number} Left - Starting position on the X axis
+ * @param {number} Top - Starting position on the Y axis
+ * @param {number} Width - Width of the zone
+ * @param {number} Height - Height of the zone
+ * @returns {boolean} - Returns TRUE if the click occurred in the given zone
+ */
+function MouseIn(Left, Top, Width, Height) {
+	return (MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height);
 }

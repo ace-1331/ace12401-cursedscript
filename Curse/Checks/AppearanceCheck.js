@@ -19,7 +19,7 @@ function AppearanceCheck() {
       && Player.CanKneel()
       && !Player.Pose.includes("Kneel")
     ) {
-      SendChat("The cursed collar on " + Player.Name + "'s neck gives her an extreme shock, forcing her to get on her knees.");
+      SendChat("The curse on " + Player.Name + "'s forces her back down to her knees.");
       KneelAttempt();
       TryPopTip(24);
       TriggerPunishment(0);
@@ -56,7 +56,7 @@ function AppearanceCheck() {
 
     //Cursed Orgasms
     if (cursedConfig.hasCursedOrgasm) {
-      // New vibrators will default to max to be fair
+      // Each group that contains a vibrating item is checked
       vibratorGroups.forEach(G => {
         let A = InventoryGet(Player, G);
         if (
@@ -64,10 +64,11 @@ function AppearanceCheck() {
           && A.Asset.Effect.includes("Egged")
           && !brokenVibratingItems.includes(A.Name)
         ) {
+          // New vibrators will default to max to be fair
           if (!A.Property) {
             procCursedOrgasm(G);
           }
-          if (A.Property.Intensity != (cursedConfig.vibratorIntensity || 3)) {
+          if (A.Property.Intensity != (cursedConfig.vibratorIntensity != null ? cursedConfig.vibratorIntensity : 3)) {
             SendChat("The curse on " + Player.Name + " brings her vibrators back to their required intensity.");
             procCursedOrgasm(G);
             TryPopTip(27);

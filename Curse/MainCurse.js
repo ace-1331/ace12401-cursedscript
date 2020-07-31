@@ -33,7 +33,7 @@ async function CursedCheckUp() {
 
     //LARP Warn
     if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
-      popChatSilent("LARP Room detected: the curse is inactive in this room", "System");
+      popChatSilent({ Tag: "LarpWarn" }, "System");
       //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
       cursedConfig.wasLARPWarned = true;
       cursedConfig.onRestart = true;
@@ -43,9 +43,10 @@ async function CursedCheckUp() {
     // Chat input
     if (
       document.getElementById("InputChat") &&
-      document.getElementById("InputChat").maxLength != cursedConfig.hasFullLengthMode ? 1000 : 200
+      cursedConfig.hasFullLengthMode &&
+      document.getElementById("InputChat").maxLength != 1000
     ) {
-      document.getElementById("InputChat").maxLength = cursedConfig.hasFullLengthMode ? "1000" : "200";
+      document.getElementById("InputChat").maxLength ="1000";
     }
 
     //When it should be ran 
@@ -83,7 +84,7 @@ async function CursedCheckUp() {
             /*let before = cursedConfig.toUpdate.length;
                         cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
                         if (before - cursedConfig.toUpdate.length > 0) {
-                            popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01");
+                            popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01", "Error");
                         }
                         cursedConfig.toUpdate.forEach(group => {
                             ChatRoomCharacterItemUpdate(Player, group);
@@ -106,7 +107,7 @@ async function CursedCheckUp() {
           /*let before = cursedConfig.toUpdate.length;
                     cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
                     if (before - cursedConfig.toUpdate.length > 0) {
-                        popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01");
+                        popChatSilent("Warning: The curse tried to apply more than one curse to the same slot. You may have configuration issues. Please disable the curse if it's spamming. Error: WA01", "Error");
                     }
                     cursedConfig.toUpdate.forEach(group => {
                         ChatRoomCharacterItemUpdate(Player, group);
@@ -116,14 +117,14 @@ async function CursedCheckUp() {
           //Resumes as normal
           cursedConfig.chatlog = oldLog;
           cursedConfig.transgressions = oldTransgressions;
-          popChatSilent("Your current curses have been applied with no punishments.", "System");
+          popChatSilent({ Tag: "OnRestart" }, "System");
           TryPopTip(29);
         }
         cursedConfig.onRestart = false;
       }
     }
   }
-
+  
   // Saves if needed, strip not required data
   if (messagesToVerify.length > 0) {
     SaveConfigs();
@@ -152,7 +153,7 @@ async function ChatlogProcess() {
   if (cursedConfig.chatStreak > 5 || purged > 3) {
     cursedConfig.isRunning = false;
     cursedConfig.chatlog = [];
-    popChatSilent("ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord", "Error");
+    popChatSilent({ Tag: "ERROR S011" }, "Error");
   }
   setTimeout(ChatlogProcess, 500);
 }

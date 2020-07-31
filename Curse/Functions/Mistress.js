@@ -61,7 +61,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars" });
       break;
     case "hood":
-      toggleCurseItem({ name: "LeatherHoodSensDep", group: "ItemHead" });
+      sendWhisper(sender, "Command deprecated in favor of curseitem.", true)
       break;
     case "blindfold":
       toggleCurseItem({ name: "FullBlindfold", group: "ItemHead" });
@@ -168,6 +168,23 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
     }
     case "mtitle":
       toggleTitle(sender, 2, parameters);
+      break;
+    case "deafimmune":
+      if (parameters[0] && !isNaN(parameters[0])) {
+        if (!cursedConfig.deafImmune.includes(parameters[0])) {
+          cursedConfig.deafImmune.push(parameters[0]);
+        } else {
+          cursedConfig.deafImmune = cursedConfig.deafImmune.filter(DI => DI != parameters[0]);
+        }
+      } else {
+        sendWhisper(sender, "(If you meant to add/remove someone to the list, use the same command and provide a member number.)");
+      }
+      sendWhisper(
+        sender,
+        "The following people's voice will not be deafened: " + (cursedConfig.deafImmune
+          .map( MN => FetchName(MN) ).join(",") || "none")
+        , true
+      );
       break;
     case "mistress":
       if (parameters[0] && !isNaN(parameters[0])) {

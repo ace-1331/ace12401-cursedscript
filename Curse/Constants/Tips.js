@@ -230,4 +230,17 @@ window.curseTips = [
     ID: 52,
     Text: "The curse keeps track of your transgressions, anyone can see them when doing '#name transgressions'."
   },
+  {
+    ID: 53,
+    Text: "Punishment restraints can be customized by a curse owner with the 'punishmentrestraint' command."
+  },
+  {
+    ID: 54,
+    isContextual: true,
+    Text: "When someone says your trigger word, you will be unable to leave the room, interact with anyone or change your close to the set amount of time. Having your trigger word said again will reset the timer. If someone says it again as well as 'unfreeze' in the same sentence, it will remove the trigger effect."
+  },
+  {
+    ID: 55,
+    Text: "You and anyone you know who interacts with your curse can have their prefered language set with the command #name language."
+  },
 ];

@@ -41,8 +41,10 @@ function CursePreferenceRun() {
     }
 
     // Validate current inputs
-    if (!CursePreferenceTemporaryConfig) CursePreferenceTemporaryConfig = { ...cursedConfig };
-    CursedConfigValidate();
+    if (window.cursedConfig) {
+        if (!CursePreferenceTemporaryConfig) CursePreferenceTemporaryConfig = { ...cursedConfig };
+        CursedConfigValidate();
+    }
 
     // If the user is not cursed, draw not cursed
     if (!window.cursedConfig) CursePreferenceSubscreen = "NoCurse";
@@ -110,6 +112,7 @@ function CursePreferenceRun() {
 
     DrawCheckbox(1100, 312, 64, 64, "Capture mode", CursePreferenceTemporaryConfig.hasCaptureMode);
     DrawCheckbox(1100, 392, 64, 64, "Bigger chat input", CursePreferenceTemporaryConfig.hasFullLengthMode);
+    DrawCheckbox(1100, 472, 64, 64, "Hide the help message on login", CursePreferenceTemporaryConfig.hideHelp);
 
     MainCanvas.textAlign = "center";
 
@@ -134,69 +137,71 @@ function CursePreferenceClick() {
 
     // If the user clicks on "Exit"
     if (CursePreferenceErrors.length == 0) {
-        if (CommonIsClickAt(1815, 65, 1905-1815, 155-65)) CursePreferenceExit();
+        if (MouseIn(1815, 65, 1905-1815, 155-65)) CursePreferenceExit();
 
         // If the user clicks on the sub setting buttons
-        if (CommonIsClickAt(1815, 180, 1905-1815, 270-180)) {
+        if (MouseIn(1815, 180, 1905-1815, 270-180)) {
             CursePreferenceSubscreen = "Lists";
         }
-        if (CommonIsClickAt(1815, 295, 1905-1815, 385-295)) {
+        if (MouseIn(1815, 295, 1905-1815, 385-295)) {
             CursePreferenceSubscreen = "Permissions";
         }
-        if (CommonIsClickAt(1815, 410, 1905-1815, 500-410)) {
+        if (MouseIn(1815, 410, 1905-1815, 500-410)) {
             CursePreferenceSubscreen = "Punishments";
         }
-        if (CommonIsClickAt(1815, 525, 1905-1815, 615-525)) {
+        if (MouseIn(1815, 525, 1905-1815, 615-525)) {
             CursePreferenceSubscreen = "Orgasms";
         }
-        if (CommonIsClickAt(1815, 640, 1905-1815, 730-640)) {
+        if (MouseIn(1815, 640, 1905-1815, 730-640)) {
             CursePreferenceSubscreen = "Status";
         }
-        if (CommonIsClickAt(1815, 755, 1905-1815, 845-755)) {
+        if (MouseIn(1815, 755, 1905-1815, 845-755)) {
             CursePreferenceSubscreen = "Curses";
         }
-        if (CommonIsClickAt(1815, 870, 1905-1815, 960-870)) {
+        if (MouseIn(1815, 870, 1905-1815, 960-870)) {
             CursePreferenceSubscreen = "Speech";
         }
 
-        if (CommonIsClickAt(1705, 755, 1795-1705, 845-755)) {
+        if (MouseIn(1705, 755, 1795-1705, 845-755)) {
             CursePreferenceSubscreen = "Tip";
         }
-        if (CommonIsClickAt(1705, 870, 1795-1705, 960-870)) {
+        if (MouseIn(1705, 870, 1795-1705, 960-870)) {
             CursePreferenceSubscreen = "Appearance";
         }
     }
 
     // Main page clicks
     // Checkboxes
-    if (CommonIsClickAt(100, 312, 64, 64))
+    if (MouseIn(100, 312, 64, 64))
         CursePreferenceTemporaryConfig.hasIntenseVersion = !CursePreferenceTemporaryConfig.hasIntenseVersion;
-    if (CommonIsClickAt(100, 392, 64, 64))
+    if (MouseIn(100, 392, 64, 64))
         CursePreferenceTemporaryConfig.isEatingCommands = !CursePreferenceTemporaryConfig.isEatingCommands;
-    if (CommonIsClickAt(100, 472, 64, 64))
+    if (MouseIn(100, 472, 64, 64))
         CursePreferenceTemporaryConfig.hasHiddenDisplay = !CursePreferenceTemporaryConfig.hasHiddenDisplay;
-    if (CommonIsClickAt(100, 552, 64, 64))
+    if (MouseIn(100, 552, 64, 64))
         CursePreferenceTemporaryConfig.hasWardrobeV2 = !CursePreferenceTemporaryConfig.hasWardrobeV2;
-    if (CommonIsClickAt(100, 632, 64, 64))
+    if (MouseIn(100, 632, 64, 64))
         CursePreferenceTemporaryConfig.hasRestraintVanish = !CursePreferenceTemporaryConfig.hasRestraintVanish;
-    if (CommonIsClickAt(100, 712, 64, 64))
+    if (MouseIn(100, 712, 64, 64))
         CursePreferenceTemporaryConfig.isClassic = !CursePreferenceTemporaryConfig.isClassic;
-    if (CommonIsClickAt(100, 792, 64, 64))
+    if (MouseIn(100, 792, 64, 64))
         CursePreferenceTemporaryConfig.isSilent = !CursePreferenceTemporaryConfig.isSilent;
-    if (CommonIsClickAt(100, 872, 64, 64))
+    if (MouseIn(100, 872, 64, 64))
         CursePreferenceTemporaryConfig.hasForward = !CursePreferenceTemporaryConfig.hasForward;
 
-    if (CommonIsClickAt(1100, 312, 64, 64))
+    if (MouseIn(1100, 312, 64, 64))
         CursePreferenceTemporaryConfig.hasCaptureMode = !CursePreferenceTemporaryConfig.hasCaptureMode;
-    if (CommonIsClickAt(1100, 392, 64, 64))
+    if (MouseIn(1100, 392, 64, 64))
         CursePreferenceTemporaryConfig.hasFullLengthMode = !CursePreferenceTemporaryConfig.hasFullLengthMode;
+    if (MouseIn(1100, 472, 64, 64))
+        CursePreferenceTemporaryConfig.hideHelp = !CursePreferenceTemporaryConfig.hideHelp;
 
     // Import/Export
     if (navigator.clipboard) {
-        if (CommonIsClickAt(1170, 215, 180, 65)) {
+        if (MouseIn(1170, 215, 180, 65)) {
             CursePreferenceImportConfig();
         }
-        if (CommonIsClickAt(1370, 215, 180, 65)) {
+        if (MouseIn(1370, 215, 180, 65)) {
             CursePreferenceExportConfig();
         }
     }
@@ -276,7 +281,7 @@ function CursePreferenceSubscreenNoCurseRun() {
 // When the user clicks in the no curse preference subscreen
 function CursePreferenceSubscreenNoCurseClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75)) {
         CursePreferenceExit();
     }
 }
@@ -327,7 +332,7 @@ function CursePreferenceSubscreenListsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenListsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenListsExit();
     }
 }
@@ -384,7 +389,7 @@ function CursePreferenceSubscreenPermissionsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenPermissionsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenPermissionsExit();
     }
 }
@@ -423,7 +428,7 @@ function CursePreferenceSubscreenOrgasmsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenOrgasmsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
 }
@@ -464,11 +469,11 @@ function CursePreferenceSubscreenStatusRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenStatusClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
     // Checkboxes
-    if (CommonIsClickAt(100, 152, 64, 64))
+    if (MouseIn(100, 152, 64, 64))
         CursePreferenceTemporaryConfig.hasFullBlindMode = !CursePreferenceTemporaryConfig.hasFullBlindMode;
 }
 
@@ -481,7 +486,7 @@ function CursePreferenceSubscreenPunishmentsLoad() {
     ElementCreateTextArea("Transgressions");
     document.getElementById("Transgressions").setAttribute("autocomplete", "off");
     document.getElementById("Transgressions").setAttribute("disabled", "disabled");
-    ElementValue("Transgressions", CommonConvertArrayToString(CursePreferenceTemporaryConfig.transgressions.map(T => T.Count + "x " + T.Name)));
+    ElementValue("Transgressions", CursePreferenceTemporaryConfig.transgressions.map(T => T.Count + "x " + T.Name).join(","));
 }
 
 function CursePreferenceSubscreenPunishmentsRun() {
@@ -513,7 +518,7 @@ function CursePreferenceSubscreenPunishmentsRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenPunishmentsClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenPunishmentsExit();
     }
 }
@@ -549,7 +554,7 @@ function CursePreferenceSubscreenCursesRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenCursesClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
 }
@@ -562,11 +567,19 @@ function CursePreferenceSubscreenSpeechLoad() {
     ElementCreateTextArea("BannedWords");
     document.getElementById("BannedWords").setAttribute("autocomplete", "off");
     document.getElementById("BannedWords").setAttribute("disabled", "disabled");
-    ElementValue("BannedWords", CommonConvertArrayToString(CursePreferenceTemporaryConfig.bannedWords));
+    ElementValue("BannedWords", CursePreferenceTemporaryConfig.bannedWords.join(","));
     ElementCreateTextArea("EntryMsg");
     document.getElementById("EntryMsg").setAttribute("autocomplete", "off");
     document.getElementById("EntryMsg").setAttribute("disabled", "disabled");
     ElementValue("EntryMsg", CursePreferenceTemporaryConfig.entryMsg);
+    ElementCreateTextArea("DeafImmune");
+    document.getElementById("DeafImmune").setAttribute("autocomplete", "off");
+    document.getElementById("DeafImmune").setAttribute("disabled", "disabled");
+    ElementValue("DeafImmune", CursePreferenceTemporaryConfig.deafImmune.join(","));
+    ElementCreateTextArea("TriggerWord");
+    document.getElementById("TriggerWord").setAttribute("autocomplete", "off");
+    document.getElementById("TriggerWord").setAttribute("disabled", "disabled");
+    ElementValue("TriggerWord", "Trigger: " + (CursePreferenceTemporaryConfig.triggerWord.word || "No trigger word set.") + " Duration: " +  (CursePreferenceTemporaryConfig.triggerWord.triggerDuration/60000) + " minutes");
 }
 
 function CursePreferenceSubscreenSpeechRun() {
@@ -577,12 +590,18 @@ function CursePreferenceSubscreenSpeechRun() {
         DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
     // Info
-    DrawText("List of banned words:", 1400, 100, "Black", "Gray");
-    ElementPosition("BannedWords", 1400, 240, 430, 200);
+    DrawText("List of banned words:", 1400, 90, "Black", "Gray");
+    ElementPosition("BannedWords", 1400, 180, 650, 120);
 
-    DrawText("Introduction message:", 1400, 410, "Black", "Gray");
-    ElementPosition("EntryMsg", 1400, 500, 450, 120);
+    DrawText("Introduction message:", 1400, 290, "Black", "Gray");
+    ElementPosition("EntryMsg", 1400, 350, 650, 60);
 
+    DrawText("Trigger word/phrase:", 1400, 430, "Black", "Gray");
+    ElementPosition("TriggerWord", 1400, 490, 650, 60);
+    
+    DrawText("Users who's voice will not be deafened:", 1400, 570, "Black", "Gray");
+    ElementPosition("DeafImmune", 1400, 620, 650, 60);
+    
     // Checkboxes
     MainCanvas.textAlign = "left";
     DrawCheckbox(100, 312, 64, 64, "[CO] Wearer has an introduction message", CursePreferenceTemporaryConfig.hasEntryMsg);
@@ -599,7 +618,7 @@ function CursePreferenceSubscreenSpeechRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenSpeechClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenSpeechExit();
     }
 }
@@ -607,6 +626,8 @@ function CursePreferenceSubscreenSpeechClick() {
 function CursePreferenceSubscreenSpeechExit() {
     ElementRemove("EntryMsg");
     ElementRemove("BannedWords");
+    ElementRemove("DeafImmune");
+    ElementRemove("TriggerWord");
     CursePreferenceSubscreen = "";
     CursePreferenceLoaded = false;
 }
@@ -648,7 +669,7 @@ function CursePreferenceSubscreenAppearanceRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenAppearanceClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenAppearanceExit();
     }
 }
@@ -692,16 +713,16 @@ function CursePreferenceSubscreenTipRun() {
 // When the user clicks in the audio lists subscreen
 function CursePreferenceSubscreenTipClick() {
     // If the user clicked the exit icon to return to the main screen
-    if (CommonIsClickAt(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
+    if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreenTipExit();
     }
     
-    if (CommonIsClickAt(920, 160, 1100-920, 225-160)) { 
+    if (MouseIn(920, 160, 1100-920, 225-160)) { 
         CursePreferenceCurrentTip = PopTip(true);
         ElementValue("Tips", CursePreferenceCurrentTip);
     }
     
-    if (CommonIsClickAt(1120, 160, 1300-1120, 225-160)) { 
+    if (MouseIn(1120, 160, 1300-1120, 225-160)) { 
         CursePreferenceTemporaryConfig.seenTips = [];
         cursedConfig.seenTips = [];
         ElementValue("Tips", "Tip list reset. You will be able to see all tips again.");

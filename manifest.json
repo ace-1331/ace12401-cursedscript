@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "BC - Cursed",
     "description": "Injects the scripts needed to wear the curse",
-    "version": "1.2.4.5",
+    "version": "1.2.6.0",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"
@@ -28,6 +28,11 @@
                 "Curse/Checks/MessageCheck.js",
                 "Curse/Checks/PunishmentCheck.js",
                 "Curse/Checks/AppearanceCheck.js",
+                "Curse/Dictionary/Translate.js",
+                "Curse/Dictionary/TranslateHelpers.js",
+                "Curse/Dictionary/RU.js",
+                "Curse/Dictionary/EN.js",
+                "Curse/Dictionary/FR.js",
                 "Curse/Functions/All.js",
                 "Curse/Functions/ClubOwner.js",
                 "Curse/Functions/Private.js",
