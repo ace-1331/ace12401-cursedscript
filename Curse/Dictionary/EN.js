@@ -46,7 +46,7 @@ var cursedEN = {
     "AFKTimerTrigger": "(Was AFK for more than 5 minutes and got punished accordingly.)",
     "DraggedOutWearerCapture": "You have been sent to the room {0} by your captor, the messages above this one are from the previous room.",
     "DraggedOutAction": "%PLAYER% was dragged out by her captor.",
-    "LeashAction": "%PLAYER% was leashed out by her owner.",
+    "LeashAction": "%PLAYER% was forcibly summoned to another room by someone on her friends list. Yes, she was dumb enough to give any friend the ability to do that.",
     "LeashWearer": "You have been sent to the room {0} by your owner, the messages above this one are from the previous room.",
     "PunishOrgasm": "The curse on %PLAYER% punishes her for orgasming when her owner forbade her.",
     "NoRescueGambling": "Gambling Hall is disabled when the no NPC rescue curse is enabled. Turn off the curse temporarily if you wish to come in. ->Going back to the main hall <-",
