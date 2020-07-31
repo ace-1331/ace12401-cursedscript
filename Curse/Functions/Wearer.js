@@ -7,7 +7,7 @@ function WearerCommands({ command, parameters, sender }) {
     case "togglecommand":
       TryPopTip(50);
       if (!parameters[0]) {
-        popChatSilent("Invalid command -> specify the command to toggle on/off");
+        popChatSilent({ Tag: "ToggleCommandInvalid" });
         return;
       }
       const optin = cursedConfig.optinCommands.find(OC => OC.command === parameters[0]);
@@ -20,71 +20,51 @@ function WearerCommands({ command, parameters, sender }) {
       // When normal, we add/remove it from the list
       if (cursedConfig.disabledCommands.includes(parameters[0])) {
         cursedConfig.disabledCommands = cursedConfig.disabledCommands.filter(C => C !== parameters[0]);
-        popChatSilent(`The ${parameters[0]} command was removed from your blacklist.`);
+        popChatSilent({ Tag: "RemovedBlacklistCommand", Param: [parameters[0]]});
         return;
       }
       cursedConfig.disabledCommands.push(parameters[0]);
       popChatSilent(parameters[0] === "ownerhub" ? "The curse is now in owner hub mode. No one will be able to interact with your curse." : `The ${parameters[0]} command was blocked.`);
       break;
     case "restraintvanish":
-      if (cursedConfig.hasRestraintVanish)
-        popChatSilent("Your curse will no longer remove Items.");
-      else
-        popChatSilent("Your curse will remove Items.");
+      popChatSilent({
+        Tag: cursedConfig.hasRestraintVanish ? "restraintvanishoff" : "restraintvanishon"
+      });
       cursedConfig.hasRestraintVanish = !cursedConfig.hasRestraintVanish;
       break;
     case "hidehelp":
-      if (cursedConfig.hideHelp)
-        popChatSilent("You will see the help message on every login again.");
-      else
-        popChatSilent("You will no longer see the help message on login.");
+      popChatSilent({ Tag: cursedConfig.hideHelp ? "LoginHelpOff" : "LoginHelpOn" });
       cursedConfig.hideHelp = !cursedConfig.hideHelp;
       break;
     case "forwardall":
-      if (!cursedConfig.hasForward)
-        popChatSilent("Your curse will forward all whispers to you.");
-      else
-        popChatSilent("Your curse will no longer forward unnecessary whispers.");
+      popChatSilent({ Tag: cursedConfig.hasForward ? "forwardalloff" : "forwardallon" });
       cursedConfig.hasForward = !cursedConfig.hasForward;
       break;
     case "hidedisplay":
-      if (!cursedConfig.hasHiddenDisplay)
-        popChatSilent("You will no longer see who has the curse.");
-      else
-        popChatSilent("You will now see who has the curse.");
+      popChatSilent({ Tag: cursedConfig.hasHiddenDisplay ? "hidedisplayoff" : "hidedisplayon" });
       cursedConfig.hasHiddenDisplay = !cursedConfig.hasHiddenDisplay;
       break;
     case "capture":
       if (!cursedConfig.hasIntenseVersion) {
-        popChatSilent("(Will only work if intense mode is turned on.)");
+        popChatSilent({ Tag: "NeedIntenseOn" });
         return;
       }
-      if (!cursedConfig.hasCaptureMode)
-        popChatSilent("You can now be captured by anyone.");
-      else
-        popChatSilent("You can no longer be captured.");
+      popChatSilent({
+        Tag: cursedConfig.hasCaptureMode ? "hasCaptureModeoff" : "hasCaptureModeon"
+      });
       cursedConfig.hasCaptureMode = !cursedConfig.hasCaptureMode;
       break;
     case "wardrobev2":
-      if (!cursedConfig.hasWardrobeV2)
-        popChatSilent("Enabled enhanced wardrobe. (Changes will be applied on the next reload.)");
-      else
-        popChatSilent("Disabled enhanced wardrobe. (Changes will be applied on the next reload.)");
+      popChatSilent({ Tag: cursedConfig.hasWardrobeV2 ? "wardrobev2off" : "wardrobev2on" });
       cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
       break;
     case "eatcommand":
     case "eatcommands":
-      if (!cursedConfig.isEatingCommands)
-        popChatSilent("Will no longer display whispers containing valid commands.");
-      else
-        popChatSilent("Will resume displaying whispers containing valid commands.");
+      popChatSilent({ Tag: cursedConfig.isEatingCommands ? "eatcommandoff" : "eatcommandon" });
       cursedConfig.isEatingCommands = !cursedConfig.isEatingCommands;
       break;
     case "issilent":
-      if (!cursedConfig.isSilent)
-        popChatSilent("Your curse will no longer display public messages");
-      else
-        popChatSilent("Your curse will resume displaying messages publicly");
+      popChatSilent({ Tag: cursedConfig.isSilent ? "issilentoff" : "issilenton" });
       cursedConfig.isSilent = !cursedConfig.isSilent;
       break;
     case "showstrikes":
@@ -137,7 +117,7 @@ function WearerCommands({ command, parameters, sender }) {
           popChatSilent("(Cannot remove your official owner.)");
         }
       } else {
-        popChatSilent("(Invalid arguments.)");
+        popChatSilent({ Tag: "GeneralInvalidArgs" });
       }
       break;
     case "mistress":
@@ -162,7 +142,7 @@ function WearerCommands({ command, parameters, sender }) {
           popChatSilent("Removed mistress: " + FetchName(parameters[0]));
         }
       } else {
-        popChatSilent("Invalid Arguments.");
+        popChatSilent({ Tag: "GeneralInvalidArgs" });
       }
       break;
     case "blacklist":
@@ -177,7 +157,7 @@ function WearerCommands({ command, parameters, sender }) {
           popChatSilent("Removed from blacklist: " + FetchName(parameters[0]));
         }
       } else {
-        popChatSilent("Invalid Arguments.");
+        popChatSilent({ Tag: "GeneralInvalidArgs" });
       }
       break;
     case "identifier":
@@ -194,7 +174,7 @@ function WearerCommands({ command, parameters, sender }) {
         popChatSilent("Invalid command character: " + parameters.join(" "));
       break;
     case "punishmentcolor":
-      popChatSilent("No longer needed, use savecolors instead.");
+      popChatSilent({ Tag: "PunishmentColorDisabled" });
       break;
     case "draw":
       if (parameters.filter(param => isNaN(param)).length == 0) {
@@ -207,7 +187,7 @@ function WearerCommands({ command, parameters, sender }) {
     case "tip":
     case "tips":
       if (parameters[0] == "reset") {
-        popChatSilent("You can now see all the tips again.");
+        popChatSilent({ Tag: "TipReset" });
         cursedConfig.seenTips = [];
       }
       PopTip();
@@ -216,10 +196,9 @@ function WearerCommands({ command, parameters, sender }) {
       SaveColors();
       break;
     case "fullchatlength":
-      if (!cursedConfig.hasFullLengthMode)
-        popChatSilent("You're chat input will now be 5 times bigger. (1000 chars long)");
-      else
-        popChatSilent("You're chat input will be normal again. (200 chars long)");
+      popChatSilent({
+        Tag: cursedConfig.hasFullLengthMode ? "FullLengthOff" : "FullLengthOn"
+      });
       cursedConfig.hasFullLengthMode = !cursedConfig.hasFullLengthMode;
       break;
     case "quickban":
@@ -259,10 +238,10 @@ function WearerCommands({ command, parameters, sender }) {
             dateOfRemoval
           })
         ) {
-          sendWhisper(sender, "-->Invalid item group. Check the wiki for the list of available groups.", true);
+          sendWhisper(sender, {Tag: "InvalidItemGroup"}, true);
         }
       } else {
-        sendWhisper(sender, "(Invalid arguments. Specify the item group and number of hours the curse should stay active.)");
+        sendWhisper(sender, {Tag: "CurseItemInvalidArgs"});
       }
       break;
     case "language":
@@ -271,10 +250,10 @@ function WearerCommands({ command, parameters, sender }) {
         case "ru":
         case "fr":
           DictionaryRequest(sender, parameters[0].toUpperCase());
-          popChatSilent(`(Dictionary set to ${parameters[0].toUpperCase()}.)`, "System");
+          popChatSilent({ Tag: "AllSetDictionary", Param: [parameters[0].toUpperCase()] }, "System");
           break;
         default:
-          popChatSilent(`(Invalid language. Currently only "ru", "fr" and "en" are available. Anyone can contribute to add more!)`, "System");
+          popChatSilent({ Tag: "AllInvalidLanguage" }, "System");
           break;
       }
       break;

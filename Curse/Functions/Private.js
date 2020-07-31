@@ -36,7 +36,7 @@ function PrivateCommands({ command, parameters, sender }) {
         .filter(n => n.Nickname && n.Nickname != n.SavedName)
         .map(n => " #" + n.Number + " " + n.Nickname)
         .join(", ");
-      sendWhisper(sender, "Currently set nicknames:" + report);
+      sendWhisper(sender, { Tag: "ShowNicknames", Param: [report] });
       break;
     }
     case "showtitles": {
@@ -45,7 +45,7 @@ function PrivateCommands({ command, parameters, sender }) {
         .filter(t => t.Titles.length > 0)
         .map(t => "#" + t.Number + " " + t.Titles.join(", "))
         .join(", ");
-      sendWhisper(sender, "Currently set titles: " + report);
+      sendWhisper(sender, { Tag: "ShowTitles", Param: [report] });
       break;
     }
     case "speechreport": {
@@ -58,17 +58,17 @@ function PrivateCommands({ command, parameters, sender }) {
     }
     case "isclassic":
       if (!cursedConfig.isClassic)
-        sendWhisper(sender, "The curse will act like it did before. (Messages containing transgressions will be sent, but punishments will still be applied.)");
+        sendWhisper(sender, { Tag: "IsClassicOn" });
       else
-        sendWhisper(sender, "The curse will no longer act like it did before. (Messages containing transgressions will NOT be sent.)");
+        sendWhisper(sender, { Tag: "IsClassicOff" });
       cursedConfig.isClassic = !cursedConfig.isClassic;
       break;
     case "fullblindfold":
       if (!cursedConfig.hasFullBlindMode) {
-        sendWhisper(sender, "(All blindfolds will completely blind the wearer.)");
+        sendWhisper(sender, { Tag: "FullBlindfoldOn" });
         Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
       } else {
-        sendWhisper(sender, "(Blindfolds will behave normally.)");
+        sendWhisper(sender, { Tag: "FullBlindfoldOff" });
         AssetLoadAll();
       }
       cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;

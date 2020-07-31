@@ -9,4 +9,12 @@ var cursedFR = {
     "IntenseOn": "Le mode intense est activé (Risqué).",
     "CurseArise": "La malédiction apparait sur le/la/les {1} de {0}",
     "CurseLift": "La malédiction sur le/la/les {1} de {0} disparait",
+    "DeckDrawnWhisper": "(Vous avez pigé la carte suivante: {0})",
+    "DeckDrawnGlobal": "La/les carte(s) suivantes ont été pigées: {0}",
+    "FullBlindfoldOn": "(Tous les bandeaux aveugleront au maximum.)",
+    "FullBlindfoldOff": "(Les bandeaux se comporteront normallement.)",
+    "IsClassicOn": "La malédiction agira comme dans le passé. (Les messages contenants des erreurs seront envoyées, les punitions seront quand même appliquées.)",
+    "IsClassicOff": "La malédiction n'agira plus comme dans le passé. (Les messages contenants des erreurs ne seront PAS envoyées.)",
+    "ShowTitles": "Les titres assignées: {0}",
+    "ShowNicknames": "Les surnoms assignées: {0}",
 };
