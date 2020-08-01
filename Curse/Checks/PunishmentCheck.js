@@ -4,7 +4,7 @@ function PunishmentCheck() {
   for (i = cursedConfig.punishmentRestraints.length - 1; i >= 0; i--) { 
     if (!Asset.find(A => A.Name === cursedConfig.punishmentRestraints[i].name && A.Group.Name === cursedConfig.punishmentRestraints[i].group)) { 
       delete cursedConfig.punishmentRestraints[i];
-      popChatSilent("An invalid punishment restraint was found and removed, this might be caused by a new version of the club if an item was removed or moved to another group.", "System");
+      popChatSilent({ Tag: "ErrorInvalidPunishment"}, "System");
     }
   }
   
@@ -21,7 +21,7 @@ function PunishmentCheck() {
     });
     if (r) {
       TryPopTip(41);
-      SendChat("The curse on " + Player.Name + " punishes her.");
+      SendChat({ Tag: "PunishmentTriggered"});
     }
     cursedConfig.lastPunishmentAmount = cursedConfig.strikes;
   }

@@ -36,13 +36,17 @@ function popChatGlobal(actionTxt, isNormalTalk) {
     } else {
       var msgFR = actionTxt;
       var msgEN = actionTxt;
+      //var msgRU = actionTxt;
       if (typeof actionTxt == "object") { 
+       // _.setTranslation({ ...cursedEN, ...cursedRU });
+       // msgRU = CT(actionTxt);
         _.setTranslation({ ...cursedEN, ...cursedFR });
         msgFR = CT(actionTxt);
         _.setTranslation(cursedEN);
         msgEN = CT(actionTxt);
       }
       
+      // RU uses beep so I cannot bypass it
       ServerSend("ChatRoomChat", {
         Content: "Beep", Type: "Action", Dictionary: [
           { Tag: "Beep", Text: "msg" },

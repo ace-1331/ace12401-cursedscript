@@ -19,7 +19,7 @@ function AppearanceCheck() {
       && Player.CanKneel()
       && !Player.Pose.includes("Kneel")
     ) {
-      SendChat("The curse on " + Player.Name + "'s forces her back down to her knees.");
+      SendChat({ Tag: "AppearanceCheckKneel" });
       KneelAttempt();
       TryPopTip(24);
       TriggerPunishment(0);
@@ -49,10 +49,9 @@ function AppearanceCheck() {
     });
 
     if (warnAdd)
-      SendChat(`The curse on ${Player.Name} restores her cursed item${warnAdd > 1 ? "s" : ""}.`);
+      SendChat({ Tag: warnAdd > 1 ? "AppearanceCheckRestore1" : "AppearanceCheckRestoreMany" });
     if (warnRemove)
-      SendChat(`The curse on ${Player.Name} removes forbidden item${warnRemove > 1 ? "s" : ""}.`);
-
+      SendChat({ Tag: warnRemove > 1 ? "AppearanceCheckRemove1" : "AppearanceCheckRemoveMany" });
 
     //Cursed Orgasms
     if (cursedConfig.hasCursedOrgasm) {
@@ -69,13 +68,12 @@ function AppearanceCheck() {
             procCursedOrgasm(G);
           }
           if (A.Property.Intensity != (cursedConfig.vibratorIntensity != null ? cursedConfig.vibratorIntensity : 3)) {
-            SendChat("The curse on " + Player.Name + " brings her vibrators back to their required intensity.");
+            SendChat({ Tag: "AppearanceCheckVibe" });
             procCursedOrgasm(G);
             TryPopTip(27);
             TriggerPunishment(8);
           }
         }
-
       });
     }
   }

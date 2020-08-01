@@ -8,7 +8,7 @@ function SetDictionary(language) {
             _.setTranslation({ ...cursedEN, ...cursedFR });
             break;
         case "RU":
-            _.setTranslation({ ...cursedRU, ...cursedFR });
+            _.setTranslation({ ...cursedEN, ...cursedRU });
             break;
         default:
             _.setTranslation(cursedEN);
