@@ -113,7 +113,7 @@ function InitAlteredFns() {
       //Garble ooc
       if (!Player.CanTalk() && !msg.startsWith("*")) {
         document.getElementById("InputChat").value = msg.split("(").map((str, Idx) => {
-          if (Idx == 0) { return str; } else { return SpeechGarble(Player, str); }
+          if (Idx == 0 && !ChatRoomTargetMemberNumber) { return str; } else { return SpeechGarble(Player, str); }
         }).join("(");
       }
       
