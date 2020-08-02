@@ -68,7 +68,7 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
-Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli
+Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**

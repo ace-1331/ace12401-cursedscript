@@ -52,11 +52,11 @@ function AnalyzeMessage(msg) {
   if (types.contains("ChatMessageEnterLeave")) {
     //Warn only if the player is not aware
     if ((cursedConfig.owners.includes(sender) || cursedConfig.mistresses.includes(sender)) && chatroomMembers.includes(sender) && !cursedConfig.warned.includes(sender)) {
-      sendWhisper(sender, "(The curse is active. Command call id: " + commandCall + ")");
+      sendWhisper(sender, { Tag: "MsgCheckActiveMsg", Param: [commandCall] });
       cursedConfig.warned.push(sender);
     }
     if (sender == Player.MemberNumber) {
-      NotifyOwners("(The curse is active. Command call id: " + commandCall + ")");
+      NotifyOwners({ Tag: "MsgCheckActiveMsg", Param: [commandCall] });
       // Pop saved messages while outside of room
       popChatSilent();
       // Kneels if you have cursedcollar to prevent login issues
@@ -88,7 +88,7 @@ function AnalyzeMessage(msg) {
 
       //Global warning to prevent spam.
       if (types.contains("ChatMessageChat") && ChatRoomCharacter.length > 2) {
-        sendWhisper(sender, "--> Command cancelled. Please use commands in whispers to prevent spam.", true);
+        sendWhisper(sender, { Tag: "MsgCheckErrorNonWhisper" }, true);
         return;
       }
 
@@ -130,7 +130,16 @@ function AnalyzeMessage(msg) {
 
       //Warn an attempt was made but no command was found
       if (needWarning) {
-        sendWhisper(sender, `(Invalid command: A command was possibly requested, but no matching command was found. Check for typos , or verify your version number and curse settings. Info about the person who sent the command: Club owner: ${isClubOwner ? "Yes" : "No"}, Curse owner: ${isOwner ? "Yes" : "No"}, Mistress: ${isOwner || isMistress ? "Yes" : "No"}, Public access: ${cursedConfig.hasPublicAccess ? "Yes" : "No"}, Full public access: ${cursedConfig.hasFullPublic ? "Yes" : "No"})`, true);
+        sendWhisper(sender, {
+          Tag: "MsgCheckCommandInvalid",
+          Param: [
+            isClubOwner ? "Yes" : "No",
+            isOwner ? "Yes" : "No",
+            isOwner || isMistress ? "Yes" : "No",
+            cursedConfig.hasPublicAccess ? "Yes" : "No",
+            cursedConfig.hasFullPublic ? "Yes" : "No"
+          ]
+        }, true);
       } else if (cursedConfig.isEatingCommands) {
         msg.style.display = "none";
       }
@@ -142,7 +151,7 @@ function AnalyzeMessage(msg) {
     if (sender == Player.MemberNumber) {
       //Mute
       if (cursedConfig.isMute && textmsg.length != 0 && types.contains("ChatMessageChat")) {
-        SendChat(Player.Name + " angers the curse by speaking when she is not allowed to.");
+        SendChat({ Tag: "MsgCheckAngerMute" });
         TriggerPunishment(1);
       }
     }
@@ -155,14 +164,14 @@ function AnalyzeMessage(msg) {
       let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
       if (words.includes("unfreeze")) { 
         if (isTriggered) {
-          SendChat(Player.Name + " unfreezes as her trigger word is said once more.");
+          SendChat({ Tag: "MsgCheckUnfreezeAction" });
         } 
         cursedConfig.triggerWord.lastTrigger = 0;
       } else {
         if (!isTriggered) {
-          SendChat(Player.Name + " freezes as her trigger word is said.");
+          SendChat({ Tag: "MsgCheckFreezeAction" });
         } else {
-          popChatSilent("Freeze timer reset.");
+          popChatSilent({ Tag: "MsgCheckFreezeReset" });
         }
         cursedConfig.triggerWord.lastTrigger = Date.now();
       }

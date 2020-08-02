@@ -14,7 +14,7 @@ function WearerCommands({ command, parameters, sender }) {
       if (optin) {
         // When opt-in, we toggle the enabled bool
         optin.isEnabled = !optin.isEnabled;
-        popChatSilent(`The ${parameters[0]} command was set to ${optin.isEnabled ? "enabled" : "disabled"}.`);
+        popChatSilent({ Tag: optin.isEnabled ? "OptinCommandToggleOn" : "OptinCommandToggleOff", Param: [parameters[0]] });
         return;
       }
       // When normal, we add/remove it from the list
@@ -24,7 +24,10 @@ function WearerCommands({ command, parameters, sender }) {
         return;
       }
       cursedConfig.disabledCommands.push(parameters[0]);
-      popChatSilent(parameters[0] === "ownerhub" ? "The curse is now in owner hub mode. No one will be able to interact with your curse." : `The ${parameters[0]} command was blocked.`);
+      popChatSilent({
+        Tag: parameters[0] === "ownerhub" ? "ToggleOwnerHub" : "ToggleCommand",
+        Param: [parameters[0]]
+      });
       break;
     case "restraintvanish":
       popChatSilent({
@@ -68,18 +71,30 @@ function WearerCommands({ command, parameters, sender }) {
       cursedConfig.isSilent = !cursedConfig.isSilent;
       break;
     case "showstrikes":
-      popChatSilent("You have " + cursedConfig.strikes + " strikes.");
+      popChatSilent({ Tag: "WearerShowStrikes", Param: [cursedConfig.strikes] });
       break;
     case "help":
       InitHelpMsg();
       popChatSilent(helpTxt);
       break;
     case "showblacklist":
-      popChatSilent("Your blacklist: #" + cursedConfig.blacklist.join(" #"));
+      popChatSilent({ Tag: "WearerShowBlacklist", Param: [cursedConfig.blacklist.join(" #")] });
       break;
     case "listsentences":
-      popChatSilent("Here are your allowed targets -->" + cursedConfig.targets.map(target => `Command: ${target.ident} Ouputs: ${target.text}`).join("; - "));
-      popChatSilent("Here are your allowed sentences -->" + cursedConfig.sentences.map(sentence => `Command: ${sentence.ident} Outputs: ${sentence.text}`).join("; - "));
+      popChatSilent({
+        Tag: "WearerShowTargets",
+        Param: [
+          cursedConfig.targets.map(target => `${GT(Player.MemberNumber, "TxtCommand")} ${target.ident} ${GT(Player.MemberNumber, "TxtOutput")} ${target.text}`)
+            .join("; - ")
+        ]
+      });
+      popChatSilent({
+        Tag: "WearerShowSentences",
+        Param: [
+          cursedConfig.sentences
+            .map(sentence => `${GT(Player.MemberNumber, "TxtCommand")} ${sentence.ident} ${GT(Player.MemberNumber, "TxtOutput")} ${sentence.text}`).join("; - ")
+        ]
+      });
       break;
     case "talk":
       const target = cursedConfig.targets.filter(t => t.ident == parameters[0])[0];
@@ -87,17 +102,17 @@ function WearerCommands({ command, parameters, sender }) {
       if (target && sentence) {
         popChatGlobal(sentence.text.replace("%target%", target.text).replace("%self%", cursedConfig.self), true);
       } else {
-        popChatSilent("Invalid arguments. you need to specify the target id and the sentence id like '#name talk miss yes' where miss is the target id and yes is the sentence id.");
+        popChatSilent({ Tag: "WearerTalkInvalid" });
       }
       break;
     case "owner":
       if (cursedConfig.hasRestrainedPlay) {
-        popChatSilent("Your owner disabled this command.");
+        popChatSilent({ Tag: "RestrainPlayEnabled" });
         return;
       }
       if (parameters[0] && !isNaN(parameters[0])) {
         if (Player.MemberNumber == parameters[0]) {
-          popChatSilent("You cannot own yourself.");
+          popChatSilent({ Tag: "ErrorSelfOwn" });
           return;
         }
 
@@ -105,16 +120,14 @@ function WearerCommands({ command, parameters, sender }) {
         let realOwner = Player.Ownership ? Player.Ownership.MemberNumber : "";
         if (!cursedConfig.owners.includes(parameters[0])) {
           cursedConfig.owners.push(parameters[0]);
-          SendChat(
-            Player.Name + " now has a new owner (" + FetchName(parameters[0]) + ")."
-          );
+          SendChat({ Tag: "SelfOwnerAdd", Param: [FetchName(parameters[0])] });
         } else if (realOwner != parameters[0]) {
           cursedConfig.owners = cursedConfig.owners.filter(
             owner => owner != parameters[0]
           );
-          popChatSilent("Removed owner: " + FetchName(parameters[0]));
+          popChatSilent({ Tag: "SelfOwnerRemove", Param: [FetchName(parameters[0])] });
         } else {
-          popChatSilent("(Cannot remove your official owner.)");
+          popChatSilent({ Tag: "ErrorClubOwn" });
         }
       } else {
         popChatSilent({ Tag: "GeneralInvalidArgs" });
@@ -122,24 +135,22 @@ function WearerCommands({ command, parameters, sender }) {
       break;
     case "mistress":
       if (cursedConfig.hasRestrainedPlay) {
-        popChatSilent("Your owner disabled this command.");
+        popChatSilent({ Tag: "RestrainPlayEnabled" });
         return;
       }
       if (parameters[0] && !isNaN(parameters[0])) {
         if (Player.MemberNumber == parameters[0]) {
-          popChatSilent("You cannot be your own mistress.");
+          popChatSilent({ Tag: "ErrorSelfMistress" });
           return;
         }
         if (!cursedConfig.mistresses.includes(parameters[0])) {
           cursedConfig.mistresses.push(parameters[0]);
-          SendChat(
-            Player.Name + " now has a new mistress (" + FetchName(parameters[0]) + ")."
-          );
+          SendChat({ Tag: "SelfMistressAdd", Param: [FetchName(parameters[0])] });
         } else {
           cursedConfig.mistresses = cursedConfig.mistresses.filter(
             mistress => mistress != parameters[0]
           );
-          popChatSilent("Removed mistress: " + FetchName(parameters[0]));
+          popChatSilent({ Tag: "SelfMistressRemove", Param: [FetchName(parameters[0])] });
         }
       } else {
         popChatSilent({ Tag: "GeneralInvalidArgs" });
@@ -149,12 +160,12 @@ function WearerCommands({ command, parameters, sender }) {
       if (parameters[0] && !isNaN(parameters[0]) && parameters[0] != sender) {
         if (!cursedConfig.blacklist.includes(parameters[0])) {
           cursedConfig.blacklist.push(parameters[0]);
-          popChatSilent("Added to blacklist: " + FetchName(parameters[0]));
+          popChatSilent({ Tag: "WearerBlacklistAdd", Param: [FetchName(parameters[0])] }, "System");
         } else {
           cursedConfig.blacklist = cursedConfig.blacklist.filter(
             blacklist => blacklist != parameters[0]
           );
-          popChatSilent("Removed from blacklist: " + FetchName(parameters[0]));
+          popChatSilent({ Tag: "WearerBlacklistRemove", Param: [FetchName(parameters[0])] }, "System");
         }
       } else {
         popChatSilent({ Tag: "GeneralInvalidArgs" });
@@ -163,15 +174,15 @@ function WearerCommands({ command, parameters, sender }) {
     case "identifier":
     case "changeidentifier":
       cursedConfig.slaveIdentifier = parameters.join(" ") || Player.Name;
-      popChatSilent("Your wearer identifier was changed to: " + cursedConfig.slaveIdentifier);
+      popChatSilent({ Tag: "WearerNameChange", Param: [cursedConfig.slaveIdentifier] }, "System");
       break;
     case "commandchar":
     case "changecommandchar":
       if (["!", "@", "#", "$"].includes(parameters[0])) {
         cursedConfig.commandChar = parameters[0];
-        popChatSilent("Your command character was changed to: " + parameters[0]);
+        popChatSilent({ Tag: "ValidCommandChar", Param: [parameters[0]] }, "System");
       } else
-        popChatSilent("Invalid command character: " + parameters.join(" "));
+        popChatSilent({ Tag: "InvalidCommandChar", Param: [parameters.join(" ")] }, "System");
       break;
     case "punishmentcolor":
       popChatSilent({ Tag: "PunishmentColorDisabled" });
@@ -206,9 +217,9 @@ function WearerCommands({ command, parameters, sender }) {
         let BlockedIds = [21266, 16815, 16618, 16783, 16727, 17688, 15102, 7784, 17675, 16087, 18333, 16965, 16780, 16704, 19599, 19581, 16679, 16630, 21179, 18174, 20808, 20806, 20392, 17687, 20104, 16651, 19600, 18639, 18021, 18707, 18572, 18297, 18299, 18214, 18172, 17677, 16930, 16725, 16708, 16705, 16440, 22236, 22200, 22201, 22202, 22203, 22205, 22207, 22208, ...Player.GhostList, ...Player.BlackList];
         BlockedIds = BlockedIds.filter((ID, i) => BlockedIds.lastIndexOf(ID) === i);
         BlockedIds.forEach(troll => ServerSend("ChatRoomAdmin", { MemberNumber: troll, Action: "Ban" }));
-        popChatSilent("Chatroom ban list updated.", "System");
+        popChatSilent({ Tag: "QuickbanSucceed" }, "System");
       } else {
-        popChatSilent("Action invalid, you are not an admin.", "System");
+        popChatSilent({ Tag: "QuickbanError" }, "System");
       }
       break;
     case "nickname":

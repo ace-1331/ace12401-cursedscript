@@ -15,8 +15,8 @@ function SelfMessageCheck(msg) {
     cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
     && !Player.CanTalk() && (originalMsg.includes("(") || ChatRoomTargetMemberNumber)
   ) { 
-    NotifyOwners("(Tried to use OOC while gagged)");
-    popChatSilent("WARNING: You are not allowed to use OOC while gagged.");
+    NotifyOwners({ Tag: "SelfMsgCheckNotifyGagOOC" });
+    popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagOOC" });
     TriggerPunishment(9);
     r = true;
   }
@@ -40,7 +40,7 @@ function SelfMessageCheck(msg) {
       ChatRoomLastMessage.push(originalMsg);
       return true;
     }
-    popChatSilent("(A command call was detected, but unidentified. Check for typos and verify your version if this was intended. This message will be processed normally.)", "System");
+    popChatSilent({ Tag: "SelfMsgCheckCommandCallError" }, "System");
   }
 
   //Should say 
@@ -50,8 +50,8 @@ function SelfMessageCheck(msg) {
       msg != cursedConfig.say.toLowerCase().trim()
             && !ChatRoomTargetMemberNumber && !originalMsg.startsWith("*")
     ) {
-      NotifyOwners("(Did not say the sentence willingly.)");
-      popChatSilent("You were punished for not saying the expected sentence willingly: " + cursedConfig.say);
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyForceSay"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnForceSay", Param: [cursedConfig.say] });
       TriggerPunishment(12);
       cursedConfig.say = "";
       return true;
@@ -68,8 +68,8 @@ function SelfMessageCheck(msg) {
     && cursedConfig.hasIntenseVersion
   ) {
     if (isNormalMsg) {
-      NotifyOwners("(Tried to speak freely when her speech was restrained.)");
-      popChatSilent("Bad girl. You tried to speak freely while your speech is being restrained.");
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyRestrained"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnRestrained" });
       TryPopTip(42);
       TriggerPunishment(16);
       return true;
@@ -92,8 +92,8 @@ function SelfMessageCheck(msg) {
       );
       if (matches.length > goodMatches.length) {
         TryPopTip(34);
-        NotifyOwners("(Tried to be disrespectful)");
-        popChatSilent("Respecting " + member.Number + " is required.");
+        NotifyOwners({ Tag: "SelfMsgCheckNotifyDisrespect"});
+        popChatSilent({ Tag: "SelfMsgCheckWarnDisrespect", Param: [FetchName(member.Number)] });
         TriggerPunishment(15, [member.Number]);
         r = true;
       }
@@ -108,8 +108,8 @@ function SelfMessageCheck(msg) {
       msg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(\()|(\))|(!)|(\?)/g, " ").match(/[^\s]+/g) || []).includes(word.toLowerCase()
     ));
     if (badWords.length != 0) {
-      NotifyOwners(`(Used banned words: ${badWords.join(", ")})`);
-      popChatSilent("Bad girl. Bad word(s) used: " + badWords.join(", "));
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyWord", Param: [badWords.join(", ")] });
+      popChatSilent({ Tag: "SelfMsgCheckWarnWord", Param: [badWords.join(", ")] });
       badWords.forEach(BW => TriggerPunishment(14, [BW]));
       r = true;
     }
@@ -125,8 +125,8 @@ function SelfMessageCheck(msg) {
           }).length > 0
         && isNormalMsg
   ) {
-    NotifyOwners("(Tried to make unallowed sounds)");
-    popChatSilent("Bad girl. You made unallowed sounds. (allowed sound: " + cursedConfig.sound + ")");
+    NotifyOwners({ Tag: "SelfMsgCheckNotifySound" });
+    popChatSilent({ Tag: "SelfMsgCheckWarnSound", Param: [cursedConfig.sound] });
     TriggerPunishment(13);
     r = true;
   }
@@ -139,8 +139,8 @@ function SelfMessageCheck(msg) {
       hasPunishment = true;
     });
     if (hasPunishment) {
-      NotifyOwners("(Tried to use contractions)");
-      popChatSilent("WARNING: You are not allowed to use contractions!");
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyContraction"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnContraction" });
       r = true;
     }
   }
@@ -152,14 +152,14 @@ function SelfMessageCheck(msg) {
     const size = words.length;
     const longWords = words.filter(w => w.length > 6);
     if (size > 5) {
-      NotifyOwners("(Tried to use too many words (doll talk infraction))");
-      popChatSilent("WARNING: You are not allowed to use more than 5 words! (doll talk infraction)");
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyDollMany"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnDollMany" });
       TriggerPunishment(11);
       r = true;
     }
     if (longWords.length > 0) {
-      NotifyOwners("(Tried to use fancy words (doll talk infraction))");
-      popChatSilent("WARNING: You are not allowed to use words with more than 6 letters! (doll talk infraction)");
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyDollLong"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnDollLong" });
       longWords.forEach(LW => TriggerPunishment(10, [LW]));
       r = true;
     }

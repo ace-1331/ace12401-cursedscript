@@ -5,7 +5,7 @@ function PrivateCommands({ command, parameters, sender }) {
       TryPopTip(45);
       let presets = cursedConfig.cursedPresets.map(P =>
         P.name + " [" + P.cursedItems.map(CI =>
-          (AssetGroup.find(G => G.Name == CI.group) || {}).Description || "Unknown Group"
+          (AssetGroup.find(G => G.Name == CI.group) || {}).Description || "???"
         ).join(", ") + "]"
       ).join(", ");
       sendWhisper(sender, presets);
