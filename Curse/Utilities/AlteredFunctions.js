@@ -109,6 +109,15 @@ function InitAlteredFns() {
           return;
         }
       }
+      
+      //Garble ooc
+      if (!Player.CanTalk() && !msg.startsWith("*")) {
+        document.getElementById("InputChat").value = msg.split("(").map((str, Idx) => {
+          if (Idx == 0 && !ChatRoomTargetMemberNumber) { return str; } else { return SpeechGarble(Player, str); }
+        }).join("(");
+      }
+      
+      
       backupChatRoomSendChat(...rest);
     };
   }
