@@ -25,7 +25,7 @@ async function CursedCheckUp() {
   //Run the script only in chatrooms
   if (window.CurrentScreen == "ChatRoom") {
     // Save the room for DC prevention
-    if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && ChatRoomData && ChatRoomData.Name) {
+    if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && ChatRoomData && ChatRoomData.Name) {
       cursedConfig.lastChatroom = ChatRoomData.Name;
     }
     
