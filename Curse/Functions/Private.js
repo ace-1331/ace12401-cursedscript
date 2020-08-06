@@ -22,14 +22,18 @@ function PrivateCommands({ command, parameters, sender }) {
           e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
           return tmpstr;
         }).join(", ");
-      sendWhisper(sender, "Enforced list: " + report);
+      sendWhisper(sender, { Tag: "PrivateShowEnforced", Param: [report] });
       break;
     }
     case "showmistresses":
-      sendWhisper(sender, "Mistresses: #" + cursedConfig.mistresses.join(" #"));
+      sendWhisper(
+        sender, { Tag: "PrivateShowMistress", Param: [cursedConfig.mistresses.join(" #")] }
+      );
       break;
     case "showowners":
-      sendWhisper(sender, "Owners: #" + cursedConfig.owners.join(" #"));
+      sendWhisper(
+        sender, { Tag: "PrivateShowOwner", Param: [cursedConfig.owners.join(" #")] }
+      );
       break;
     case "shownicknames": {
       let report = cursedConfig.charData
@@ -53,7 +57,20 @@ function PrivateCommands({ command, parameters, sender }) {
       cursedConfig.charData.forEach(el => {
         tmpstr.push(el.Number);
       });
-      sendWhisper(sender, `Here are the speech constraints --> Members to respect: ${tmpstr.join(", #")}, Banned words: ${cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "none"}, Contractions Ban: ${cursedConfig.hasNoContractions} , Muted: ${cursedConfig.isMute || cursedConfig.hasFullMuteChat} , Sound: ${cursedConfig.hasSound ? cursedConfig.sound : "none"}, Entry message: ${cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "none"}, Restrained speech mode: ${cursedConfig.hasRestrainedSpeech}, Doll talk: ${cursedConfig.hasDollTalk}, OOC while gagged: ${!cursedConfig.hasBlockedOOC},must retype messages: ${cursedConfig.mustRetype}.`);
+      sendWhisper(sender, {
+        Tag: "PrivateShowSpeechRestriction",
+        Param: [
+          tmpstr.join(", #"),
+          cursedConfig.hasCursedSpeech ? cursedConfig.bannedWords.join(", ") : "---", cursedConfig.hasNoContractions,
+          cursedConfig.isMute || cursedConfig.hasFullMuteChat,
+          cursedConfig.hasSound ? cursedConfig.sound : "---",
+          cursedConfig.hasEntryMsg ? cursedConfig.entryMsg : "---",
+          cursedConfig.hasRestrainedSpeech,
+          cursedConfig.hasDollTalk,
+          !cursedConfig.hasBlockedOOC,
+          cursedConfig.mustRetype
+        ]
+      });
       break;
     }
     case "isclassic":

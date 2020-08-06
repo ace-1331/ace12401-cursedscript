@@ -17,6 +17,7 @@ function CurseRoomLoad() {
   InventoryWear(CurseRoomAce, "Large", "BodyLower", "Asian");
   InventoryWear(CurseRoomAce, "NecklaceKey", "Necklace", "Default");
   InventoryWear(CurseRoomAce, "Eyes3", "Eyes", "#c0a4ff");
+  InventoryWear(CurseRoomAce, "Eyes3", "Eyes2", "#c0a4ff");
   InventoryWear(CurseRoomAce, "Regular", "Mouth", "#69386F");
   InventoryWear(CurseRoomAce, "OrnateChastityBelt", "ItemPelvis", "#A941C9");
   InventoryWear(CurseRoomAce, "OrnateChastityBra", "ItemBreast", "#A941C9");

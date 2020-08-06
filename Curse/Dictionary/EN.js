@@ -211,6 +211,17 @@ var cursedEN = {
     "MistressCurseVibesError": "(Invalid command call: please provide the speed [off, low, normal, high, max].)",
     "MistressDeafImmWhisperWarn": "(If you meant to add/remove someone to the list, use the same command and provide a member number.)",
     "MistressDeafImmWhisperList": "The following people's voice will not be deafened: {0}",
+    "PrivateShowEnforced": "Enforced list: {0}",
+    "PrivateShowMistress": "Mistresses: #{0}",
+    "PrivateShowOwner": "Owners: #{0}",
+    "PrivateShowSpeechRestriction": "Here are the speech constraints --> Members to respect: {0}, Banned words: {1}, Contractions Ban: {2} , Muted: {3} , Sound: {4}, Entry message: {5}, Restrained speech mode: {6}, Doll talk: {7}, OOC while gagged: {8}, must retype messages: {9}.",
+    "OwnerTriggerWordSet": "Wearer's trigger word was set to: {0}",
+    "OwnerTriggerWordRemove": "Wearer's trigger word was removed.",
+    "OwnerTriggerDurationError": "(Invalid arguments. Please provide the number of minutes the effects of the trigger word should last for.)",
+    "OwnerTriggerDurationSet": "Wearer's trigger word effects duration changed to: {0} minutes",
+    "OwnerPunRestrainErr1": "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)",
+    "OwnerPunRestrainErr2": "(Invalid arguments. Punishment stage must be a number between 1 and 10.)",
+    "OwnerPunRestrainErr3": "(Invalid arguments. Target group does not contain a restraint.)",
 };
 
 _.setTranslation(cursedEN);

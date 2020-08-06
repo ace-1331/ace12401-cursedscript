@@ -22,6 +22,7 @@ function SelfMessageCheck(msg) {
     r = true;
   }
   
+  
   if (msg == "") return r;
 
   //Parse Commands
@@ -153,14 +154,14 @@ function SelfMessageCheck(msg) {
     const size = words.length;
     const longWords = words.filter(w => w.length > 6);
     if (size > 5) {
-      NotifyOwners({ Tag: "SelfMsgCheckNotifyDollMany"});
-      popChatSilent({ Tag: "SelfMsgCheckWarnDollMany" });
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyDollLong"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnDollLong" });
       TriggerPunishment(11);
       r = true;
     }
     if (longWords.length > 0) {
-      NotifyOwners({ Tag: "SelfMsgCheckNotifyDollLong"});
-      popChatSilent({ Tag: "SelfMsgCheckWarnDollLong" });
+      NotifyOwners({ Tag: "SelfMsgCheckNotifyDollMany"});
+      popChatSilent({ Tag: "SelfMsgCheckWarnDollMany" });
       longWords.forEach(LW => TriggerPunishment(10, [LW]));
       r = true;
     }

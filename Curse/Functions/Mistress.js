@@ -282,7 +282,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           cursedConfig.strikes += strikesToAdd;
           sendWhisper(
             sender,
-            { Tag: strikesToAdd > 0 ? "MistressChangeStrikeAdd" : "MistressChangeStrikeRemove" }, true
+            { Tag: strikesToAdd > 0 ? "MistressChangeStrikeAdd" : "MistressChangeStrikeRemove", Param: [strikesToAdd] }, true
           );
           if (cursedConfig.strikes < 0) {
             cursedConfig.strikes = 0;
