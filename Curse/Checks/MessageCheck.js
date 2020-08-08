@@ -160,7 +160,7 @@ function AnalyzeMessage(msg) {
     if (
       !!cursedConfig.triggerWord.word &&
       words.includes(cursedConfig.triggerWord.word) &&
-      !types.includes("ChatMessageEmote")
+      !types.contains("ChatMessageEmote")
     ) { 
       let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
       if (words.includes("unfreeze") && sender != Player.MemberNumber) { 
