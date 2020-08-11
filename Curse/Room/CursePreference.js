@@ -252,13 +252,15 @@ function CursePreferenceUnload() {
 
 // When the user exit the preference screen, we save all valid info or block with error message
 function CursePreferenceExit() {
-    CursePreferenceUnload();
-    cursedConfig = { ...CursePreferenceTemporaryConfig };
-    SaveConfigs();
+    if (cursedConfig) {
+        CursePreferenceUnload();
+        cursedConfig = { ...CursePreferenceTemporaryConfig };
+        SaveConfigs();
+        DrawCustomBeepText("Curse data saved.");
+    }
     CursePreferenceTemporaryConfig = null;
     CurseRoomRun();
     CurrentScreen = "CurseRoom";
-    DrawCustomBeepText("Curse data saved.");
 }
 
 
@@ -267,7 +269,7 @@ function CursePreferenceExit() {
 // Redirected to from the main Run function if the player is in the no curse settings subscreen
 function CursePreferenceSubscreenNoCurseRun() {
     DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
+    if (cursedVersionData && !VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
         DrawText("CRITICAL: YOUR CURSE IS OUT OF DATE. PLEASE UPDATE IT NOW.", 1000, 325, "Red", "Gray");
         if (!CursePreferenceLinkSent) {
             CursePreferenceLinkSent = true;
