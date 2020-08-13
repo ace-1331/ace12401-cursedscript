@@ -90,6 +90,14 @@ function PrivateCommands({ command, parameters, sender }) {
       }
       cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;
       break;
+      case "fullslow":
+        if (!cursedConfig.hasFullSlowMode) {
+          sendWhisper(sender, { Tag: "FullSlowOn" });
+        } else {
+          sendWhisper(sender, { Tag: "FullSlowOff" });
+        }
+        cursedConfig.hasFullSlowMode = !cursedConfig.hasFullSlowMode;
+        break;
     default:
       // No command found
       return true;

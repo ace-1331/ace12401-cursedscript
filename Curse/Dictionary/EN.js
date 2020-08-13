@@ -222,6 +222,9 @@ var cursedEN = {
     "OwnerPunRestrainErr1": "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)",
     "OwnerPunRestrainErr2": "(Invalid arguments. Punishment stage must be a number between 1 and 10.)",
     "OwnerPunRestrainErr3": "(Invalid arguments. Target group does not contain a restraint.)",
+    // --LAST RU TRANSLATION HERE--
+    "FullSlowOff": "(Wearer will no longer be slowed permanently.)",
+    "FullSlowOn": "(Wearer will now always be slowed.)",
+    "forcedRestraintsSettingOff": "(Wearer will no longer be forced keep all restraints when relogging.)",
+    "forcedRestraintsSettingOn": "(Wearer will be forced to keep all restraints when relogging.)",
 };
-
-_.setTranslation(cursedEN);

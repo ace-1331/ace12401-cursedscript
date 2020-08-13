@@ -27,6 +27,8 @@ Note: You can also have an empty curse. This means, you can curse a slot to rema
 - boots
 - ears
 - head
+- nose
+- hood
 - gag
 - gag2
 - gag3
@@ -55,6 +57,7 @@ Note: You can also have an empty curse. This means, you can curse a slot to rema
 - glasses
 - tailstrap
 - wings
+- mask
 
 ## Owners:
 - neckaccessory
