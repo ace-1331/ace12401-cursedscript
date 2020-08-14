@@ -448,7 +448,7 @@ function SendToRoom(name) {
   OnlineGameName = "";
   ChatSearchLeaveRoom = "MainHall";
   ChatSearchBackground = "IntroductionDark";
-  ChatCreateBackgroundList = CommonBackgroundList.slice();
+  ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundsTagList);
   ChatRoomPlayerCanJoin = true;
   ServerSend("ChatRoomJoin", { Name: name });
 }
