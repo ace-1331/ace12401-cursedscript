@@ -228,6 +228,34 @@ function WearerCommands({ command, parameters, sender }) {
     case "deletenickname":
       DeleteNickname(parameters, sender, 0);
       break;
+	case "warnstop":
+	  sendWhisper(parameters[0], "(This is a preset message, I am unable to continue playing because I am out of time, or something has come up. Sorry for the inconvenience!)");
+	  popChatSilent(parameters[0] + "was warned")
+	  break;
+	case "warngag"
+	  sendWhisper(parameters[0], "(This is a preset message, I cannot OOC while gagged. Don't worry about me, but you can remove my gag if you want to talk out of character.)");
+	  popChatSilent(parameters[0] + "was warned")
+	  break;
+	case "warn"
+	  sendWhisper(parameters[0], "(This is a preset message, I cannot OOC due to my speech restrictions. Don't worry about me.)");
+	  popChatSilent(parameters[0] + "was warned")
+	  break;
+	case "warnleave"
+	  if (parameters && parameters[1] && !isNaN(parameters[1])) {
+	    sendWhisper(parameters[0], "(This is a preset message, I may need to leave in " + parameters[1] " minutes.)");
+	    popChatSilent(parameters[0] + "was warned")
+      } else {
+		  popChatSilent("You screwed up, dummy")
+	  }
+	  break;
+	case "warnafk"
+	  if (parameters && parameters[1] && !isNaN(parameters[1])) {
+	    sendWhisper(parameters[0], "(This is a preset message, I need to step away from the computer. I should be back in around " + parameters[1] + " minutes.)");
+	    popChatSilent(parameters[0] + "was warned")
+	  } else {
+		  popChatSilent("You screwed up, dummy")
+	  }
+	  break;
     case "curseitem":
     case "curseditem":
       if (parameters[0] && parameters[1] && !isNaN(parameters[1])) {
