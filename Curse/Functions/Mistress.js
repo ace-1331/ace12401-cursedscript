@@ -282,7 +282,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           cursedConfig.strikes += strikesToAdd;
           sendWhisper(
             sender,
-            { Tag: strikesToAdd > 0 ? "MistressChangeStrikeAdd" : "MistressChangeStrikeRemove" }, true
+            { Tag: strikesToAdd > 0 ? "MistressChangeStrikeAdd" : "MistressChangeStrikeRemove", Param: [strikesToAdd] }, true
           );
           if (cursedConfig.strikes < 0) {
             cursedConfig.strikes = 0;
@@ -345,6 +345,14 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       } else {
         sendWhisper(sender, { Tag: "MistressCurseItemInvalidGroup" });
       }
+      break;
+    case "fullslow":
+      if (!cursedConfig.forcedRestraintsSetting) {
+        sendWhisper(sender, { Tag: "forcedRestraintsSettingOn" });
+      } else {
+        sendWhisper(sender, { Tag: "forcedRestraintsSettingOff" });
+      }
+      cursedConfig.forcedRestraintsSetting = !cursedConfig.forcedRestraintsSetting;
       break;
     default:
       // No command found

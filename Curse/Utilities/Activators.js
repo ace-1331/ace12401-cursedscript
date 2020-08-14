@@ -386,6 +386,11 @@ function AdjustSettings() {
     Player.GameplaySettings.EnableSafeword = false;
   }
   
+  // Relog restraints to true
+  if (cursedConfig.forcedRestraintsSetting) {
+    Player.GameplaySettings.DisableAutoRemoveLogin = true;
+  }
+  
   //Making sure all names are up-to-date
   //Try catch in case the updated player is no longer there (extreme edge case)
   try {

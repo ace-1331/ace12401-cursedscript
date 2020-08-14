@@ -252,13 +252,15 @@ function CursePreferenceUnload() {
 
 // When the user exit the preference screen, we save all valid info or block with error message
 function CursePreferenceExit() {
-    CursePreferenceUnload();
-    cursedConfig = { ...CursePreferenceTemporaryConfig };
-    SaveConfigs();
+    if (cursedConfig) {
+        CursePreferenceUnload();
+        cursedConfig = { ...CursePreferenceTemporaryConfig };
+        SaveConfigs();
+        DrawCustomBeepText("Curse data saved.");
+    }
     CursePreferenceTemporaryConfig = null;
     CurseRoomRun();
     CurrentScreen = "CurseRoom";
-    DrawCustomBeepText("Curse data saved.");
 }
 
 
@@ -267,7 +269,7 @@ function CursePreferenceExit() {
 // Redirected to from the main Run function if the player is in the no curse settings subscreen
 function CursePreferenceSubscreenNoCurseRun() {
     DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-    if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
+    if (cursedVersionData && !VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
         DrawText("CRITICAL: YOUR CURSE IS OUT OF DATE. PLEASE UPDATE IT NOW.", 1000, 325, "Red", "Gray");
         if (!CursePreferenceLinkSent) {
             CursePreferenceLinkSent = true;
@@ -456,13 +458,15 @@ function CursePreferenceSubscreenStatusRun() {
     DrawCheckbox(100, 872, 64, 64, "[CO] Disable OOC when gagged", CursePreferenceTemporaryConfig.hasBlockedOOC);
 
 
+    DrawCheckbox(1200, 312, 64, 64, "Permanently slowed", CursePreferenceTemporaryConfig.hasFullSlowMode);
+    DrawCheckbox(1200, 392, 64, 64, "[M] Forced 'keep restraints on login'", CursePreferenceTemporaryConfig.forcedRestraintsSetting);
     DrawCheckbox(1200, 472, 64, 64, `[CO] Enable reminder (1 every ${(CursePreferenceTemporaryConfig.reminderInterval/60000).toFixed(1)} min.)`, CursePreferenceTemporaryConfig.hasReminders);
     DrawCheckbox(1050, 552, 64, 64, "[CO] Disables the curse when no owner is there", CursePreferenceTemporaryConfig.enabledOnMistress);
     DrawCheckbox(1050, 632, 64, 64, "[M] Disables the curse when with a mistress", CursePreferenceTemporaryConfig.disaledOnMistress);
     DrawCheckbox(1050, 712, 64, 64, "[CO] Can receive public notes", CursePreferenceTemporaryConfig.canReceiveNotes);
     DrawCheckbox(1050, 792, 64, 64, "[CO] Punish on AFK timer triggers", CursePreferenceTemporaryConfig.hasAntiAFK);
     DrawCheckbox(1050, 872, 64, 64, "[CO] Allow safeword", !CursePreferenceTemporaryConfig.hasNoEasyEscape);
-
+    
     MainCanvas.textAlign = "center";
 }
 
@@ -475,6 +479,8 @@ function CursePreferenceSubscreenStatusClick() {
     // Checkboxes
     if (MouseIn(100, 152, 64, 64))
         CursePreferenceTemporaryConfig.hasFullBlindMode = !CursePreferenceTemporaryConfig.hasFullBlindMode;
+    if (MouseIn(1200, 312, 64, 64))
+        CursePreferenceTemporaryConfig.hasFullSlowMode = !CursePreferenceTemporaryConfig.hasFullSlowMode;
 }
 
 

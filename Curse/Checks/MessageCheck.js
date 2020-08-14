@@ -159,10 +159,11 @@ function AnalyzeMessage(msg) {
     let words = (textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []);
     if (
       !!cursedConfig.triggerWord.word &&
-      words.includes(cursedConfig.triggerWord.word)
+      words.includes(cursedConfig.triggerWord.word) &&
+      !types.contains("ChatMessageEmote")
     ) { 
       let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
-      if (words.includes("unfreeze")) { 
+      if (words.includes("unfreeze") && sender != Player.MemberNumber) { 
         if (isTriggered) {
           SendChat({ Tag: "MsgCheckUnfreezeAction" });
         } 

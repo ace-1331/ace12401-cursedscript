@@ -83,6 +83,8 @@ function LoadAppearanceV2() {
       AppearanceColorRun();
     } else if (AppearanceMode == "Items") {
       AppearanceItemsRun();
+    } else if (AppearanceMode == "ItemsView") {
+      AppearanceItemsViewRun();
     }
   
     if (AppearanceHideColorPicker) ColorPickerHide();
@@ -102,6 +104,8 @@ function LoadAppearanceV2() {
       AppearanceColorClick();
     } else if (AppearanceMode == "Items") {
       AppearanceItemsClick();
+    } else if (AppearanceMode == "ItemsView") {
+      AppearanceItemsViewClick();
     }
   };
   
@@ -110,7 +114,7 @@ function LoadAppearanceV2() {
     if (AppearanceMode == "") CharacterAppearanceExit(CharacterAppearanceSelection);
     else if (AppearanceMode == "Wardrobe") { AppearanceMode == ""; ElementRemove("InputWardrobeName"); AppearanceAssets.forEach(A => A.ReloadItem()); }
     else if (AppearanceMode == "Color") { AppearanceMode == ""; ElementRemove("InputColor"); if (AppearanceColorUndo) AppearanceRunUndo(); AppearanceItem = null; }
-    else if (AppearanceMode == "Items") { if (AppearanceItemUndo) AppearanceRunUndo(); AppearanceItem = null; }
+    else if (AppearanceMode == "Items" || AppearanceMode == "ItemViews") { if (AppearanceItemUndo) AppearanceRunUndo(); AppearanceItem = null; }
   };
   
   class AppearanceAssetGroup {
@@ -138,6 +142,9 @@ function LoadAppearanceV2() {
         .filter(A => A.Group.Name == Group.Name)
         .forEach(AddAsset);
   
+      if (!C.BlockItems) C.BlockItems = [];
+      if (!C.LimitedItems) C.LimitedItems = [];
+
       this.C = C;
       this.Group = Group;
       this.Assets = [];
@@ -152,7 +159,7 @@ function LoadAppearanceV2() {
           this.Assets.push(A);
         }
       });
-      this.AllowedAssets = this.Assets.filter(A => !this.C.BlockItems.some(I => I.Name == A.Name && I.Group == A.Group.Name));
+      this.AllowedAssets = this.Assets.filter(A => !this.IsBlocked(A) && !this.IsLimited(A));
       if (!this.Group.AllowNone && this.AllowedAssets.length == 0) this.AllowedAssets.push(this.Assets[0]);
   
       this.AssetsSave = [...this.Assets];
@@ -189,6 +196,22 @@ function LoadAppearanceV2() {
       }
       if (AssetName) InventoryWear(this.C, AssetName, this.Group.Name, this.Color == "None" ? null : this.Color);
       else InventoryRemove(this.C, this.Group.Name);
+      AppearanceAssets.forEach(A => A.ReloadItem());
+    }
+    CopyFromMirrorGroup(Undo) {
+      if (Undo) {
+        const G = this;
+        const AssetName = this.Item && this.Item.Asset.Name;
+        const Color = this.Color;
+        AppearanceUndo.push(() => {
+          G.Color = Color;
+          G.SetItem(AssetName);
+        });
+      }
+      if (!this.Group.MirrorGroup) return;
+      const M = this.C.Appearance.find(M => M.Asset && M.Asset.Group.Name == this.Group.MirrorGroup);
+      if (!M) return;
+      InventoryWear(this.C, M.Asset.Name, this.Group.Name, M.Color == "None" ? null : M.Color);
       AppearanceAssets.forEach(A => A.ReloadItem());
     }
     GetNextItem() {
@@ -237,18 +260,33 @@ function LoadAppearanceV2() {
       this.Color = (this.Item && this.Item.Color) || this.Color || "None";
     }
     IsBlocked(asset) {
-      return this.C.BlockItems.some(Item => Item.Name == asset.Name && Item.Group == this.Group.Name);
+      const name = asset.DynamicName(Player);
+      const group = asset.DynamicGroupName;
+      return this.C.BlockItems && this.C.BlockItems.some(Item => Item.Name == name && Item.Group == group);
+    }
+    IsLimited(asset, force) {
+      const name = asset.Name;
+      const group = this.Group.Name;
+      const limited = this.C.LimitedItems && this.C.LimitedItems.some(Item => Item.Name == name && Item.Group == group);
+      if (force || !limited) return limited;
+      if (this.C.ID == 0 || this.C.IsLoverOfPlayer() || this.C.IsOwnedByPlayer()) return false;
+      if (this.C.ItemPermission < 3 && this.C.WhiteList.includes(Player.MemberNumber)) return false;
+      return true;
     }
     Block(asset) {
       if (this.C.ID == 0) {
         if (this.IsBlocked(asset)) {
-          Player.BlockItems = Player.BlockItems.filter(Item => Item.Name != asset.Name || Item.Group != this.Group.Name);
+          Player.BlockItems = Player.BlockItems.filter(Item => Item.Name != asset.DynamicName(Player) || Item.Group != asset.DynamicGroupName);
+          if (this.Group.Category == "Item" || this.Group.AllowCustomize) Player.LimitedItems.push({ Name: asset.Name, Group: this.Group.Name });
+        } else if (this.IsLimited(asset, true)) {
+          Player.LimitedItems = this.C.LimitedItems.filter(Item => Item.Name != asset.Name || Item.Group != this.Group.Name);
         } else if (this.Group.Category == "Item" || this.Group.AllowCustomize) {
-          Player.BlockItems.push({ Name: asset.Name, Group: this.Group.Name });
+          Player.BlockItems.push({ Name: asset.DynamicName(Player), Group: asset.DynamicGroupName });
         } else {
           return;
         }
         ServerSend("AccountUpdate", { BlockItems: Player.BlockItems });
+        ServerSend("AccountUpdate", { LimitedItems: Player.LimitedItems });
       }
     }
     ChangeBlockMode() {
@@ -263,6 +301,8 @@ function LoadAppearanceV2() {
     AppearanceDraw(Position) {
       if (this.CanStrip()) {
         DrawButton(1365 - AppearanceHeight, 145 + Position * AppearanceOffset, AppearanceHeight, AppearanceHeight, "", "White", "Icons/Small/Naked.png", TextGet("StripItem"));
+      } else if (this.Group.MirrorGroup && this.CanChange) {
+        DrawButton(1365 - AppearanceHeight, 145 + Position * AppearanceOffset, AppearanceHeight, AppearanceHeight, "", "White", "Icons/Small/Exit.png", "Mirror");
       }
       if (this.CanChange)
         DrawBackNextButton(1390, 145 + Position * AppearanceOffset, 400, AppearanceHeight, this.Group.Description + ": " + CharacterAppearanceGetCurrentValue(this.C, this.Group.Name, "Description"), "White", null,
@@ -277,6 +317,8 @@ function LoadAppearanceV2() {
       if ((MouseX >= 1365 - AppearanceHeight) && (MouseX < 1365)) {
         if (this.CanStrip()) {
           this.Strip();
+        } else if (this.Group.MirrorGroup && this.CanChange) {
+          this.CopyFromMirrorGroup(true);
         }
       } else if ((MouseX >= 1390) && (MouseX < 1790)) {
         if (this.CanChange) {
@@ -362,7 +404,7 @@ function LoadAppearanceV2() {
       Description: "Head",
       Category: "Appearance",
       Groups: new Set([
-        "Hat", "HairAccessory1", "HairAccessory2", "Glasses", "HairBack", "HairFront", "Eyes", "Eyebrows", "Mouth"
+        "Hat", "HairAccessory1", "HairAccessory2", "Glasses", "HairBack", "HairFront", "Eyes", "Eyes2", "Eyebrows", "Mouth"
       ]),
       Zone: [[100, 0, 300, 250]]
   
@@ -497,6 +539,7 @@ function LoadAppearanceV2() {
     AppearanceOffset = AppearanceHeight + AppearanceSpace;
     AppearanceNumPerPage = parseInt(900 / AppearanceOffset) * 2;
   
+    if (AppearanceItem.Group.AllowNone) DrawButton(1300, 25, 90, 90, "", "White", "Icons/Dress.png", "Preview");
     if (C.ID == 0 && AppearanceItem.Group.AllowCustomize && !AppearanceBlockMode) DrawButton(1417, 25, 90, 90, "", "White", "Icons/DialogPermissionMode.png", DialogFind(Player, "DialogPermissionMode"));
     if (AppearanceItem.Assets.length > AppearanceNumPerPage) DrawButton(1534, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
     if (AppearanceItem.CanStrip()) DrawButton(1651, 25, 90, 90, "", "White", "Icons/Naked.png", TextGet("StripItem"));
@@ -506,11 +549,12 @@ function LoadAppearanceV2() {
     const Draw = (Left, Top, Width, Height, Item) => {
       const Hover = !CommonIsMobile && (MouseX >= Left) && (MouseX < Left + Width) && (MouseY >= Top) && (MouseY < Top + Height);
       const Block = AppearanceItem.IsBlocked(Item);
+      const Limit = AppearanceItem.IsLimited(Item, AppearanceBlockMode && C.ID == 0);
       const Worn = ItemName == Item.Name;
       DrawRect(Left, Top, Width, Height, (AppearanceBlockMode && C.ID == 0) ?
-        (Worn ? "Gray" : Block ? Hover ? "Red" : "Pink" : Hover ? "Green" : "Lime") :
-        ((Hover && !Block) ? "Cyan" : Worn ? "Pink" : Block ? "Gray" : "White"));
-      DrawTextFit(Item.Description, Left + Width / 2, Top + (Height / 2) + 1, Width - 4, "black");
+        (Worn ? "Gray" : Block ? Hover ? "Red" : "Pink" : Limit ? Hover ? "Orange" : "#FED8B1" : Hover ? "Green" : "Lime") :
+        ((Hover && !Block && !Limit) ? "Cyan" : Worn ? "Pink" : (Block || Limit) ? "Gray" : "White"));
+      DrawTextFit(Item.DynamicDescription(Player), Left + Width / 2, Top + (Height / 2) + 1, Width - 4, "black");
     };
     for (let A = AppearanceItemsOffset; A * 2 < AppearanceItem.Assets.length && A * 2 < AppearanceItemsOffset * 2 + AppearanceNumPerPage; A++) {
       Draw(1250, 145 + (A - AppearanceItemsOffset) * AppearanceOffset, 350, AppearanceHeight, AppearanceItem.Assets[A * 2]);
@@ -523,7 +567,7 @@ function LoadAppearanceV2() {
     const C = CharacterAppearanceSelection;
   
     const Click = Item => {
-      if (!AppearanceItem.IsBlocked(Item)) {
+      if (!AppearanceItem.IsBlocked(Item) && !AppearanceItem.IsLimited(Item)) {
         if (AppearanceBlockMode) {
           AppearanceItem.Block(Item);
         } else {
@@ -548,6 +592,11 @@ function LoadAppearanceV2() {
           break;
         }
   
+    if ((MouseX >= 1300) && (MouseX < 1390) && (MouseY >= 25) && (MouseY < 115) && AppearanceItem.Group.AllowNone) {
+      AppearanceItemsOffset = 0;
+      AppearanceMode = "ItemsView";
+    }
+
     if (MouseIn(1417, 25, 1507-1417, 115-25) && C.ID == 0 && !AppearanceBlockMode) AppearanceItem.ChangeBlockMode();
   
     if (MouseIn(1651, 25, 1741-1651, 115-25) && AppearanceItem.CanStrip()) AppearanceItem.Strip(false);
@@ -563,6 +612,102 @@ function LoadAppearanceV2() {
     }
   
     if (MouseIn(1885, 25, 1975-1885, 115-25)) {
+      if (AppearanceBlockMode) {
+        AppearanceItem.ChangeBlockMode();
+        return;
+      }
+      AppearanceItemUndo = false;
+      AppearanceSetZone();
+      AppearanceExit();
+    }
+  }
+
+  function AppearanceItemsViewRun() {
+    const C = CharacterAppearanceSelection;
+
+    if (AppearanceItem == null) {
+      AppearanceMode = "";
+      return;
+    }
+
+    DrawButton(1300, 25, 90, 90, "", "White", "Icons/Dress.png", "List");
+    if (C.ID == 0 && AppearanceItem.Group.AllowCustomize && !AppearanceBlockMode) DrawButton(1417, 25, 90, 90, "", "White", "Icons/DialogPermissionMode.png", DialogFind(Player, "DialogPermissionMode"));
+    if (AppearanceItem.Assets.length > AppearanceNumPerPage) DrawButton(1534, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
+    if (AppearanceItem.CanStrip()) DrawButton(1651, 25, 90, 90, "", "White", "Icons/Naked.png", TextGet("StripItem"));
+
+    const ItemName = AppearanceItem.Item && AppearanceItem.Item.Asset && AppearanceItem.Item.Asset.Name;
+    const Draw = (X, Y, Item) => {
+      const Hover = !CommonIsMobile && (MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275);
+      const Block = AppearanceItem.IsBlocked(Item);
+      const Limit = AppearanceItem.IsLimited(Item, AppearanceBlockMode && C.ID == 0);
+      const Worn = ItemName == Item.Name;
+      DrawRect(X, Y, 225, 275, (AppearanceBlockMode && C.ID == 0) ?
+        (Worn ? "Gray" : Block ? Hover ? "Red" : "Pink" : Limit ? Hover ? "Orange" : "#FED8B1" : Hover ? "Green" : "Lime") :
+        ((Hover && !Block && !Limit) ? "Cyan" : Worn ? "Pink" : (Block || Limit) ? "Gray" : "White"));
+      DrawImageResize("Assets/" + Item.Group.Family + "/" + Item.DynamicGroupName + "/Preview/" + Item.Name + Item.DynamicPreviewIcon(CharacterGetCurrent()) + ".png", X + 2, Y + 2, 221, 221);
+      DrawTextFit(Item.DynamicDescription(Player), X + 112, Y + 250, 221, "black");
+    }
+    var X = 1250;
+    var Y = 125;
+    for (let A = AppearanceItemsOffset; A < AppearanceItem.Assets.length && A < AppearanceItemsOffset + 9; A++) {
+      Draw(X, Y, AppearanceItem.Assets[A]);
+      X = X + 250;
+      if (X > 1800) {
+        X = 1250;
+        Y = Y + 300;
+      }
+    }
+  }
+
+  function AppearanceItemsViewClick() {
+    const C = CharacterAppearanceSelection;
+
+    const Click = Item => {
+      if (!AppearanceItem.IsBlocked(Item) && !AppearanceItem.IsLimited(Item)) {
+        if (AppearanceBlockMode) {
+          AppearanceItem.Block(Item);
+        } else {
+          AppearanceItem.SetItem(Item.Name);
+        }
+      } else if (AppearanceBlockMode) {
+        AppearanceItem.Block(Item);
+      }
+    }
+
+    var X = 1250;
+    var Y = 125;
+    for (let A = AppearanceItemsOffset; A < AppearanceItem.Assets.length && A < AppearanceItemsOffset + 9; A++) {
+      if ((MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275)) {
+        Click(AppearanceItem.Assets[A]);
+        return;
+      }
+      X = X + 250;
+      if (X > 1800) {
+        X = 1250;
+        Y = Y + 300;
+      }
+    }
+
+    if ((MouseX >= 1300) && (MouseX < 1390) && (MouseY >= 25) && (MouseY < 115)) {
+      AppearanceItemsOffset = 0;
+      AppearanceMode = "Items";
+    }
+
+    if ((MouseX >= 1417) && (MouseX < 1507) && (MouseY >= 25) && (MouseY < 115) && C.ID == 0 && !AppearanceBlockMode) AppearanceItem.ChangeBlockMode();;
+
+    if ((MouseX >= 1651) && (MouseX < 1741) && (MouseY >= 25) && (MouseY < 115) && AppearanceItem.CanStrip()) AppearanceItem.Strip(false);
+
+    if ((MouseX >= 1534) && (MouseX < 1624) && (MouseY >= 25) && (MouseY < 115) && AppearanceItem.Assets.length > AppearanceNumPerPage) {
+      AppearanceItemsOffset += 9;
+      if (AppearanceItemsOffset >= AppearanceItem.Assets.length) AppearanceItemsOffset = 0;
+    }
+
+    if ((MouseX >= 1768) && (MouseX < 1858) && (MouseY >= 25) && (MouseY < 115) && !AppearanceBlockMode) {
+      AppearanceSetZone();
+      AppearanceExit();
+    }
+
+    if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) {
       if (AppearanceBlockMode) {
         AppearanceItem.ChangeBlockMode();
         return;

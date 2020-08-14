@@ -1,35 +1,41 @@
 /** Function to trigger commands intended for owners, returns true if no command was executed */
 function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
-  const looseOwnerActive = !(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
+  const looseOwnerActive = !!(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
   switch (command) {
     case "triggerword":
       cursedConfig.triggerWord.word = parameters.join(" ").trim();
       if (parameters.join("").trim())
-        NotifyOwners("Wearer's trigger word was set to: " + parameters.join(""), true);
+        NotifyOwners({ Tag: "OwnerTriggerWordSet", Param: [parameters.join("")] }, true);
       else
-        NotifyOwners("Wearer's trigger word was removed.", true);
+        NotifyOwners({ Tag: "OwnerTriggerWordRemove" }, true);
       TryPopTip(54);
       break;
     case "triggerduration":
       if (!parameters[0] || isNaN(parameters[0])) {
-        sendWhisper(sender, "(Invalid arguments. Please provide the number of minutes the effects of the trigger word should last for.)", true);
+        sendWhisper(sender, { Tag: "OwnerTriggerDurationError" }, true);
         return;
       }
       cursedConfig.triggerWord.triggerDuration = parseInt(parameters[0]) * 60000;
-      NotifyOwners("Wearer's trigger word effects duration changed to: " + (cursedConfig.triggerWord.triggerDuration / 60000)+ " minutes", true);
+      NotifyOwners(
+        {
+          Tag: "OwnerTriggerDurationSet",
+          Param: [(cursedConfig.triggerWord.triggerDuration / 60000)]
+        }
+        , true
+      );
       break;
     case "punishmentrestraint":
       if (!parameters[0] || !parameters[1]) {
-        sendWhisper(sender, "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)", true);
+        sendWhisper(sender, { Tag: "OwnerPunRestrainErr1" }, true);
         return;
       }
       if (isNaN(parameters[0]) || !parameters[0] || parameters[0] < 1 || parameters[0] > 10) { 
-        sendWhisper(sender, "(Invalid arguments. Punishment stage must be a number between 1 and 10.)", true);
+        sendWhisper(sender, { Tag: "OwnerPunRestrainErr2" }, true);
         return;
       }
       const worn = InventoryGet(Player, textToGroup(parameters[1], isClubOwner ? 3 : 2));
       if (!worn) { 
-        sendWhisper(sender, "(Invalid arguments. Target group does not contain a restraint.)", true);
+        sendWhisper(sender, { Tag: "OwnerPunRestrainErr3" }, true);
         return;
       }
       cursedConfig.punishmentRestraints = cursedConfig.punishmentRestraints.filter(

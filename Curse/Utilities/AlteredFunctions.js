@@ -202,7 +202,16 @@ function InitAlteredFns() {
     };
   }
 
-
+  // Always slow
+  if (Player.IsSlow) {
+    Player.isSlowBackup = Player.IsSlow;
+    Player.IsSlow = function (...rest) {
+      let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.hasFullSlowMode;
+      if (isActivated) return true;
+      return Player.isSlowBackup(...rest);
+    };
+  }
+  
   // Prevent leaving a room
   if (Player.CanWalk) {
     Player.walkBackup = Player.CanWalk;

@@ -62,7 +62,7 @@ These functions controls who has access to what
 
 | Function | Type | Effect | Status | Intense | Access |
 | --- | --- | --- | --- | --- | --- |
-| togglecommand [Command] | Setting | Set the availability of a given command | NEW |  | Wearer |
+| togglecommand [Command] | Setting | Set the availability of a given command |  |  | Wearer |
 | mistress [ID] | Setting | Makes the character with this ID a mistress regarding the curse, giving some more access | 🌟 |  | Wearer, Mistress |
 | owner [ID] | Setting | Makes the character with this ID an owner, giving pretty much full access to the curse | 🌟 |  | Wearer, Owner |
 | restrainplay | Setting | Blocks the use of the 'mistress' and 'owner' function for the wearer | 🌟 |  | Owner |
@@ -70,7 +70,7 @@ These functions controls who has access to what
 | quickban | Action | Bans known recurrent trolls and your own blacklist in a room you are admin of | avoid |  | Wearer |
 | public | Setting | Toggle access to Public level function to non-mistress. Default: ON |  |  | Mistress |
 | fullpublic | Setting | Sets the victim to be fully public. This means everyone can use Mistress tier functions on the curse bearer | 🌟 |  | Owner |
-| disableblocking | Setting | Makes all commands available, every commands requiring to opt-in (such as leash) are active. Use with care | NEW | X | Owner |
+| disableblocking | Setting | Makes all commands available, every commands requiring to opt-in (such as leash) are active. Use with care |  | X | Owner |
 | looseowner | Setting | Gives access to club owner specific function part of the Club, to all curse owners |  |  | Club |
 
 ## Naming
@@ -112,8 +112,8 @@ Those commands are used to receive a variety of information
 | showblacklist | Action | Shows the accounts you have blacklisted for the curse |  |  | Wearer |
 | showstrikes | Action | Shows the number of time you have broken the curse in recent days. The number can also be modified by a mistress |  |  | Public |
 | orgasmcount | Action | Indicates how many orgasms the curse wearer had, useful to ensure that she didn't play behind your back |  |  | Public |
-| transgressions | Action | Gives a list of past transgressions, preventing the curse bearer to hide her bad habits | NEW |  | Public |
-| listoffcommands | Action | Shows which commands have been blacklisted by the wearer | NEW |  | Public |
+| transgressions | Action | Gives a list of past transgressions, preventing the curse bearer to hide her bad habits |  |  | Public |
+| listoffcommands | Action | Shows which commands have been blacklisted by the wearer |  |  | Public |
 | asylumtimeleft | Action | Allows to know how long the curse wearer has left to stay in the Asylum, given in hours |  |  | Public |
 | cursereport | Action | Gives a report on what options and rules are being active on the target |  |  | Mistress |
 | speechreport | Action | Gives the list of effects altering and controlling speech |  |  | Wearer, Owner |
@@ -144,10 +144,12 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | vibratorintensity [off, low, medium, high, max] | Rule | Sets the speed for forced vibrators | |  | Mistress |
 | asylum [Hours] | Rule | Adds or removes a number of hours to the time to spend at the asylum | 🌟 |  | Owner |
 | sendasylum | Action | Sends the wearer to the asylum | |  | Owner |
-| triggerword [Sentence] | Setting | Sets a trigger word that allows to block the victim to interact for a given time upon hearing this word. Default: None | NEW |  | Owner |
-| triggerduration [Minutes] | Setting | Defines the duration for which the trigger word works. Default: 5 minutes | NEW |  | Owner |
+| triggerword [Sentence] | Setting | Sets a trigger word that allows to block the victim to interact for a given time upon hearing this word. Default: None |  |  | Owner |
+| triggerduration [Minutes] | Setting | Defines the duration for which the trigger word works. Default: 5 minutes |  |  | Owner |
 | sensdep | Setting | Overrides the sensory deprivation settings in the menu and forces those to maximum effect | 🌟 | X | Owner |
 | fullblindfold | Setting | Makes it so all blindfolds have total effect |  |  | Wearer, Owner |
+| keeprestraints | Setting | Makes it so the "keep all restraints when relogging" is forced to true | NEW |  | Mistress |
+| fullslow | Setting | Makes it so the slow effect is always enabled | NEW |  | Wearer, Owner |
 | deafimmune [ID] | Setting | Bypass deafness for the targeted person, allowing to simulate, for instance, communication via earbuds | NEW |  | Mistress |
 | norescue | Setting | Blocks access to the maid service and other methods of getting free | 🌟 | X | Owner |
 | leash | Setting | Toggle to allow for leashing. A leashed curse bearer can be called by an owner by beeping her three time, moving her from another room. Note that the leashed character need to be able to join the room | 🌟 | X | Owner |
@@ -169,10 +171,10 @@ A subset of rules, those functions are all about cursed gears and clothes
 | Function | Type | Effect | Status | Intense | Access |
 | --- | --- | --- | --- | --- | --- |
 | curseitem [Group] [Hours] | Rule | Forces the equipped item in this group to not be removable. If the curse bearer tries, it will be counted as a breach of rule and reapply the item after a punishment is delivered. The item stays cursed for the duration, not giving any number means it will always stay on. However, the wearer must always specify a length of time and the maximum duration is 7 days. | 🌟 |  | Wearer, Mistress |
-| listpresets | Action | Shows all presets created for the curse | NEW |  | Wearer, Owner |
-| savepreset [Name] | Setting | Saves the current items as a curse preset to quickly set several items at once. See 'curseitems' in the Rules section for cursed items | NEW |  | Mistress |
-| loadpreset [Name] | Rule | Loads all the items from the given curse preset | NEW |  | Mistress |
-| loadpresetcurses [Name] | Rule | Only loads the cursed groups without changing the current items | NEW |  | Mistress |
+| listpresets | Action | Shows all presets created for the curse |  |  | Wearer, Owner |
+| savepreset [Name] | Setting | Saves the current items as a curse preset to quickly set several items at once. See 'curseitems' in the Rules section for cursed items |  |  | Mistress |
+| loadpreset [Name] | Rule | Loads all the items from the given curse preset |  |  | Mistress |
+| loadpresetcurses [Name] | Rule | Only loads the cursed groups without changing the current items |  |  | Mistress |
 | restraintvanish | Setting | Removes cursed restraints when the curse is disabled. Useful for example when the curse is only active when an owner is here. Default: OFF |  |  | Wearer |
 
 ## Speech
@@ -187,7 +189,7 @@ Anything regarding how your speech is controlled is found there. Some of these o
 | banword [word] | Rule | Bans the word in question from being used | 🌟 |  | Mistress |
 | clearwords | Setting | Removes all banned words from the list |  |  | Owner |
 | banbegging [on/off] | Rule | Shortcut to ban words such as "Please" |  |  | Mistress |
-| blockooc | Rule | Stops the use of OOC communication with parenthesis. Doesn't block whispers however | NEW | X | Owner |
+| blockooc | Rule | Stops the use of OOC communication with parenthesis. Doesn't block whispers however |  | X | Owner |
 | banfirstperson [on/off] | Rule | Shortcut to ban words such as "I" or "Me" |  |  | Mistress |
 | contractions | Rule | Ban the use of contractions, for example, I'll, I won't ... warning, it blocks all words containing ' so you cannot summon Chtulhu under that rule. Works regardless of language spoken |  |  | Mistress |
 | dolltalk | Rule | Limits the curse wearer to 5 words per sentence, none able to be more than 6 letters long. Remember this when you give forced sentences to say as you might prevent the person from speaking entirely! Similarly, if you request a given title or nickname, try to make it fit those 6 letters so they can be used (and enforced). The talk function ignores this rule | 🌟 |  | Mistress |
@@ -217,7 +219,7 @@ Those commands don't fall in others categories
 | readnotes | Action | Reads all the notes attached so far to the character |  |  | Owner |
 | capture | Action | If the target can be captured, captures her. It prevents her to leave a room for 5 minutes, and if you get inside another room, allows you to beep the victim to call her where you are, assuming she can. Not to be confused with the similar command in the Access section of this doc |  | X | Public |
 | changestrikes [Number] | Action | Allows more control on adding or removing strikes than 'punish' and 'reward'. Number can be negative |  |  | Mistress |
-| clearpunishments | Setting | Clears the current list of punishments displayed when using the transgressions command | NEW |  | Owner |
+| clearpunishments | Setting | Clears the current list of punishments displayed when using the transgressions command |  |  | Owner |
 | resetorgasmcount | Action | Resets the amount of registered orgasms logged on the curse wearer |  |  | Owner |
 | reminders| Setting | Set if reminders are active or not | 🌟 |  | Owner |
 | reminderinterval [Seconds] | Setting | Sets the time between two reminders to be displayed |  |  | Owner |

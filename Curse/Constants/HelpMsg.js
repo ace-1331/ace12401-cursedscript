@@ -21,7 +21,7 @@ function InitHelpMsg() {
     >>> Config Commands <<<
     *NEW*-hidehelp
     *NEW*-language [en/fr/ru]
-    *NEW*-togglecommand [command]
+    -togglecommand [command]
     -wardrobev2
     -eatcommands
     -hidedisplay
@@ -49,7 +49,7 @@ function InitHelpMsg() {
     *NEW*-language [en/fr/ru]
     -showstrikes
     -transgressions
-    *NEW*-listoffcommands
+    -listoffcommands
     -help
     -respect
     -title [title to add/rem]
@@ -104,7 +104,8 @@ function InitHelpMsg() {
     -loadpresetcurses [name]
     -loadpreset [name]
     -savepreset [name]
-    *NEW* -deafimmune [number]
+    *NEW*-deafimmune [number]
+    *NEW*-keeprestraints
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -114,11 +115,12 @@ function InitHelpMsg() {
     -showenforced
     -shownicknames
     -configreport
-    *NEW*-listpresets
+    -listpresets
     
     >>> Configurations <<<
     -isclassic
-    *NEW*-fullblindfold
+    -fullblindfold
+    *NEW*-fullslow
     
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
@@ -129,12 +131,12 @@ function InitHelpMsg() {
     INTENSE V:-onickname [Number] [Name]
 
     >>>Configuration Commands<<<
-    *NEW*-triggerword [phrase]
-    *NEW*-triggerduration [minutes]
-    *NEW*-clearpunishments
-    *NEW*-retype
-    *NEW*-strictness [low/normal/strict]
-    *NEW*-punishmentrestraint [1-10] [group]
+    -triggerword [phrase]
+    -triggerduration [minutes]
+    -clearpunishments
+    -retype
+    -strictness [low/normal/strict]
+    -punishmentrestraint [1-10] [group]
     -resetorgasmcount
     -guestnotes
     -readnotes
@@ -155,7 +157,7 @@ function InitHelpMsg() {
     INTENSE VERSION:-secretorgasm
     INTENSE VERSION:-blockooc
     *NEW* INTENSE VERSION:-safeword
-    *NEW* INTENSE VERSION:-disableblocking
+    INTENSE VERSION:-disableblocking
 
     >>>Club rules Commands<<<
     -forcedlabor
