@@ -436,21 +436,22 @@ function drawCards(nbCards, players) {
 
 
 /** Sends a character to a give room 
- * @param {string} ame - Room name
+ * @param {object} data - Room data
 */
-function SendToRoom(name) {
+function SendToRoom(data) {
   ElementRemove("FriendList");
   ElementRemove("InputChat");
   ElementRemove("TextAreaChatLog");
   ServerSend("ChatRoomLeave", "");
   CommonSetScreen("Online", "ChatSearch");
-  ChatRoomSpace = "";
   OnlineGameName = "";
   ChatSearchLeaveRoom = "MainHall";
   ChatSearchBackground = "IntroductionDark";
-  ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundsTagList);
+  ChatRoomSpace = data.ChatRoomSpace;
+  BackgroundsToPick = data.ChatRoomSpace == "Asylum" ? [BackgroundsTagAsylum] : BackgroundsTagList;
+  ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundsToPick);
   ChatRoomPlayerCanJoin = true;
-  ServerSend("ChatRoomJoin", { Name: name });
+  ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
 }
 
 function GetTargetParams(sender, parameters) {

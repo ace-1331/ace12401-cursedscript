@@ -144,7 +144,7 @@ function InitAlteredFns() {
       //Single beep in capture mode
       if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
         popChatGlobal({ Tag: "DraggedOutAction"});
-        SendToRoom(data.ChatRoomName);
+        SendToRoom(data);
         popChatSilent({ Tag: "DraggedOutWearerCapture", Param: [data.ChatRoomName] });
       }
 
@@ -156,7 +156,7 @@ function InitAlteredFns() {
         let beep3 = FriendListBeepLog[beepLogSize - 1];
         if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom") && ((Player.Ownership && Player.Ownership.MemberNumber == data.MemberNumber) || cursedConfig.owners.includes(data.MemberNumber.toString()))) {
           popChatGlobal({ Tag: "LeashAction"});
-          SendToRoom(data.ChatRoomName);
+          SendToRoom(data);
           popChatSilent({ Tag: "LeashWearer", Param: [data.ChatRoomName] });
         }
       }
