@@ -242,7 +242,7 @@ function WearerCommands({ command, parameters, sender }) {
 	  break;
 	case "warnleave":
 	  if (parameters && parameters[1] && !isNaN(parameters[1])) {
-	    sendWhisper(parameters[0], "(This is a preset message, I may need to leave in " + parameters[1] " minutes.)");
+	    sendWhisper(parameters[0], "(This is a preset message, I may need to leave in " + parameters[1] + " minutes.)");
 	    popChatSilent(parameters[0] + "was warned");
       } else {
 		  popChatSilent("You screwed up, dummy");
