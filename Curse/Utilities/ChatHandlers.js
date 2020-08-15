@@ -36,10 +36,13 @@ function popChatGlobal(actionTxt, isNormalTalk) {
     } else {
       var msgFR = actionTxt;
       var msgEN = actionTxt;
+      var msgGER = actionTxt;
       //var msgRU = actionTxt;
       if (typeof actionTxt == "object") { 
        // _.setTranslation({ ...cursedEN, ...cursedRU });
        // msgRU = CT(actionTxt);
+        _.setTranslation({ ...cursedEN, ...cursedGER });
+        msgGER = CT(actionTxt);
         _.setTranslation({ ...cursedEN, ...cursedFR });
         msgFR = CT(actionTxt);
         _.setTranslation(cursedEN);
@@ -50,7 +53,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
       ServerSend("ChatRoomChat", {
         Content: "Beep", Type: "Action", Dictionary: [
           { Tag: "Beep", Text: "msg" },
-          { Tag: "Biep", Text: "msg" },
+          { Tag: "Biep", Text: msgGER },
           { Tag: "Sonner", Text: msgFR },
           { Tag: "msg", Text: msgEN }]
       });
