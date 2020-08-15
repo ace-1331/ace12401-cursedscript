@@ -55,6 +55,7 @@ function AllCommands({
       switch (parameters[0]) { 
         case "ru":
         case "en":
+        case "ger":
         case "fr":
           DictionaryRequest(sender, parameters[0].toUpperCase());
           sendWhisper(sender, { Tag: "AllSetDictionary", Param: [parameters[0].toUpperCase()] });

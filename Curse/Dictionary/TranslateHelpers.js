@@ -4,6 +4,9 @@
  */
 function SetDictionary(language) { 
     switch (language) {
+        case "GER":
+            _.setTranslation({ ...cursedEN, ...cursedGER });
+            break;
         case "FR":
             _.setTranslation({ ...cursedEN, ...cursedFR });
             break;

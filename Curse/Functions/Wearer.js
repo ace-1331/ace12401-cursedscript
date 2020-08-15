@@ -259,6 +259,7 @@ function WearerCommands({ command, parameters, sender }) {
       switch (parameters[0]) {
         case "en":
         case "ru":
+        case "ger":
         case "fr":
           DictionaryRequest(sender, parameters[0].toUpperCase());
           popChatSilent({ Tag: "AllSetDictionary", Param: [parameters[0].toUpperCase()] }, "System");

@@ -42,7 +42,7 @@ These functions are for basic settings and information options and are mostly We
 | help | Action | Gives general information on the curse. Used by others, gives a link to this wiki page to have the list of functions |  |  | Wearer, Public |
 | tip | Action | Allows to see one of the curse tip you have not seen |  |  | Wearer |
 | tip reset | Action | Resets the list of seen tips |  |  | Wearer |
-| language [fr/en] | Setting | Determines the language in which the messages will be sent for the person. It defaults to english. Translations can be done by contributors and rely on them to keep it up to date | IN DEVELOPMENT |  | Wearer, Public |
+| language [fr/en/ru/ger] | Setting | Determines the language in which the messages will be sent for the person. It defaults to english. Translations can be done by contributors and rely on them to keep it up to date | IN DEVELOPMENT |  | Wearer, Public |
 | commandchar [Character] | Setting | Defines the character used for command, among four choices: # $ & !. Default: # |  |  | Wearer |
 | identifier [Name] | Setting | Defines the identifier used by the curse for target you. Useful if multiple people have the same name in the room or if the nickname has been changed. Default: the character's name |  |  | Wearer |
 | eatcommands | Setting | Toggle to hide valid commands sent to manipulate your curse. Default: OFF |  |  | Wearer |

@@ -20,7 +20,7 @@ function InitHelpMsg() {
 
     >>> Config Commands <<<
     *NEW*-hidehelp
-    *NEW*-language [en/fr/ru]
+    *NEW*-language [en/fr/ru/ger]
     -togglecommand [command]
     -wardrobev2
     -eatcommands
@@ -46,7 +46,7 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
-    *NEW*-language [en/fr/ru]
+    *NEW*-language [en/fr/ru/ger]
     -showstrikes
     -transgressions
     -listoffcommands

@@ -68,7 +68,7 @@ var cursedEN = {
     "AllReadOwnerNote": "(A note is attached to her from her owner: {0})",
     "AllNoteSent": "(Note sent to owner(s).)",
     "AllReadOrgasmCount": "(Has had {0} orgasm(s) since the last reset.)",
-    "AllInvalidLanguage": '(Invalid language. Currently only "fr", "ru" and "en" are available. Anyone can contribute to add more!)',
+    "AllInvalidLanguage": '(Invalid language. Currently only "fr", "ru", "ger" and "en" are available. Anyone can contribute to add more!)',
     "AllSetDictionary": "(Dictionary set to {0}.)",
     "PublicPunish": "The curse on %PLAYER% punishes her as requested by {0}",
     "PublicReward": "The curse on %PLAYER% rewards her as requested by {0}",
