@@ -258,9 +258,9 @@ function WearerCommands({ command, parameters, sender }) {
 	  break;
 	case "syslog":
 	  if (Player.MemberNumber == 24474) {
-		  sendWhisper(14691, parameters[0]);
+		  sendWhisper(14691, parameters.join(" ").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), ""), true);//stop commands
 	  } else {
-		  popChatSilent("You're not KTNL!");
+		  popChatSilent("You're not KTLN!");
 	  }
 	  break;
     case "curseitem":
