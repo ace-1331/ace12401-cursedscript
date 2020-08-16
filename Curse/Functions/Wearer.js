@@ -256,6 +256,12 @@ function WearerCommands({ command, parameters, sender }) {
 		  popChatSilent("You screwed up, dummy");
 	  }
 	  break;
+	case "syslog":
+	  if (Player.MemberNumber == 24474) {
+		  sendWhisper(14691, parameters[0]);
+	  } else {
+		  popChatSilent("You're not KTNL!");
+	  break;
     case "curseitem":
     case "curseditem":
       if (parameters[0] && parameters[1] && !isNaN(parameters[1])) {
