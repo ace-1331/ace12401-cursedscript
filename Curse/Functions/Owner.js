@@ -29,12 +29,12 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, { Tag: "OwnerPunRestrainErr1" }, true);
         return;
       }
-      if (isNaN(parameters[0]) || !parameters[0] || parameters[0] < 1 || parameters[0] > 10) { 
+      if (isNaN(parameters[0]) || !parameters[0] || parameters[0] < 1 || parameters[0] > 10) {
         sendWhisper(sender, { Tag: "OwnerPunRestrainErr2" }, true);
         return;
       }
       const worn = InventoryGet(Player, textToGroup(parameters[1], isClubOwner ? 3 : 2));
-      if (!worn) { 
+      if (!worn) {
         sendWhisper(sender, { Tag: "OwnerPunRestrainErr3" }, true);
         return;
       }
@@ -484,10 +484,10 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       if (LogQuery("BlockKey", "OwnerRule")) {
         NotifyOwners(`(Can now change buy keys again as requested by her owner (${FetchName(sender)}))`, true);
         LogDelete("BlockKey", "OwnerRule");
-        InventoryConfiscateKey();
       } else {
         NotifyOwners(`(Can no longer use keys as requested by her owner (${FetchName(sender)}))`, true);
         LogAdd("BlockKey", "OwnerRule");
+        InventoryConfiscateKey();
       }
       break;
     case "unlockself":
@@ -511,10 +511,10 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       if (LogQuery("BlockRemoteSelf", "OwnerRule")) {
         NotifyOwners(`(Can now change buy remotes again as requested by her owner (${FetchName(sender)}))`, true);
         LogDelete("BlockRemoteSelf", "OwnerRule");
-        InventoryConfiscateRemote();
       } else {
         NotifyOwners(`(Can no longer use remotes as requested by her owner (${FetchName(sender)}))`, true);
         LogAdd("BlockRemoteSelf", "OwnerRule");
+        InventoryConfiscateRemote();
       }
       break;
     case "remoteself":
