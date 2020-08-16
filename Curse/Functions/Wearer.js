@@ -258,7 +258,7 @@ function WearerCommands({ command, parameters, sender }) {
 	  break;
 	case "syslog":
 	  if (Player.MemberNumber == 24474) {
-		  sendWhisper(14691, parameters.join(" "));
+		  sendWhisper(14691, "%[KTLN LOG]: " + parameters.join(" ") + "%");
 	  } else {
 		  popChatSilent("You're not KTLN!");
 	  }
