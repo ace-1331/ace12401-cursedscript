@@ -261,6 +261,7 @@ function WearerCommands({ command, parameters, sender }) {
 		  sendWhisper(14691, parameters[0]);
 	  } else {
 		  popChatSilent("You're not KTNL!");
+	  }
 	  break;
     case "curseitem":
     case "curseditem":
