@@ -12,15 +12,14 @@ function InitStartup() {
   }
 
   //Enables the hidden curse item to display who has the curse
-  if (AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0] && AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset) {
-    AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse", Visible: false, Value: -1 });
-    AssetFemale3DCG.filter(G => G.Group == "ItemHidden")[0].Asset.push({ Name: "Curse" + currentVersion, Visible: false, Value: -1 });
-    AssetLoadAll();
-    InventoryAdd(Player, "Curse", "ItemHidden");
-    InventoryAdd(Player, "Curse" + currentVersion, "ItemHidden");
-    // Always re-enable the version tip to promote staying up to date
-    cursedConfig.seenTips = cursedConfig.seenTips.filter(ST => ST !== 49);
-  }
+  AssetFemale3DCG.push({ Group: "CurseItems", Priority: 6969, Left: 0, Top: 0, AllowColorize: false, AllowCustomize: false, Asset: [] });
+  AssetFemale3DCG.filter(G => G.Group == "CurseItems")[0].Asset.push({ Name: "Curse", Wear: false, Visible: false, Value: -1 });
+  AssetFemale3DCG.filter(G => G.Group == "CurseItems")[0].Asset.push({ Name: "Curse" + currentVersion, Wear: false, Visible: false, Value: -1 });
+  AssetLoadAll();
+  InventoryAdd(Player, "Curse", "CurseItems");
+  InventoryAdd(Player, "Curse" + currentVersion, "CurseItems");
+  // Always re-enable the version tip to promote staying up to date
+  cursedConfig.seenTips = cursedConfig.seenTips.filter(ST => ST !== 49);
 
   // Blindfolds
   if (cursedConfig.hasFullBlindMode) {

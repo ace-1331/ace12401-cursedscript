@@ -42,7 +42,7 @@ function DictionaryRequest(MemberNumber, lang) {
  * @param {object} txt - The Tag/Param object
  */
 function CT(txt) { 
-    return _(txt.Tag, ...(txt.Param || [])).replace("%PLAYER%", Player.Name);
+    return (_(txt.Tag, ...(txt.Param || [])) || "").replace("%PLAYER%", Player.Name);
 }
 
 /**

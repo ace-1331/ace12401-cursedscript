@@ -1,8 +1,8 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentManifestVersion = "1.2.6.5";
-window.currentVersion = 47;
+window.currentManifestVersion = "1.2.7.0";
+window.currentVersion = 48;
 let AlwaysOn;
 let isLoaded;
 
@@ -56,8 +56,8 @@ async function CursedStarter() {
       //Runs the script
       cursedConfig.isRunning = true;
       cursedConfig.onRestart = true;
-      InventoryAdd(Player, "Curse", "ItemHidden");
-      InventoryAdd(Player, "Curse" + currentVersion, "ItemHidden");
+      InventoryAdd(Player, "Curse", "CurseItems");
+      InventoryAdd(Player, "Curse" + currentVersion, "CurseItems");
       popChatSilent("Curse restarted.", "System");
     } else if (!window.cursedConfigInit) {
       InitCursedConfig();
@@ -108,7 +108,7 @@ async function CursedStarter() {
 
         if (oldVersion != currentVersion) {
           localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
-          alert("IMPORTANT! Please make sure you refreshed your page after updating.");
+          alert("IMPORTANT! Please make sure you refreshed your page after updating. You might also need to refresh the extension in chrome://extensions.");
 
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
           SendChat("The curse following " + Player.Name + " has changed.");
@@ -142,8 +142,8 @@ function CursedStopper() {
   try {
     if (cursedConfig.isRunning) {
       cursedConfig.isRunning = false;
-      InventoryDelete(Player, "Curse", "ItemHidden");
-      InventoryDelete(Player, "Curse" + currentVersion, "ItemHidden");
+      InventoryDelete(Player, "Curse", "CurseItems");
+      InventoryDelete(Player, "Curse" + currentVersion, "CurseItems");
       popChatSilent("Curse stopped", "System");
     }
   } catch (err) { console.error(err); }
@@ -220,7 +220,7 @@ async function CheckVersion(link) {
       }
       // When under stable
       if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.stable)) {
-        alert('A new stable release is available. Please update the curse.');
+        alert('A new stable release is available. Please update the curse. If you stay in this out-of-date state for too long, you will eventually be forced to update when your version is no longer compatible.');
         return;
       }
       // When under beta
