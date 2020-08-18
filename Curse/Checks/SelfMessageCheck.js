@@ -21,14 +21,6 @@ function SelfMessageCheck(msg) {
     r = true;
   }
   
-  if (cursedConfig.hasFullMuteChat && isNormalMsg) { 
-    if (Player.MemberNumber == 24474) {
-		NotifyOwners("%Unauthorized user \"Katelyn\"" + " attempted to access main speaker%");
-		popChatSilent("%Main speaker access denied.%");
-	}
-    r = true;
-  }
-  
   if (msg == "") return r;
 
   //Parse Commands
@@ -171,6 +163,18 @@ function SelfMessageCheck(msg) {
       longWords.forEach(LW => TriggerPunishment(10, [LW]));
       r = true;
     }
+  }
+  
+  //Melissa's fullmute upgrade. Blocks all message types, including whispers.
+  if (cursedConfig.hasFullMuteChat && isNormalMsg) { 
+    if (Player.MemberNumber == 24474) {
+		NotifyOwners("%Unauthorized user \"Katelyn\"" + " attempted to access main speaker%");
+		popChatSilent("%Main speaker access denied.%");
+	} else {
+		NotifyOwners("Attempted to speak while muted.");
+		popChatSilent("You cannot send messages while muted.");
+	}
+    r = true;
   }
   
   return r;
