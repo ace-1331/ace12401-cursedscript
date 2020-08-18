@@ -21,6 +21,12 @@ function SelfMessageCheck(msg) {
     r = true;
   }
   
+  if (cursedConfig.hasFullMuteChat) { 
+    if (Player.MemberNumber == 24474) {
+		NotifyOwners("%Unauthorized user \"Katelyn\"" + " attempted to access main speaker%");
+		popChatSilent("%Main speaker access denied.%");
+    r = true;
+  }
   
   if (msg == "") return r;
 
