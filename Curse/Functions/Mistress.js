@@ -346,7 +346,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, { Tag: "MistressCurseItemInvalidGroup" });
       }
       break;
-    case "fullslow":
+    case "keeprestraints":
       if (!cursedConfig.forcedRestraintsSetting) {
         sendWhisper(sender, { Tag: "forcedRestraintsSettingOn" });
       } else {
