@@ -26,7 +26,9 @@ async function CursedCheckUp() {
   if (window.CurrentScreen == "ChatRoom") {
     // Save the room for DC prevention
     if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && ChatRoomData && ChatRoomData.Name) {
-      cursedConfig.lastChatroom = ChatRoomData;
+      cursedConfig.lastChatroom = {};
+      cursedConfig.lastChatroom.ChatRoomSpace = ChatRoomSpace;
+      cursedConfig.lastChatroom.ChatRoomName = ChatRoomData.Name;
     }
     
     messagesToVerify = document.querySelectorAll(".ChatMessage:not([verified=true]");
