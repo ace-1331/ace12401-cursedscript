@@ -1,8 +1,8 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentManifestVersion = "1.2.7.0";
-window.currentVersion = 48;
+window.currentManifestVersion = "1.2.7.1";
+window.currentVersion = 49;
 let AlwaysOn;
 let isLoaded;
 
