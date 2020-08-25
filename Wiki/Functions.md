@@ -54,6 +54,7 @@ These functions are for basic settings and information options and are mostly We
 | capture | Setting | Activates the capacity to be captured when used by the wearer, or starts a capture by others. When captured, you cannot leave a room for 5 minutes, and the one that captured you can summon you by beeping you from another room. Default: OFF |  | X | Wearer |
 | clearcurses | Action | Removes all curses on the bearer, allowing to start from a clean slate |  |  | Owner |
 | wardrobev2 | Setting | Gives access to the enhanced appearance menu. May break with wardrobe screen update. Default: OFF | 🌟 |  | Wearer |
+| commandsv2 | Setting | Gives access to the enhanced commands with better \help. Default: OFF | Beta |  | Wearer |
 | hidehelp | Setting | Removes the help message you see on every login. Default: OFF | NEW |  | Wearer |
 
 ## Access

@@ -23,6 +23,7 @@ function InitHelpMsg() {
     *NEW*-language [en/fr/ru/ger]
     -togglecommand [command]
     -wardrobev2
+    -commandsv2
     -eatcommands
     -hidedisplay
     -restraintvanish

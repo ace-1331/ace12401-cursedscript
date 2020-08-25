@@ -47,7 +47,8 @@ window.addEventListener("load", () => {
     "Curse/Constants/CursedConfig.js",
     "Curse/Room/CursePreference.js",
     "Curse/Room/CurseRoom.js",
-    "Curse/Room/WardrobeV2.js"
+    "Curse/Room/WardrobeV2.js",
+    "Curse/Room/CommandsV2.js",
   ];
   
   externalScripts.forEach(AddExternalScript);

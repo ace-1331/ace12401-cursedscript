@@ -132,6 +132,10 @@ function InitAlteredFns() {
     LoadAppearanceV2();
   }
 
+  if (cursedConfig.hasCommandsV2) {
+    LoadCommandsV2();
+  }
+
   // Leashing
   if (window.ServerAccountBeep) {
     let backupServerAccountBeep = ServerAccountBeep;

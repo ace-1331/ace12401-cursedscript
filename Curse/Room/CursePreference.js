@@ -109,6 +109,7 @@ function CursePreferenceRun() {
     DrawCheckbox(100, 712, 64, 64, "Do not block messages with transgressions", CursePreferenceTemporaryConfig.isClassic);
     DrawCheckbox(100, 792, 64, 64, "Do not display actions in rooms (Not Recommended)", CursePreferenceTemporaryConfig.isSilent);
     DrawCheckbox(100, 872, 64, 64, "Show me all whispers sent by the curse (Not Recommended)", CursePreferenceTemporaryConfig.hasForward);
+    DrawCheckbox(100, 952, 64, 64, "Enable enhanced commands with better /help (Recommended) [English Only]", CursePreferenceTemporaryConfig.hasCommandsV2);
 
     DrawCheckbox(1100, 312, 64, 64, "Capture mode", CursePreferenceTemporaryConfig.hasCaptureMode);
     DrawCheckbox(1100, 392, 64, 64, "Bigger chat input", CursePreferenceTemporaryConfig.hasFullLengthMode);
@@ -188,6 +189,8 @@ function CursePreferenceClick() {
         CursePreferenceTemporaryConfig.isSilent = !CursePreferenceTemporaryConfig.isSilent;
     if (MouseIn(100, 872, 64, 64))
         CursePreferenceTemporaryConfig.hasForward = !CursePreferenceTemporaryConfig.hasForward;
+    if (MouseIn(100, 952, 64, 64))
+        CursePreferenceTemporaryConfig.hasCommandsV2 = !CursePreferenceTemporaryConfig.hasCommandsV2;
 
     if (MouseIn(1100, 312, 64, 64))
         CursePreferenceTemporaryConfig.hasCaptureMode = !CursePreferenceTemporaryConfig.hasCaptureMode;
