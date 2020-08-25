@@ -104,6 +104,8 @@ var cursedEN = {
     "restraintvanishoff": "Your curse will no longer remove items when the curse on them is lifted.",
     "wardrobev2on": "Enabled enhanced wardrobe. (Changes will be applied on the next reload.)",
     "wardrobev2off": "Disabled enhanced wardrobe. (Changes will be applied on the next reload.)",
+    "commandsv2on": "Enabled enhanced commands. (Changes will be applied on the next reload.)",
+    "commandsv2off": "Disabled enhanced commands. (Changes will be applied on the next reload.)",
     "hasCaptureModeon": "You can now be captured by anyone.",
     "hasCaptureModeoff": "You can no longer be captured.",
     "eatcommandon": "Will no longer display whispers containing valid commands.",
