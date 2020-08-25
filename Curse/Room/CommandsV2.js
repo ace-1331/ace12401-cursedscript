@@ -271,7 +271,7 @@ const CommonCommands = [
     {
         Tag: 'showghost',
         Description: ', show ghostlist',
-        Action: () => ChatRoomSendLocal('Ghostlist: ' + JSON.stringify(Player.Ghostlist))
+        Action: () => ChatRoomSendLocal('Ghostlist: ' + JSON.stringify(Player.GhostList))
     },
     {
         Tag: 'showfriends',
@@ -357,8 +357,8 @@ const AdditionalCommands = [
         Tag: 'admin',
         Description: ', open admin screen',
         Action: () => {
-            ElementRemove("InputChat");
-            ElementRemove("TextAreaChatLog");
+            document.getElementById("InputChat").style.display = "none";
+		    document.getElementById("TextAreaChatLog").style.display = "none";
             CommonSetScreen("Online", "ChatAdmin");
         }
     },
@@ -366,8 +366,8 @@ const AdditionalCommands = [
         Tag: 'profile',
         Description: ', open profile screen',
         Action: () => {
-            ElementRemove("InputChat");
-            ElementRemove("TextAreaChatLog");
+            document.getElementById("InputChat").style.display = "none";
+		    document.getElementById("TextAreaChatLog").style.display = "none";
             InformationSheetLoadCharacter(Player);
         }
     },
@@ -386,8 +386,8 @@ const AdditionalCommands = [
         Description: ', open appearance screen',
         Prerequisite: () => Player.CanChange(),
         Action: () => {
-            ElementRemove("InputChat");
-            ElementRemove("TextAreaChatLog");
+            document.getElementById("InputChat").style.display = "none";
+		    document.getElementById("TextAreaChatLog").style.display = "none";
             CharacterAppearanceReturnRoom = "ChatRoom";
             CharacterAppearanceReturnModule = "Online";
             CharacterAppearanceLoadCharacter(Player);
