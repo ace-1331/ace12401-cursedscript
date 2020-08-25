@@ -126,6 +126,8 @@ function InitHelpMsg() {
     >>>Basic Commands<<<
     -asylum [nb of hours]
     -sendasylum
+    -asylumreturntoroom
+    -asylumlockdown
     -owner [a member number]
     -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]

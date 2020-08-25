@@ -144,6 +144,8 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | vibratorintensity [off, low, medium, high, max] | Rule | Sets the speed for forced vibrators | |  | Mistress |
 | asylum [Hours] | Rule | Adds or removes a number of hours to the time to spend at the asylum | 🌟 |  | Owner |
 | sendasylum | Action | Sends the wearer to the asylum | |  | Owner |
+| asylumlockdown | Action | Makes it so logging on in the asylum retains the cursed restraints, meaning the character can be locked in that room. | |  | Owner |
+| asylumreturntoroom | Action | Sends the wearer to her asylum bedroom (Must be in the asylum area) | |  | Owner |
 | triggerword [Sentence] | Setting | Sets a trigger word that allows to block the victim to interact for a given time upon hearing this word. Default: None |  |  | Owner |
 | triggerduration [Minutes] | Setting | Defines the duration for which the trigger word works. Default: 5 minutes |  |  | Owner |
 | sensdep | Setting | Overrides the sensory deprivation settings in the menu and forces those to maximum effect | 🌟 | X | Owner |

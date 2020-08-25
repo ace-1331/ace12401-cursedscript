@@ -322,6 +322,28 @@ function InitAlteredFns() {
     };
   }
 
+  // Asylum bedroom lockdown
+  if (window.AsylumBedroomLoad) {
+    let backupAsylumBedroomLoad = AsylumBedroomLoad;
+    AsylumBedroomLoad = function (...rest) {
+      if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.hasAsylumLockdown) {
+        let oldLog = [...cursedConfig.chatlog];
+        let oldTransgressions = [...cursedConfig.transgressions];
+        //Process the required things
+        if (AppearanceCheck() || cursedConfig.mustRefresh) {
+          //Reloads Char for free
+          CharacterRefresh(Player, false);
+          cursedConfig.mustRefresh = false;
+          cursedConfig.toUpdate = [];
+          //Resumes as normal
+          cursedConfig.chatlog = oldLog;
+          cursedConfig.transgressions = oldTransgressions;
+        }
+      }
+      DrawCustomBeepText(GT(Player.MemberNumber, { Tag: "AsylumLockdownActive" }));
+      backupAsylumBedroomLoad(...rest);
+    };
+  }
 }
 
 /** Altered functions that do *NOT* require cursedConfig */

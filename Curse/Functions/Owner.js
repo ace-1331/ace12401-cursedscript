@@ -128,6 +128,13 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Wearer is now able to add/remove mistresses and owners.)", true);
       cursedConfig.hasRestrainedPlay = !cursedConfig.hasRestrainedPlay;
       break;
+    case "asylumlockdown":
+      if (!cursedConfig.hasAsylumLockdown)
+        sendWhisper(sender, { Tag: "AsylumLockdownOn" }, true);
+      else
+        sendWhisper(sender, { Tag: "AsylumLockdownOff" }, true);
+      cursedConfig.hasAsylumLockdown = !cursedConfig.hasAsylumLockdown;
+      break;
     case "reminders":
       if (!cursedConfig.hasReminders)
         sendWhisper(sender, "(Wearer will now receive reminders.)", true);
@@ -319,6 +326,25 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       } else {
         sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
       }
+      break;
+    case "asylumreturntoroom":
+      if (!LogQuery("Committed", "Asylum") || !LogValue("Committed", "Asylum") > Date.now()) {
+        sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
+        return;
+      }
+      if (ChatRoomSpace != "Asylum") { 
+        sendWhisper(sender, {Tag: "AsylumMustBeInAsylum"}, true);
+        return;
+      }
+      //Send to asylum and remove items that would be a progression blocker
+      SendChat({ Tag: "AsylumBedroomSentAction" });
+      setTimeout(() => { 
+        ElementRemove("InputChat");
+        ElementRemove("TextAreaChatLog");
+        ElementRemove("FriendList");
+        ServerSend("ChatRoomLeave", "");
+        CommonSetScreen("Room", "AsylumBedroom");
+      }, 1000);
       break;
     case "entrymessage":
       cursedConfig.entryMsg = parameters.join(" ").replace(/(~)|(")|(!)|(\*)|(\?)|(\/)/g, " ");

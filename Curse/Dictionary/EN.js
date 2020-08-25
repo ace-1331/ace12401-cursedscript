@@ -223,7 +223,6 @@ var cursedEN = {
     "OwnerPunRestrainErr1": "(Invalid arguments. Specify the stage (1 to 10) and the restraint group to scan for a current restraint.)",
     "OwnerPunRestrainErr2": "(Invalid arguments. Punishment stage must be a number between 1 and 10.)",
     "OwnerPunRestrainErr3": "(Invalid arguments. Target group does not contain a restraint.)",
-    // --LAST RU TRANSLATION HERE--
     "FullSlowOff": "(Wearer will no longer be slowed permanently.)",
     "FullSlowOn": "(Wearer will now always be slowed.)",
     "forcedRestraintsSettingOff": "(Wearer will no longer be forced keep all restraints when relogging.)",
@@ -289,6 +288,11 @@ var cursedEN = {
     "listedtipRoomInfo": " Click the button again for another tip.",
     "listedtipChatInfo": " Send the command again to see another tip.",
     "listedtipNoMore": "No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again",
-    "": "",
-    "": "",
+    // --LAST RU TRANSLATION HERE--
+    "AsylumLockdownOff": "%PLAYER% will no longer keep her restraints in her asylum bedroom.",
+    "AsylumLockdownOn": "%PLAYER% will now keep her restraints in her asylum bedroom.",
+    "AsylumBedroomSent": "You were sent to your asylum cell by an owner, you",
+    "AsylumBedroomSentAction": "%PLAYER% was sent to her asylum cell.",
+    "AsylumMustBeInAsylum": "Must be in the asylum for this to work.",
+    "AsylumLockdownActive": "Asylum lockdown active!",
 };

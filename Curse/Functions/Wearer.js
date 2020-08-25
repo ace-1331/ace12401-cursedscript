@@ -245,6 +245,7 @@ function WearerCommands({ command, parameters, sender }) {
           toggleCurseItem({
             name: (currentAsset && currentAsset.Asset.Name) || "",
             group,
+            property: (currentAsset && currentAsset.Property),
             forceAdd: true,
             dateOfRemoval
           })

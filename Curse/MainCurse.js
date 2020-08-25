@@ -81,7 +81,7 @@ async function CursedCheckUp() {
           // Functions return true if something changed, so refresh or procs will notify with var
           if (AppearanceCheck() || PunishmentCheck() || cursedConfig.mustRefresh) {
             //Reloads Char
-            CharacterLoadEffect(Player);
+            CharacterRefresh(Player, false);
             ChatRoomCharacterUpdate(Player);
             /*let before = cursedConfig.toUpdate.length;
                         cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);
@@ -104,7 +104,7 @@ async function CursedCheckUp() {
         //Process the required things
         if (AppearanceCheck() || cursedConfig.mustRefresh) {
           //Reloads Char for free
-          CharacterLoadEffect(Player);
+          CharacterRefresh(Player, false);
           ChatRoomCharacterUpdate(Player);
           /*let before = cursedConfig.toUpdate.length;
                     cursedConfig.toUpdate = cursedConfig.toUpdate.filter((g, i) => cursedConfig.toUpdate.indexOf(g) === i);

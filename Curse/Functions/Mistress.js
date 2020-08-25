@@ -337,6 +337,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           toggleCurseItem({
             name: (currentAsset && currentAsset.Asset.Name) || "",
             group,
+            property: (currentAsset && currentAsset.Property),
             dateOfRemoval
           })
         ) {

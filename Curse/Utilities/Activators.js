@@ -2,8 +2,9 @@
 /** Toggles a curse on any given item 
  * @param {string} item - the item name from the asset file
  * @param {string} group - the item group from the asset file
+ * @param {object} property - the item properties saved
 */
-function procGenericItem(item, group) {
+function procGenericItem(item, group, property) {
   //Removes curses on invalid items
   if (item && !Asset.find(A => A.Name === item && A.Group.Name === group)) {
     cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
@@ -21,6 +22,7 @@ function procGenericItem(item, group) {
     }
     if (item != "" && itemIsAllowed(item, group)) {
       InventoryWear(Player, item, group, GetColorSlot(group));
+      InventoryGet(Player, group).Property = property;
       cursedConfig.toUpdate.push(group);
       cursedConfig.mustRefresh = true;
       popChatSilent({
@@ -138,7 +140,7 @@ function triggerInPleasure() {
  * @param {{name: string, group: string, forceAdd?: boolean, forceRemove?: boolean, isSilent?: boolean, dateOfRemoval?: number}} - Object containing all optional params
  * @returns true if the group does not exist
  */
-function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfRemoval }) {
+function toggleCurseItem({ name, group, property, forceAdd, forceRemove, isSilent, dateOfRemoval }) {
   TryPopTip(16);
   let txtGroup = (AssetGroup.find(G => G.Name == group) || {}).Description || "items";
 
@@ -148,9 +150,9 @@ function toggleCurseItem({ name, group, forceAdd, forceRemove, isSilent, dateOfR
   cursedConfig.cursedAppearance = cursedConfig.cursedAppearance.filter(item => item.group != group);
 
   if ((!item || item.name != name) && (!forceRemove || forceAdd)) {
-    cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval });
+    cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval, property });
     SaveColorSlot(group);
-    procGenericItem(name, group);
+    procGenericItem(name, group, property);
     isSilent || SendChat({ Tag: "CurseArise", Param: [txtGroup.toLowerCase()] });
   } else if (!forceAdd) {
     isSilent || SendChat({ Tag: "CurseLift", Param: [txtGroup.toLowerCase()] });
