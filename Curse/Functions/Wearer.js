@@ -4,31 +4,6 @@
 function WearerCommands({ command, parameters, sender }) {
   let r = false;
   switch (command) {
-    case "togglecommand":
-      TryPopTip(50);
-      if (!parameters[0]) {
-        popChatSilent({ Tag: "ToggleCommandInvalid" });
-        return;
-      }
-      const optin = cursedConfig.optinCommands.find(OC => OC.command === parameters[0]);
-      if (optin) {
-        // When opt-in, we toggle the enabled bool
-        optin.isEnabled = !optin.isEnabled;
-        popChatSilent({ Tag: optin.isEnabled ? "OptinCommandToggleOn" : "OptinCommandToggleOff", Param: [parameters[0]] });
-        return;
-      }
-      // When normal, we add/remove it from the list
-      if (cursedConfig.disabledCommands.includes(parameters[0])) {
-        cursedConfig.disabledCommands = cursedConfig.disabledCommands.filter(C => C !== parameters[0]);
-        popChatSilent({ Tag: "RemovedBlacklistCommand", Param: [parameters[0]]});
-        return;
-      }
-      cursedConfig.disabledCommands.push(parameters[0]);
-      popChatSilent({
-        Tag: parameters[0] === "ownerhub" ? "ToggleOwnerHub" : "ToggleCommand",
-        Param: [parameters[0]]
-      });
-      break;
     case "restraintvanish":
       popChatSilent({
         Tag: cursedConfig.hasRestraintVanish ? "restraintvanishoff" : "restraintvanishon"
@@ -126,10 +101,7 @@ function WearerCommands({ command, parameters, sender }) {
           cursedConfig.owners.push(parameters[0]);
           SendChat({ Tag: "SelfOwnerAdd", Param: [FetchName(parameters[0])] });
         } else if (realOwner != parameters[0]) {
-          cursedConfig.owners = cursedConfig.owners.filter(
-            owner => owner != parameters[0]
-          );
-          popChatSilent({ Tag: "SelfOwnerRemove", Param: [FetchName(parameters[0])] });
+          popChatSilent("Cannot remove curse owners. You sneaky!");
         } else {
           popChatSilent({ Tag: "ErrorClubOwn" });
         }

@@ -200,6 +200,11 @@ function InitHelpMsg() {
     INTENSE VERSION: -locknewsub
     INTENSE VERSION: -onickname [Number] [Name]
 
+    //CUSTOM FUNCTIONS//
+    -whisperforward
+    -approveleave
+    -approvelists
+    -lockwhitelist
     ---------
     More on various features:
     https://github.com/ace-1331/ace12401-cursedscript/wiki

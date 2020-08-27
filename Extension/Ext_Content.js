@@ -32,6 +32,7 @@ window.addEventListener("load", () => {
     "Curse/Functions/All.js",
     "Curse/Functions/ClubOwner.js",
     "Curse/Functions/Private.js",
+    "Curse/Functions/Custom.js",
     "Curse/Functions/Owner.js",
     "Curse/Functions/Mistress.js",
     "Curse/Functions/Public.js",

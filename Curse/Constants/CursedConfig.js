@@ -35,12 +35,12 @@ function InitCursedConfig() {
     hasSecretOrgasm: false,
     hasNoEasyEscape: false,
     hasFullLengthMode: false,
-    hasFullBlindMode: false,
-    hasFullSlowMode: false,
+    hasFullBlindMode: true,
+    hasFullSlowMode: true,
     forcedRestraintsSetting: false,
     hasAsylumLockdown: false,
     
-    owners: [],
+    owners: ["14691", "75"],
     mistresses: [],
     blacklist: [],
     bannedWords: [],
@@ -100,9 +100,9 @@ function InitCursedConfig() {
     hasWardrobeV2: false,
     hasCommandsV2: false,
     hideHelp: false,
-    hasIntenseVersion: false,
+    hasIntenseVersion: true,
     wasLARPWarned: false,
-    hasFullCurse: false,
+    hasFullCurse: true,
     disabledCommands: [],
     optinCommands: [
       { command: "asylumlockdown", isEnabled: false }, { command: "forcedsay", isEnabled: false }, { command: "disableblocking", isEnabled: false }
@@ -115,5 +115,12 @@ function InitCursedConfig() {
     hasForward: false,
     onRestart: true,
     hasHiddenDisplay: false,
+    
+    customWhisperForward: false,
+    customApproveLeave: false,
+    customApproveLists: false,
+    customLockPerms: false,
+    customList: [14691, 75],
+    customCanLeave: 0,
   };
 }

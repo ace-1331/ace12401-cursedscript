@@ -164,10 +164,7 @@ function CursedIntenseOn() {
 function CursedIntenseOff() {
   try {
     if (cursedConfig.hasIntenseVersion) {
-      cursedConfig.hasIntenseVersion = false;
-      cursedConfig.say = "";
-      cursedConfig.hasFullMuteChat = false;
-      popChatSilent("Intense mode deactivated (safe).", "System");
+      popChatSilent("Nope, can't be sneaky~.", "System");
     }
   } catch (err) { console.error(err); }
 }

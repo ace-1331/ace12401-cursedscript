@@ -174,8 +174,6 @@ function CursePreferenceClick() {
 
     // Main page clicks
     // Checkboxes
-    if (MouseIn(100, 312, 64, 64))
-        CursePreferenceTemporaryConfig.hasIntenseVersion = !CursePreferenceTemporaryConfig.hasIntenseVersion;
     if (MouseIn(100, 392, 64, 64))
         CursePreferenceTemporaryConfig.isEatingCommands = !CursePreferenceTemporaryConfig.isEatingCommands;
     if (MouseIn(100, 472, 64, 64))
@@ -454,7 +452,7 @@ function CursePreferenceSubscreenStatusRun() {
 
     // Checkboxes
     MainCanvas.textAlign = "left";
-    DrawCheckbox(100, 152, 64, 64, "Alter blinding items to make them fully blind the wearer", CursePreferenceTemporaryConfig.hasFullBlindMode);
+    DrawCheckbox(100, 152, 64, 64, "[CO] Alter blinding items to make them fully blind the wearer", CursePreferenceTemporaryConfig.hasFullBlindMode);
     DrawCheckbox(100, 232, 64, 64, "[CO] Wearer must retype a message containing transgressions", CursePreferenceTemporaryConfig.mustRetype);
     DrawCheckbox(100, 312, 64, 64, "[CO] Drag wearer in a room by owners on triple beeps", CursePreferenceTemporaryConfig.canLeash);
     DrawCheckbox(100, 392, 64, 64, "[CO] Disable rescue maids and other NPC release dialogs", CursePreferenceTemporaryConfig.hasNoMaid);
@@ -466,7 +464,7 @@ function CursePreferenceSubscreenStatusRun() {
     DrawCheckbox(100, 872, 64, 64, "[CO] Disable OOC when gagged", CursePreferenceTemporaryConfig.hasBlockedOOC);
 
 
-    DrawCheckbox(1200, 312, 64, 64, "Permanently slowed", CursePreferenceTemporaryConfig.hasFullSlowMode);
+    DrawCheckbox(1200, 312, 64, 64, "[CO] Permanently slowed", CursePreferenceTemporaryConfig.hasFullSlowMode);
     DrawCheckbox(1200, 392, 64, 64, "[M] Forced 'keep restraints on login'", CursePreferenceTemporaryConfig.forcedRestraintsSetting);
     DrawCheckbox(1200, 472, 64, 64, `[CO] Enable reminder (1 every ${(CursePreferenceTemporaryConfig.reminderInterval/60000).toFixed(1)} min.)`, CursePreferenceTemporaryConfig.hasReminders);
     DrawCheckbox(1050, 552, 64, 64, "[CO] Disables the curse when no owner is there", CursePreferenceTemporaryConfig.enabledOnMistress);
@@ -484,11 +482,6 @@ function CursePreferenceSubscreenStatusClick() {
     if (MouseIn(1815, 75, 1905-1815, 165-75) && (CursePreferenceErrors.length == 0)) {
         CursePreferenceSubscreen = "";
     }
-    // Checkboxes
-    if (MouseIn(100, 152, 64, 64))
-        CursePreferenceTemporaryConfig.hasFullBlindMode = !CursePreferenceTemporaryConfig.hasFullBlindMode;
-    if (MouseIn(1200, 312, 64, 64))
-        CursePreferenceTemporaryConfig.hasFullSlowMode = !CursePreferenceTemporaryConfig.hasFullSlowMode;
 }
 
 

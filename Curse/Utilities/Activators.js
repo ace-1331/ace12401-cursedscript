@@ -393,6 +393,12 @@ function AdjustSettings() {
     Player.GameplaySettings.DisableAutoRemoveLogin = true;
   }
   
+  // Lock perms
+  if (cursedConfig.customLockPerms && Player.ItemPermission != 3) {
+    Player.ItemPermission = 3
+    ServerSend("AccountUpdate", { ItemPermission: 3 });
+  }
+  
   //Making sure all names are up-to-date
   //Try catch in case the updated player is no longer there (extreme edge case)
   try {

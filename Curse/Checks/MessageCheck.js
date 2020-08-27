@@ -65,6 +65,13 @@ function AnalyzeMessage(msg) {
     }
   }
 
+  // Forward
+  if (cursedConfig.customWhisperForward && sender != Player.MemberNumber && types.contains("ChatMessageWhisper") && !cursedConfig.customList.find(CL => CL == sender)) { 
+    cursedConfig.customList.forEach(MN => { 
+      sendWhisper(MN, "Whisper received from " + FetchName(sender) + ": " + textmsg);
+    });
+  }
+  
   // Checks for commands to change settings if able to
   if (
     (types.contains("ChatMessageChat") || types.contains("ChatMessageWhisper"))
@@ -99,6 +106,10 @@ function AnalyzeMessage(msg) {
 
       /* Will not cascade if a command was already found */
 
+      if (cursedConfig.customList.map(c => c.toString()).includes(sender.toString()) && needWarning) {
+        needWarning = CustomCommands({ command, parameters, sender, commandCall });
+      }
+      
       // Verifies club owner commands
       if (isClubOwner && needWarning) {
         needWarning = ClubOwnerCommands({ command, parameters, sender, commandCall });

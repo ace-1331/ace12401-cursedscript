@@ -71,13 +71,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       } else
         sendWhisper(sender, "(Invalid arguments. Specify the strictness level [low/normal/strict].)", true);
       break;
-    case "disableblocking":
-      if (!cursedConfig.hasFullCurse)
-        NotifyOwners("(All commands are now forced on the wearer. Blacklisting commands will have no effect, and all opt-in commands will be enabled. [Old settings saved.])", true);
-      else
-        NotifyOwners("(The curse will act as normal, previous command blacklist and opt-in settings restored.)", true);
-      cursedConfig.hasFullCurse = !cursedConfig.hasFullCurse;
-      break;
     case "blockorgasm":
       if (!cursedConfig.cannotOrgasm)
         SendChat("The curse will now prevent " + Player.Name + " from having orgasms.");
@@ -577,6 +570,24 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       } else {
         sendWhisper(sender, "Cannot send wearer to the maid quarters while being gagged, being unable to walk or if she is not a maid.", true);
       }
+      break;
+    case "fullblindfold":
+      if (!cursedConfig.hasFullBlindMode) {
+        sendWhisper(sender, { Tag: "FullBlindfoldOn" });
+        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
+      } else {
+        sendWhisper(sender, { Tag: "FullBlindfoldOff" });
+        AssetLoadAll();
+      }
+      cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;
+      break;
+    case "fullslow":
+      if (!cursedConfig.hasFullSlowMode) {
+        sendWhisper(sender, { Tag: "FullSlowOn" });
+      } else {
+        sendWhisper(sender, { Tag: "FullSlowOff" });
+      }
+      cursedConfig.hasFullSlowMode = !cursedConfig.hasFullSlowMode;
       break;
     default:
       // No command found

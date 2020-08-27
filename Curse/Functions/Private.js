@@ -80,24 +80,6 @@ function PrivateCommands({ command, parameters, sender }) {
         sendWhisper(sender, { Tag: "IsClassicOff" });
       cursedConfig.isClassic = !cursedConfig.isClassic;
       break;
-    case "fullblindfold":
-      if (!cursedConfig.hasFullBlindMode) {
-        sendWhisper(sender, { Tag: "FullBlindfoldOn" });
-        Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
-      } else {
-        sendWhisper(sender, { Tag: "FullBlindfoldOff" });
-        AssetLoadAll();
-      }
-      cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;
-      break;
-      case "fullslow":
-        if (!cursedConfig.hasFullSlowMode) {
-          sendWhisper(sender, { Tag: "FullSlowOn" });
-        } else {
-          sendWhisper(sender, { Tag: "FullSlowOff" });
-        }
-        cursedConfig.hasFullSlowMode = !cursedConfig.hasFullSlowMode;
-        break;
     default:
       // No command found
       return true;
