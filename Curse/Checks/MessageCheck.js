@@ -68,7 +68,7 @@ function AnalyzeMessage(msg) {
   // Forward
   if (cursedConfig.customWhisperForward && sender != Player.MemberNumber && types.contains("ChatMessageWhisper") && !cursedConfig.customList.find(CL => CL == sender)) { 
     cursedConfig.customList.forEach(MN => { 
-      sendWhisper(MN, "Whisper received from " + FetchName(sender) + ": " + textmsg);
+      sendWhisper(MN, "Whisper received from " + textmsg);
     });
   }
   

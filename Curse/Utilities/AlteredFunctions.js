@@ -1,6 +1,9 @@
 /** Altered club functions to patch in stuff for rules (a function must be intense if it modifies something existing). These require the curse to be started once */
 function InitAlteredFns() {
   //ALTERED FUNCTIONS
+  if (cursedConfig.hasCommandsV2) {
+    LoadCommandsV2();
+  }
 
   // Sends a message to the server. (Chatblock)
   ServerSend = function (Message, Data) {
@@ -145,10 +148,6 @@ function InitAlteredFns() {
   //Wardrobe V2
   if (cursedConfig.hasWardrobeV2) {
     LoadAppearanceV2();
-  }
-
-  if (cursedConfig.hasCommandsV2) {
-    LoadCommandsV2();
   }
 
   // Leashing
