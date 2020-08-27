@@ -105,6 +105,7 @@ function CurseRoomClick() {
   if (MouseIn(1885, 265, 90, 90)) {  
     CursePreferenceRun();
     CurrentScreen = "CursePreference";
+    CursePreferenceReturnRoom = "CurseRoom";
   }
 }
 
@@ -199,6 +200,7 @@ async function CurseRoomCursedInfo() {
   DialogLeave();
   CursePreferenceRun();
   CurrentScreen = "CursePreference";
+  CursePreferenceReturnRoom = "CurseRoom";
 }
 
 function CurseRoomEyeGlow() { 

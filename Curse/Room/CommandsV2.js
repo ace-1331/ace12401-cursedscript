@@ -345,6 +345,18 @@ const CommonCommands = [
  */
 const AdditionalCommands = [
     {
+        Tag: 'curse',
+        Description: ', open curse setting screen',
+        Prerequisite: () => window.cursedConfig != null,
+        Action: () => { 
+            document.getElementById("InputChat").style.display = "none";
+		    document.getElementById("TextAreaChatLog").style.display = "none";
+            CursePreferenceRun();
+            CurrentScreen = "CursePreference";
+            CursePreferenceReturnRoom = "ChatRoom";
+        }
+    },
+    {
         Tag: 'logoff',
         Description: ', disconnect from server',
         Action: () => {

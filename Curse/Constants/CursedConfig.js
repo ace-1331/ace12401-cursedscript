@@ -105,7 +105,7 @@ function InitCursedConfig() {
     hasFullCurse: false,
     disabledCommands: [],
     optinCommands: [
-      { command: "forcedsay", isEnabled: false }, { command: "disableblocking", isEnabled: false }
+      { command: "asylumlockdown", isEnabled: false }, { command: "forcedsay", isEnabled: false }, { command: "disableblocking", isEnabled: false }
     ],
     chatlog: [],
     savedSilent: [],

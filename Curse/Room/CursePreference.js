@@ -9,6 +9,7 @@ var CursePreferenceMainLoaded = false;
 var CursePreferenceErrorMessage = null;
 var CursePreferenceErrorMessageTime = null;
 var CursePreferenceCurrentTip = "";
+var CursePreferenceReturnRoom = "CurseRoom";
 
 //////////////////////////////////////////////////////////////////MAIN
 // Validates updated data
@@ -256,14 +257,18 @@ function CursePreferenceUnload() {
 // When the user exit the preference screen, we save all valid info or block with error message
 function CursePreferenceExit() {
     if (cursedConfig) {
-        CursePreferenceUnload();
         cursedConfig = { ...CursePreferenceTemporaryConfig };
         SaveConfigs();
         DrawCustomBeepText("Curse data saved.");
     }
+    CursePreferenceUnload();
     CursePreferenceTemporaryConfig = null;
-    CurseRoomRun();
-    CurrentScreen = "CurseRoom";
+    if (CursePreferenceReturnRoom == "CurseRoom") {
+        CurseRoomRun();
+        CurrentScreen = "CurseRoom";
+    } else { 
+        CommonSetScreen("Online", "ChatRoom");
+    }
 }
 
 
