@@ -224,6 +224,13 @@ function InitAlteredFns() {
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.interactBackup() && (!isActivated || !isTriggered);
   }
+  
+  Player.kneelBackup = Player.CanKneel;
+  Player.CanKneel = function () {
+    let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
+    let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
+    return Player.kneelBackup() && (!isActivated || !isTriggered);
+  }
 
   // Prevent changing
   Player.changeBackup = Player.CanChange;
