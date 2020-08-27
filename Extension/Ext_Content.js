@@ -25,6 +25,7 @@ window.addEventListener("load", () => {
     "Curse/Checks/AppearanceCheck.js",
     "Curse/Dictionary/Translate.js",
     "Curse/Dictionary/TranslateHelpers.js",
+    "Curse/Dictionary/GER.js",
     "Curse/Dictionary/RU.js",
     "Curse/Dictionary/EN.js",
     "Curse/Dictionary/FR.js",
@@ -46,7 +47,8 @@ window.addEventListener("load", () => {
     "Curse/Constants/CursedConfig.js",
     "Curse/Room/CursePreference.js",
     "Curse/Room/CurseRoom.js",
-    "Curse/Room/WardrobeV2.js"
+    "Curse/Room/WardrobeV2.js",
+    "Curse/Room/CommandsV2.js",
   ];
   
   externalScripts.forEach(AddExternalScript);

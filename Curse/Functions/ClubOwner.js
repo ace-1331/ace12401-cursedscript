@@ -3,9 +3,9 @@ function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
   switch (command) {
     case "lockowner":
       if (!cursedConfig.isLockedOwner)
-        SendChat({ Tag: "LockOwnerOff" });
+        SendChat({ Tag: "LockOwnerOn" });
       else
-        SendChat({ Tag: "LooseOwnerOn" });
+        SendChat({ Tag: "LockOwnerOff" });
       cursedConfig.isLockedOwner = !cursedConfig.isLockedOwner;
       break;
     case "looseowner":

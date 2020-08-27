@@ -20,9 +20,10 @@ function InitHelpMsg() {
 
     >>> Config Commands <<<
     *NEW*-hidehelp
-    *NEW*-language [en/fr/ru]
+    *NEW*-language [en/fr/ru/ger]
     -togglecommand [command]
     -wardrobev2
+    -commandsv2
     -eatcommands
     -hidedisplay
     -restraintvanish
@@ -46,7 +47,7 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
-    *NEW*-language [en/fr/ru]
+    *NEW*-language [en/fr/ru/ger]
     -showstrikes
     -transgressions
     -listoffcommands
@@ -126,6 +127,8 @@ function InitHelpMsg() {
     >>>Basic Commands<<<
     -asylum [nb of hours]
     -sendasylum
+    -asylumreturntoroom
+    -asylumlockdown
     -owner [a member number]
     -otitle [Number] [Title]
     INTENSE V:-onickname [Number] [Name]

@@ -42,7 +42,7 @@ These functions are for basic settings and information options and are mostly We
 | help | Action | Gives general information on the curse. Used by others, gives a link to this wiki page to have the list of functions |  |  | Wearer, Public |
 | tip | Action | Allows to see one of the curse tip you have not seen |  |  | Wearer |
 | tip reset | Action | Resets the list of seen tips |  |  | Wearer |
-| language [fr/en] | Setting | Determines the language in which the messages will be sent for the person. It defaults to english. Translations can be done by contributors and rely on them to keep it up to date | IN DEVELOPMENT |  | Wearer, Public |
+| language [fr/en/ru/ger] | Setting | Determines the language in which the messages will be sent for the person. It defaults to english. Translations can be done by contributors and rely on them to keep it up to date | IN DEVELOPMENT |  | Wearer, Public |
 | commandchar [Character] | Setting | Defines the character used for command, among four choices: # $ & !. Default: # |  |  | Wearer |
 | identifier [Name] | Setting | Defines the identifier used by the curse for target you. Useful if multiple people have the same name in the room or if the nickname has been changed. Default: the character's name |  |  | Wearer |
 | eatcommands | Setting | Toggle to hide valid commands sent to manipulate your curse. Default: OFF |  |  | Wearer |
@@ -54,6 +54,7 @@ These functions are for basic settings and information options and are mostly We
 | capture | Setting | Activates the capacity to be captured when used by the wearer, or starts a capture by others. When captured, you cannot leave a room for 5 minutes, and the one that captured you can summon you by beeping you from another room. Default: OFF |  | X | Wearer |
 | clearcurses | Action | Removes all curses on the bearer, allowing to start from a clean slate |  |  | Owner |
 | wardrobev2 | Setting | Gives access to the enhanced appearance menu. May break with wardrobe screen update. Default: OFF | 🌟 |  | Wearer |
+| commandsv2 | Setting | Gives access to the enhanced commands with better \help. Default: OFF | Beta |  | Wearer |
 | hidehelp | Setting | Removes the help message you see on every login. Default: OFF | NEW |  | Wearer |
 
 ## Access
@@ -144,6 +145,8 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | vibratorintensity [off, low, medium, high, max] | Rule | Sets the speed for forced vibrators | |  | Mistress |
 | asylum [Hours] | Rule | Adds or removes a number of hours to the time to spend at the asylum | 🌟 |  | Owner |
 | sendasylum | Action | Sends the wearer to the asylum | |  | Owner |
+| asylumlockdown | Action | Makes it so logging on in the asylum retains the cursed restraints, meaning the character can be locked in that room. | |  | Owner |
+| asylumreturntoroom | Action | Sends the wearer to her asylum bedroom (Must be in the asylum area) | |  | Owner |
 | triggerword [Sentence] | Setting | Sets a trigger word that allows to block the victim to interact for a given time upon hearing this word. Default: None |  |  | Owner |
 | triggerduration [Minutes] | Setting | Defines the duration for which the trigger word works. Default: 5 minutes |  |  | Owner |
 | sensdep | Setting | Overrides the sensory deprivation settings in the menu and forces those to maximum effect | 🌟 | X | Owner |

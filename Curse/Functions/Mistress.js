@@ -337,6 +337,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
           toggleCurseItem({
             name: (currentAsset && currentAsset.Asset.Name) || "",
             group,
+            property: (currentAsset && currentAsset.Property),
             dateOfRemoval
           })
         ) {
@@ -346,7 +347,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, { Tag: "MistressCurseItemInvalidGroup" });
       }
       break;
-    case "fullslow":
+    case "keeprestraints":
       if (!cursedConfig.forcedRestraintsSetting) {
         sendWhisper(sender, { Tag: "forcedRestraintsSettingOn" });
       } else {

@@ -29,12 +29,12 @@ function AppearanceCheck() {
     let warnRemove = 0;
 
     //Locked appearance (now all curse items)
-    cursedConfig.cursedAppearance.forEach(({ name, group }) => {
+    cursedConfig.cursedAppearance.forEach(({ name, group, property }) => {
       let item = Player.Appearance.filter(el => el.Asset.Group.Name == group && el.Asset.Name == name);
       if (
         itemIsAllowed(name, group) && item.length == 0 && name != ""
       ) {
-        procGenericItem(name, group);
+        procGenericItem(name, group, property);
         warnAdd++;
         TriggerPunishment(6, [name, group]);
         TryPopTip(25);

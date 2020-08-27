@@ -436,21 +436,22 @@ function drawCards(nbCards, players) {
 
 
 /** Sends a character to a give room 
- * @param {string} ame - Room name
+ * @param {object} data - Room data
 */
-function SendToRoom(name) {
+function SendToRoom(data) {
   ElementRemove("FriendList");
   ElementRemove("InputChat");
   ElementRemove("TextAreaChatLog");
   ServerSend("ChatRoomLeave", "");
   CommonSetScreen("Online", "ChatSearch");
-  ChatRoomSpace = "";
   OnlineGameName = "";
   ChatSearchLeaveRoom = "MainHall";
   ChatSearchBackground = "IntroductionDark";
-  ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundsTagList);
+  ChatRoomSpace = data.ChatRoomSpace;
+  BackgroundsToPick = data.ChatRoomSpace == "Asylum" ? [BackgroundsTagAsylum] : BackgroundsTagList;
+  ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundsToPick);
   ChatRoomPlayerCanJoin = true;
-  ServerSend("ChatRoomJoin", { Name: name });
+  ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
 }
 
 function GetTargetParams(sender, parameters) {
@@ -475,7 +476,7 @@ function GetTargetParams(sender, parameters) {
 */
 function CommandIsActivated(command, sender) {
   //Intense mode
-  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say"];
+  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say", "asylumlockdown", "asylumreturntoroom"];
   if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) {
     sendWhisper(sender, { Tag: "NeedIntenseOn" }, true);
     return;

@@ -38,7 +38,8 @@ function InitCursedConfig() {
     hasFullBlindMode: false,
     hasFullSlowMode: false,
     forcedRestraintsSetting: false,
-
+    hasAsylumLockdown: false,
+    
     owners: [],
     mistresses: [],
     blacklist: [],
@@ -97,13 +98,14 @@ function InitCursedConfig() {
     hasRestraintVanish: false,
     canLeash: false,
     hasWardrobeV2: false,
+    hasCommandsV2: false,
     hideHelp: false,
     hasIntenseVersion: false,
     wasLARPWarned: false,
     hasFullCurse: false,
     disabledCommands: [],
     optinCommands: [
-      { command: "forcedsay", isEnabled: false }, { command: "disableblocking", isEnabled: false }
+      { command: "asylumlockdown", isEnabled: false }, { command: "forcedsay", isEnabled: false }, { command: "disableblocking", isEnabled: false }
     ],
     chatlog: [],
     savedSilent: [],

@@ -141,6 +141,10 @@ function InitAlteredFns() {
     LoadAppearanceV2();
   }
 
+  if (cursedConfig.hasCommandsV2) {
+    LoadCommandsV2();
+  }
+
   // Leashing
   if (window.ServerAccountBeep) {
     let backupServerAccountBeep = ServerAccountBeep;
@@ -153,7 +157,7 @@ function InitAlteredFns() {
       //Single beep in capture mode
       if (isActivated && cursedConfig.capture.Valid > Date.now() && data.MemberNumber == cursedConfig.capture.capturedBy) {
         popChatGlobal({ Tag: "DraggedOutAction"});
-        SendToRoom(data.ChatRoomName);
+        SendToRoom(data);
         popChatSilent({ Tag: "DraggedOutWearerCapture", Param: [data.ChatRoomName] });
       }
 
@@ -165,7 +169,7 @@ function InitAlteredFns() {
         let beep3 = FriendListBeepLog[beepLogSize - 1];
         if (beep1.MemberNumber == beep2.MemberNumber && beep2.MemberNumber == beep3.MemberNumber && beep3.Time - beep1.Time < 60000 && (!ChatRoomData || ChatRoomData.Name != data.ChatRoomName || CurrentScreen != "ChatRoom")) {
           popChatGlobal({ Tag: "LeashAction"});
-          SendToRoom(data.ChatRoomName);
+          SendToRoom(data);
           popChatSilent({ Tag: "LeashWearer", Param: [data.ChatRoomName] });
         }
       }
@@ -331,6 +335,28 @@ function InitAlteredFns() {
     };
   }
 
+  // Asylum bedroom lockdown
+  if (window.AsylumBedroomLoad) {
+    let backupAsylumBedroomLoad = AsylumBedroomLoad;
+    AsylumBedroomLoad = function (...rest) {
+      if (cursedConfig.hasIntenseVersion && cursedConfig.isRunning && cursedConfig.hasAsylumLockdown) {
+        let oldLog = [...cursedConfig.chatlog];
+        let oldTransgressions = [...cursedConfig.transgressions];
+        //Process the required things
+        if (AppearanceCheck() || cursedConfig.mustRefresh) {
+          //Reloads Char for free
+          CharacterRefresh(Player, false);
+          cursedConfig.mustRefresh = false;
+          cursedConfig.toUpdate = [];
+          //Resumes as normal
+          cursedConfig.chatlog = oldLog;
+          cursedConfig.transgressions = oldTransgressions;
+        }
+      }
+      DrawCustomBeepText(GT(Player.MemberNumber, { Tag: "AsylumLockdownActive" }));
+      backupAsylumBedroomLoad(...rest);
+    };
+  }
 }
 
 /** Altered functions that do *NOT* require cursedConfig */
@@ -348,7 +374,6 @@ function InitBasedFns() {
     let backupMainHallClick = MainHallClick;
     MainHallClick = (...rest) => {
       if (MouseIn(45, 665, 135 - 45, 755 - 665)) {
-        CurseRoomAce = null;
         CurseRoomRun();
         CurrentScreen = "CurseRoom";
       }

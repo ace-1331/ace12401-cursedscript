@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "BC - Cursed",
     "description": "Injects the scripts needed to wear the curse",
-    "version": "1.2.6.1",
+    "version": "1.2.7.2",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"
@@ -31,6 +31,7 @@
                 "Curse/Checks/AppearanceCheck.js",
                 "Curse/Dictionary/Translate.js",
                 "Curse/Dictionary/TranslateHelpers.js",
+                "Curse/Dictionary/GER.js",
                 "Curse/Dictionary/RU.js",
                 "Curse/Dictionary/EN.js",
                 "Curse/Dictionary/FR.js",
@@ -53,6 +54,7 @@
                 "Curse/Room/CursePreference.js",
                 "Curse/Room/CurseRoom.js",
                 "Curse/Room/WardrobeV2.js",
+                "Curse/Room/CommandsV2.js",
                 "Utils.js",
                 "Extension/Ext_Content.js"
             ]

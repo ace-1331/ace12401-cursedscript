@@ -9,6 +9,7 @@ var CursePreferenceMainLoaded = false;
 var CursePreferenceErrorMessage = null;
 var CursePreferenceErrorMessageTime = null;
 var CursePreferenceCurrentTip = "";
+var CursePreferenceReturnRoom = "CurseRoom";
 
 //////////////////////////////////////////////////////////////////MAIN
 // Validates updated data
@@ -104,7 +105,7 @@ function CursePreferenceRun() {
     DrawCheckbox(100, 312, 64, 64, "Enable intense mode", CursePreferenceTemporaryConfig.hasIntenseVersion);
     DrawCheckbox(100, 392, 64, 64, "Hide valid commands in chat", CursePreferenceTemporaryConfig.isEatingCommands);
     DrawCheckbox(100, 472, 64, 64, "Hide the curse display icons (Not Recommended)", CursePreferenceTemporaryConfig.hasHiddenDisplay);
-    DrawCheckbox(100, 552, 64, 64, "Enable enhanced appearance menu (Recommended)", CursePreferenceTemporaryConfig.hasWardrobeV2);
+    DrawCheckbox(100, 552, 64, 64, "Enable enhanced appearance menu (🌟)", CursePreferenceTemporaryConfig.hasWardrobeV2);
     DrawCheckbox(100, 632, 64, 64, "Remove restraints when lifting curses on items.", CursePreferenceTemporaryConfig.hasRestraintVanish);
     DrawCheckbox(100, 712, 64, 64, "Do not block messages with transgressions", CursePreferenceTemporaryConfig.isClassic);
     DrawCheckbox(100, 792, 64, 64, "Do not display actions in rooms (Not Recommended)", CursePreferenceTemporaryConfig.isSilent);
@@ -113,6 +114,7 @@ function CursePreferenceRun() {
     DrawCheckbox(1100, 312, 64, 64, "Capture mode", CursePreferenceTemporaryConfig.hasCaptureMode);
     DrawCheckbox(1100, 392, 64, 64, "Bigger chat input", CursePreferenceTemporaryConfig.hasFullLengthMode);
     DrawCheckbox(1100, 472, 64, 64, "Hide the help message on login", CursePreferenceTemporaryConfig.hideHelp);
+    DrawCheckbox(1100, 552, 64, 64, "Enable enhanced commands (🌟)", CursePreferenceTemporaryConfig.hasCommandsV2);
 
     MainCanvas.textAlign = "center";
 
@@ -195,6 +197,8 @@ function CursePreferenceClick() {
         CursePreferenceTemporaryConfig.hasFullLengthMode = !CursePreferenceTemporaryConfig.hasFullLengthMode;
     if (MouseIn(1100, 472, 64, 64))
         CursePreferenceTemporaryConfig.hideHelp = !CursePreferenceTemporaryConfig.hideHelp;
+    if (MouseIn(1100, 552, 64, 64))
+        CursePreferenceTemporaryConfig.hasCommandsV2 = !CursePreferenceTemporaryConfig.hasCommandsV2;
 
     // Import/Export
     if (navigator.clipboard) {
@@ -253,14 +257,18 @@ function CursePreferenceUnload() {
 // When the user exit the preference screen, we save all valid info or block with error message
 function CursePreferenceExit() {
     if (cursedConfig) {
-        CursePreferenceUnload();
         cursedConfig = { ...CursePreferenceTemporaryConfig };
         SaveConfigs();
         DrawCustomBeepText("Curse data saved.");
     }
+    CursePreferenceUnload();
     CursePreferenceTemporaryConfig = null;
-    CurseRoomRun();
-    CurrentScreen = "CurseRoom";
+    if (CursePreferenceReturnRoom == "CurseRoom") {
+        CurseRoomRun();
+        CurrentScreen = "CurseRoom";
+    } else { 
+        CommonSetScreen("Online", "ChatRoom");
+    }
 }
 
 

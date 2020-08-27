@@ -13,7 +13,8 @@ function SelfMessageCheck(msg) {
   // Gagged OOC
   if (
     cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
-    && !Player.CanTalk() && (originalMsg.includes("(") || ChatRoomTargetMemberNumber)
+    && (isNormalMsg || cursedConfig.secretNoOOC)
+    && !Player.CanTalk() && (originalMsg.includes("(") || (cursedConfig.secretNoOOC && isWhisper))
   ) { 
     NotifyOwners({ Tag: "SelfMsgCheckNotifyGagOOC" });
     popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagOOC" });

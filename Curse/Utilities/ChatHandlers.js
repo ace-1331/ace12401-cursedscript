@@ -36,10 +36,13 @@ function popChatGlobal(actionTxt, isNormalTalk) {
     } else {
       var msgFR = actionTxt;
       var msgEN = actionTxt;
+      var msgGER = actionTxt;
       //var msgRU = actionTxt;
       if (typeof actionTxt == "object") { 
        // _.setTranslation({ ...cursedEN, ...cursedRU });
        // msgRU = CT(actionTxt);
+        _.setTranslation({ ...cursedEN, ...cursedGER });
+        msgGER = CT(actionTxt);
         _.setTranslation({ ...cursedEN, ...cursedFR });
         msgFR = CT(actionTxt);
         _.setTranslation(cursedEN);
@@ -50,7 +53,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
       ServerSend("ChatRoomChat", {
         Content: "Beep", Type: "Action", Dictionary: [
           { Tag: "Beep", Text: "msg" },
-          { Tag: "Biep", Text: "msg" },
+          { Tag: "Biep", Text: msgGER },
           { Tag: "Sonner", Text: msgFR },
           { Tag: "msg", Text: msgEN }]
       });
@@ -171,10 +174,10 @@ function PopTip(isRoom) {
   
   let message = "";
   if (showTip.ID || showTip.ID == 0) {
-    message = showTip.Text + (isRoom ? " Click the button again for another tip." : " Send the command again to see another tip.");
+    message = GT(Player.MemberNumber, { Tag: "listedtip" + showTip.ID }) + (isRoom ? GT(Player.MemberNumber, { Tag: "listedtipRoomInfo" }) : GT(Player.MemberNumber, { Tag: "listedtipChatInfo" }));
     cursedConfig.seenTips.push(showTip.ID);
   } else {
-    message = "No more tips available for now. You might want to suggest new ones! You can also do '#name tip reset' to go through all tips again", "Tip";
+    message = GT(Player.MemberNumber, { Tag: "listedtipNoMore" });
   }
   
   if (!isRoom)
@@ -191,6 +194,6 @@ function TryPopTip(ID) {
   const showTip = curseTips.find(T => T.ID == ID && !cursedConfig.seenTips.includes(T.ID));
   if (showTip) {
     cursedConfig.seenTips.push(showTip.ID);
-    popChatSilent(showTip.Text, "Tip");
+    popChatSilent(GT(Player.MemberNumber, { Tag: "listedtip" + showTip.ID }), "Tip");
   }
 }

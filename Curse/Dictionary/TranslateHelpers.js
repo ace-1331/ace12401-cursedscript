@@ -4,6 +4,9 @@
  */
 function SetDictionary(language) { 
     switch (language) {
+        case "GER":
+            _.setTranslation({ ...cursedEN, ...cursedGER });
+            break;
         case "FR":
             _.setTranslation({ ...cursedEN, ...cursedFR });
             break;
@@ -39,7 +42,7 @@ function DictionaryRequest(MemberNumber, lang) {
  * @param {object} txt - The Tag/Param object
  */
 function CT(txt) { 
-    return _(txt.Tag, ...(txt.Param || [])).replace("%PLAYER%", Player.Name);
+    return (_(txt.Tag, ...(txt.Param || [])) || "").replace("%PLAYER%", Player.Name);
 }
 
 /**

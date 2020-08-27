@@ -61,6 +61,10 @@ function WearerCommands({ command, parameters, sender }) {
       popChatSilent({ Tag: cursedConfig.hasWardrobeV2 ? "wardrobev2off" : "wardrobev2on" });
       cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
       break;
+    case "commandsv2":
+      popChatSilent({ Tag: cursedConfig.hasCommandsV2 ? "commandsv2off" : "commandsv2on" });
+      cursedConfig.hasCommandsV2 = !cursedConfig.hasCommandsV2;
+      break;
     case "eatcommand":
     case "eatcommands":
       popChatSilent({ Tag: cursedConfig.isEatingCommands ? "eatcommandoff" : "eatcommandon" });
@@ -280,6 +284,7 @@ function WearerCommands({ command, parameters, sender }) {
           toggleCurseItem({
             name: (currentAsset && currentAsset.Asset.Name) || "",
             group,
+            property: (currentAsset && currentAsset.Property),
             forceAdd: true,
             dateOfRemoval
           })
@@ -294,6 +299,7 @@ function WearerCommands({ command, parameters, sender }) {
       switch (parameters[0]) {
         case "en":
         case "ru":
+        case "ger":
         case "fr":
           DictionaryRequest(sender, parameters[0].toUpperCase());
           popChatSilent({ Tag: "AllSetDictionary", Param: [parameters[0].toUpperCase()] }, "System");
