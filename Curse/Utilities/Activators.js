@@ -383,6 +383,11 @@ function AdjustSettings() {
     Player.ArousalSettings.Active = "Automatic";
   }
   
+  // No resist
+  if (cursedConfig.hasNoResist) { 
+    ActivityOrgasmGameResistCount = 1000000;
+  }
+  
   // Safeword off
   if (cursedConfig.hasNoEasyEscape && cursedConfig.hasIntenseVersion) {
     Player.GameplaySettings.EnableSafeword = false;

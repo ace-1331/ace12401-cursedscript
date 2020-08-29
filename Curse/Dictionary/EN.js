@@ -297,4 +297,6 @@ var cursedEN = {
     "AsylumBedroomSentAction": "%PLAYER% was sent to her asylum cell.",
     "AsylumMustBeInAsylum": "Must be in the asylum for this to work.",
     "AsylumLockdownActive": "Asylum lockdown active!",
+    "MistresshasNoResistOff": "%PLAYER%'s curse allows her to resist orgasms again.",
+    "MistresshasNoResistOn": "%PLAYER%'s curse forbids her to resist orgasms.",
 };

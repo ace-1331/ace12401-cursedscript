@@ -161,6 +161,7 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | meteroff | Setting | Removes the arousal meter entirely |  | X | Owner |
 | secretorgasm | Setting | Hides the arousal meter from the cursed person, without deactivating it | | X | Owner |
 | forbidorgasm | Rule | Punishes the curse wearer whenever she has an orgasm, when using the arousal meter |  |  | Owner |
+| noresist | Rule | Punishes the curse wearer whenever she has an orgasm, when using the arousal meter | NEW |  | Mistress |
 | blockorgasm | Setting | Entirely prevents having an orgasm from the arousal meter | 🌟 |  | Owner |
 | safeword | Setting | Removes access to the Safeword feature present in rooms |  | X | Owner |
 | locknewsub | Setting | Prevents the curse bearer from collaring subs altogether |  | X | Club |

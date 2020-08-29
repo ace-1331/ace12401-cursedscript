@@ -258,6 +258,12 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
       );
       cursedConfig.isMute = !cursedConfig.isMute;
       break;
+    case "noresist":
+      SendChat(
+        { Tag: cursedConfig.hasNoResist ? "MistresshasNoResistOff" : "MistresshasNoResistOn" }
+      );
+      cursedConfig.hasNoResist = !cursedConfig.hasNoResist;
+      break;
     case "dolltalk":
       SendChat(
         { Tag: cursedConfig.hasDollTalk ? "MistressDolltalkOff" : "MistressDolltalkOn" }

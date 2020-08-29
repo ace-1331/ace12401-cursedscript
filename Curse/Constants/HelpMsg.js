@@ -100,6 +100,7 @@ function InitHelpMsg() {
     -vibes
     -vibratorintensity [off,max,etc.]
     -permakneel
+    *NEW*-noresist
     
     >>>Configurations<<<
     -loadpresetcurses [name]

@@ -39,6 +39,7 @@ function InitCursedConfig() {
     hasFullSlowMode: false,
     forcedRestraintsSetting: false,
     hasAsylumLockdown: false,
+    hasNoResist: false,
     
     owners: [],
     mistresses: [],
