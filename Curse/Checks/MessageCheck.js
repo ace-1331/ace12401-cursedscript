@@ -70,7 +70,7 @@ function AnalyzeMessage(msg) {
     (types.contains("ChatMessageChat") || types.contains("ChatMessageWhisper"))
     && textmsg.toLowerCase().indexOf(commandCall.toLowerCase()) != -1
     && cursedConfig.blacklist.indexOf(sender) == -1
-    && Player.BlackList.filter(u => u == sender).length == 0
+    && !Player.BlackList.includes(sender)
   ) {
     // Parses the command
     let command;

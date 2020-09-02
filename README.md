@@ -21,6 +21,8 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 
 - This extension will work on any other Chromium-based browsers that support dev extensions. 
 
+- Make sure you are using the newer https:// links to go on the club
+
 ### PC
 ### Chrome
 1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
