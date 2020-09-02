@@ -8,7 +8,6 @@ var CurseRoomHasCurse = typeof cursedConfig != "undefined";
 
 // Loads the club curse room
 function CurseRoomLoad() {
-  if (CurseRoomAce == null || (!CurseRoomAce.Appearance || CurseRoomAce.Appearance.length < 20)) {
     CurseRoomAceReady = false;
     CharacterReset("NPC_Ace", "Female3DCG");
     CurseRoomAce = Character["NPC_Ace"];
@@ -23,8 +22,6 @@ function CurseRoomLoad() {
     InventoryWear(CurseRoomAce, "Eyes3", "Eyes", "#c0a4ff");
     InventoryWear(CurseRoomAce, "Eyes3", "Eyes2", "#c0a4ff");
     InventoryWear(CurseRoomAce, "Regular", "Mouth", "#69386F");
-    InventoryWear(CurseRoomAce, "OrnateChastityBelt", "ItemPelvis", "#A941C9");
-    InventoryWear(CurseRoomAce, "OrnateChastityBra", "ItemBreast", "#A941C9");
     InventoryWear(CurseRoomAce, "H0940", "Height", "Default");
     InventoryWear(CurseRoomAce, "BondageBra1", "Bra", "Default");
     InventoryWear(CurseRoomAce, "Stockings4", "Socks", "#58107B");
@@ -34,7 +31,6 @@ function CurseRoomLoad() {
     InventoryWear(CurseRoomAce, "Default", "Hands", "Asian");
     InventoryWear(CurseRoomAce, "ButterflyMask1", "Glasses", "#8215DA");
     InventoryWear(CurseRoomAce, "MistressGloves", "Gloves", "#42116A");
-    InventoryWear(CurseRoomAce, "HighCollar", "ItemNeck", "Default");
     InventoryWear(CurseRoomAce, "HairFront14", "HairFront", "#c0a4ff");
     InventoryWear(CurseRoomAce, "BunnyEars2", "HairAccessory1", "#2D0E3E");
     InventoryWear(CurseRoomAce, "Band1", "Hat", "#fff7df");
@@ -68,11 +64,7 @@ function CurseRoomLoad() {
       { Stage: "40", Option: "I've changed my mind, miss.", NextStage: "0", Result: "(She nods and wonders what you are hiding from her.)" },
     ];
     
-    setTimeout(() => {
-      CharacterRefresh(CurseRoomAce);
-      CurseRoomAceReady = true;
-    }, 5000);
-  }
+    CharacterRefresh(CurseRoomAce);
 }
 
 // Run the curse room, draw the 2 characters
@@ -81,9 +73,7 @@ function CurseRoomRun() {
   CurseRoomLoad();
   CurseRoomHasCurse = typeof cursedConfig != "undefined";
   DrawCharacter(Player, !CurseRoomThrown ? 250 : 1250, 0, 1);
-  if (CurseRoomAceReady) {
-    DrawCharacter(CurseRoomAce, 750, 0, 1);
-  }
+  DrawCharacter(CurseRoomAce, 750, 0, 1);
   DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
   DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
   DrawButton(1885, 265, 90, 90, "", "White", "Icons/Preference.png");
