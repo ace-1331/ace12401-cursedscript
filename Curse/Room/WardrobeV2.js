@@ -53,7 +53,7 @@ function LoadAppearanceV2() {
   
     AppearanceBuildAssets(C);
     AppearanceMode = "";
-    CharacterAppearanceBackup = C.Appearance.map(Item => Object.assign({}, Item));
+    CharacterAppearanceBackup = CharacterAppearanceStringify(C);
   };
   
   // Run the character appearance selection screen
