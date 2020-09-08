@@ -435,7 +435,7 @@ function drawCards(nbCards, players) {
 }
 
 
-/** Sends a character to a give room 
+/** Sends a character to a given room 
  * @param {object} data - Room data
 */
 function SendToRoom(data) {

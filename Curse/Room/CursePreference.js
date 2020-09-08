@@ -227,6 +227,11 @@ async function CursePreferenceImportConfig() {
     try {
         const clip = await navigator.clipboard.readText();
         const configs = JSON.parse(LZString.decompressFromUTF16(clip));
+        
+        // Clear bad stuff
+        const toDelete = ["chatStreak", "chatlog", "mustRefresh", "isRunning", "onRestart", "wasLARPWarned", "ownerIsHere", "mistressIsHere", "genericProcs", "toUpdate", "say", "warned", "shouldPopSilent", "transgressionsWarning"];
+        toDelete.forEach(prop => delete configs[prop]);
+        
         // We need to make sure this is the same version
         let hasError = false;
         Object.keys(configs).forEach(K => { 
