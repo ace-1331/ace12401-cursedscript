@@ -12,7 +12,7 @@ Please use the commands in whispers. Reduce spam as much as you can, make sure t
 
 **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-**Last approved on the following versions: R59**
+**Last approved on the following versions: Ry0 (2)**
 
 Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating. Make sure to refresh your club page before using a new version.
 
@@ -58,7 +58,7 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 - If an item is blocked in your permissions, it will not clash with the curse, but it will not be used. Unblock the needed items to use them with the curse.
 - You can save your currently worn colors so the curse can remember
 - Not compatible with old browsers. (Welcome to 2020!)
-- Some things that will be coming are listed in the repository's wiki. Feel free to send your own suggestions, and report bugs on discord or in the issue tracker of the repo
+- Some things that will be coming are listed in the repository's wiki. Feel free to send your own suggestions, and report bugs on the curse discord server.
 - Some more intense features are intentionally hidden behind the intense version, if you wish to use them, do so at your own risk as some may block freedoms completely.
 
 - IMPORTANT NOTE ON PERSISTANCE: To have your configurations persist between sessions, you need to be on the same device/browser. However, there is an import and an export function available to use. Run `cursedExport()` in the console and save the whole string it gives you wherever you want. On the other browser/device you can use the command `cursedImport('yourgivenstringhere')` to import your configs. (The string must be surrounded by `'` not `"`) This will allow you to carry over your configurations between versions of the club, devices or browsers. This also means, clearing your browser data without saving your configurations will erase your curse data!
@@ -70,11 +70,11 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
-Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid
+Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid, Ellie
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: 1.2.4.0**
+**Official release: 1.2.8.0**
 
-**THIS PAGE WAS LAST EDITED ON 06-07-2020**
+**THIS PAGE WAS LAST EDITED ON 08-08-2020**
