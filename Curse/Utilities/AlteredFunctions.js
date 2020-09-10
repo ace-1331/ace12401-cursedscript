@@ -306,6 +306,17 @@ function InitAlteredFns() {
     };
   }
 
+  // Special vibrator modes disabled with cursed orgasms
+  if (window.VibratorModeScriptDraw) {
+    let backupVibratorModeScriptDraw = VibratorModeScriptDraw;
+    VibratorModeScriptDraw = function (...rest) {
+      if (cursedConfig.isRunning && cursedConfig.hasCursedOrgasm) {
+        return;
+      }
+      backupVibratorModeScriptDraw(...rest);
+    };
+  }
+  
   // DeafImmune
   if (window.SpeechGarble) {
     let backupSpeechGarble = SpeechGarble;
