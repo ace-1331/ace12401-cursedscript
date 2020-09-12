@@ -70,7 +70,7 @@ function CurseRoomLoad() {
 
 // Run the curse room, draw the 2 characters
 function CurseRoomRun() {
-  if (Player.CanKneel() && !Player.ActivePose) CharacterSetActivePose(Player, "Kneel");
+  if (Player.CanKneel() && !Player.ActivePose) CharacterSetActivePose(Player, ( window.CharacterItemsHavePose ? ["Kneel", "BackBoxTie"] : "Kneel"));
   CurseRoomLoad();
   CurseRoomHasCurse = typeof cursedConfig != "undefined";
   DrawCharacter(Player, !CurseRoomThrown ? 250 : 1250, 0, 1);
@@ -145,7 +145,7 @@ function CurseRoomAlwaysOff() {
   CurseRoomEyeGlow();
   if (Player.CanKneel()) {
     CharacterSetActivePose(Player, "AllFours");
-    setTimeout(() => CharacterSetActivePose(Player, "Kneel"), 4000);
+    setTimeout(() => CharacterSetActivePose(Player, ( window.CharacterItemsHavePose ? ["Kneel", "BackBoxTie"] : "Kneel")), 4000);
   }
   CurseRoomThrown = true;
   AlwaysOnTurnOff();

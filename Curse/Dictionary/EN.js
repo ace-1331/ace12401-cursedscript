@@ -254,7 +254,7 @@ var cursedEN = {
     "listedtip21": "You can have the curse turn on by itself once you login by activating 'wear permanently' in the extension menu.",
     "listedtip22": "For more information on configurations: https://github.com/ace-1331/ace12401-cursedscript/wiki/Configurations",
     "listedtip23": "Most commands/curses are toggles. This means sending it for the first time will turn the curse on, then sending it again will turn the curse off.",
-    "listedtip24": "You must stay on your knees while the cursed collar is activated. One of your owner or mistress must turn it off to remove the curse.",
+    "listedtip24": "You must stay on your knees while the permanent kneel curse is activated. One of your owner or mistress must turn it off to remove the curse.",
     "listedtip25": "A cursed item was removed from your character and was subsequently reapplied. To remove a cursed item, the curse must be lifted by one of your mistress or owners.",
     "listedtip26": "An item was applied to a slot that contains an 'empty' curse. The item was removed from your character. To apply an item on this slot, the curse must be lifted by one of your mistress or owners.",
     "listedtip27": "You are currently wearing the cursed vibrator curse, this prevents your vibrators from being on lower intensities. You need one of your owners or mistresses to lift the curse.",

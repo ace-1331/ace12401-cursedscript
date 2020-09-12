@@ -91,7 +91,7 @@ async function checkKneeling(sender) {
     let startDate = Date.now();
     popChatSilent({ Tag: "WarnEnforce" }, "System");
     while (Date.now() < startDate + 30000) {
-      if (Player.Pose.includes("Kneel") || Player.Pose.includes("ForceKneel")) {
+      if ((Player.ActivePose && Player.ActivePose.includes("Kneel")) || Player.Pose.includes("Kneel") || Player.Pose.includes("ForceKneel")) {
         return;
       }
       await new Promise(r => setTimeout(r, 2000));
@@ -112,8 +112,8 @@ async function checkKneeling(sender) {
 
 /** Tries to make the wearer kneel */
 function KneelAttempt() {
-  if (Player.CanKneel() && !Player.Pose.includes("Kneel")) {
-    CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null);
+  if (Player.CanKneel() && !Player.Pose.includes("Kneel") && !(Player.ActivePose && Player.ActivePose.includes("Kneel"))) {
+    CharacterSetActivePose(Player, "Kneel");
     cursedConfig.mustRefresh = true;
   }
 }
@@ -301,6 +301,8 @@ function textToGroup(group, permission) {
         return "HairAccessory1";
       case "hairaccessory2":
         return "HairAccessory2";
+      case "hairaccessory3":
+        return "HairAccessory3";
       case "hairback":
         return "HairBack";
       case "hairfront":

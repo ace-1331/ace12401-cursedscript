@@ -17,7 +17,9 @@ function AppearanceCheck() {
     if (
       cursedConfig.hasCursedKneel
       && Player.CanKneel()
+      && !(Player.ActivePose && Player.ActivePose.includes("Kneel"))
       && !Player.Pose.includes("Kneel")
+      && !Player.Pose.includes("ForceKneel")
     ) {
       SendChat({ Tag: "AppearanceCheckKneel" });
       KneelAttempt();
