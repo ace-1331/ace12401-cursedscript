@@ -261,7 +261,7 @@ function CursePreferenceUnload() {
 
 // When the user exit the preference screen, we save all valid info or block with error message
 function CursePreferenceExit() {
-    if (cursedConfig) {
+    if (window.cursedConfig) {
         cursedConfig = { ...CursePreferenceTemporaryConfig };
         SaveConfigs();
         DrawCustomBeepText("Curse data saved.");
@@ -530,7 +530,7 @@ function CursePreferenceSubscreenPunishmentsRun() {
 
     MainCanvas.textAlign = "left";
     DrawCheckbox(1200, 100, 64, 64, "[CO] Auto punishment", !CursePreferenceTemporaryConfig.punishmentsDisabled);
-    DrawText(`Auto punishment strictness: ${CursePreferenceTemporaryConfig.strictness == 0.5 ? "Easy" : CursePreferenceTemporaryConfig.strictness == 1 ? "Normal" : "Harsh"}`, 1175, 200, "Black", "Gray");
+    DrawText(`Auto punishment strictness: ${CursePreferenceTemporaryConfig.strictness == 1.5 ? "Easy" : CursePreferenceTemporaryConfig.strictness == 1 ? "Normal" : "Harsh"}`, 1175, 200, "Black", "Gray");
     MainCanvas.textAlign = "center";
 }
 

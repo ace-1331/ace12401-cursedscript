@@ -52,7 +52,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
           case "low":
           case "easy":
           case "fair":
-            cursedConfig.strictness = 0.5;
+            cursedConfig.strictness = 1.5;
             NotifyOwners("Auto punishment strictness set to low", true);
             break;
           case "normal":
@@ -64,7 +64,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
           case "hard":
           case "high":
           case "unfair":
-            cursedConfig.strictness = 1.5;
+            cursedConfig.strictness = 0.5;
             NotifyOwners("Auto punishment strictness set to high", true);
             break;
         }
