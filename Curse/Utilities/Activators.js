@@ -22,7 +22,7 @@ function procGenericItem(item, group, property) {
     }
     if (item != "" && itemIsAllowed(item, group)) {
       InventoryWear(Player, item, group, GetColorSlot(group));
-      InventoryGet(Player, group).Property = property;
+      //InventoryGet(Player, group).Property = property;
       cursedConfig.toUpdate.push(group);
       cursedConfig.mustRefresh = true;
       popChatSilent({
