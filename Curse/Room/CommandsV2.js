@@ -172,15 +172,16 @@ const CommonCommands = [
         Action: (_, msg) => {
             // The player can roll X dice of Y faces, using XdY.  If no size is specified, a 6 sided dice is assumed
             let DiceNumber = 0;
+            let DiceSize = 6;
             if (/(^\d+)[dD](\d+$)/.test(msg.substring(5, 50).trim())) {
                 const Roll = /(^\d+)[dD](\d+$)/.exec((msg.substring(5, 50).trim()));
                 DiceNumber = (!Roll) ? 1 : parseInt(Roll[1]);
-                const DiceSize = (!Roll) ? 6 : parseInt(Roll[2]);
+                DiceSize = (!Roll) ? 6 : parseInt(Roll[2]);
                 if ((DiceNumber < 1) || (DiceNumber > 100)) DiceNumber = 1;
             } else if (/(^\d+$)/.test((msg.substring(5, 50).trim()))) {
                 const Roll = /(^\d+)/.exec((msg.substring(5, 50).trim()));
                 DiceNumber = 1;
-                const DiceSize = (!Roll) ? 6 : parseInt(Roll[1]);
+                DiceSize = (!Roll) ? 6 : parseInt(Roll[1]);
             }
 
             // If there's at least one dice to roll
