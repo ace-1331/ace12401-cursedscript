@@ -40,6 +40,7 @@ function InitCursedConfig() {
     forcedRestraintsSetting: false,
     hasAsylumLockdown: false,
     hasNoResist: false,
+    garbledNames: false,
     
     owners: [],
     mistresses: [],

@@ -355,6 +355,18 @@ function InitAlteredFns() {
       backupAsylumBedroomLoad(...rest);
     };
   }
+  
+  // Garbled whispers
+  
+  if (window.ChatRoomTarget) {
+    let backupChatRoomTarget = ChatRoomTarget;
+    ChatRoomTarget = function (...rest) {
+      backupChatRoomTarget(...rest);
+      if (cursedConfig.isRunning && cursedConfig.garbledNames && ChatRoomTargetMemberNumber && Array.isArray(Player.Effect) && Player.IsBlind()) {
+        document.getElementById("InputChat").placeholder = TextGet("WhisperTo") + " ???";
+      }
+    };
+  }
 }
 
 /** Altered functions that do *NOT* require cursedConfig */
