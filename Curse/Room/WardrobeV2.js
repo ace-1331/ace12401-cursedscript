@@ -23,9 +23,12 @@ function LoadAppearanceV2() {
   let AppearanceItemsOffset = 0;
   let AppearanceTempWardrobe = [];
   let AppearanceWardrobeShouldUndo = true;
-  let AppearanceColorPaste = "#FFFFFF";
+  window.AppearanceColorPaste = "#FFFFFF";
+  let AppearanceTextOnly = true;
   let AppearanceBlockMode = false;
   window.AppearanceSelectedCategory = "Appearance";
+  let AppearanceHover;
+  let AppearanceHoverPrev;
 
 
   CharacterAppearanceWardrobeLoad = function CharacterAppearanceWardrobeLoad(C) {
@@ -339,7 +342,7 @@ function LoadAppearanceV2() {
           if (this.Group.AllowColorize) {
             AppearanceItem = this;
             AppearanceItem.SetColor(this.Color == "None" ? "Default" : this.Item.Color, true);
-            AppearanceColorUndo = true;
+            AppearanceColorUndo = false;
             AppearanceMode = "Color";
             ItemColorLoad(this.C, this.Item, 1300, 25, 675, 950);
             ItemColorOnExit(() => {
