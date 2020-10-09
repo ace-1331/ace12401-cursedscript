@@ -133,7 +133,7 @@ function InitAlteredFns() {
 
   //Wardrobe V2
   if (cursedConfig.hasWardrobeV2 && window.AnimationGetDynamicDataName) {
-    LoadAppearanceV2();
+    // LoadAppearanceV2();
   }
 
   // Leashing
