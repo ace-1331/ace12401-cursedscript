@@ -16,7 +16,7 @@ function AnalyzeMessage(msg) {
     && ((cursedConfig.enabledOnMistress && cursedConfig.ownerIsHere) || !cursedConfig.enabledOnMistress);
 
   //Ignores special types for compatibility or LARP
-  if (types.contains("ChatMessageGlobal") || types.contains("ChatMessageLocalMessage")) {
+  if (types.contains("ChatMessageGlobal") || types.contains("ChatMessageLocalMessage") || types.contains("ChatMessageServerMessage")) {
     return;
   }
 
