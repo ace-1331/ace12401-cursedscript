@@ -145,7 +145,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
   if (!isNaN(target)) {
     TryPopTip(33);
     SetMemberDictionary(target);
-    ServerSend("ChatRoomChat", { Content: (typeof msg !== "object" ? msg : CT(msg)), Type: "Whisper", Target: parseInt(target) });
+    ServerSend("ChatRoomChat", { Content: `(${typeof msg !== "object" ? msg : CT(msg)})`, Type: "Whisper", Target: parseInt(target) });
     if (sendSelf) {
       popChatSilent(msg);
     } else if (cursedConfig.hasForward && !forceHide && target != Player.MemberNumber) {
