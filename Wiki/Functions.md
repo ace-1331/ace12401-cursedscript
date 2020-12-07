@@ -54,7 +54,7 @@ These functions are for basic settings and information options and are mostly We
 | capture | Setting | Activates the capacity to be captured when used by the wearer, or starts a capture by others. When captured, you cannot leave a room for 5 minutes, and the one that captured you can summon you by beeping you from another room. Default: OFF |  | X | Wearer |
 | clearcurses | Action | Removes all curses on the bearer, allowing to start from a clean slate |  |  | Owner |
 | wardrobev2 | Setting | Gives access to the enhanced appearance menu. May break with wardrobe screen update. Default: OFF | 🌟 |  | Wearer |
-| commandsv2 | Setting | Gives access to the enhanced commands with better \help. Default: OFF | NEW | X | Wearer |
+| commandsv2 | Setting | Gives access to the enhanced commands with better \help. Default: OFF | | X | Wearer |
 | hidehelp | Setting | Removes the help message you see on every login. Default: OFF |  |  | Wearer |
 
 ## Access
@@ -145,14 +145,14 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | vibratorintensity [off, low, medium, high, max] | Rule | Sets the speed for forced vibrators | |  | Mistress |
 | asylum [Hours] | Rule | Adds or removes a number of hours to the time to spend at the asylum | 🌟 |  | Owner |
 | sendasylum | Action | Sends the wearer to the asylum | |  | Owner |
-| asylumlockdown | Action | Makes it so logging on in the asylum retains the cursed restraints, meaning the character can be locked in that room. | NEW | X | Owner |
-| asylumreturntoroom | Action | Sends the wearer to her asylum bedroom (Must be in the asylum area) | NEW | X | Owner |
+| asylumlockdown | Action | Makes it so logging on in the asylum retains the cursed restraints, meaning the character can be locked in that room. |  | X | Owner |
+| asylumreturntoroom | Action | Sends the wearer to her asylum bedroom (Must be in the asylum area) |  | X | Owner |
 | triggerword [Sentence] | Setting | Sets a trigger word that allows to block the victim to interact for a given time upon hearing this word. Default: None |  |  | Owner |
 | triggerduration [Minutes] | Setting | Defines the duration for which the trigger word works. Default: 5 minutes |  |  | Owner |
 | sensdep | Setting | Overrides the sensory deprivation settings in the menu and forces those to maximum effect | 🌟 | X | Owner |
 | fullblindfold | Setting | Makes it so all blindfolds have total effect |  |  | Wearer, Owner |
-| keeprestraints | Setting | Makes it so the "keep all restraints when relogging" is forced to true | NEW |  | Mistress |
-| fullslow | Setting | Makes it so the slow effect is always enabled | NEW |  | Wearer, Owner |
+| keeprestraints | Setting | Makes it so the "keep all restraints when relogging" is forced to true |  |  | Mistress |
+| fullslow | Setting | Makes it so the slow effect is always enabled |  |  | Wearer, Owner |
 | deafimmune [ID] | Setting | Bypass deafness for the targeted person, allowing to simulate, for instance, communication via earbuds |  |  | Mistress |
 | norescue | Setting | Blocks access to the maid service and other methods of getting free | 🌟 | X | Owner |
 | leash | Setting | Toggle to allow for leashing. A leashed curse bearer can be called by an owner by beeping her three time, moving her from another room. Note that the leashed character need to be able to join the room | 🌟 | X | Owner |
@@ -161,7 +161,7 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | meteroff | Setting | Removes the arousal meter entirely |  | X | Owner |
 | secretorgasm | Setting | Hides the arousal meter from the cursed person, without deactivating it | | X | Owner |
 | forbidorgasm | Rule | Punishes the curse wearer whenever she has an orgasm, when using the arousal meter |  |  | Owner |
-| noresist | Rule | Punishes the curse wearer whenever she has an orgasm, when using the arousal meter | NEW |  | Mistress |
+| noresist | Rule | Punishes the curse wearer whenever she has an orgasm, when using the arousal meter |  |  | Mistress |
 | blockorgasm | Setting | Entirely prevents having an orgasm from the arousal meter | 🌟 |  | Owner |
 | safeword | Setting | Removes access to the Safeword feature present in rooms |  | X | Owner |
 | locknewsub | Setting | Prevents the curse bearer from collaring subs altogether |  | X | Club |
@@ -254,6 +254,7 @@ This is because it isn't the curse saving this, but the character, being functio
 | unlockself | Setting | Blocks the use of keys on your own bindings |  |  | Owner |
 | keyblock | Setting | Removes the use of keys entirely |  |  | Owner |
 | blockchange | Setting | Removes access to the wardrobe entirely |  |  | Owner |
+| cell [minutes]| Action | Sends the wearer to the timer cell for the given amount of minutes. The max time is one week. | NEW | X | Owner |
 
 
 # Examples of use

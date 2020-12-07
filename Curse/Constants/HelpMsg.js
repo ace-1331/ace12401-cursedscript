@@ -19,8 +19,8 @@ function InitHelpMsg() {
     -listsentences
 
     >>> Config Commands <<<
-    *NEW*-hidehelp
-    *NEW*-language [en/fr/ru/ger]
+    -hidehelp
+    -language [en/fr/ru/ger]
     -togglecommand [command]
     -wardrobev2
     -commandsv2
@@ -47,7 +47,7 @@ function InitHelpMsg() {
     INTENSE V:-deletenickname [Number] [Name]
 
     //PUBLIC FUNCTIONS//
-    *NEW*-language [en/fr/ru/ger]
+    -language [en/fr/ru/ger]
     -showstrikes
     -transgressions
     -listoffcommands
@@ -100,14 +100,14 @@ function InitHelpMsg() {
     -vibes
     -vibratorintensity [off,max,etc.]
     -permakneel
-    *NEW*-noresist
+    -noresist
     
     >>>Configurations<<<
     -loadpresetcurses [name]
     -loadpreset [name]
     -savepreset [name]
-    *NEW*-deafimmune [number]
-    *NEW*-keeprestraints
+    -deafimmune [number]
+    -keeprestraints
 
     //OWNER AND WEARER FUNCTIONS//
     >>> Information <<<
@@ -122,10 +122,11 @@ function InitHelpMsg() {
     >>> Configurations <<<
     -isclassic
     -fullblindfold
-    *NEW*-fullslow
+    -fullslow
     
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
+    *NEW*INTENSE VERSION:-cell [nb minutes]
     -asylum [nb of hours]
     -sendasylum
     -asylumreturntoroom
@@ -160,7 +161,7 @@ function InitHelpMsg() {
     INTENSE VERSION:-meteroff
     INTENSE VERSION:-secretorgasm
     INTENSE VERSION:-blockooc
-    *NEW* INTENSE VERSION:-safeword
+    INTENSE VERSION:-safeword
     INTENSE VERSION:-disableblocking
 
     >>>Club rules Commands<<<

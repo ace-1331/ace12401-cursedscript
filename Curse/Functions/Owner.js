@@ -10,6 +10,20 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         NotifyOwners({ Tag: "OwnerTriggerWordRemove" }, true);
       TryPopTip(54);
       break;
+    case "cell":
+      if (!parameters[0] || isNaN(parameters[0])) {
+        sendWhisper(sender, "Must provide a number of minutes.", true);
+        return;
+      }
+      
+      ServerSend("ChatRoomChat", { Content: "ActionGrabbedForCell", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
+      ElementRemove("InputChat");
+      ElementRemove("TextAreaChatLog");
+      ServerSend("ChatRoomLeave", "");
+      CharacterDeleteAllOnline();
+      CellLock(parseInt(parameters[0]));
+      
+      break;
     case "triggerduration":
       if (!parameters[0] || isNaN(parameters[0])) {
         sendWhisper(sender, { Tag: "OwnerTriggerDurationError" }, true);

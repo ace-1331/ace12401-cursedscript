@@ -49,6 +49,7 @@ function CursePreferenceRun() {
 
     // If the user is not cursed, draw not cursed
     if (!window.cursedConfig) CursePreferenceSubscreen = "NoCurse";
+    if (window.cursedConfig && CursePreferenceSubscreen == "NoCurse") CursePreferenceSubscreen = "";
 
     // If a subscreen is active, draw that instead and unload the main one
     if (CursePreferenceSubscreen && CursePreferenceMainLoaded) CursePreferenceUnload();
@@ -105,7 +106,7 @@ function CursePreferenceRun() {
     DrawCheckbox(100, 312, 64, 64, "Enable intense mode", CursePreferenceTemporaryConfig.hasIntenseVersion);
     DrawCheckbox(100, 392, 64, 64, "Hide valid commands in chat", CursePreferenceTemporaryConfig.isEatingCommands);
     DrawCheckbox(100, 472, 64, 64, "Hide the curse display icons (Not Recommended)", CursePreferenceTemporaryConfig.hasHiddenDisplay);
-    DrawCheckbox(100, 552, 64, 64, "Enable enhanced appearance menu (🌟)", CursePreferenceTemporaryConfig.hasWardrobeV2);
+    //DrawCheckbox(100, 552, 64, 64, "Enable enhanced appearance menu (🌟)", CursePreferenceTemporaryConfig.hasWardrobeV2);
     DrawCheckbox(100, 632, 64, 64, "Remove restraints when lifting curses on items.", CursePreferenceTemporaryConfig.hasRestraintVanish);
     DrawCheckbox(100, 712, 64, 64, "Do not block messages with transgressions", CursePreferenceTemporaryConfig.isClassic);
     DrawCheckbox(100, 792, 64, 64, "Do not display actions in rooms (Not Recommended)", CursePreferenceTemporaryConfig.isSilent);
@@ -180,8 +181,8 @@ function CursePreferenceClick() {
         CursePreferenceTemporaryConfig.isEatingCommands = !CursePreferenceTemporaryConfig.isEatingCommands;
     if (MouseIn(100, 472, 64, 64))
         CursePreferenceTemporaryConfig.hasHiddenDisplay = !CursePreferenceTemporaryConfig.hasHiddenDisplay;
-    if (MouseIn(100, 552, 64, 64))
-        CursePreferenceTemporaryConfig.hasWardrobeV2 = !CursePreferenceTemporaryConfig.hasWardrobeV2;
+    /*if (MouseIn(100, 552, 64, 64))
+        CursePreferenceTemporaryConfig.hasWardrobeV2 = !CursePreferenceTemporaryConfig.hasWardrobeV2;*/
     if (MouseIn(100, 632, 64, 64))
         CursePreferenceTemporaryConfig.hasRestraintVanish = !CursePreferenceTemporaryConfig.hasRestraintVanish;
     if (MouseIn(100, 712, 64, 64))

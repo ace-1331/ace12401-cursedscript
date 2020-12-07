@@ -476,7 +476,7 @@ function GetTargetParams(sender, parameters) {
 */
 function CommandIsActivated(command, sender) {
   //Intense mode
-  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say", "asylumlockdown", "asylumreturntoroom"];
+  let intenseMode = ["locknewlover", "lockowner", "locknewsub", "capture", "fullmute", "secretorgasms", "safeword", "norescue", "preventdc", "sensdep", "meterlocked", "meteroff", "enablesound", "restrainedspeech", "target", "self", "blockooc", "sentence", "sound", "forcedsay", "say", "asylumlockdown", "asylumreturntoroom", "cell"];
   if (!cursedConfig.hasIntenseVersion && intenseMode.includes(command)) {
     sendWhisper(sender, { Tag: "NeedIntenseOn" }, true);
     return;
