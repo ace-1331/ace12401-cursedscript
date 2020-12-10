@@ -263,21 +263,6 @@ function InitAlteredFns() {
       return backupChatRoomOwnershipOptionIs(...rest);
     };
   }
-  
-  // Cell timer remove validation
-  if (window.CellLoad) { 
-    CellLoad = () => { 
-      CellKeyDepositStaff = CharacterLoadNPC("NPC_Cell_KeyDepositStaff");
-      CellKeyDepositStaff.AllowItem = false;
-      CharacterSetActivePose(Player, null);
-      CellOpenTimer = LogValue("Locked", "Cell");
-      if (CellOpenTimer == null) CellOpenTimer = 0;
-      if (CellOpenTimer > CurrentTime + 7*24*3600000) {
-        LogDelete("Locked", "Cell");
-        CellOpenTimer = 0;
-      }
-    }
-  }
 
   // Draw character for curse icon
   if (window.ChatRoomDrawCharacter) {
@@ -405,4 +390,20 @@ function InitBasedFns() {
       backupMainHallClick(...rest);
     };
   }
+  
+  // Cell timer remove validation
+  if (window.CellLoad) {
+    CellLoad = () => {
+      CellKeyDepositStaff = CharacterLoadNPC("NPC_Cell_KeyDepositStaff");
+      CellKeyDepositStaff.AllowItem = false;
+      CharacterSetActivePose(Player, null);
+      CellOpenTimer = LogValue("Locked", "Cell");
+      if (CellOpenTimer == null) CellOpenTimer = 0;
+      if (CellOpenTimer > CurrentTime + 7 * 24 * 3600000) {
+        LogDelete("Locked", "Cell");
+        CellOpenTimer = 0;
+      }
+    }
+  }
 }
+InitBasedFns();

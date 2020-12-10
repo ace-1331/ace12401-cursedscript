@@ -20,7 +20,7 @@ async function LoginListener() {
       }
       isLoaded = true;
       //Initialize base functions
-      InitBasedFns();
+      //InitBasedFns();
       //AlwaysOn
       if (AlwaysOn == "enabled") {
         CursedStarter();
