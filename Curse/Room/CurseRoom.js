@@ -10,7 +10,7 @@ var CurseRoomHasCurse = typeof cursedConfig != "undefined";
 function CurseRoomLoad() {
     CurseRoomAceReady = false;
     CharacterReset("NPC_Ace", "Female3DCG");
-    CurseRoomAce = Character["NPC_Ace"];
+    CurseRoomAce = Character["NPC_Ace"] || Character.find(C => C.ID == "NPC_Ace");
     CurseRoomAce.Name = "Miss Ace";
     CurseRoomAce.LabelColor = "#c0a4ff";
     CurseRoomAce.BlinkFactor = 10;
