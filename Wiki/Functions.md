@@ -193,7 +193,8 @@ Anything regarding how your speech is controlled is found there. Some of these o
 | banword [word] | Rule | Bans the word in question from being used | 🌟 |  | Mistress |
 | clearwords | Setting | Removes all banned words from the list |  |  | Owner |
 | banbegging [on/off] | Rule | Shortcut to ban words such as "Please" |  |  | Mistress |
-| blockooc | Rule | Stops the use of OOC communication with parenthesis. Doesn't block whispers however |  | X | Owner |
+| blockooc | Rule | Stops the use of OOC communication with parenthesis when gagged |  | X | Owner |
+| blockwhisper | Rule | Stops the use of whispers when gagged | NEW | X | Owner |
 | banfirstperson [on/off] | Rule | Shortcut to ban words such as "I" or "Me" |  |  | Mistress |
 | contractions | Rule | Ban the use of contractions, for example, I'll, I won't ... warning, it blocks all words containing ' so you cannot summon Chtulhu under that rule. Works regardless of language spoken |  |  | Mistress |
 | dolltalk | Rule | Limits the curse wearer to 5 words per sentence, none able to be more than 6 letters long. Remember this when you give forced sentences to say as you might prevent the person from speaking entirely! Similarly, if you request a given title or nickname, try to make it fit those 6 letters so they can be used (and enforced). The talk function ignores this rule | 🌟 |  | Mistress |

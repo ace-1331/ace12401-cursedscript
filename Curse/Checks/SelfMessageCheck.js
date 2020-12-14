@@ -13,15 +13,24 @@ function SelfMessageCheck(msg) {
   // Gagged OOC
   if (
     cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
-    && (isNormalMsg || cursedConfig.secretNoOOC)
-    && !Player.CanTalk() && (originalMsg.includes("(") || (cursedConfig.secretNoOOC && isWhisper))
+    && !Player.CanTalk() && originalMsg.includes("(")
   ) { 
     NotifyOwners({ Tag: "SelfMsgCheckNotifyGagOOC" });
     popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagOOC" });
     TriggerPunishment(9);
     r = true;
   }
-  
+
+  // Gagged Whisper
+  if (
+    cursedConfig.hasBlockedWhisper && cursedConfig.hasIntenseVersion
+    && !Player.CanTalk() && isWhisper
+  ) {
+    NotifyOwners({ Tag: "SelfMsgCheckNotifyGagOOC" });
+    popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagOOC" });
+    TriggerPunishment(27);
+    r = true;
+  }
   
   if (msg == "") return r;
 

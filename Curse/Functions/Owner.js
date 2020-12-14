@@ -295,6 +295,13 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         NotifyOwners("The curse on " + Player.Name + " will no longer block gagged OOC.", true);
       cursedConfig.hasBlockedOOC = !cursedConfig.hasBlockedOOC;
       break;
+    case "blockwhisper":
+      if (!cursedConfig.hasBlockedWhisper)
+        NotifyOwners("The curse on " + Player.Name + " will block gagged whispers.", true);
+      else
+        NotifyOwners("The curse on " + Player.Name + " will no longer block gagged whispers.", true);
+      cursedConfig.hasBlockedWhisper = !cursedConfig.hasBlockedWhisper;
+      break;
     case "secretorgasm":
       if (!cursedConfig.hasSecretOrgasm)
         sendWhisper(sender, "(Wearer's arousal meter will always be hidden.)", true);

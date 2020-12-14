@@ -161,6 +161,7 @@ function InitHelpMsg() {
     INTENSE VERSION:-meteroff
     INTENSE VERSION:-secretorgasm
     INTENSE VERSION:-blockooc
+    *NEW*INTENSE VERSION:-blockwhisper
     INTENSE VERSION:-safeword
     INTENSE VERSION:-disableblocking
 

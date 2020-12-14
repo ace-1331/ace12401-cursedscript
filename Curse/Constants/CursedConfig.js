@@ -41,6 +41,7 @@ function InitCursedConfig() {
     hasAsylumLockdown: false,
     hasNoResist: false,
     garbledNames: false,
+    hasBlockedWhisper: false,
     
     owners: [],
     mistresses: [],

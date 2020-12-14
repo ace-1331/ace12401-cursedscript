@@ -471,7 +471,7 @@ function CursePreferenceSubscreenStatusRun() {
     DrawCheckbox(100, 792, 64, 64, "[O] Prevent the wearer from breaking their collar", CursePreferenceTemporaryConfig.isLockedOwner);
     DrawCheckbox(100, 872, 64, 64, "[CO] Disable OOC when gagged", CursePreferenceTemporaryConfig.hasBlockedOOC);
 
-
+    DrawCheckbox(1200, 232, 64, 64, "[CO] Block whispers when gagged", CursePreferenceTemporaryConfig.hasBlockedWhisper);
     DrawCheckbox(1200, 312, 64, 64, "Permanently slowed", CursePreferenceTemporaryConfig.hasFullSlowMode);
     DrawCheckbox(1200, 392, 64, 64, "[M] Forced 'keep restraints on login'", CursePreferenceTemporaryConfig.forcedRestraintsSetting);
     DrawCheckbox(1200, 472, 64, 64, `[CO] Enable reminder (1 every ${(CursePreferenceTemporaryConfig.reminderInterval/60000).toFixed(1)} min.)`, CursePreferenceTemporaryConfig.hasReminders);

@@ -84,4 +84,9 @@ window.cursedPunishments = [
     Name: "talk when speech is restrained",
     Value: 5,
   },
+  {
+    ID: 27,
+    Name: "gagged whisper",
+    Value: 4,
+  },
 ];
