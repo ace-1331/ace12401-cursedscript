@@ -30,16 +30,6 @@ function LoadCommandsV2() {
         Commands = Commands.filter(C => !add.some(A => A.Tag == C.Tag)).concat(add);
         Commands.sort((A, B) => (A.Tag > B.Tag) ? 1 : ((B.Tag > A.Tag) ? -1 : 0));
     }
-    /**
-     * Beeps a given member by sending the name and the current room of the beepee. Also adds an entry to the beep log of the player
-     * @param {number} MemberNumber - The ID of the player to beep
-     * @param {string} MemberName - The name of the player to beep
-     */
-    FriendListBeep = function FriendListBeep(MemberNumber, MemberName) {
-        ServerSend("AccountBeep", { MemberNumber: MemberNumber });
-        FriendListBeepLog.push({ MemberNumber: MemberNumber, MemberName: MemberName, ChatRoomName: ((ChatRoomData == null) ? null : ChatRoomData.Name), Sent: true, Time: new Date() });
-        ChatRoomSendLocal("Beep Sent: #" + MemberNumber.toString() + " " + MemberName);
-    }
 
     CommandCombine(CommonCommands);
     CommandCombine(AdditionalCommands);
@@ -390,7 +380,14 @@ const AdditionalCommands = [
         Action: arg => {
             const T = parseInt(arg);
             if (isFinite(T) && T > 0) {
-                FriendListBeep(T, "#" + T.toString());
+                ServerSend("AccountBeep", { MemberNumber: T, BeepType: "" });
+                FriendListBeepLog.push({
+                    MemberNumber: T,
+                    MemberName: Player.FriendNames.get(T) || `#${T}`,
+                    ChatRoomName: Player.LastChatRoom || null,
+                    Sent: true,
+                    Time: new Date()
+                });
             }
         }
     },

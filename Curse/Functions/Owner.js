@@ -17,8 +17,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       }
       
       ServerSend("ChatRoomChat", { Content: "ActionGrabbedForCell", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-      ElementRemove("InputChat");
-      ElementRemove("TextAreaChatLog");
+      ChatRoomClearAllElements();
       ServerSend("ChatRoomLeave", "");
       CharacterDeleteAllOnline();
       CellLock(parseInt(parameters[0]));
@@ -339,9 +338,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         SendChat(`${Player.Name} was sent to the asylum by her owner.`);
         InventoryRemove(Player, "ItemFeet");
         InventoryRemove(Player, "ItemBoots");
-        ElementRemove("InputChat");
-        ElementRemove("TextAreaChatLog");
-        ElementRemove("FriendList");
+        ChatRoomClearAllElements();
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumEntrance");
       } else {
@@ -360,9 +357,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       //Send to asylum and remove items that would be a progression blocker
       SendChat({ Tag: "AsylumBedroomSentAction" });
       setTimeout(() => { 
-        ElementRemove("InputChat");
-        ElementRemove("TextAreaChatLog");
-        ElementRemove("FriendList");
+        ChatRoomClearAllElements();
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumBedroom");
       }, 1000);
@@ -587,8 +582,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         CharacterSetActivePose(Player, null);
         let D = TextGet("ActionGrabbedToServeDrinksIntro");
         ServerSend("ChatRoomChat", { Content: "ActionGrabbedToServeDrinks", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-        ElementRemove("InputChat");
-        ElementRemove("TextAreaChatLog");
+        ChatRoomClearAllElements();
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "MaidQuarters");
         CharacterSetCurrent(MaidQuartersMaid);
