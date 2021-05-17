@@ -205,12 +205,11 @@ let cursedVersionData = null;
 /** Version checking on startup
  * @returns {Boolean} If the curse has to be stopped
 */
-async function CheckVersion(link) {
+async function CheckVersion() {
   try {
-    const response = await fetch(link || "https://curse-server.herokuapp.com/versions");
+    const response = await fetch("https://ace-1331.github.io/ace12401-cursedscript/curseVersion.json");
     if (response.ok) {
       cursedVersionData = await response.json();
-
       // When under minimum
       if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
         CursedStarter = () => {
@@ -234,6 +233,5 @@ async function CheckVersion(link) {
   } catch (err) {
     //If first origin fails, we try again
     console.log("Could not verify curse version: " + err);
-    if(!link) CheckVersion("https://ace-1331.github.io/ace12401-cursedscript/curseVersion.json");
   }
 }
