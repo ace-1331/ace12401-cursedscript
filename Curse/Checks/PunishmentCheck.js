@@ -2,7 +2,7 @@
 /** Function to check if a punishment must be applied, returns true if one has been applied, works in severity stages. More can be added, items can be changed, etc. */
 function PunishmentCheck() {
   // We check if a restraint is invalid
-  for (i = cursedConfig.punishmentRestraints.length - 1; i >= 0; i--) {
+  for (let i = cursedConfig.punishmentRestraints.length - 1; i >= 0; i--) {
     if (!Asset.find(A => A.Name === cursedConfig.punishmentRestraints[i].name && A.Group.Name === cursedConfig.punishmentRestraints[i].group)) {
       delete cursedConfig.punishmentRestraints[i];
       popChatSilent({ Tag: "ErrorInvalidPunishment"}, "System");

@@ -266,31 +266,25 @@ function InitAlteredFns() {
   }
 
   // Draw character for curse icon
-  if (window.ChatRoomDrawCharacter) {
-    let backupChatRoomDrawCharacter = ChatRoomDrawCharacter;
-    ChatRoomDrawCharacter = function (...rest) {
-      backupChatRoomDrawCharacter(...rest);
-      // Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-      var Space = ChatRoomCharacter.length >= 2 ? 1000 / Math.min(ChatRoomCharacter.length, 5) : 500;
-      var Zoom = ChatRoomCharacter.length >= 3 ? Space / 400 : 1;
-      var X = ChatRoomCharacter.length >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-      var Y = ChatRoomCharacter.length <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
+  if (window.ChatRoomDrawCharacterOverlay) {
+    const backupChatRoomDrawCharacterOverlay = ChatRoomDrawCharacterOverlay;
+    ChatRoomDrawCharacterOverlay = function (C, CharX, CharY, Zoom, Pos) {
+      backupChatRoomDrawCharacterOverlay.apply(window, arguments);
 
-      for (let C = 0; C < ChatRoomCharacter.length; C++) {
-        var CharX = X + (C % 5) * Space;
-        var CharY = Y + Math.floor(C / 5) * 500;
-        if (!cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
-          if (
-            ChatRoomCharacter[C].MemberNumber != null
-            && Array.isArray(ChatRoomCharacter[C].Inventory)
-            && ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse")
-          ) {
-            // Asign the C or ?
-            ChatRoomCharacter[C].isCursed = ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
-            ChatRoomCharacter[C].isCursed === "C" ? TryPopTip(40) : TryPopTip(49);
-            //DrawText(ChatRoomCharacter[C].isCursed, (C % 5) * Space + X + 250 * Zoom, (25 + Y) + (Math.floor(C / 5) * 1000), ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
-            DrawText(ChatRoomCharacter[C].isCursed, CharX + 250 * Zoom, CharY + 20, ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
+      if (!cursedConfig.hasHiddenDisplay && C.MemberNumber != Player.MemberNumber) {
+        if (
+          C.MemberNumber != null
+          && Array.isArray(C.Inventory)
+          && C.Inventory.some(A => A.Name == "Curse")
+        ) {
+          // Asign the C or ?
+          C.isCursed = C.Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
+          if (C.isCursed === "C") {
+            TryPopTip(40);
+          } else {
+            TryPopTip(49);
           }
+          DrawText(C.isCursed, CharX + 250 * Zoom, CharY + 20, C.isCursed === "C" ? "White" : "Red");
         }
       }
     };
