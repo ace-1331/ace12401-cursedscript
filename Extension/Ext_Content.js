@@ -1,4 +1,5 @@
 
+"use strict";
 window.addEventListener("load", () => {
 
   function AddExternalScript(scriptLink) {
@@ -7,15 +8,15 @@ window.addEventListener("load", () => {
     script.src.async = false;
     return document.head.appendChild(script);
   }
-  
+
   function AddScript(scriptFileName) {
     let script = document.createElement("script");
     script.src = chrome.runtime.getURL(scriptFileName);
     return document.head.appendChild(script);
   }
-  
+
   const externalScripts = [];
-  
+
   const scripts = [
     "Utils.js",
     "Curse/MainCurse.js",
@@ -50,7 +51,7 @@ window.addEventListener("load", () => {
     "Curse/Room/WardrobeV2.js",
     "Curse/Room/CommandsV2.js",
   ];
-  
+
   externalScripts.forEach(AddExternalScript);
   scripts.forEach(AddScript);
 });

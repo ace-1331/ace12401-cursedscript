@@ -1,14 +1,15 @@
+"use strict";
 function InitStartup() {
   if (cursedConfig.hasIntenseVersion) {
     popChatSilent({ Tag: "IntenseOn" }, "System");
   }
-  
+
   //Resets Strikes when it has been a week
   if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-      popChatSilent({ Tag: "WeeklyReset" }, "System");
-      cursedConfig.strikeStartTime = Date.now();
-      cursedConfig.strikes = 0;
-      cursedConfig.lastPunishmentAmount = 0;
+    popChatSilent({ Tag: "WeeklyReset" }, "System");
+    cursedConfig.strikeStartTime = Date.now();
+    cursedConfig.strikes = 0;
+    cursedConfig.lastPunishmentAmount = 0;
   }
 
   //Enables the hidden curse item to display who has the curse
@@ -25,12 +26,12 @@ function InitStartup() {
   if (cursedConfig.hasFullBlindMode) {
     Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
   }
-    
+
   // Help message
-  if (cursedConfig.hideHelp) { 
+  if (cursedConfig.hideHelp) {
     ChatRoomHelpSeen = true;
   }
-  
+
   // DC Prevention
   if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
     const roomToGoTo = cursedConfig.lastChatroom;
@@ -103,7 +104,7 @@ function InitCleanup() {
         case "hasCursedGag":
           toggleCurseItem({ name: "BallGag", group: "ItemMouth", forceAdd: true });
           break;
-       /* case "hasCursedMittens":
+        /* case "hasCursedMittens":
           toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", forceAdd: true });
           break;*/
         case "hasCursedPaws":
@@ -140,7 +141,7 @@ function InitCleanup() {
     }
   });
 
-  //Merges Enforced and Nicknames 
+  //Merges Enforced and Nicknames
   CheckEnforceMigration();
 
   //Clean deprecated props
@@ -157,8 +158,8 @@ function InitCleanup() {
   cursedConfig.optinCommands = cursedConfig.optinCommands.filter(COC =>
     cursedConfigInit.optinCommands.map(OC => OC.command).includes(COC.command)
   );
-  cursedConfigInit.optinCommands.forEach(OC => { 
-    if (!cursedConfig.optinCommands.find(COC => OC.command === COC.command)) { 
+  cursedConfigInit.optinCommands.forEach(OC => {
+    if (!cursedConfig.optinCommands.find(COC => OC.command === COC.command)) {
       cursedConfig.optinCommands.push(OC);
     }
   });

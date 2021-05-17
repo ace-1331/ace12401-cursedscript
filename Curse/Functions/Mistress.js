@@ -1,3 +1,4 @@
+"use strict";
 /** Function to trigger commands intended for mistresses, returns true if no command was executed */
 function MistressCommands({ command, sender, parameters, isOwner, isClubOwner }) {
   switch (command) {
@@ -52,16 +53,17 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, { Tag: "MissingPresetName" });
       }
       break;
-    case "cursereport":
+    case "cursereport": {
       let toReport = ["hasRestrainedSpeech", "hasPublicAccess", "hasCursedKneel", "hasCursedSpeech", "hasCursedOrgasm", "isMute", "disaledOnMistress", "enabledOnMistress", "hasEntryMsg", "hasFullMuteChat", "hasSound", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasReminders", "canReceiveNotes", "canLeash"];
       let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ") + ". Cursed item groups: " + cursedConfig.cursedAppearance.map(CI => CI.group).join(",");
       sendWhisper(sender, report, true);
       break;
+    }
     case "earplugs":
       toggleCurseItem({ name: "HeavyDutyEarPlugs", group: "ItemEars" });
       break;
     case "hood":
-      sendWhisper(sender, { Tag: "MistressOldCommandCurseItem" }, true)
+      sendWhisper(sender, { Tag: "MistressOldCommandCurseItem" }, true);
       break;
     case "blindfold":
       toggleCurseItem({ name: "FullBlindfold", group: "ItemHead" });
@@ -198,7 +200,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, { Tag: "GeneralInvalidArgs" });
       }
       break;
-    case "rename":
+    case "rename": {
       let nickname = parameters.join(" ");
       if (nickname) {
         sendWhisper(sender, { Tag: "MistressRename", Param: [FetchName(sender), nickname] }, true);
@@ -213,6 +215,7 @@ function MistressCommands({ command, sender, parameters, isOwner, isClubOwner })
         sendWhisper(sender, { Tag: "GeneralInvalidArgs" });
       }
       break;
+    }
     case "banfirstperson":
       if (parameters[0] == "on") {
         cursedConfig.bannedWords.push("i", "am", "myself", "me", "my", "mine");

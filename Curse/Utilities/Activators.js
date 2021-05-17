@@ -1,5 +1,6 @@
+"use strict";
 //************************************  Curse Activations ************************************//
-/** Toggles a curse on any given item 
+/** Toggles a curse on any given item
  * @param {string} item - the item name from the asset file
  * @param {string} group - the item group from the asset file
  * @param {object} property - the item properties saved
@@ -50,7 +51,7 @@ function procGenericItem(item, group, property) {
   }
 }
 
-/** Triggers cursed naked 
+/** Triggers cursed naked
  * @param {boolean} isAdd - whether this is to add or remove clothes
 */
 function procCursedNaked(isAdd) {
@@ -61,7 +62,7 @@ function procCursedNaked(isAdd) {
   SendChat({ Tag: (isAdd ? "ClothesArise" : "ClothesLift") });
 }
 
-/** Triggers cursed vibrators 
+/** Triggers cursed vibrators
  * @param {string} group - the item group from the asset file for which to trigger max vibes
 */
 function procCursedOrgasm(group) {
@@ -82,7 +83,7 @@ function procCursedOrgasm(group) {
   }
 }
 
-/** Async function that will check if a character kneels within 30 seconds 
+/** Async function that will check if a character kneels within 30 seconds
  * @param {string} sender - the member for which kneeling is required
 */
 async function checkKneeling(sender) {
@@ -202,8 +203,8 @@ function textToGroup(group, permission) {
         return "Shoes";
       case "hat":
         return "Hat";
-        case "mask":
-          return "Mask";
+      case "mask":
+        return "Mask";
       case "gloves":
         return "Gloves";
       case "glasses":
@@ -284,7 +285,7 @@ function textToGroup(group, permission) {
       case "tray":
       case "maidtray":
         return "ItemMisc";
-      /* 
+      /*
       Need different implementation
       case "addon":
           return "ItemAddon";
@@ -384,22 +385,22 @@ function AdjustSettings() {
   if (cursedConfig.hasForcedMeterLocked && cursedConfig.hasIntenseVersion) {
     Player.ArousalSettings.Active = "Automatic";
   }
-  
+
   // No resist
-  if (cursedConfig.hasNoResist) { 
+  if (cursedConfig.hasNoResist) {
     ActivityOrgasmGameResistCount = 1000000;
   }
-  
+
   // Safeword off
   if (cursedConfig.hasNoEasyEscape && cursedConfig.hasIntenseVersion) {
     Player.GameplaySettings.EnableSafeword = false;
   }
-  
+
   // Relog restraints to true
   if (cursedConfig.forcedRestraintsSetting) {
     Player.GameplaySettings.DisableAutoRemoveLogin = true;
   }
-  
+
   //Making sure all names are up-to-date
   //Try catch in case the updated player is no longer there (extreme edge case)
   try {
@@ -417,10 +418,10 @@ function AdjustSettings() {
   } catch (err) { console.error("Curse: failed to update a name", err); }
 }
 
-/** 
- * Triggers a punishment to be processed (strikes, report, etc.) 
+/**
+ * Triggers a punishment to be processed (strikes, report, etc.)
  * @param {string} ID - The ID of the punishment
- * @param {string[]} [options] - Various params for the punishment text 
+ * @param {string[]} [options] - Various params for the punishment text
 */
 function TriggerPunishment(ID, options) {
   if (cursedConfig.onRestart) {

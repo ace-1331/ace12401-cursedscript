@@ -1,3 +1,4 @@
+"use strict";
 //************************************ MESSAGE CHECKER ************************************//
 /** Function to analyze a chatroom message and parse commands or apply certain rules to it */
 function AnalyzeMessage(msg) {
@@ -155,18 +156,18 @@ function AnalyzeMessage(msg) {
         TriggerPunishment(1);
       }
     }
-    
+
     let words = (textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []);
     if (
       !!cursedConfig.triggerWord.word &&
       words.includes(cursedConfig.triggerWord.word) &&
       !types.contains("ChatMessageEmote")
-    ) { 
+    ) {
       let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
-      if (words.includes("unfreeze") && sender != Player.MemberNumber) { 
+      if (words.includes("unfreeze") && sender != Player.MemberNumber) {
         if (isTriggered) {
           SendChat({ Tag: "MsgCheckUnfreezeAction" });
-        } 
+        }
         cursedConfig.triggerWord.lastTrigger = 0;
       } else {
         if (!isTriggered) {

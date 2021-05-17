@@ -1,4 +1,4 @@
-/* eslint-disable */
+"use strict";
 function LoadAppearanceV2() {
 
   if (typeof window.AssetTypeOverrides !== "undefined") return;
@@ -41,7 +41,7 @@ function LoadAppearanceV2() {
     AppearanceMode = "Wardrobe";
     AppearanceWardrobeShouldUndo = true;
     CharacterAppearanceWardrobeText = TextGet("WardrobeNameInfo");
-  }
+  };
 
   AppearanceLoad = function AppearanceLoad() {
     if (!CharacterAppearanceSelection) CharacterAppearanceSelection = Player;
@@ -60,7 +60,7 @@ function LoadAppearanceV2() {
       CharacterAppearancePreviousEmoticon = WardrobeGetExpression(Player).Emoticon;
       ServerSend("ChatRoomCharacterExpressionUpdate", { Name: "Wardrobe", Group: "Emoticon", Appearance: ServerAppearanceBundle(Player.Appearance) });
     }
-  }
+  };
 
   // Run the character appearance selection screen
   AppearanceRun = function AppearanceRun() {
@@ -96,7 +96,7 @@ function LoadAppearanceV2() {
     // Draw the default buttons
     if (!AppearanceBlockMode && AppearanceMode !== "Color") DrawButton(1768, 25, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
     if (C.AllowItem && AppearanceMode !== "Color") DrawButton(1885, 25, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
-  }
+  };
 
   // When the user clicks on the character appearance selection screen
   AppearanceClick = function AppearanceClick() {
@@ -112,7 +112,7 @@ function LoadAppearanceV2() {
     } else if (AppearanceMode == "Items") {
       AppearanceItemsClick();
     }
-  }
+  };
 
   // when the user press escape
   AppearanceExit = function AppearanceExit() {
@@ -120,7 +120,7 @@ function LoadAppearanceV2() {
     else if (AppearanceMode == "Wardrobe") { AppearanceMode == ""; ElementRemove("InputWardrobeName"); AppearanceAssets.forEach(A => A.ReloadItem()); }
     else if (AppearanceMode == "Color") { AppearanceMode == ""; ItemColorExit(); if (AppearanceColorUndo) AppearanceRunUndo(); AppearanceItem = null; }
     else if (AppearanceMode == "Items" || AppearanceMode == "ItemsView") { if (AppearanceItemUndo) AppearanceRunUndo(); AppearanceItem = null; }
-  }
+  };
 
   class AppearanceAssetGroup {
     constructor(C, Group) {
@@ -195,7 +195,7 @@ function LoadAppearanceV2() {
         const Blocked = InventoryIsPermissionBlocked(this.C, A.Name, this.Group.Name);
         const Limited = !InventoryCheckLimitedPermission(this.C, { Asset: A });
         const IsWorn = this.Item && this.Item.Asset.Name == A.Name;
-        const Usable = IsWorn && (this.Item.Asset.Extended || this.Item.Asset.TypeInfo)
+        const Usable = IsWorn && (this.Item.Asset.Extended || this.Item.Asset.TypeInfo);
         return {
           Asset: A,
           IsWorn: IsWorn,
@@ -308,8 +308,8 @@ function LoadAppearanceV2() {
       }
       if (this.CanChange)
         DrawBackNextButton(1390, 145 + Position * AppearanceOffset, 400, AppearanceHeight, this.Group.Description + ": " + CharacterAppearanceGetCurrentValue(this.C, this.Group.Name, "Description"), "White", null,
-          () => { const Item = this.GetPrevItem(); return Item ? Item.Description : "None" },
-          () => { const Item = this.GetNextItem(); return Item ? Item.Description : "None" },
+          () => { const Item = this.GetPrevItem(); return Item ? Item.Description : "None"; },
+          () => { const Item = this.GetNextItem(); return Item ? Item.Description : "None"; },
           () => "Show All Items In Group"
         );
       else DrawButton(1390, 145 + Position * AppearanceOffset, 400, AppearanceHeight, this.Group.Description + ": " + CharacterAppearanceGetCurrentValue(this.C, this.Group.Name, "Description"), "#AAAAAA");
@@ -550,7 +550,7 @@ function LoadAppearanceV2() {
     AppearanceHover = null;
     if (AppearanceTextOnly) {
       for (let A = AppearanceItemsOffset; A * 2 < View.length && A * 2 < AppearanceItemsOffset * 2 + AppearanceNumPerPage; A++) {
-        AppearanceItem.DrawItem(1250, 145 + (A - AppearanceItemsOffset) * AppearanceOffset, 350, AppearanceHeight, View[A * 2], AppearanceTextOnly)
+        AppearanceItem.DrawItem(1250, 145 + (A - AppearanceItemsOffset) * AppearanceOffset, 350, AppearanceHeight, View[A * 2], AppearanceTextOnly);
         if (A * 2 + 1 >= View.length || A * 2 + 1 >= AppearanceItemsOffset * 2 + AppearanceNumPerPage) break;
         AppearanceItem.DrawItem(1630, 145 + (A - AppearanceItemsOffset) * AppearanceOffset, 350, AppearanceHeight, View[A * 2 + 1], AppearanceTextOnly);
       }
@@ -570,7 +570,7 @@ function LoadAppearanceV2() {
     }
     if (!CommonIsMobile && !AppearanceBlockMode && AppearanceHoverLast != AppearanceHover) {
       if (AppearanceHover && !AppearanceHoverLast) {
-        AppearanceHoverPrev = AppearanceItem && AppearanceItem.Item && AppearanceItem.Item.Asset.Name
+        AppearanceHoverPrev = AppearanceItem && AppearanceItem.Item && AppearanceItem.Item.Asset.Name;
         AppearanceItem.SetItem(AppearanceHover, true);
       }
       else if (!AppearanceHover && AppearanceHoverLast) { AppearanceRunUndo(); AppearanceHoverPrev = null; }
@@ -672,7 +672,7 @@ function LoadAppearanceV2() {
       AppearanceMode = "";
       return;
     }
-    ItemColorClick(CharacterAppearanceSelection, AppearanceItem.Group.Name, 1300, 25, 675, 950, AppearanceItem)
+    ItemColorClick(CharacterAppearanceSelection, AppearanceItem.Group.Name, 1300, 25, 675, 950, AppearanceItem);
   }
 
   function AppearanceWardrobeRun() {
@@ -723,7 +723,7 @@ function LoadAppearanceV2() {
         if (Array.isArray(obj) &&
           obj.every(Boolean) &&
           obj.every(B =>
-            (Array.isArray(B) && (B.every(P => typeof P === 'string'))) ||
+            (Array.isArray(B) && (B.every(P => typeof P === "string"))) ||
             (B.Name && B.Group)))
           WardrobeLoadData(CharacterAppearanceSelection, obj);
       }
@@ -879,7 +879,7 @@ function LoadAppearanceV2ColorPicker() {
     if (!Color) Color = "#FFFFFF";
     let B = Color;
     let F = ExtraColorToBW(Color);
-    if (B[0] == '#') {
+    if (B[0] == "#") {
       DrawButton(1385, 880, 90, 90, "", Color, null, "Copy", null, () => { B = "Cyan"; });
       {
         MainCanvas.beginPath();
@@ -897,7 +897,7 @@ function LoadAppearanceV2ColorPicker() {
         MainCanvas.lineWidth = "5";
         MainCanvas.fillStyle = F;
         MainCanvas.strokeStyle = MainCanvas.fillStyle;
-        MainCanvas.strokeRect(1385 + 20, 880 + 20, 50, 50)
+        MainCanvas.strokeRect(1385 + 20, 880 + 20, 50, 50);
         MainCanvas.stroke();
         MainCanvas.closePath();
 
@@ -1110,7 +1110,7 @@ function LoadAppearanceV2ColorPicker() {
 function LoadAppearanceV2Drawing() {
   DrawBackNextButton = function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image, BackText, NextText, ThreeWay) {
     var SplitWidth = Width / 2;
-    if (typeof ThreeWay == 'function') SplitWidth = Width / 3
+    if (typeof ThreeWay == "function") SplitWidth = Width / 3;
     var Split = Left + SplitWidth;
     // Draw the button rectangle (makes half of the background cyan colored if the mouse is over it)
     MainCanvas.beginPath();
@@ -1119,12 +1119,12 @@ function LoadAppearanceV2Drawing() {
     MainCanvas.fillRect(Left, Top, Width, Height);
     if (!CommonIsMobile && (MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height)) {
       MainCanvas.fillStyle = "Cyan";
-      if (typeof ThreeWay == 'function' && (MouseX > Left + SplitWidth * 2)) MainCanvas.fillRect(Left + SplitWidth * 2, Top, SplitWidth, Height);
+      if (typeof ThreeWay == "function" && (MouseX > Left + SplitWidth * 2)) MainCanvas.fillRect(Left + SplitWidth * 2, Top, SplitWidth, Height);
       else if (MouseX > Left + SplitWidth) MainCanvas.fillRect(Left + SplitWidth, Top, SplitWidth, Height);
       else MainCanvas.fillRect(Left, Top, SplitWidth, Height);
     }
-    MainCanvas.lineWidth = '2';
-    MainCanvas.strokeStyle = 'black';
+    MainCanvas.lineWidth = "2";
+    MainCanvas.strokeStyle = "black";
     MainCanvas.stroke();
     MainCanvas.closePath();
 
@@ -1132,7 +1132,7 @@ function LoadAppearanceV2Drawing() {
     DrawTextFit(Label, Left + Width / 2, Top + (Height / 2) + 1, Width - 4, "black");
     if ((Image != null) && (Image != "")) DrawImageResize(Image, Left + 2, Top + 2, Width - 4, Height - 4);
 
-    if (CommonIsMobile || typeof ThreeWay != 'function') return;
+    if (CommonIsMobile || typeof ThreeWay != "function") return;
 
     // Draw the back arrow
     MainCanvas.beginPath();
@@ -1156,7 +1156,7 @@ function LoadAppearanceV2Drawing() {
 
     if (BackText == null) BackText = () => "MISSING VALUE FOR: BACK TEXT";
     if (NextText == null) NextText = () => "MISSING VALUE FOR: NEXT TEXT";
-    if (ThreeWay && typeof ThreeWay !== 'function') ThreeWay = () => "MISSING VALUE FOR: THREEWAY TEXT";
+    if (ThreeWay && typeof ThreeWay !== "function") ThreeWay = () => "MISSING VALUE FOR: THREEWAY TEXT";
 
     // Draw the hovering text
     if ((MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height)) {
@@ -1167,8 +1167,8 @@ function LoadAppearanceV2Drawing() {
       MainCanvas.fillStyle = "#FFFF88";
       MainCanvas.fillRect(Left, Top, 450, 65);
       MainCanvas.fill();
-      MainCanvas.lineWidth = '2';
-      MainCanvas.strokeStyle = 'black';
+      MainCanvas.lineWidth = "2";
+      MainCanvas.strokeStyle = "black";
       MainCanvas.stroke();
       MainCanvas.closePath();
       if (ThreeWay && (MouseX > Split && MouseX <= Split + SplitWidth)) DrawTextFit(ThreeWay(), Left + 225, Top + 33, 444, "black");
@@ -1187,7 +1187,7 @@ function LoadAppearanceV2Drawing() {
 
       // Run any existing asset scripts
       if (
-        (!C.AccountName.startsWith('Online-') || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations))
+        (!C.AccountName.startsWith("Online-") || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations))
         && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)
       ) {
         var DynamicAssets = C.Appearance.filter(CA => CA.Asset.DynamicScriptDraw);

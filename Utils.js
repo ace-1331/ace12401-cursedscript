@@ -1,3 +1,4 @@
+"use strict";
 //************************************Callbacks************************************
 
 //Boot up sequence
@@ -32,7 +33,7 @@ async function LoginListener() {
 }
 
 /** Starts the script */
-function CursedStarterBtn() { 
+function CursedStarterBtn() {
   CursedStarter();
 }
 
@@ -40,10 +41,10 @@ async function CursedStarter() {
   try {
     //Verify if we can start the curse
     const isNotOk = await CheckVersion();
-    if (isNotOk) { 
+    if (isNotOk) {
       return;
     }
-    
+
     //Cleans the existing chatlog
     document.querySelectorAll(".ChatMessage:not([verified=true]").forEach(msg => {
       let verifiedAtt = document.createAttribute("verified");
@@ -79,7 +80,7 @@ async function CursedStarter() {
         console.log(err);
         alert(`CURSE ERROR: Invalid Configs Detected. Your stored data for #${Player.MemberNumber} could not be parsed and was reset. View the console to recover your flushed data. Error: M08`);
         console.log(`Flushed data for #${Player.MemberNumber}: ${beforeParseStorage}`);
-        console.warn(`You can fix your data and re-inject it through the console. This is a risky manipulation.`);
+        console.warn("You can fix your data and re-inject it through the console. This is a risky manipulation.");
       }
 
       //Pull config from log or create
@@ -187,40 +188,40 @@ function VersionIsEqualOrAbove(v, c) {
   let isOk = 0;
   const vParsed = v.split(".");
   const cParsed = c.split(".");
-  
+
   cParsed.forEach((N, Idx) => {
-      if (isOk == 0 && N > (vParsed[Idx] || 0)) {
-          isOk = -1;
-      }
-      if (isOk == 0 && N < (vParsed[Idx] || 0)) {
-          isOk = 1;
-      }
+    if (isOk == 0 && N > (vParsed[Idx] || 0)) {
+      isOk = -1;
+    }
+    if (isOk == 0 && N < (vParsed[Idx] || 0)) {
+      isOk = 1;
+    }
   });
 
   return isOk >= 0;
 }
 
 let cursedVersionData = null;
-/** Version checking on startup 
+/** Version checking on startup
  * @returns {Boolean} If the curse has to be stopped
 */
 async function CheckVersion(link) {
   try {
-    const response = await fetch(link || 'https://curse-server.herokuapp.com/versions');
+    const response = await fetch(link || "https://curse-server.herokuapp.com/versions");
     if (response.ok) {
       cursedVersionData = await response.json();
-    
+
       // When under minimum
       if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.minimum)) {
         CursedStarter = () => {
-          alert('ERROR X80: Cannot start the curse. You are below the required version. Please update it to the latest stable version now if you wish to use it.');
+          alert("ERROR X80: Cannot start the curse. You are below the required version. Please update it to the latest stable version now if you wish to use it.");
         };
         CursedStarter();
         return true;
       }
       // When under stable
       if (!VersionIsEqualOrAbove(currentManifestVersion, cursedVersionData.stable)) {
-        alert('A new stable release is available. Please update the curse. If you stay in this out-of-date state for too long, you will eventually be forced to update when your version is no longer compatible.');
+        alert("A new stable release is available. Please update the curse. If you stay in this out-of-date state for too long, you will eventually be forced to update when your version is no longer compatible.");
         return;
       }
       // When under beta

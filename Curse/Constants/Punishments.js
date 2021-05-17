@@ -1,3 +1,4 @@
+"use strict";
 window.cursedPunishments = [
   {
     ID: 0,

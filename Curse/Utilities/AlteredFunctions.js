@@ -1,3 +1,4 @@
+"use strict";
 /** Altered club functions to patch in stuff for rules (a function must be intense if it modifies something existing). These require the curse to be started once */
 function InitAlteredFns() {
   //ALTERED FUNCTIONS
@@ -5,7 +6,7 @@ function InitAlteredFns() {
   if (cursedConfig.hasCommandsV2) {
     LoadCommandsV2();
   }
-  
+
   // Sends a message to the server. (Chatblock)
   ServerSend = function (Message, Data) {
     let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
@@ -206,7 +207,7 @@ function InitAlteredFns() {
       return Player.isSlowBackup(...rest);
     };
   }
-  
+
   // Prevent leaving a room
   if (Player.CanWalk) {
     Player.walkBackup = Player.CanWalk;
@@ -223,14 +224,14 @@ function InitAlteredFns() {
     let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.interactBackup() && (!isActivated || !isTriggered);
-  }
-  
+  };
+
   Player.kneelBackup = Player.CanKneel;
   Player.CanKneel = function () {
     let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.kneelBackup() && (!isActivated || !isTriggered);
-  }
+  };
 
   // Prevent changing
   Player.changeBackup = Player.CanChange;
@@ -238,7 +239,7 @@ function InitAlteredFns() {
     let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.changeBackup() && (!isActivated || !isTriggered);
-  }
+  };
 
   // Block new lovers
   if (window.ChatRoomLovershipOptionIs) {
@@ -274,7 +275,7 @@ function InitAlteredFns() {
       var Zoom = ChatRoomCharacter.length >= 3 ? Space / 400 : 1;
       var X = ChatRoomCharacter.length >= 3 ? (Space - 500 * Zoom) / 2 : 0;
       var Y = ChatRoomCharacter.length <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-      
+
       for (let C = 0; C < ChatRoomCharacter.length; C++) {
         var CharX = X + (C % 5) * Space;
         var CharY = Y + Math.floor(C / 5) * 500;
@@ -316,7 +317,7 @@ function InitAlteredFns() {
       backupVibratorModeScriptDraw(...rest);
     };
   }
-  
+
   // DeafImmune
   if (window.SpeechGarble) {
     let backupSpeechGarble = SpeechGarble;
@@ -355,9 +356,9 @@ function InitAlteredFns() {
       backupAsylumBedroomLoad(...rest);
     };
   }
-  
+
   // Garbled whispers
-  
+
   if (window.ChatRoomTarget) {
     let backupChatRoomTarget = ChatRoomTarget;
     ChatRoomTarget = function (...rest) {
@@ -377,7 +378,7 @@ function InitAlteredFns() {
 
 /** Altered functions that do *NOT* require cursedConfig */
 function InitBasedFns() {
-  //Custom Room 
+  //Custom Room
   if (window.MainHallRun) {
     let backupMainHallRun = MainHallRun;
     MainHallRun = (...rest) => {
@@ -396,7 +397,7 @@ function InitBasedFns() {
       backupMainHallClick(...rest);
     };
   }
-  
+
   // Cell timer remove validation
   if (window.CellLoad) {
     CellLoad = () => {
@@ -409,7 +410,7 @@ function InitBasedFns() {
         LogDelete("Locked", "Cell");
         CellOpenTimer = 0;
       }
-    }
+    };
   }
 }
 InitBasedFns();
