@@ -16,9 +16,9 @@ function CurseRoomLoad() {
   CurseRoomAce.BlinkFactor = 10;
   CurseRoomAce.AllowItem = false;
   InventoryWear(CurseRoomAce, "HairBack8", "HairBack", "#c0a4ff");
-  InventoryWear(CurseRoomAce, "Default", "Head", "Asian");
   InventoryWear(CurseRoomAce, "Large", "BodyUpper", "Asian");
   InventoryWear(CurseRoomAce, "Large", "BodyLower", "Asian");
+  InventoryWear(CurseRoomAce, "Default", "Head");
   InventoryWear(CurseRoomAce, "NecklaceKey", "Necklace", "Default");
   InventoryWear(CurseRoomAce, "Eyes3", "Eyes", "#c0a4ff");
   InventoryWear(CurseRoomAce, "Eyes3", "Eyes2", "#c0a4ff");

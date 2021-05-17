@@ -368,12 +368,6 @@ function InitAlteredFns() {
       }
     };
   }
-
-  // Fix for `DrawCustomBeepText`
-  window.NotificationReset = function (eventType) {
-    if (NotificationEvents)
-      NotificationEvents[eventType].reset(true);
-  };
 }
 
 /** Altered functions that do *NOT* require cursedConfig */
