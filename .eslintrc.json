@@ -1,0 +1,35 @@
+{
+	"extends": "eslint:recommended",
+	"env": {
+		"es6": true,
+		"browser": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2018
+	},
+	"globals": {
+		"Atomics": "readonly",
+		"SharedArrayBuffer": "readonly"
+	},
+	"root": true,
+	"rules": {
+		"dot-notation": "error",
+		"no-unused-expressions": "error",
+		"no-caller": "error",
+		"no-eval": "error",
+		"no-new-wrappers": "error",
+		"no-throw-literal": "error",
+		"no-shadow": ["warn", { "hoist": "all" }],
+		"strict": ["error", "global"],
+		"no-constant-condition": ["error", { "checkLoops": false }],
+		"no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+		"no-trailing-spaces": "warn",
+		"semi": "error",
+		"indent": ["warn", 2, { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }],
+		"no-undef": "off",
+		"no-var": "error",
+		"brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+		"linebreak-style": ["warn", "windows"],
+		"quotes": ["error", "double"]
+	}
+}
