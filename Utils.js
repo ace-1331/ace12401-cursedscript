@@ -2,7 +2,7 @@
 //************************************Callbacks************************************
 
 //Boot up sequence
-window.currentManifestVersion = "1.2.8.9";
+window.currentManifestVersion = "1.2.9.0";
 window.currentVersion = 58;
 let AlwaysOn;
 let isLoaded;
@@ -44,7 +44,7 @@ async function CursedStarter() {
     if (isNotOk) {
       return;
     }
-    console.debug("Loading curse!");
+    console.log(`Loading Curse! Version: ${window.currentManifestVersion}`);
 
     //Cleans the existing chatlog
     document.querySelectorAll(".ChatMessage:not([verified=true]").forEach(msg => {
