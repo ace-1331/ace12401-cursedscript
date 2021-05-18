@@ -89,7 +89,7 @@ async function CursedStarter() {
         SendChat("The curse awakens on " + Player.Name + ".");
         popChatSilent("Welcome to the curse! The curse allows for many mysterious things to happen... have fun discovering them. The help command should be able to get you started (" + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " help). You can also get tips by using this command: " + cursedConfig.commandChar + cursedConfig.slaveIdentifier + " tip .  There is an official discord if you have anything to say: https://discord.gg/9dtkVFP . Please report any issues or bug you encounter to ace (12401) - Ace__#5558 or on the discord server.", "System");
         try {
-          localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
+          localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, JSON.stringify(currentVersion));
         } catch (err) { console.log(err); }
       } else {
         //Load previous data, takes care of upgrades or downgrades
@@ -109,7 +109,7 @@ async function CursedStarter() {
         }
 
         if (oldVersion != currentVersion) {
-          localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, currentVersion);
+          localStorage.setItem(`bc-cursedConfig-version-${Player.MemberNumber}`, JSON.stringify(currentVersion));
           alert("IMPORTANT! Please make sure you refreshed your page after updating. You might also need to refresh the extension in chrome://extensions.");
 
           //Update messages after alert so they are not lost if wearer refreshes on alert and storage was updated
@@ -204,7 +204,7 @@ function VersionIsEqualOrAbove(v, c) {
 
 let cursedVersionData = null;
 /** Version checking on startup
- * @returns {Boolean} If the curse has to be stopped
+ * @returns {Promise<Boolean>} If the curse has to be stopped
 */
 async function CheckVersion() {
   try {

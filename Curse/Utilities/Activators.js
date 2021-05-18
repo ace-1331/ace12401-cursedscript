@@ -138,7 +138,7 @@ function triggerInPleasure() {
 
 /**
  * Toggles a cursed item on/off
- * @param {{name: string, group: string, forceAdd?: boolean, forceRemove?: boolean, isSilent?: boolean, dateOfRemoval?: number}} - Object containing all optional params
+ * @param {{name: string, group: string, property?: any, forceAdd?: boolean, forceRemove?: boolean, isSilent?: boolean, dateOfRemoval?: number}} obj - Object containing all optional params
  * @returns true if the group does not exist
  */
 function toggleCurseItem({ name, group, property, forceAdd, forceRemove, isSilent, dateOfRemoval }) {
@@ -154,9 +154,9 @@ function toggleCurseItem({ name, group, property, forceAdd, forceRemove, isSilen
     cursedConfig.cursedAppearance.push({ name, group, dateOfRemoval, property });
     SaveColorSlot(group);
     procGenericItem(name, group, property);
-    isSilent || SendChat({ Tag: "CurseArise", Param: [txtGroup.toLowerCase()] });
+    if (!isSilent) SendChat({ Tag: "CurseArise", Param: [txtGroup.toLowerCase()] });
   } else if (!forceAdd) {
-    isSilent || SendChat({ Tag: "CurseLift", Param: [txtGroup.toLowerCase()] });
+    if (!isSilent) SendChat({ Tag: "CurseLift", Param: [txtGroup.toLowerCase()] });
     if (cursedConfig.hasRestraintVanish)
       restraintVanish(group);
   }
@@ -420,7 +420,7 @@ function AdjustSettings() {
 
 /**
  * Triggers a punishment to be processed (strikes, report, etc.)
- * @param {string} ID - The ID of the punishment
+ * @param {number} ID - The ID of the punishment
  * @param {string[]} [options] - Various params for the punishment text
 */
 function TriggerPunishment(ID, options) {

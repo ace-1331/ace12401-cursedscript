@@ -10,7 +10,7 @@ function SaveConfigs() {
     // Cleans up transgressions
     if (cursedConfig.transgressions.length > 100) {
       cursedConfig.transgressions.splice(0, cursedConfig.transgressions.length - 100);
-      cursedConfig.transgressionsWarning && popChatSilent({ Tag: "ERRORT100" }, "System");
+      if (cursedConfig.transgressionsWarning) popChatSilent({ Tag: "ERRORT100" }, "System");
       cursedConfig.transgressionsWarning = true;
     }
 
@@ -388,7 +388,7 @@ function shuffle(a) {
 }
 
 /** Shuffles a deck of cards
- * @param {boolean} auto - if it was an auto shuffle or manual shuffle
+ * @param {boolean} [auto] - if it was an auto shuffle or manual shuffle
 */
 function shuffleDeck(auto) {
   cardDeck = [];
@@ -443,11 +443,11 @@ function SendToRoom(data) {
   ChatRoomClearAllElements();
   ServerSend("ChatRoomLeave", "");
   CommonSetScreen("Online", "ChatSearch");
-  OnlineGameName = "";
+  ChatRoomGame = "";
   ChatSearchLeaveRoom = "MainHall";
   ChatSearchBackground = "IntroductionDark";
   ChatRoomSpace = data.ChatRoomSpace;
-  BackgroundsToPick = data.ChatRoomSpace == "Asylum" ? [BackgroundsTagAsylum] : BackgroundsTagList;
+  const BackgroundsToPick = data.ChatRoomSpace == "Asylum" ? [BackgroundsTagAsylum] : BackgroundsTagList;
   ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundsToPick);
   ChatRoomPlayerCanJoin = true;
   ServerSend("ChatRoomJoin", { Name: data.ChatRoomName });
@@ -523,17 +523,4 @@ function DrawCustomBeepText(txt) {
 /** Sends a hidden message object */
 function SendCurseChatMessage(number, txt) {
   ServerSend("ChatRoomChat", { Content: "curseinteraction " + txt, Type: "Hidden", Sender: parseInt(number) });
-}
-
-/// THIS IS A POLYFILL FOR R59 ///
-/**
- * Check if the mouse position is within the boundaries of a given zone (Useful for UI components)
- * @param {number} Left - Starting position on the X axis
- * @param {number} Top - Starting position on the Y axis
- * @param {number} Width - Width of the zone
- * @param {number} Height - Height of the zone
- * @returns {boolean} - Returns TRUE if the click occurred in the given zone
- */
-function MouseIn(Left, Top, Width, Height) {
-  return (MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height);
 }

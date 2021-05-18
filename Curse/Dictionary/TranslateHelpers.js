@@ -22,7 +22,7 @@ function SetDictionary(language) {
 
 /**
  * Sets the curse back to the wearer's dictionary
- * @param {number} - Member number for which to set the dictionary for, defaults to EN
+ * @param {number} MemberNumber Member number for which to set the dictionary for, defaults to EN
  */
 function SetMemberDictionary(MemberNumber) {
   SetDictionary((cursedConfig.translation.find(EL => EL.MN == MemberNumber) || {}).lang);

@@ -1,6 +1,6 @@
 "use strict";
 /** Sends a message to all owners/mistresses in a room
- * @param {string} msg - The message to send
+ * @param {string|object} msg - The message to send
  * @param {boolean} [sendSelf] - Should it also be sent to the wearer
 */
 function NotifyOwners(msg, sendSelf) {
@@ -21,7 +21,7 @@ function NotifyOwners(msg, sendSelf) {
 
 
 /** Pop a message for everyone to see, will not if player is not in a room
-* @param {string} actionTxt - The text to be displayed in the action
+* @param {string|object} actionTxt - The text to be displayed in the action
 * @param {boolean} [isNormalTalk] - Should it be a normal text message instead?
 */
 function popChatGlobal(actionTxt, isNormalTalk) {
@@ -131,7 +131,7 @@ function popChatSilent(actionTxt, senderName) {
 
 
 /** Send a whisper to a target
- * @param {string} target - The member number to send it to
+ * @param {string|number} target - The member number to send it to
  * @param {string|object} msg - The message to send
  * @param {boolean} [sendSelf] - If the wearer should see it as a silent message
  * @param {boolean} [forceHide] - If the message should not be forwarded by fowardall
@@ -156,7 +156,7 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
 }
 
 /** Sends a chat message to the queue
- * @param {string} actionTxt - the message to send
+ * @param {string|object} actionTxt - the message to send
 */
 function SendChat(actionTxt) {
   //Does not send chat if in silent mode

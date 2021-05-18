@@ -22,7 +22,7 @@ function PrivateCommands({ command, parameters, sender }) {
       const report =
         cursedConfig.charData.filter(e => e.isEnforced).map(e => {
           let tmpstr = "#" + e.Number + ", ";
-          e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
+          tmpstr += e.RespectNickname ? "Nickname: " + e.Nickname : "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
           return tmpstr;
         }).join(", ");
       sendWhisper(sender, { Tag: "PrivateShowEnforced", Param: [report] });
@@ -89,7 +89,9 @@ function PrivateCommands({ command, parameters, sender }) {
         Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
       } else {
         sendWhisper(sender, { Tag: "FullBlindfoldOff" });
-        AssetLoadAll();
+        // TODO
+        alert("To disable fullBlindMode, please reload the game");
+        // AssetLoadAll();
       }
       cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;
       break;

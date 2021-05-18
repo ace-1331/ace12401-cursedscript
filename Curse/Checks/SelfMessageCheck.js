@@ -5,7 +5,7 @@ function SelfMessageCheck(msg) {
   let r = false;
 
   //Clears stuff
-  originalMsg = msg;
+  const originalMsg = msg;
   msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
   const isWhisper = !!ChatRoomTargetMemberNumber;
   const isEmote = originalMsg.startsWith("*");
@@ -39,8 +39,8 @@ function SelfMessageCheck(msg) {
   let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
   if (msg.indexOf(commandCall) != -1) {
     let commandString = msg.split(commandCall)[1];
-    command = commandString.split(" ")[0];
-    parameters = commandString.split(" ");
+    const command = commandString.split(" ")[0];
+    const parameters = commandString.split(" ");
     if (parameters.length > 0) {
       parameters.shift();
       //Wearer only command

@@ -46,7 +46,7 @@ function AnalyzeMessage(msg) {
     && isActivated && !cursedConfig.isMute && !cursedConfig.hasSound
   ) {
     cursedConfig.say = cursedConfig.entryMsg;
-    document.getElementById("InputChat").value = cursedConfig.entryMsg;
+    /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).value = cursedConfig.entryMsg;
   }
 
   // Sends activated messages to an owner who enters or if the wearer entered

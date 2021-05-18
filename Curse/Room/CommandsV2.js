@@ -78,7 +78,7 @@ function ChatRoomSendLocal(msg) {
  * @property {string} Tag
  * @property {string?} Description
  * @property {(args: string, msg: string) => void} Action
- * @property {(() => boolean)?} Prerequisite
+ * @property {(() => boolean)} [Prerequisite]
  */
 
 /**
@@ -135,6 +135,7 @@ function CommandHelp(low) {
  */
 function CommandExecute(msg) {
   const low = msg.toLowerCase();
+  /** @type {any} */
   let C = Commands.filter(C => low.indexOf("/" + C.Tag) == 0);
   C = C[0] && C.reduce(function (a, b) { return a.length > b.length ? a : b; });
   if (C && C.Reference) C = Commands.find(D => D.Tag == C.Reference);
@@ -436,7 +437,7 @@ const AdditionalCommands = [
       if (!Number.isInteger(ChatRoomTargetMemberNumber)) ChatRoomTargetMemberNumber = null;
       const C = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
       const TargetName = C ? C.Name : null;
-      document.getElementById("InputChat").placeholder = (ChatRoomTargetMemberNumber == null) ? TextGet("PublicChat") : TextGet("WhisperTo") + " " + TargetName;
+      /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).placeholder = (ChatRoomTargetMemberNumber == null) ? TextGet("PublicChat") : TextGet("WhisperTo") + " " + TargetName;
     }
   },
 ];

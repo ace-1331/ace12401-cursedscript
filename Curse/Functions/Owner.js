@@ -323,7 +323,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
           timeToAdd = -1e+16;
         }
         SendChat(`${Player.Name} has ${timeToAdd > 0 ? "more" : "less"} time to spend in the asylum.`);
-        oldLog = Log.filter(el => el.Name == "Committed");
+        const oldLog = Log.filter(el => el.Name == "Committed");
         //Send or Add to existing time
         if (oldLog.length == 0 || oldLog[0].Value < CurrentTime) {
           LogAdd("Committed", "Asylum", CurrentTime + timeToAdd);
@@ -350,7 +350,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       }
       break;
     case "asylumreturntoroom":
-      if (!LogQuery("Committed", "Asylum") || !LogValue("Committed", "Asylum") > Date.now()) {
+      if (!LogQuery("Committed", "Asylum") || LogValue("Committed", "Asylum") <= Date.now()) {
         sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
         return;
       }
@@ -408,7 +408,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       ) {
         cursedConfig.say = parameters.join(" ")
           .replace(/^\**/g, "").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), "");//stops emotes & stops commands
-        document.getElementById("InputChat").value = cursedConfig.say;
+        /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).value = cursedConfig.say;
       } else {
         sendWhisper(sender, "-->Current speech configs do not allow this.");
       }

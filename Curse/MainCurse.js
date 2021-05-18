@@ -15,6 +15,7 @@ async function CursedCheckUp() {
   }
 
   //Gets the messages
+  /** @type {any} */
   let messagesToVerify = [];
 
   //Checks settings
@@ -44,6 +45,7 @@ async function CursedCheckUp() {
     }
 
     // Chat input
+    /* Deprecated
     if (
       document.getElementById("InputChat") &&
       cursedConfig.hasFullLengthMode &&
@@ -51,6 +53,7 @@ async function CursedCheckUp() {
     ) {
       document.getElementById("InputChat").maxLength ="1000";
     }
+    */
 
     //When it should be ran
     if (ChatRoomSpace != "LARP") {
@@ -171,6 +174,8 @@ async function ReminderProcess() {
     let reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
     popChatSilent(reminder, "Reminder");
   }
-  cursedConfig.reminderInterval < 60000 ? cursedConfig.reminderInterval = 60000 : "";
+  if (cursedConfig.reminderInterval < 60000) {
+    cursedConfig.reminderInterval = 60000;
+  }
   setTimeout(ReminderProcess, cursedConfig.reminderInterval);
 }

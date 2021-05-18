@@ -110,7 +110,9 @@ function InitAlteredFns() {
       if (m != "" && m.indexOf("/") != 0 && (isActivated || isCommand)) {
         let shouldReturn = SelfMessageCheck(m);
         if ((shouldReturn && !cursedConfig.isClassic) || isCommand) {
-          if (cursedConfig.mustRetype) document.getElementById("InputChat").value = "";
+          if (cursedConfig.mustRetype) {
+            /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).value = "";
+          }
           return;
         }
       }
@@ -321,7 +323,7 @@ function InitAlteredFns() {
       if (cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.deafImmune.find(MN => rest[0].MemberNumber == MN)) {
         Player.GetDeafLevel = () => 0;
       }
-      var garbledSpeech = backupSpeechGarble(...rest);
+      const garbledSpeech = backupSpeechGarble(...rest);
 
       Player.GetDeafLevel = Player.backupDefLevel;
       return garbledSpeech;
@@ -358,7 +360,7 @@ function InitAlteredFns() {
     ChatRoomTarget = function (...rest) {
       backupChatRoomTarget(...rest);
       if (cursedConfig.isRunning && cursedConfig.garbledNames && ChatRoomTargetMemberNumber && Array.isArray(Player.Effect) && Player.IsBlind()) {
-        document.getElementById("InputChat").placeholder = TextGet("WhisperTo") + " ???";
+        /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).placeholder = TextGet("WhisperTo") + " ???";
       }
     };
   }
