@@ -55,7 +55,7 @@ function procGenericItem(item, group, property) {
  * @param {boolean} isAdd - whether this is to add or remove clothes
 */
 function procCursedNaked(isAdd) {
-  ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves"]
+  ["Cloth", "ClothLower", "ClothAccessory", "Suit", "SuitLower", "Bra", "Panties", "Socks", "Shoes", "Hat", "Gloves", "Corset"]
     .forEach(group => {
       toggleCurseItem({ name: "", group, [isAdd ? "forceAdd" : "forceRemove"]: true, isSilent: true });
     });
