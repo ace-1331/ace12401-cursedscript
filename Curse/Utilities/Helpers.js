@@ -482,7 +482,7 @@ function CommandIsActivated(command, sender) {
   }
 
   //When full curse is on, we don't worry about anything
-  if (cursedConfig.hasFullCurse) return true;
+  if (cursedConfig.hasFullCurse || command === "blocknickname") return true;
 
   // Ownerhub
   if (cursedConfig.disabledCommands.includes("ownerhub")) {
