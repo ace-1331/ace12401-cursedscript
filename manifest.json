@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "BC - Cursed",
     "description": "Injects the scripts needed to wear the curse",
-    "version": "1.2.8.7",
+    "version": "1.2.9.1",
     "background": {
         "scripts": [
             "Extension/Ext_Backgound.js"
@@ -21,7 +21,8 @@
                 "https://bondageprojects.elementfx.com/*",
                 "http://bondageprojects.com/college/*",
                 "http://www.bondageprojects.com/college/*",
-                "http://www.bondageprojects.elementfx.com/*"
+                "http://www.bondageprojects.elementfx.com/*",
+                "http://localhost/BondageClub/*"
             ],
             "all_frames": true,
             "js": [ 

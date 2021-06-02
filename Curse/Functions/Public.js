@@ -1,3 +1,4 @@
+"use strict";
 /** Function to trigger commands intended for public (can be turned off), returns true if no command was executed */
 function PublicCommands({
   command, sender, commandCall, parameters, isOwner, isMistress

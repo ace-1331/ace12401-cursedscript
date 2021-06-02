@@ -1,6 +1,6 @@
 
 
-# You are responsible of your own account(s) and acts when using this extension. Use it properly and keep yourself up to date to avoid potential issues with newer versions. 
+# This extension is no longer updated by Ace, you can submit PRs and send a dm to Ace on discord for it to be reviewed. Please be aware that some breaking changes in club updates may cause some functionalities to stop working entirely. 
 
 ---
 
@@ -70,11 +70,11 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
-Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid, Ellie
+Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid, Ellie,jomshir98
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: 1.2.8.0**
+**Official release: 1.2.8.7**
 
-**THIS PAGE WAS LAST EDITED ON 08-08-2020**
+**THIS PAGE WAS LAST EDITED ON 03-03-2021**

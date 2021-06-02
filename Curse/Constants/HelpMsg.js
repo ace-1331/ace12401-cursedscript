@@ -1,3 +1,4 @@
+"use strict";
 //************************************ LONG STRINGS ************************************//
 /** Initializes all the long strings needed to split them from the rest of the code */
 function InitHelpMsg() {

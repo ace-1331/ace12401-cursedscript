@@ -1,3 +1,4 @@
+"use strict";
 /** Function to trigger commands intended for the official wearer's club owner, returns true if no command was executed */
 function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
   switch (command) {

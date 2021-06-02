@@ -1,10 +1,11 @@
-/** Function to trigger commands intended for the wearer. 
- * Returns true if a message should be sent 
+"use strict";
+/** Function to trigger commands intended for the wearer.
+ * Returns true if a message should be sent
  */
 function WearerCommands({ command, parameters, sender }) {
   let r = false;
   switch (command) {
-    case "togglecommand":
+    case "togglecommand": {
       TryPopTip(50);
       if (!parameters[0]) {
         popChatSilent({ Tag: "ToggleCommandInvalid" });
@@ -29,6 +30,7 @@ function WearerCommands({ command, parameters, sender }) {
         Param: [parameters[0]]
       });
       break;
+    }
     case "restraintvanish":
       popChatSilent({
         Tag: cursedConfig.hasRestraintVanish ? "restraintvanishoff" : "restraintvanishon"
@@ -100,7 +102,7 @@ function WearerCommands({ command, parameters, sender }) {
         ]
       });
       break;
-    case "talk":
+    case "talk": {
       const target = cursedConfig.targets.filter(t => t.ident == parameters[0])[0];
       const sentence = cursedConfig.sentences.filter(s => s.ident == parameters[1])[0];
       if (target && sentence) {
@@ -109,6 +111,7 @@ function WearerCommands({ command, parameters, sender }) {
         popChatSilent({ Tag: "WearerTalkInvalid" });
       }
       break;
+    }
     case "owner":
       if (cursedConfig.hasRestrainedPlay) {
         popChatSilent({ Tag: "RestrainPlayEnabled" });

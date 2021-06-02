@@ -1,8 +1,9 @@
 
+"use strict";
 //Display version
 let CurrentCurseVersion = chrome.runtime.getManifest().version;
 
-window.addEventListener("load", () => { 
+window.addEventListener("load", () => {
   CurrentCurseVersion = chrome.runtime.getManifest().version;
   const versionTxt = document.getElementById("versionNo");
   versionTxt.innerHTML = "Current version: " + CurrentCurseVersion;

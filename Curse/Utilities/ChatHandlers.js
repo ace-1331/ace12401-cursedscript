@@ -1,5 +1,6 @@
-/** Sends a message to all owners/mistresses in a room 
- * @param {string} msg - The message to send
+"use strict";
+/** Sends a message to all owners/mistresses in a room
+ * @param {string|object} msg - The message to send
  * @param {boolean} [sendSelf] - Should it also be sent to the wearer
 */
 function NotifyOwners(msg, sendSelf) {
@@ -19,8 +20,8 @@ function NotifyOwners(msg, sendSelf) {
 }
 
 
-/** Pop a message for everyone to see, will not if player is not in a room 
-* @param {string} actionTxt - The text to be displayed in the action
+/** Pop a message for everyone to see, will not if player is not in a room
+* @param {string|object} actionTxt - The text to be displayed in the action
 * @param {boolean} [isNormalTalk] - Should it be a normal text message instead?
 */
 function popChatGlobal(actionTxt, isNormalTalk) {
@@ -34,13 +35,13 @@ function popChatGlobal(actionTxt, isNormalTalk) {
     if (isNormalTalk) {
       ServerSend("ChatRoomChat", { Content: actionTxt, Type: "Chat" });
     } else {
-      var msgFR = actionTxt;
-      var msgEN = actionTxt;
-      var msgGER = actionTxt;
+      let msgFR = actionTxt;
+      let msgEN = actionTxt;
+      let msgGER = actionTxt;
       //var msgRU = actionTxt;
-      if (typeof actionTxt == "object") { 
-       // _.setTranslation({ ...cursedEN, ...cursedRU });
-       // msgRU = CT(actionTxt);
+      if (typeof actionTxt == "object") {
+        // _.setTranslation({ ...cursedEN, ...cursedRU });
+        // msgRU = CT(actionTxt);
         _.setTranslation({ ...cursedEN, ...cursedGER });
         msgGER = CT(actionTxt);
         _.setTranslation({ ...cursedEN, ...cursedFR });
@@ -48,7 +49,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
         _.setTranslation(cursedEN);
         msgEN = CT(actionTxt);
       }
-      
+
       // RU uses beep so I cannot bypass it
       ServerSend("ChatRoomChat", {
         Content: "Beep", Type: "Action", Dictionary: [
@@ -62,7 +63,7 @@ function popChatGlobal(actionTxt, isNormalTalk) {
 }
 
 
-/** Pop all messages for the wearer to see, will save if player is not in a room 
+/** Pop all messages for the wearer to see, will save if player is not in a room
  * @param {string|object} actionTxt - The text to be displayed in the silent message
  * @param {string} [senderName] - What is the name to be displayed along with it? Defaults to 'Curse'
  */
@@ -129,8 +130,8 @@ function popChatSilent(actionTxt, senderName) {
 }
 
 
-/** Send a whisper to a target 
- * @param {string} target - The member number to send it to
+/** Send a whisper to a target
+ * @param {string|number} target - The member number to send it to
  * @param {string|object} msg - The message to send
  * @param {boolean} [sendSelf] - If the wearer should see it as a silent message
  * @param {boolean} [forceHide] - If the message should not be forwarded by fowardall
@@ -154,8 +155,8 @@ function sendWhisper(target, msg, sendSelf, forceHide) {
   }
 }
 
-/** Sends a chat message to the queue 
- * @param {string} actionTxt - the message to send
+/** Sends a chat message to the queue
+ * @param {string|object} actionTxt - the message to send
 */
 function SendChat(actionTxt) {
   //Does not send chat if in silent mode
@@ -171,7 +172,7 @@ function SendChat(actionTxt) {
 function PopTip(isRoom) {
   if (!window.curseTips) return;
   const showTip = curseTips.find(T => !cursedConfig.seenTips.includes(T.ID) && !T.isContextual) || {};
-  
+
   let message = "";
   if (showTip.ID || showTip.ID == 0) {
     message = GT(Player.MemberNumber, { Tag: "listedtip" + showTip.ID }) + (isRoom ? GT(Player.MemberNumber, { Tag: "listedtipRoomInfo" }) : GT(Player.MemberNumber, { Tag: "listedtipChatInfo" }));
@@ -179,14 +180,14 @@ function PopTip(isRoom) {
   } else {
     message = GT(Player.MemberNumber, { Tag: "listedtipNoMore" });
   }
-  
+
   if (!isRoom)
     popChatSilent(message, "Tip");
   else
     return message;
 }
 
-/** Sends a specific tip if it was not seen 
+/** Sends a specific tip if it was not seen
  * @param {number} ID - ID of the tip
 */
 function TryPopTip(ID) {

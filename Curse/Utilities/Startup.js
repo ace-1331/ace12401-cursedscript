@@ -1,21 +1,34 @@
+"use strict";
 function InitStartup() {
   if (cursedConfig.hasIntenseVersion) {
     popChatSilent({ Tag: "IntenseOn" }, "System");
   }
-  
+
   //Resets Strikes when it has been a week
   if (cursedConfig.strikeStartTime + 604800000 < Date.now()) {
-      popChatSilent({ Tag: "WeeklyReset" }, "System");
-      cursedConfig.strikeStartTime = Date.now();
-      cursedConfig.strikes = 0;
-      cursedConfig.lastPunishmentAmount = 0;
+    popChatSilent({ Tag: "WeeklyReset" }, "System");
+    cursedConfig.strikeStartTime = Date.now();
+    cursedConfig.strikes = 0;
+    cursedConfig.lastPunishmentAmount = 0;
   }
 
   //Enables the hidden curse item to display who has the curse
-  AssetFemale3DCG.push({ Group: "CurseItems", Priority: 6969, Left: 0, Top: 0, AllowColorize: false, AllowCustomize: false, Asset: [] });
-  AssetFemale3DCG.filter(G => G.Group == "CurseItems")[0].Asset.push({ Name: "Curse", Wear: false, Visible: false, Value: -1 });
-  AssetFemale3DCG.filter(G => G.Group == "CurseItems")[0].Asset.push({ Name: "Curse" + currentVersion, Wear: false, Visible: false, Value: -1 });
-  AssetLoadAll();
+  const AssetGroup = {
+    Group: "CurseItems",
+    Priority: 6969,
+    Left: 0, Top: 0,
+    AllowColorize: false,
+    AllowCustomize: false,
+    Asset: [
+      { Name: "Curse", Wear: false, Visible: false, Value: -1 },
+      { Name: "Curse" + currentVersion, Wear: false, Visible: false, Value: -1 }
+    ]
+  };
+  AssetFemale3DCG.push(AssetGroup);
+  AssetGroupAdd("Female3DCG", AssetGroup);
+  for (const A of AssetGroup.Asset) {
+    AssetAdd(A, null);
+  }
   InventoryAdd(Player, "Curse", "CurseItems");
   InventoryAdd(Player, "Curse" + currentVersion, "CurseItems");
   // Always re-enable the version tip to promote staying up to date
@@ -25,12 +38,12 @@ function InitStartup() {
   if (cursedConfig.hasFullBlindMode) {
     Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
   }
-    
+
   // Help message
-  if (cursedConfig.hideHelp) { 
+  if (cursedConfig.hideHelp) {
     ChatRoomHelpSeen = true;
   }
-  
+
   // DC Prevention
   if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
     const roomToGoTo = cursedConfig.lastChatroom;
@@ -103,7 +116,7 @@ function InitCleanup() {
         case "hasCursedGag":
           toggleCurseItem({ name: "BallGag", group: "ItemMouth", forceAdd: true });
           break;
-       /* case "hasCursedMittens":
+        /* case "hasCursedMittens":
           toggleCurseItem({ name: "LeatherMittens", group: "ItemHands", forceAdd: true });
           break;*/
         case "hasCursedPaws":
@@ -140,7 +153,7 @@ function InitCleanup() {
     }
   });
 
-  //Merges Enforced and Nicknames 
+  //Merges Enforced and Nicknames
   CheckEnforceMigration();
 
   //Clean deprecated props
@@ -157,8 +170,8 @@ function InitCleanup() {
   cursedConfig.optinCommands = cursedConfig.optinCommands.filter(COC =>
     cursedConfigInit.optinCommands.map(OC => OC.command).includes(COC.command)
   );
-  cursedConfigInit.optinCommands.forEach(OC => { 
-    if (!cursedConfig.optinCommands.find(COC => OC.command === COC.command)) { 
+  cursedConfigInit.optinCommands.forEach(OC => {
+    if (!cursedConfig.optinCommands.find(COC => OC.command === COC.command)) {
       cursedConfig.optinCommands.push(OC);
     }
   });

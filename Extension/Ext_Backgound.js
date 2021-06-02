@@ -1,3 +1,4 @@
+"use strict";
 console.log("Background: script loaded");
 
 chrome.runtime.onInstalled.addListener(() => {

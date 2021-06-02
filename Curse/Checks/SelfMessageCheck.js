@@ -1,10 +1,11 @@
+"use strict";
 /** Function vital to any speech restrictions as it will block a giving message by returning true either directly or after checking all conditions, moving things here has a huge chance of causing logic errors. Be careful when adding to it. */
 function SelfMessageCheck(msg) {
   //Returns true if the message cannot be sent
   let r = false;
 
   //Clears stuff
-  originalMsg = msg;
+  const originalMsg = msg;
   msg = msg.split("(")[0].trim().replace(/^\**/g, "").replace(/\*$/g, "");
   const isWhisper = !!ChatRoomTargetMemberNumber;
   const isEmote = originalMsg.startsWith("*");
@@ -14,7 +15,7 @@ function SelfMessageCheck(msg) {
   if (
     cursedConfig.hasBlockedOOC && cursedConfig.hasIntenseVersion
     && !Player.CanTalk() && originalMsg.includes("(")
-  ) { 
+  ) {
     NotifyOwners({ Tag: "SelfMsgCheckNotifyGagOOC" });
     popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagOOC" });
     TriggerPunishment(9);
@@ -31,15 +32,15 @@ function SelfMessageCheck(msg) {
     TriggerPunishment(27);
     r = true;
   }
-  
+
   if (msg == "") return r;
 
   //Parse Commands
   let commandCall = (cursedConfig.commandChar + cursedConfig.slaveIdentifier + " ").toLowerCase();
   if (msg.indexOf(commandCall) != -1) {
     let commandString = msg.split(commandCall)[1];
-    command = commandString.split(" ")[0];
-    parameters = commandString.split(" ");
+    const command = commandString.split(" ")[0];
+    const parameters = commandString.split(" ");
     if (parameters.length > 0) {
       parameters.shift();
       //Wearer only command
@@ -54,7 +55,7 @@ function SelfMessageCheck(msg) {
     popChatSilent({ Tag: "SelfMsgCheckCommandCallError" }, "System");
   }
 
-  //Should say 
+  //Should say
   //Returns immediately, that way it wont collide with other stuff
   if (cursedConfig.say != "" && !cursedConfig.hasFullMuteChat && isNormalMsg) {
     if (
@@ -91,7 +92,7 @@ function SelfMessageCheck(msg) {
   //Reinforcement
   cursedConfig.charData.forEach(member => {
     if (member.isEnforced && ChatRoomCharacter.map(el => el.MemberNumber).includes(member.Number)) {
-      let Name = member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase(); 
+      let Name = member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase();
       let requiredName = member.RespectNickname && member.Nickname ? [member.Nickname.toLowerCase()] : member.Titles.map(el => el + " " + (member.SavedName ? member.SavedName.toLowerCase() : FetchName(member.Number).toLowerCase()));
       let matches = [...msg
         .matchAll(new RegExp("\\b(" + Name.toLowerCase() + ")\\b", "g"))
@@ -145,7 +146,7 @@ function SelfMessageCheck(msg) {
   //Contractions
   if (cursedConfig.hasNoContractions && !isEmote && !cursedConfig.hasSound) {
     let hasPunishment = false;
-    (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).filter(C => !C.includes("'s")).forEach(CO => { 
+    (msg.match(/[A-Za-z]+('[A-Za-z]+)/g) || []).filter(C => !C.includes("'s")).forEach(CO => {
       TriggerPunishment(12, [CO]);
       hasPunishment = true;
     });

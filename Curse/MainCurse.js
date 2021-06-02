@@ -1,3 +1,4 @@
+"use strict";
 //************************************ LOOP LOGIC ************************************//
 
 /** Main curse loop to prepare data and patch it through the right areas */
@@ -14,6 +15,7 @@ async function CursedCheckUp() {
   }
 
   //Gets the messages
+  /** @type {any} */
   let messagesToVerify = [];
 
   //Checks settings
@@ -30,19 +32,20 @@ async function CursedCheckUp() {
       cursedConfig.lastChatroom.ChatRoomSpace = ChatRoomSpace;
       cursedConfig.lastChatroom.ChatRoomName = ChatRoomData.Name;
     }
-    
+
     messagesToVerify = document.querySelectorAll(".ChatMessage:not([verified=true]");
 
     //LARP Warn
     if (ChatRoomSpace == "LARP" && !cursedConfig.wasLARPWarned) {
       popChatSilent({ Tag: "LarpWarn" }, "System");
-      //Only pop the message once per LARP room, and reset the curse items when going back in a normal room 
+      //Only pop the message once per LARP room, and reset the curse items when going back in a normal room
       cursedConfig.wasLARPWarned = true;
       cursedConfig.onRestart = true;
       TryPopTip(28);
     }
 
     // Chat input
+    /* Deprecated
     if (
       document.getElementById("InputChat") &&
       cursedConfig.hasFullLengthMode &&
@@ -50,8 +53,9 @@ async function CursedCheckUp() {
     ) {
       document.getElementById("InputChat").maxLength ="1000";
     }
+    */
 
-    //When it should be ran 
+    //When it should be ran
     if (ChatRoomSpace != "LARP") {
 
       //Remove expired curses
@@ -126,7 +130,7 @@ async function CursedCheckUp() {
       }
     }
   }
-  
+
   // Saves if needed, strip not required data
   if (messagesToVerify.length > 0) {
     SaveConfigs();
@@ -151,7 +155,7 @@ async function ChatlogProcess() {
     cursedConfig.chatStreak = 0;
   }
 
-  //Spam block 
+  //Spam block
   if (cursedConfig.chatStreak > 5 || purged > 3) {
     cursedConfig.isRunning = false;
     cursedConfig.chatlog = [];
@@ -170,6 +174,8 @@ async function ReminderProcess() {
     let reminder = cursedConfig.reminders[Math.floor(Math.random() * cursedConfig.reminders.length)];
     popChatSilent(reminder, "Reminder");
   }
-  cursedConfig.reminderInterval < 60000 ? cursedConfig.reminderInterval = 60000 : "";
+  if (cursedConfig.reminderInterval < 60000) {
+    cursedConfig.reminderInterval = 60000;
+  }
   setTimeout(ReminderProcess, cursedConfig.reminderInterval);
 }

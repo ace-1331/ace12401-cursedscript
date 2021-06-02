@@ -1,4 +1,4 @@
-
+"use strict";
 //Base configs
 function InitCursedConfig() {
   window.cursedConfigInit = {
@@ -42,7 +42,6 @@ function InitCursedConfig() {
     hasNoResist: false,
     garbledNames: false,
     hasBlockedWhisper: false,
-    
     owners: [],
     mistresses: [],
     blacklist: [],

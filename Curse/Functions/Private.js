@@ -1,7 +1,8 @@
+"use strict";
 /** Function to trigger commands intended for the owners or wearer, returns true if no command was executed */
 function PrivateCommands({ command, parameters, sender }) {
   switch (command) {
-    case "listpresets":
+    case "listpresets": {
       TryPopTip(45);
       let presets = cursedConfig.cursedPresets.map(P =>
         P.name + " [" + P.cursedItems.map(CI =>
@@ -10,16 +11,18 @@ function PrivateCommands({ command, parameters, sender }) {
       ).join(", ");
       sendWhisper(sender, presets);
       break;
-    case "configreport":
+    }
+    case "configreport": {
       let toReport = ["isSilent", "hasForward", "commandChar", "slaveIdentifier", "hasIntenseVersion", "isClassic", "hasAntiAFK", "hasRestrainedPlay", "hasNoMaid", "hasFullPublic", "punishmentsDisabled", "isLockedOwner", "isLockedNewLover", "hasRestraintVanish", "hasForcedSensDep", "hasHiddenDisplay", "isEatingCommands", "hasFullLengthMode", "hasFullBlindMode", "hasNoEasyEscape", "hasSecretOrgasm", "hasBlockedOOC", "hasBlockedWhisper", "forbidorgasm", "hasDCPrevention", "hasForcedMeterOff", "hasForcedMeterLocked", "hasDCPrevention"];
       let report = toReport.map(el => el + ": " + cursedConfig[el]).join(", ");
       sendWhisper(sender, report);
       break;
+    }
     case "showenforced": {
       const report =
         cursedConfig.charData.filter(e => e.isEnforced).map(e => {
           let tmpstr = "#" + e.Number + ", ";
-          e.RespectNickname ? tmpstr += "Nickname: " + e.Nickname : tmpstr += "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
+          tmpstr += e.RespectNickname ? "Nickname: " + e.Nickname : "Name: " + (e.Nickname ? e.SavedName : FetchName(e.Number)) + " Titles: " + e.Titles.join(", ");
           return tmpstr;
         }).join(", ");
       sendWhisper(sender, { Tag: "PrivateShowEnforced", Param: [report] });
@@ -86,18 +89,20 @@ function PrivateCommands({ command, parameters, sender }) {
         Asset.forEach(A => A.Effect && A.Effect.find(E => E.includes("Blind")) ? A.Effect.push("BlindHeavy") : "");
       } else {
         sendWhisper(sender, { Tag: "FullBlindfoldOff" });
-        AssetLoadAll();
+        // TODO
+        alert("To disable fullBlindMode, please reload the game");
+        // AssetLoadAll();
       }
       cursedConfig.hasFullBlindMode = !cursedConfig.hasFullBlindMode;
       break;
-      case "fullslow":
-        if (!cursedConfig.hasFullSlowMode) {
-          sendWhisper(sender, { Tag: "FullSlowOn" });
-        } else {
-          sendWhisper(sender, { Tag: "FullSlowOff" });
-        }
-        cursedConfig.hasFullSlowMode = !cursedConfig.hasFullSlowMode;
-        break;
+    case "fullslow":
+      if (!cursedConfig.hasFullSlowMode) {
+        sendWhisper(sender, { Tag: "FullSlowOn" });
+      } else {
+        sendWhisper(sender, { Tag: "FullSlowOff" });
+      }
+      cursedConfig.hasFullSlowMode = !cursedConfig.hasFullSlowMode;
+      break;
     default:
       // No command found
       return true;

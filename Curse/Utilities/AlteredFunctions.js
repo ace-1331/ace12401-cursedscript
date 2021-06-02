@@ -1,3 +1,4 @@
+"use strict";
 /** Altered club functions to patch in stuff for rules (a function must be intense if it modifies something existing). These require the curse to be started once */
 function InitAlteredFns() {
   //ALTERED FUNCTIONS
@@ -5,7 +6,7 @@ function InitAlteredFns() {
   if (cursedConfig.hasCommandsV2) {
     LoadCommandsV2();
   }
-  
+
   // Sends a message to the server. (Chatblock)
   ServerSend = function (Message, Data) {
     let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
@@ -109,7 +110,9 @@ function InitAlteredFns() {
       if (m != "" && m.indexOf("/") != 0 && (isActivated || isCommand)) {
         let shouldReturn = SelfMessageCheck(m);
         if ((shouldReturn && !cursedConfig.isClassic) || isCommand) {
-          if (cursedConfig.mustRetype) document.getElementById("InputChat").value = "";
+          if (cursedConfig.mustRetype) {
+            /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).value = "";
+          }
           return;
         }
       }
@@ -206,7 +209,7 @@ function InitAlteredFns() {
       return Player.isSlowBackup(...rest);
     };
   }
-  
+
   // Prevent leaving a room
   if (Player.CanWalk) {
     Player.walkBackup = Player.CanWalk;
@@ -223,14 +226,14 @@ function InitAlteredFns() {
     let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.interactBackup() && (!isActivated || !isTriggered);
-  }
-  
+  };
+
   Player.kneelBackup = Player.CanKneel;
   Player.CanKneel = function () {
     let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.kneelBackup() && (!isActivated || !isTriggered);
-  }
+  };
 
   // Prevent changing
   Player.changeBackup = Player.CanChange;
@@ -238,7 +241,7 @@ function InitAlteredFns() {
     let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
     let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
     return Player.changeBackup() && (!isActivated || !isTriggered);
-  }
+  };
 
   // Block new lovers
   if (window.ChatRoomLovershipOptionIs) {
@@ -265,31 +268,25 @@ function InitAlteredFns() {
   }
 
   // Draw character for curse icon
-  if (window.ChatRoomDrawCharacter) {
-    let backupChatRoomDrawCharacter = ChatRoomDrawCharacter;
-    ChatRoomDrawCharacter = function (...rest) {
-      backupChatRoomDrawCharacter(...rest);
-      // Determine the horizontal & vertical position and zoom levels to fit all characters evenly in the room
-      var Space = ChatRoomCharacter.length >= 2 ? 1000 / Math.min(ChatRoomCharacter.length, 5) : 500;
-      var Zoom = ChatRoomCharacter.length >= 3 ? Space / 400 : 1;
-      var X = ChatRoomCharacter.length >= 3 ? (Space - 500 * Zoom) / 2 : 0;
-      var Y = ChatRoomCharacter.length <= 5 ? 1000 * (1 - Zoom) / 2 : 0;
-      
-      for (let C = 0; C < ChatRoomCharacter.length; C++) {
-        var CharX = X + (C % 5) * Space;
-        var CharY = Y + Math.floor(C / 5) * 500;
-        if (!cursedConfig.hasHiddenDisplay && ChatRoomCharacter[C].MemberNumber != Player.MemberNumber) {
-          if (
-            ChatRoomCharacter[C].MemberNumber != null
-            && Array.isArray(ChatRoomCharacter[C].Inventory)
-            && ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse")
-          ) {
-            // Asign the C or ?
-            ChatRoomCharacter[C].isCursed = ChatRoomCharacter[C].Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
-            ChatRoomCharacter[C].isCursed === "C" ? TryPopTip(40) : TryPopTip(49);
-            //DrawText(ChatRoomCharacter[C].isCursed, (C % 5) * Space + X + 250 * Zoom, (25 + Y) + (Math.floor(C / 5) * 1000), ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
-            DrawText(ChatRoomCharacter[C].isCursed, CharX + 250 * Zoom, CharY + 20, ChatRoomCharacter[C].isCursed === "C" ? "White" : "Red");
+  if (window.ChatRoomDrawCharacterOverlay) {
+    const backupChatRoomDrawCharacterOverlay = ChatRoomDrawCharacterOverlay;
+    ChatRoomDrawCharacterOverlay = function (C, CharX, CharY, Zoom, Pos) {
+      backupChatRoomDrawCharacterOverlay.apply(window, arguments);
+
+      if (!cursedConfig.hasHiddenDisplay && C.MemberNumber != Player.MemberNumber) {
+        if (
+          C.MemberNumber != null
+          && Array.isArray(C.Inventory)
+          && C.Inventory.some(A => A.Name == "Curse")
+        ) {
+          // Asign the C or ?
+          C.isCursed = C.Inventory.find(A => A.Name == "Curse" + currentVersion) ? "C" : "?";
+          if (C.isCursed === "C") {
+            TryPopTip(40);
+          } else {
+            TryPopTip(49);
           }
+          DrawText(C.isCursed, CharX + 250 * Zoom, CharY + 20, C.isCursed === "C" ? "White" : "Red");
         }
       }
     };
@@ -316,7 +313,7 @@ function InitAlteredFns() {
       backupVibratorModeScriptDraw(...rest);
     };
   }
-  
+
   // DeafImmune
   if (window.SpeechGarble) {
     let backupSpeechGarble = SpeechGarble;
@@ -326,7 +323,7 @@ function InitAlteredFns() {
       if (cursedConfig.isRunning && ChatRoomSpace != "LARP" && cursedConfig.deafImmune.find(MN => rest[0].MemberNumber == MN)) {
         Player.GetDeafLevel = () => 0;
       }
-      var garbledSpeech = backupSpeechGarble(...rest);
+      const garbledSpeech = backupSpeechGarble(...rest);
 
       Player.GetDeafLevel = Player.backupDefLevel;
       return garbledSpeech;
@@ -355,15 +352,15 @@ function InitAlteredFns() {
       backupAsylumBedroomLoad(...rest);
     };
   }
-  
+
   // Garbled whispers
-  
+
   if (window.ChatRoomTarget) {
     let backupChatRoomTarget = ChatRoomTarget;
     ChatRoomTarget = function (...rest) {
       backupChatRoomTarget(...rest);
       if (cursedConfig.isRunning && cursedConfig.garbledNames && ChatRoomTargetMemberNumber && Array.isArray(Player.Effect) && Player.IsBlind()) {
-        document.getElementById("InputChat").placeholder = TextGet("WhisperTo") + " ???";
+        /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).placeholder = TextGet("WhisperTo") + " ???";
       }
     };
   }
@@ -371,7 +368,7 @@ function InitAlteredFns() {
 
 /** Altered functions that do *NOT* require cursedConfig */
 function InitBasedFns() {
-  //Custom Room 
+  //Custom Room
   if (window.MainHallRun) {
     let backupMainHallRun = MainHallRun;
     MainHallRun = (...rest) => {
@@ -390,7 +387,7 @@ function InitBasedFns() {
       backupMainHallClick(...rest);
     };
   }
-  
+
   // Cell timer remove validation
   if (window.CellLoad) {
     CellLoad = () => {
@@ -403,7 +400,7 @@ function InitBasedFns() {
         LogDelete("Locked", "Cell");
         CellOpenTimer = 0;
       }
-    }
+    };
   }
 }
 InitBasedFns();

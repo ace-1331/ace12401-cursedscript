@@ -1,3 +1,4 @@
+"use strict";
 /** Function to trigger commands intended for owners, returns true if no command was executed */
 function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }) {
   const looseOwnerActive = !!(Player.Owner && Player.Ownership && Player.Ownership.MemberNumber) || cursedConfig.isLooseOwner || isClubOwner;
@@ -15,14 +16,13 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "Must provide a number of minutes.", true);
         return;
       }
-      
+
       ServerSend("ChatRoomChat", { Content: "ActionGrabbedForCell", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-      ElementRemove("InputChat");
-      ElementRemove("TextAreaChatLog");
+      ChatRoomClearAllElements();
       ServerSend("ChatRoomLeave", "");
       CharacterDeleteAllOnline();
       CellLock(parseInt(parameters[0]));
-      
+
       break;
     case "triggerduration":
       if (!parameters[0] || isNaN(parameters[0])) {
@@ -38,7 +38,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         , true
       );
       break;
-    case "punishmentrestraint":
+    case "punishmentrestraint": {
       if (!parameters[0] || !parameters[1]) {
         sendWhisper(sender, { Tag: "OwnerPunRestrainErr1" }, true);
         return;
@@ -60,6 +60,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       );
       NotifyOwners(`Stage ${parameters[0]} restraint was set to ${parameters[1]} ${worn.Asset.Description}}`, true);
       break;
+    }
     case "strictness":
       if (parameters[0]) {
         switch (parameters[0]) {
@@ -157,11 +158,12 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       cursedConfig.hasReminders = !cursedConfig.hasReminders;
       ReminderProcess();
       break;
-    case "note":
+    case "note": {
       let note = parameters.join(" ");
       localStorage.setItem(`bc-cursedNote-${Player.MemberNumber}`, note);
       sendWhisper(sender, note ? "(Note saved.)" : "(Note deleted.)", true);
       break;
+    }
     case "norescue":
       if (!cursedConfig.hasNoMaid)
         sendWhisper(sender, "(Wearer is now less likely to be freed by NPCs.)", true);
@@ -255,7 +257,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       } else
         sendWhisper(sender, "(Invalid arguments. Specify the target identifier then its attached text like '#name target bunny Miss bun bun' to have the 'bunny' identifier refer to Miss bun bun.)", true);
       break;
-    case "self":
+    case "self": {
       const newSelf = parameters.join(" ").trim();
       if (newSelf) {
         cursedConfig.self = newSelf;
@@ -263,6 +265,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       } else
         sendWhisper(sender, "(Invalid arguments. Specify the self identifier.)", true);
       break;
+    }
     case "sentence":
       if (parameters[0]) {
         cursedConfig.sentences = cursedConfig.sentences.filter(s => s.ident != parameters[0]);
@@ -320,7 +323,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
           timeToAdd = -1e+16;
         }
         SendChat(`${Player.Name} has ${timeToAdd > 0 ? "more" : "less"} time to spend in the asylum.`);
-        oldLog = Log.filter(el => el.Name == "Committed");
+        const oldLog = Log.filter(el => el.Name == "Committed");
         //Send or Add to existing time
         if (oldLog.length == 0 || oldLog[0].Value < CurrentTime) {
           LogAdd("Committed", "Asylum", CurrentTime + timeToAdd);
@@ -339,9 +342,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         SendChat(`${Player.Name} was sent to the asylum by her owner.`);
         InventoryRemove(Player, "ItemFeet");
         InventoryRemove(Player, "ItemBoots");
-        ElementRemove("InputChat");
-        ElementRemove("TextAreaChatLog");
-        ElementRemove("FriendList");
+        ChatRoomClearAllElements();
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumEntrance");
       } else {
@@ -349,20 +350,18 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       }
       break;
     case "asylumreturntoroom":
-      if (!LogQuery("Committed", "Asylum") || !LogValue("Committed", "Asylum") > Date.now()) {
+      if (!LogQuery("Committed", "Asylum") || LogValue("Committed", "Asylum") <= Date.now()) {
         sendWhisper(sender, "The wearer has no time left on her asylum timer.", true);
         return;
       }
-      if (ChatRoomSpace != "Asylum") { 
+      if (ChatRoomSpace != "Asylum") {
         sendWhisper(sender, {Tag: "AsylumMustBeInAsylum"}, true);
         return;
       }
       //Send to asylum and remove items that would be a progression blocker
       SendChat({ Tag: "AsylumBedroomSentAction" });
-      setTimeout(() => { 
-        ElementRemove("InputChat");
-        ElementRemove("TextAreaChatLog");
-        ElementRemove("FriendList");
+      setTimeout(() => {
+        ChatRoomClearAllElements();
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "AsylumBedroom");
       }, 1000);
@@ -409,7 +408,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
       ) {
         cursedConfig.say = parameters.join(" ")
           .replace(/^\**/g, "").replace(/^\/*/g, "").replace(new RegExp("^(" + commandCall + ")", "g"), "");//stops emotes & stops commands
-        document.getElementById("InputChat").value = cursedConfig.say;
+        /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).value = cursedConfig.say;
       } else {
         sendWhisper(sender, "-->Current speech configs do not allow this.");
       }
@@ -438,7 +437,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Can no longer receive notes from others.)", true);
       cursedConfig.canReceiveNotes = !cursedConfig.canReceiveNotes;
       break;
-    case "readnotes":
+    case "readnotes": {
       let notes;
       try {
         notes = JSON.parse(localStorage.getItem(`bc-cursedReviews-${Player.MemberNumber}`)) || [];
@@ -449,6 +448,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         notes.forEach(n => sendWhisper(sender, "(" + n + ")"));
       }
       break;
+    }
     case "leash":
       if (!cursedConfig.canLeash)
         sendWhisper(sender, "(Can now be leashed into another room.)", true);
@@ -587,8 +587,7 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         CharacterSetActivePose(Player, null);
         let D = TextGet("ActionGrabbedToServeDrinksIntro");
         ServerSend("ChatRoomChat", { Content: "ActionGrabbedToServeDrinks", Type: "Action", Dictionary: [{ Tag: "TargetCharacterName", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-        ElementRemove("InputChat");
-        ElementRemove("TextAreaChatLog");
+        ChatRoomClearAllElements();
         ServerSend("ChatRoomLeave", "");
         CommonSetScreen("Room", "MaidQuarters");
         CharacterSetCurrent(MaidQuartersMaid);

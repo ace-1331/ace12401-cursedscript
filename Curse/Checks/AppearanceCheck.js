@@ -1,6 +1,7 @@
-/** 
+"use strict";
+/**
  * Function that checks the current appearance of a character to patch in the rule items (curses)
- * IMPORTANT: Returns true if character needs refresh when using something else than an activator 
+ * IMPORTANT: Returns true if character needs refresh when using something else than an activator
  */
 function AppearanceCheck() {
   let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)
@@ -11,7 +12,7 @@ function AppearanceCheck() {
   let r = false;
   if (isActivated) {
     cursedConfig.genericProcs = [];
-    
+
     //Checks if settings are respected
     //Cursed collar
     if (

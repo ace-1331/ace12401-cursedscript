@@ -1,3 +1,4 @@
+"use strict";
 //************************************ MESSAGE CHECKER ************************************//
 /** Function to analyze a chatroom message and parse commands or apply certain rules to it */
 function AnalyzeMessage(msg) {
@@ -45,7 +46,7 @@ function AnalyzeMessage(msg) {
     && isActivated && !cursedConfig.isMute && !cursedConfig.hasSound
   ) {
     cursedConfig.say = cursedConfig.entryMsg;
-    document.getElementById("InputChat").value = cursedConfig.entryMsg;
+    /** @type {HTMLTextAreaElement} */ (document.getElementById("InputChat")).value = cursedConfig.entryMsg;
   }
 
   // Sends activated messages to an owner who enters or if the wearer entered
@@ -155,18 +156,18 @@ function AnalyzeMessage(msg) {
         TriggerPunishment(1);
       }
     }
-    
+
     let words = (textmsg.toLowerCase().replace(/(\.)|(-)/g, "").replace(/(')|(,)|(~)|(")|(!)|(\?)/g, " ").match(/[^\s]+/g) || []);
     if (
       !!cursedConfig.triggerWord.word &&
       words.includes(cursedConfig.triggerWord.word) &&
       !types.contains("ChatMessageEmote")
-    ) { 
+    ) {
       let isTriggered = cursedConfig.triggerWord.lastTrigger + cursedConfig.triggerWord.triggerDuration > Date.now();
-      if (words.includes("unfreeze") && sender != Player.MemberNumber) { 
+      if (words.includes("unfreeze") && sender != Player.MemberNumber) {
         if (isTriggered) {
           SendChat({ Tag: "MsgCheckUnfreezeAction" });
-        } 
+        }
         cursedConfig.triggerWord.lastTrigger = 0;
       } else {
         if (!isTriggered) {
