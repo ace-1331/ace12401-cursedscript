@@ -181,6 +181,7 @@ function SelfMessageCheck(msg) {
   if (
     !r && isWhisper && cursedConfig.hasWhisperForward && Player.Ownership
     && window.ChatRoomTargetMemberNumber !== Player.Ownership.MemberNumber
+    && cursedConfig.hasIntenseVersion
   ) {
     sendWhisper(Player.Ownership.MemberNumber, "Whisper sent to " + window.ChatRoomTargetMemberNumber + ":" + originalMsg);
     popChatSilent("Warning: Whisper forwarded to club owner.");
