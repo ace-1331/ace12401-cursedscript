@@ -172,6 +172,9 @@ function textToGroup(group, permission) {
 
   if (permission >= 1) {
     switch (group.toLowerCase()) {
+      case "corset":
+      case "corsets":
+        return "Corset";
       case "arms":
       case "arm":
         return "ItemArms";

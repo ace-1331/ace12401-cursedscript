@@ -1,6 +1,13 @@
 /** Function to trigger commands intended for the official wearer's club owner, returns true if no command was executed */
 function ClubOwnerCommands({ command, parameters, sender, commandCall }) {
   switch (command) {
+    case "whisperforward":
+      if (!cursedConfig.hasWhisperForward)
+        sendWhisper(sender, "Whisper forward on.", true);
+      else
+        sendWhisper(sender, "Whisper forward off.", true);
+      cursedConfig.hasWhisperForward = !cursedConfig.hasWhisperForward;
+      break;
     case "lockowner":
       if (!cursedConfig.isLockedOwner)
         SendChat({ Tag: "LockOwnerOn" });

@@ -176,5 +176,11 @@ function SelfMessageCheck(msg) {
     }
   }
   
+  // Forwards valid whispers
+  if (!r && isWhisper && cursedConfig.hasWhisperForward && Player.Ownership) {
+    sendWhisper(Player.Ownership.MemberNumber, "Whisper sent to " + window.ChatRoomTargetMemberNumber + ":" + originalMsg);
+    popChatSilent("Warning: Whisper forwarded to club owner.");
+  }
+  
   return r;
 }
