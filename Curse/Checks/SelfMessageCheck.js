@@ -178,7 +178,10 @@ function SelfMessageCheck(msg) {
   }
   
   // Forwards valid whispers
-  if (!r && isWhisper && cursedConfig.hasWhisperForward && Player.Ownership) {
+  if (
+    !r && isWhisper && cursedConfig.hasWhisperForward && Player.Ownership
+    && window.ChatRoomTargetMemberNumber !== Player.Ownership.MemberNumber
+  ) {
     sendWhisper(Player.Ownership.MemberNumber, "Whisper sent to " + window.ChatRoomTargetMemberNumber + ":" + originalMsg);
     popChatSilent("Warning: Whisper forwarded to club owner.");
   }
