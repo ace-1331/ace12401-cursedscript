@@ -14,7 +14,6 @@ var cursedGER = {
   "ERROR S011": "ERROR S011: Spam erkannt, der Fluch hat zu schnell zu viele Nachrichten gesendet und wurde deaktivier. Bitte behebe diesen Fehler bevor der Fluch wieder aktiviert wird. Handelt es sich hierbei um einen Bug, bitte Ace__#5558 auf Discord kontaktieren.",
   "IntenseOn": "Intense mode wurde aktiviert (riskant).",
   "WeeklyReset": "Eine neue Woche hat begonnen und der automatische Strike Zähler wurde zurückgesetzt.",
-  "DCPreventionOn": "DC prevention aktiv, die Fluchträgerin wurde in den Raum zurückversetzt in dem sie zuvor war. Falls dies nicht der Raum ist in dem man sein sollte, deaktiviere den Fluch und logge dich neu ein und gehe in einen anderen Raum bevor der Fluch wieder aktiviert wird um niemanden zu stören.",
   "HoodMigration": "Der verfluchte Hood wurde bei der umstellung auf eine neuere Version nicht wieder angelegt, nutze das curseitem Kommando um ihn wieder anzulegen.",
   "InvalidCurse": "Ein ungültiger Fluch wurde erkannt und entfernt. Dies kann der Fall sein wenn in in der neuen Version des Clubs das Item entfernt oder verschoben wurde.",
   "BlockedCurse": "Es wurde versucht den Fluch für ein geblocktes Item zu aktivieren. Der Fluch für diese Gruppe wurde deaktiviert. Erlaube das folgende Item: {0} {1} um den Fluch dafür aktivieren zu können.",
