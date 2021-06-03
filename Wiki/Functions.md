@@ -156,7 +156,6 @@ Rules that the wearer must follow can be set with those commands. Speech related
 | deafimmune [ID] | Setting | Bypass deafness for the targeted person, allowing to simulate, for instance, communication via earbuds |  |  | Mistress |
 | norescue | Setting | Blocks access to the maid service and other methods of getting free | 🌟 | X | Owner |
 | leash | Setting | Toggle to allow for leashing. A leashed curse bearer can be called by an owner by beeping her three time, moving her from another room. Note that the leashed character need to be able to join the room | 🌟 | X | Owner |
-| preventdc | Setting | When disconnecting, if the room the character was is still existing and can be joined, the character will be pulled back in it immediately, preventing fleeing altogether |  | X | Owner |
 | meterlocked | Setting | Sets the arousal meter to automatic, preventing manual control |  | X | Owner |
 | meteroff | Setting | Removes the arousal meter entirely |  | X | Owner |
 | secretorgasm | Setting | Hides the arousal meter from the cursed person, without deactivating it | | X | Owner |

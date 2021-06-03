@@ -157,7 +157,6 @@ function InitHelpMsg() {
     INTENSE VERSION: -leash
     INTENSE VERSION: -norescue
     INTENSE VERSION: -sensdep
-    INTENSE VERSION:-preventdc
     INTENSE VERSION:-meterlocked
     INTENSE VERSION:-meteroff
     INTENSE VERSION:-secretorgasm

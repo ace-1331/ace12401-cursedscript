@@ -171,13 +171,6 @@ function OwnerCommands({ command, parameters, sender, commandCall, isClubOwner }
         sendWhisper(sender, "(Wearer is now able to be freed by NPCs as normal.)", true);
       cursedConfig.hasNoMaid = !cursedConfig.hasNoMaid;
       break;
-    case "preventdc":
-      if (!cursedConfig.hasDCPrevention)
-        sendWhisper(sender, "(Wearer can no longer escape rooms by disconnecting.)", true);
-      else
-        sendWhisper(sender, "(Wearer no longer has DC prevention.)", true);
-      cursedConfig.hasDCPrevention = !cursedConfig.hasDCPrevention;
-      break;
     case "sensdep":
       if (!cursedConfig.hasForcedSensDep)
         sendWhisper(sender, "(Wearer now has full sens dep settings locked.)", true);
