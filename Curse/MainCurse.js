@@ -37,17 +37,6 @@ async function CursedCheckUp() {
       TryPopTip(28);
     }
 
-    // Chat input
-    /* Deprecated
-    if (
-      document.getElementById("InputChat") &&
-      cursedConfig.hasFullLengthMode &&
-      document.getElementById("InputChat").maxLength != 1000
-    ) {
-      document.getElementById("InputChat").maxLength ="1000";
-    }
-    */
-
     //When it should be ran
     if (ChatRoomSpace != "LARP") {
 

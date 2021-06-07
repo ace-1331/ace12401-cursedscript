@@ -33,7 +33,6 @@ function InitCursedConfig() {
     hasBlockedOOC: false,
     hasSecretOrgasm: false,
     hasNoEasyEscape: false,
-    hasFullLengthMode: false,
     hasFullBlindMode: false,
     hasFullSlowMode: false,
     forcedRestraintsSetting: false,
