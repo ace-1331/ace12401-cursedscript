@@ -28,7 +28,6 @@ function InitCursedConfig() {
     hasDollTalk: false,
     hasForcedMeterLocked: false,
     hasForcedMeterOff: false,
-    hasDCPrevention: false,
     cannotOrgasm: false,
     forbidorgasm: false,
     hasBlockedOOC: false,

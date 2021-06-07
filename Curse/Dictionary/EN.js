@@ -19,7 +19,6 @@ var cursedEN = {
   "ERROR S011": "ERROR S011: Spam detected, the curse sent too many messages too quickly, it has been disabled. Please correct the issue before re-enabling the script. If it was a bug, please contact Ace__#5558 on discord",
   "IntenseOn": "Intense mode is on (risky).",
   "WeeklyReset": "A new week has begun, your automatic strike counter has been reset.",
-  "DCPreventionOn": "DC prevention enabled, the wearer was sent back to the room she was previously locked in. If this is not a room you should be locked in, please disable the curse, relog and go into another room before reactivating the curse, avoid disturbing others.",
   "HoodMigration": "Your cursed hood was not reapplied while migrating to a newer version, use curseitem command to reapply it.",
   "InvalidCurse": "An invalid curse was found and removed, this might be caused by a new version of the club if an item was removed or moved to another group.",
   "BlockedCurse": "An attempt was made to activate the curse on a group for which the item is blocked, the curse on the related group has been lifted. Unblock the following item if you want to curse it: {0} {1}",

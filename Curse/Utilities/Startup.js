@@ -43,16 +43,6 @@ function InitStartup() {
   if (cursedConfig.hideHelp) {
     ChatRoomHelpSeen = true;
   }
-
-  // DC Prevention
-  if (cursedConfig.hasIntenseVersion && cursedConfig.hasDCPrevention && !Player.CanWalk() && cursedConfig.lastChatroom) {
-    const roomToGoTo = cursedConfig.lastChatroom;
-    delete cursedConfig.lastChatroom;
-    SendToRoom(roomToGoTo);
-    NotifyOwners({ Tag: "DCPreventionOn" }, true);
-    TryPopTip(43);
-
-  }
 }
 
 function CheckEnforceMigration() {
