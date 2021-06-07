@@ -291,11 +291,7 @@ function textToGroup(group, permission) {
       /*
       Need different implementation
       case "addon":
-          return "ItemAddon";
-      case "hidden":
-      case "strap":
-      case "straps":
-          return "ItemHidden";*/
+          return "ItemAddon";*/
     }
   }
   if (permission >= 2) {
