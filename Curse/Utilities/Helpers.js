@@ -212,6 +212,8 @@ function restraintVanish(groups) {
     if (
       !InventoryOwnerOnlyItem(InventoryGet(Player, group))
       && !InventoryGroupIsBlocked(Player, group)
+      && InventoryGet(Player, group)
+      && DialogCanUnlock(Player, InventoryGet(Player, group))
     ) {
       TryPopTip(12);
       InventoryRemove(Player, group);
