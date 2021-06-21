@@ -1,6 +1,6 @@
 
 
-## At this time, the curse is maintained to remain compatible with the club, but no new feature are planned.
+## At this time, the curse is maintained to remain compatible with the club, but no new feature is planned.
 ---
 
 # DOCUMENTATION FOR THE "CURSED" SCRIPT
@@ -11,7 +11,7 @@ Please use the commands in whispers. Reduce spam as much as you can, make sure t
 
 **WARNING: be careful when using the curse in a beta release/NEW VERSION**
 
-**Last approved on the following versions: R68**
+**Last approved on the following versions: R69**
 
 Bug fixes and improvements will come, thank you for reporting them. Never downgrade and stay up-to-date! You need to remove the extension and re-load it with the newest zip file when updating. Make sure to refresh your club page before using a new version.
 
@@ -75,6 +75,6 @@ Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Miziell
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
-**Official release: 1.2.9.0**
+**Official release: 1.2.9.1**
 
-**THIS PAGE WAS LAST EDITED ON 06-06-2021**
+**THIS PAGE WAS LAST EDITED ON 06-21-2021**
