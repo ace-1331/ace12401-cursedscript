@@ -27,8 +27,8 @@ function SelfMessageCheck(msg) {
     cursedConfig.hasBlockedWhisper && cursedConfig.hasIntenseVersion
     && !Player.CanTalk() && isWhisper
   ) {
-    NotifyOwners({ Tag: "SelfMsgCheckNotifyGagOOC" });
-    popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagOOC" });
+    NotifyOwners({ Tag: "SelfMsgCheckNotifyGagWhisper" });
+    popChatSilent({ Tag: "SelfMsgCheckWearerWarnGagWhisper" });
     TriggerPunishment(27);
     r = true;
   }
