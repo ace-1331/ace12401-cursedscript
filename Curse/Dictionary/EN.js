@@ -141,6 +141,8 @@ var cursedEN = {
   "WearerShowSentences": "Here are your allowed sentences --> {0}",
   "SelfMsgCheckNotifyGagOOC": "(Tried to use OOC while gagged)",
   "SelfMsgCheckWearerWarnGagOOC": "WARNING: You are not allowed to use OOC in normal chat messages while gagged.",
+  "SelfMsgCheckNotifyGagWhisper": "(Tried to whisper while gagged)",
+  "SelfMsgCheckWearerWarnGagWhisper": "WARNING: You are not allowed to whisper while gagged.",
   "SelfMsgCheckCommandCallError": "(A command call was detected, but unidentified. Check for typos and verify your version if this was intended. This message will be processed normally.)",
   "SelfMsgCheckNotifyForceSay": "(Did not say the sentence willingly.)",
   "SelfMsgCheckWarnForceSay": "WARNING: You were punished for not saying the expected sentence willingly: {0}",
