@@ -381,6 +381,16 @@ function InitBasedFns() {
     let backupMainHallClick = MainHallClick;
     MainHallClick = (...rest) => {
       if (MouseIn(45, 665, 135 - 45, 755 - 665)) {
+        let NewScreen = "CurseRoom";
+        CurrentScreenFunctions = {
+          Run: window[`${NewScreen}Run`],
+          Click: window[`${NewScreen}Click`],
+          Load: typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`] : undefined,
+          Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
+          Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
+          KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`] : undefined,
+          Exit: typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`] : undefined
+        };
         CurrentScreen = "CurseRoom";
         CurseRoomRun();
       }

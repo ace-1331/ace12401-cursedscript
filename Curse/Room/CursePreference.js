@@ -269,6 +269,16 @@ function CursePreferenceExit() {
   CursePreferenceTemporaryConfig = null;
   if (CursePreferenceReturnRoom == "CurseRoom") {
     CurseRoomRun();
+    let NewScreen = "CurseRoom";
+    CurrentScreenFunctions = {
+      Run: window[`${NewScreen}Run`],
+      Click: window[`${NewScreen}Click`],
+      Load: typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`] : undefined,
+      Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
+      Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
+      KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`] : undefined,
+      Exit: typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`] : undefined
+    };
     CurrentScreen = "CurseRoom";
   } else {
     CommonSetScreen("Online", "ChatRoom");

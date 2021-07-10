@@ -94,7 +94,16 @@ function CurseRoomClick() {
   if (MouseIn(1885, 145, 90, 90))
     InformationSheetLoadCharacter(Player);
   if (MouseIn(1885, 265, 90, 90)) {
-    CursePreferenceRun();
+    let NewScreen = "CursePreference";
+    CurrentScreenFunctions = {
+      Run: window[`${NewScreen}Run`],
+      Click: window[`${NewScreen}Click`],
+      Load: typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`] : undefined,
+      Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
+      Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
+      KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`] : undefined,
+      Exit: typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`] : undefined
+    };
     CurrentScreen = "CursePreference";
     CursePreferenceReturnRoom = "CurseRoom";
   }
@@ -190,7 +199,7 @@ function CurseRoomTryRespect() {
 async function CurseRoomCursedInfo() {
   DialogLeave();
   CursePreferenceRun();
-  CurrentScreen = "CursePreference";
+  CommonSetScreen("Room", "CursePreference");
   CursePreferenceReturnRoom = "CurseRoom";
 }
 
