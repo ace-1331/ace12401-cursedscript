@@ -24,7 +24,8 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 
 ### PC
 ### Chrome
-1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases \
+**Use the `Souce code (zip)` download option!**
 2. Navigate to `chrome://extensions/`
 3. Enable Developer mode
 4. Remove previous versions of the curse (if applicable).
@@ -34,14 +35,15 @@ Bug fixes and improvements will come, thank you for reporting them. Never downgr
 
 ### Firefox
 0. Note: On firefox, sideloaded extensions do not stay active after a restart.
-1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+1. Dowload and unzip the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases \
+**Use the `Souce code (zip)` download option!**
 2. Navigate to `about:debugging#/runtime/this-firefox`
 3. Click on `Load temporary add-on`. **You will have to repeat this step every time you restart Firefox**
 4. Login to BC and click on `wear curse` or come to the bunny hole icon in the main hall to speak to me first! You can view your curse info in there.
 5. Keep yourself up-to-date in the future. Read the news panel, check the discord server or the info in the bunny hole to know when to install the new updates
 
 ### MOBILE (Tested on Android only)
-1. Download the **.crx** file at the bottom of the patch notes in the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
+1. Download the **`curse.crx`** file at the bottom of the patch notes in the latest version found here: https://github.com/ace-1331/ace12401-cursedscript/releases
 2. Download the Kiwi browser if you do not have it installed
 3. Navigate to `chrome://extensions/`
 4. Enable Developer mode
@@ -70,11 +72,11 @@ https://github.com/ace-1331/ace12401-cursedscript/wiki
 Contributions are appreciated. Feel free to fork the repo and create a PR. 
 I recommend talking to me first before doing anything to get some tips and to make sure the PR will be accepted so no one works for nothing.
 
-Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid, Ellie, jomshir98
+Contributors: Eve, Anna940, Uwnodi, Noname, Saya, Just-another-username, Mizielli, BaD_Sad_Maid, Ellie, Jomshir98
 
 -----------------------------------------------
 **Made by ace (12401) - Ace__#5558**
 
 **Official release: 1.2.9.1**
 
-**THIS PAGE WAS LAST EDITED ON 06-21-2021**
+**THIS PAGE WAS LAST EDITED ON 07-17-2021**
