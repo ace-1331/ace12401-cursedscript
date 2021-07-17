@@ -177,7 +177,7 @@ function InitAlteredFns() {
       let isActivated = cursedConfig.isRunning && ChatRoomSpace != "LARP";
       if (rest[0].ID == 0 && isActivated) {
         if (cursedConfig.cannotOrgasm) {
-          rest[0].ArousalSettings.Progress = 90;
+          rest[0].ArousalSettings.Progress = 91;
           return;
         }
       }
