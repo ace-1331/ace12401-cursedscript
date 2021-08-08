@@ -115,7 +115,6 @@ function CursePreferenceRun() {
 
   DrawCheckbox(1100, 312, 64, 64, "Capture mode", CursePreferenceTemporaryConfig.hasCaptureMode);
   DrawCheckbox(1100, 472, 64, 64, "Hide the help message on login", CursePreferenceTemporaryConfig.hideHelp);
-  DrawCheckbox(1100, 552, 64, 64, "Enable enhanced commands (🌟)", CursePreferenceTemporaryConfig.hasCommandsV2);
 
   MainCanvas.textAlign = "center";
 
@@ -196,8 +195,6 @@ function CursePreferenceClick() {
     CursePreferenceTemporaryConfig.hasCaptureMode = !CursePreferenceTemporaryConfig.hasCaptureMode;
   if (MouseIn(1100, 472, 64, 64))
     CursePreferenceTemporaryConfig.hideHelp = !CursePreferenceTemporaryConfig.hideHelp;
-  if (MouseIn(1100, 552, 64, 64))
-    CursePreferenceTemporaryConfig.hasCommandsV2 = !CursePreferenceTemporaryConfig.hasCommandsV2;
 
   // Import/Export
   if (navigator.clipboard) {

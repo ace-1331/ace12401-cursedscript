@@ -63,10 +63,6 @@ function WearerCommands({ command, parameters, sender }) {
       popChatSilent({ Tag: cursedConfig.hasWardrobeV2 ? "wardrobev2off" : "wardrobev2on" });
       cursedConfig.hasWardrobeV2 = !cursedConfig.hasWardrobeV2;
       break;
-    case "commandsv2":
-      popChatSilent({ Tag: cursedConfig.hasCommandsV2 ? "commandsv2off" : "commandsv2on" });
-      cursedConfig.hasCommandsV2 = !cursedConfig.hasCommandsV2;
-      break;
     case "eatcommand":
     case "eatcommands":
       popChatSilent({ Tag: cursedConfig.isEatingCommands ? "eatcommandoff" : "eatcommandon" });

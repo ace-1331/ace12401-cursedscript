@@ -3,10 +3,6 @@
 function InitAlteredFns() {
   //ALTERED FUNCTIONS
 
-  if (cursedConfig.hasCommandsV2) {
-    LoadCommandsV2();
-  }
-
   // Sends a message to the server. (Chatblock)
   ServerSend = function (Message, Data) {
     let isActivated = !(cursedConfig.mistressIsHere && cursedConfig.disaledOnMistress)

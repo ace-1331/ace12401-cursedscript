@@ -10,7 +10,7 @@ function InitHelpMsg() {
 
     >>> Curses <<<
     -curseitem [group] [hours]
-    
+
     >>> Information <<<
     -tip
     -tip reset
@@ -23,8 +23,6 @@ function InitHelpMsg() {
     -hidehelp
     -language [en/fr/ru/ger]
     -togglecommand [command]
-    -wardrobev2
-    -commandsv2
     -eatcommands
     -hidedisplay
     -restraintvanish
@@ -40,7 +38,7 @@ function InitHelpMsg() {
 
     >>>Speech Commands<<<
     INTENSE:-talk [target id] [sentence id]
-    
+
     >>> Other Commands <<<
     -draw [nb of cards] [players]
     -shuffle
@@ -92,7 +90,7 @@ function InitHelpMsg() {
     -banfirstperson [on/off]
     -clearwords
     -contractions
-    
+
     >>>Curses<<<
     -curseitem [group]
     -curseitem [group] [hours]
@@ -102,7 +100,7 @@ function InitHelpMsg() {
     -vibratorintensity [off,max,etc.]
     -permakneel
     -noresist
-    
+
     >>>Configurations<<<
     -loadpresetcurses [name]
     -loadpreset [name]
@@ -119,12 +117,12 @@ function InitHelpMsg() {
     -shownicknames
     -configreport
     -listpresets
-    
+
     >>> Configurations <<<
     -isclassic
     -fullblindfold
     -fullslow
-    
+
     //OWNER FUNCTIONS//
     >>>Basic Commands<<<
     *NEW*INTENSE VERSION:-cell [nb minutes]
@@ -172,7 +170,7 @@ function InitHelpMsg() {
     -unlockself
     -keyblock
     -blockchange
-    
+
     >>>Speech Commands<<<
     -enforceentrymessage
     -entrymessage [sentence]
@@ -193,7 +191,7 @@ function InitHelpMsg() {
     -clearcurses
     -reminders
     -togglereminder [reminder]
-    
+
     //CLUB OWNER FUNCTIONS//
     >>>Configuration Commands<<<
     -ctitle [Number] [Title]
