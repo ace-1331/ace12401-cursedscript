@@ -246,6 +246,11 @@ function textToGroup(group, permission) {
       case "piercingsnipple":
       case "piercingsnipples":
         return "ItemNipplesPiercings";
+      case "bracelet":
+        return "Bracelet";
+      case "garter":
+      case "garters":
+        return "Garters";
       case "breast":
       case "breasts":
         return "ItemBreast";
