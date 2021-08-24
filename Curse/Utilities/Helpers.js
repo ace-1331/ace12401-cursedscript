@@ -187,6 +187,7 @@ function itemIsAllowed(name, group) {
       && InventoryGet(Player, group).Asset.Name == name
     ) && !InventoryGroupIsBlocked(Player, group)
     && !InventoryOwnerOnlyItem(InventoryGet(Player, group))
+    && !InventoryLoverOnlyItem(InventoryGet(Player, group))
     && InventoryAllow(Player, Asset.find(A => A.Name == name && A.Group.Name == group))
   ) {
     TryPopTip(35);
